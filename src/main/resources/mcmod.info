@@ -1,0 +1,16 @@
+[
+{
+  "modid": "ansm",
+  "name": "ANotSturdyMod",
+  "description": "a minecraft mod for 1.12.2 with all random things.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["hnOsmium0001"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
