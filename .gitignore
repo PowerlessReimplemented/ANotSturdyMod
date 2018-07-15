@@ -1,0 +1,15 @@
+.gradle/*
+.metadata/*
+.settings/*
+
+bin/*
+build/*
+gradlew/*
+run/*
+
+.DS_store
+.classpath
+.project
+ANotSturdyMod_Client.launch
+ANotSturdyMod_Server.launch
+/bin/

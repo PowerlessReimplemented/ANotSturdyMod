@@ -44,7 +44,7 @@ public class ModItems {
 	 *
 	 * @throws IllegalArguments  When registry_names.length does not equal to unlocalized_names.length. (didn't give enough information to register all items)
 	 */
-	public static void registerItems(String[] registry_names, String[] unlocalized_names, CreativeTabs tab) throws IllegalArguments{
+	public static void registerItems(String[] registry_names, String[] unlocalized_names, CreativeTabs tab) throws IllegalArgumentsException {
 		if(registry_names.length != unlocalized_names.length) {
 			throw new IllegalArgumentsException();
 		}

@@ -4,6 +4,7 @@ import org.apache.http.MethodNotSupportedException;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.init.ModItems;
@@ -26,6 +27,11 @@ public class ItemBase extends Item implements IHasModel{
 
 	@Override
 	public void registerModel(int meta) throws MethodNotSupportedException {
+		throw new MethodNotSupportedException("");
+	}
+
+	@Override
+	public void registerModel(ItemStack subitem) throws MethodNotSupportedException {
 		throw new MethodNotSupportedException("");
 	}
 
