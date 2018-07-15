@@ -10,8 +10,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.items.ItemBase;
-import powerlessri.anotsturdymod.items.ItemBasicItem;
+import powerlessri.anotsturdymod.items.base.ItemBase;
+import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.utils.Reference;
 import powerlessri.anotsturdymod.utils.Utils;
 import powerlessri.anotsturdymod.utils.exceptions.IllegalArgumentsException;
@@ -28,12 +28,15 @@ public class ModItems {
 	 *
 	 * @param items  (Item[]) The array of items that will be registered.
 	 */
+	@Deprecated
 	public static void registerItems(Item[] items) {
 		for(int i = 0; i < items.length; i++) {
 			ITEMS.add(items[i]);
 		}
 	}
-
+	
+	
+	
 	/**
 	 * This is the base method of registerItems(), should ONLY called when you want
 	 * to register items with different registryName and unlocalizedName.
@@ -64,26 +67,5 @@ public class ModItems {
 	public static void registerItems(String[] common_names, CreativeTabs tab) {
 		registerItems(common_names, common_names, tab);
 	}
-
-	/**
-	 * Just like the base method, but all items will automatically put into
-	 * the creative tab "Miscs".
-	 *
-	 * @param registry_names     (String[]) The registryName that will be given to the items.
-	 * @param unlocalized_names  (String[]) The unlocalizedName that will be given to the items.
-	 */
-	public static void registerItems(String[] registry_names, String[] unlocalized_names) {
-		registerItems(registry_names, unlocalized_names, CreativeTabs.MISC);
-	}
-
-	/**
-	 * The simplest way to register a bunch of items to the game.
-	 * items share registerName and unlocalizedName on their own, all in "Miscs" tab.
-	 *
-	 * @param common_names  (String[]) Both registryName and unlocalizedName for the items.
-	 */
-	public static void registerItems(String[] common_names) {
-		registerItems(common_names, common_names);
-	}
-
+	
 }

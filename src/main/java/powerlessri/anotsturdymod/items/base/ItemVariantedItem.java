@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.items;
+package powerlessri.anotsturdymod.items.base;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.utils.IHasModel;
-import powerlessri.anotsturdymod.utils.IHasVariants;
 import powerlessri.anotsturdymod.utils.Reference;
 import powerlessri.anotsturdymod.utils.Utils;
+import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasModel;
+import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasVariants;
 
 public class ItemVariantedItem extends ItemBase implements IHasVariants{
 	
@@ -32,17 +32,16 @@ public class ItemVariantedItem extends ItemBase implements IHasVariants{
 		ANotSturdyMod.proxy.registerItemRenderer(this, "inventory");
 	}
 	
-
+	
+	
 	@Override
 	public void addVariant(String unlocalized_name) {
 		VARIANT_NAMES.add(unlocalized_name);
 	}
-
 	@Override
 	public void removeVariant(String unlocalized_name) {
 		VARIANT_NAMES.remove(unlocalized_name);
 	}
-
 	@Override
 	public void removeVariant(int index) {
 		VARIANT_NAMES.remove(index);
@@ -53,15 +52,19 @@ public class ItemVariantedItem extends ItemBase implements IHasVariants{
 	public int getVariantAmount() {
 		return VARIANT_NAMES.size();
 	}
-
+	@Override 
+	public String getVariant(int index) {
+		return VARIANT_NAMES.get(index);
+	}
 	@Override
 	public boolean contains(String unlocalized_name) {
 		return VARIANT_NAMES.contains(unlocalized_name);
 	}
 	
-	@Override 
-	public String getVariant(int index) {
-		return VARIANT_NAMES.get(index);
+	
+	
+	@Override
+	public void registerModel(int meta) throws MethodNotSupportedException {
 	}
 	
 }

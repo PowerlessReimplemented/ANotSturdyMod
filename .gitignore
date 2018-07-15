@@ -1,15 +1,36 @@
-.gradle/*
-.metadata/*
-.settings/*
-
-bin/*
-build/*
-gradlew/*
-run/*
-
-.DS_store
+# eclipse
+bin
+*.launch
+.settings
+.metadata
 .classpath
 .project
-ANotSturdyMod_Client.launch
-ANotSturdyMod_Server.launch
-/bin/
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+
+.classpath
+!.gitignore
+!.gitattributes
+.project
+CREDITS-fml.txt
+forge-1.12.2-14.23.3.2669-changelog.txt
+LICENSE-new.txt
+MinecraftForge-Credits.txt
+Paulscode IBXM Library License.txt
+Paulscode SoundSystem CodecIBXM License.txt
+README.txt
+
+.DS_Store

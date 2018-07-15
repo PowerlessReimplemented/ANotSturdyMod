@@ -7,28 +7,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
-import powerlessri.anotsturdymod.utils.IHasVariants;
 import powerlessri.anotsturdymod.utils.Reference;
+import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasNoVariants;
+import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasVariants;
 
 public class ClientProxy extends CommonProxy {
 	
 	/**
-	 * In most of case, "meta" parameter is 0.
-	 * Simplify method arguments.
-	 * 
-	 * @param item
-	 * @param id
-	 */
-	public void registerItemRenderer(Item item, String id) {
-		registerItemRenderer(item, 0, id);
-	}
-	
-	/**
-	 * Register an item model using item object and a meta number.
-	 * 
-	 * @param item
-	 * @param meta
-	 * @param id
+	 * Register an item model using an item object and a meta number.
 	 */
 	@Override
 	public void registerItemRenderer(Item item, int meta, String id) {
@@ -38,11 +24,12 @@ public class ClientProxy extends CommonProxy {
 				new ModelResourceLocation(new ResourceLocation(Reference.MODID, item.getUnlocalizedName()), id));
 	}
 	
+	public void registerItemRenderer(IHasNoVariants item, String id) {
+		registerItemRenderer((Item) item, 0, id);
+	}
+	
 	/**
 	 * Register all subitems' model of an item.
-	 * 
-	 * @param item
-	 * @param id
 	 */
 	public void registerItemRenderer(IHasVariants item, String id) {
 		super.registerItemRenderer(item, id);

@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.utils;
+package powerlessri.anotsturdymod.utils.handlers.interfaces;
 
 import org.apache.http.MethodNotSupportedException;
 
@@ -6,8 +6,5 @@ public interface IHasNoVariants extends IHasModel{
 	
 	@Override
 	void registerModel();
-	
-	@Override
-	void registerModel(int meta) throws MethodNotSupportedException;
 	
 }

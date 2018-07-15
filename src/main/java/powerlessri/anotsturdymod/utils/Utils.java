@@ -1,7 +1,5 @@
 package powerlessri.anotsturdymod.utils;
 
-import java.io.IOException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,7 +31,7 @@ public class Utils {
 	}
     
     public static int pow(int base, int exponent) {
-        //temporary
+        //TODO own pow() implementation
         return (int) Math.pow(base, exponent);
     }
     public static int pow(int base) {
