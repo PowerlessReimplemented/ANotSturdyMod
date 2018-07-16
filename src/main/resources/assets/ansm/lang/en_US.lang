@@ -1,1 +1,4 @@
-item.ansm:null_item.name=Null Item
+item.null_item.name=Null Item
+
+item.transmutator.name=Transmutator of Stone
+item.exchanger.name=Simple Exchanger

@@ -1,14 +1,13 @@
 package powerlessri.anotsturdymod.items.basic;
 
-import net.minecraft.creativetab.CreativeTabs;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.items.base.ItemBase;
 import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasNoVariants;
 
 public class ItemBasicItem extends ItemBase implements IHasNoVariants {
 
-	public ItemBasicItem(String registry_name, String unlocalized_name, CreativeTabs tab) {
-		super(registry_name, unlocalized_name, tab);
+	public ItemBasicItem(String registry_name, String unlocalized_name) {
+		super(registry_name, unlocalized_name);
 	}
 	
 	@Override

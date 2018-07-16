@@ -16,6 +16,7 @@ public class BlockBasicBlock extends BlockBase implements IHasNoVariants {
 
 	@Override
 	public void registerModel() {
+		ANotSturdyMod.proxy.registerBlockRenderer(this, 0, "");
 		ANotSturdyMod.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
 	}
 	

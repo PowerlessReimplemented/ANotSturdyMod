@@ -24,7 +24,9 @@ public class ItemVariantedItem extends ItemBase implements IHasVariants{
 	public final List<String> VARIANT_NAMES = new ArrayList<String>();
 	
 	public ItemVariantedItem(String registry_name, String unlocalized_name, CreativeTabs tab) {
-		super(registry_name, unlocalized_name, tab);
+		super(registry_name, unlocalized_name);
+		
+		this.setCreativeTab(tab);
 	}
 	
 	@Override

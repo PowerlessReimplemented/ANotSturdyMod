@@ -3,10 +3,17 @@ package powerlessri.anotsturdymod.proxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import powerlessri.anotsturdymod.init.ModItems;
+import powerlessri.anotsturdymod.items.ItemExchanger;
+import powerlessri.anotsturdymod.items.ItemTransmutator;
 import powerlessri.anotsturdymod.utils.Reference;
 import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasNoVariants;
 import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasVariants;
@@ -24,6 +31,9 @@ public class ClientProxy extends CommonProxy {
 				new ModelResourceLocation(new ResourceLocation(Reference.MODID, item.getUnlocalizedName()), id));
 	}
 	
+	/**
+	 * 
+	 */
 	public void registerItemRenderer(IHasNoVariants item, String id) {
 		registerItemRenderer((Item) item, 0, id);
 	}
@@ -46,9 +56,24 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 	
+	
 	@Override
 	public void registerBlockRenderer(Block block, int meta, String id) {
 		
+	}
+	
+	
+	
+	public void preInit(FMLPreInitializationEvent event) {
+		super.preInit(event);
+	}
+	
+	public void init(FMLInitializationEvent event) {
+		super.init(event);
+	}
+	
+	public void postInit(FMLPostInitializationEvent event) {
+		super.postInit(event);
 	}
 	
 }

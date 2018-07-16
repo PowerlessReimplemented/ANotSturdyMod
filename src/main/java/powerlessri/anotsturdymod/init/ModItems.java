@@ -53,7 +53,7 @@ public class ModItems {
 		}
 
 		for(int i = 0; i < registry_names.length; i++) {
-			ITEMS.add(new ItemBasicItem(registry_names[i], unlocalized_names[i], tab));
+			ITEMS.add(new ItemBasicItem(registry_names[i], unlocalized_names[i]).setCreativeTab(tab));
 		}
 	}
 

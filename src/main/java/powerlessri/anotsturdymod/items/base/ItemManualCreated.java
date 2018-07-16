@@ -21,7 +21,9 @@ import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasNoVariants;
 public class ItemManualCreated extends ItemBase implements IHasNoVariants {
 	
 	public ItemManualCreated(String registry_name, String unlocalized_name, CreativeTabs tab) {
-		super(registry_name, unlocalized_name, tab);
+		super(registry_name, unlocalized_name);
+		
+		this.setCreativeTab(tab);
 		
 		ModItems.ITEMS.add(this);
 	}
