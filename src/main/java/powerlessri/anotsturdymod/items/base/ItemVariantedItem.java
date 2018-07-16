@@ -5,17 +5,8 @@ import java.util.List;
 
 import org.apache.http.MethodNotSupportedException;
 
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
 import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.utils.Reference;
-import powerlessri.anotsturdymod.utils.Utils;
-import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasModel;
 import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasVariants;
 
 public class ItemVariantedItem extends ItemBase implements IHasVariants{

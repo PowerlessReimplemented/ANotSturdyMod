@@ -16,7 +16,7 @@ public enum EHarvestLevel implements INumberSerializable {
 	
 	@Override
 	public int numerical() {
-		return 0;
+		return this.number;
 	}
 	
 }
