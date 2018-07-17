@@ -12,7 +12,9 @@ import powerlessri.anotsturdymod.utils.Utils;
 public class WorldTransmutation {
 	
 	public static void init(FMLInitializationEvent event) {
-		registerTransmutations("", Blocks.STONE, Blocks.COBBLESTONE, Blocks.GRASS);
+		registerTransmutations("stone_reform", Blocks.STONE, Blocks.COBBLESTONE, Blocks.GRASS);
+		registerTransmutations("hell_of_fires", Blocks.NETHERRACK, Blocks.SOUL_SAND);
+		registerTransmutations("particles_party", Blocks.SAND, Blocks.GRAVEL);
 	}
 	
 	

@@ -1,8 +1,5 @@
 package powerlessri.anotsturdymod.items;
 
-import net.minecraft.block.BlockStone;
-import net.minecraft.block.BlockStone.EnumType;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,7 +10,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
-import powerlessri.anotsturdymod.utils.Utils;
 
 public class ItemTransmutator extends ItemBasicItem {
 	
@@ -37,7 +33,7 @@ public class ItemTransmutator extends ItemBasicItem {
 		WorldTransmutation transm = WorldTransmutation.getTransmutation(pointerBlock.getBlock());
 		int currentBlock = transm.indexOf(pointerBlock.getBlock());
 		
-		for(BlockPos changingPos : getAffectedBlocks(world, pos, player.isSneaking())) {
+		for(BlockPos changingPos : getAffectedBlocks(world, pos, facing, player.isSneaking())) {
 			// If the affected pos is not the block at player's point
 			// Which means it should not be affected
 			if( !(pointerBlock == world.getBlockState(changingPos)) ) {
@@ -57,16 +53,35 @@ public class ItemTransmutator extends ItemBasicItem {
 		
 	}
 	
-	private Iterable<BlockPos> getAffectedBlocks(World world, BlockPos pos, boolean sneaking) {
-		Iterable<BlockPos> iterator;
+	
+	private Iterable<BlockPos> getAffectedBlocks(World world, BlockPos pos, EnumFacing faceHit, boolean sneaking) {
+		//Iterable<BlockPos> iterator;
 		
-		if(sneaking) {
-			iterator = BlockPos.getAllInBox(pos.add(1, 0, 1), pos.add(-1, 0, -1));
-		} else {
-			iterator = BlockPos.getAllInBox(pos, pos);
+		if(!sneaking) {
+		    return BlockPos.getAllInBox(pos, pos);
 		}
 		
-		return iterator;
+		int xOffset = 0;
+		int zOffset = 0;
+		
+		switch(faceHit) {
+		    case UP:
+		    case DOWN:
+		        return BlockPos.getAllInBox(pos.add(1, 0, 1), pos.add(-1, 0, -1));
+		    case NORTH:
+		    case SOUTH:
+		        xOffset = 1;
+		        break;
+		    case EAST:
+		    case WEST:
+		    	zOffset = 1;
+		        break;
+		}
+		
+		// On a wall, it's either x changing or z
+		return BlockPos.getAllInBox(pos.add(xOffset, 1, zOffset), pos.add(-xOffset, -1, -zOffset));
+		
+		//return iterator;
 	}
 	
 }
