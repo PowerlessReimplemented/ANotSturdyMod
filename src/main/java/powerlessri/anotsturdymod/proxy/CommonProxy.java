@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import powerlessri.anotsturdymod.init.ModItems;
 import powerlessri.anotsturdymod.items.ItemExchanger;
 import powerlessri.anotsturdymod.items.ItemTransmutator;
+import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasNoVariants;
 import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasVariants;
 
@@ -39,6 +40,7 @@ public class CommonProxy {
 	}
 	
 	public void init(FMLInitializationEvent event) {
+		WorldTransmutation.init(event);
 	}
 	
 	public void postInit(FMLPostInitializationEvent event) {

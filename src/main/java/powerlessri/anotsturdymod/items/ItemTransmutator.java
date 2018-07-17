@@ -1,5 +1,8 @@
 package powerlessri.anotsturdymod.items;
 
+import net.minecraft.block.BlockStone;
+import net.minecraft.block.BlockStone.EnumType;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,7 +12,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
-import powerlessri.anotsturdymod.items.handlers.WorldTransmutation;
+import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
+import powerlessri.anotsturdymod.utils.Utils;
 
 public class ItemTransmutator extends ItemBasicItem {
 	
@@ -27,15 +31,26 @@ public class ItemTransmutator extends ItemBasicItem {
 		
 		if(world.isRemote) return EnumActionResult.SUCCESS;
 		
-		/*IBlockState STONE = Blocks.STONE.getBlockState().getBaseState();
-		IBlockState COBBLESTONE = Blocks.COBBLESTONE.getBlockState().getBaseState();*/
-		final IBlockState POINTER_BLOCK = world.getBlockState(pos);
-		final WorldTransmutation transmutation = WorldTransmutation.getTransmutation(POINTER_BLOCK.getBlock());
+		IBlockState pointerBlock = world.getBlockState(pos);
 		
+		// Get the transmutation that includes the block at player's pointer
+		WorldTransmutation transm = WorldTransmutation.getTransmutation(pointerBlock.getBlock());
+		int currentBlock = transm.indexOf(pointerBlock.getBlock());
 		
 		for(BlockPos changingPos : getAffectedBlocks(world, pos, player.isSneaking())) {
-			IBlockState target = world.getBlockState(changingPos);
+			// If the affected pos is not the block at player's point
+			// Which means it should not be affected
+			if( !(pointerBlock == world.getBlockState(changingPos)) ) {
+				//Utils.getLogger().debug("Okay, this is not the same block");
+				continue;
+			}
 			
+			int nextIndex = currentBlock + 1;
+			// If it's the last one in the array, go back to first one
+			if(nextIndex >= transm.members.length)
+				nextIndex = 0;
+			
+			world.setBlockState(changingPos, transm.at(nextIndex).getDefaultState());
 		}
 		
 		return EnumActionResult.SUCCESS;
