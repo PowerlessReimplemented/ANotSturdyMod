@@ -1,13 +1,8 @@
 package powerlessri.anotsturdymod.items.base;
 
-import org.apache.http.MethodNotSupportedException;
-
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.init.ModItems;
-import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasModel;
 import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasNoVariants;
 
 /**

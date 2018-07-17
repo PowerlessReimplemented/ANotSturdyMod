@@ -3,17 +3,9 @@ package powerlessri.anotsturdymod.init;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.items.base.ItemBase;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
-import powerlessri.anotsturdymod.utils.Reference;
-import powerlessri.anotsturdymod.utils.Utils;
 import powerlessri.anotsturdymod.utils.exceptions.IllegalArgumentsException;
 
 public class ModItems {

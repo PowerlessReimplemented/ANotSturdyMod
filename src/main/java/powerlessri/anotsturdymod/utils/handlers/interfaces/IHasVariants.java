@@ -5,9 +5,6 @@ import java.util.List;
 
 import org.apache.http.MethodNotSupportedException;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-
 public interface IHasVariants extends IHasModel{
 	
 	final List<String> VARIANT_NAMES = new ArrayList<String>();
