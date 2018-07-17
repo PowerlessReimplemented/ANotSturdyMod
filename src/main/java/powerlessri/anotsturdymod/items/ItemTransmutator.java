@@ -3,13 +3,13 @@ package powerlessri.anotsturdymod.items;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
+import powerlessri.anotsturdymod.items.handlers.WorldTransmutation;
 
 public class ItemTransmutator extends ItemBasicItem {
 	
@@ -27,17 +27,15 @@ public class ItemTransmutator extends ItemBasicItem {
 		
 		if(world.isRemote) return EnumActionResult.SUCCESS;
 		
-		IBlockState STONE = Blocks.STONE.getBlockState().getBaseState();
-		IBlockState COBBLESTONE = Blocks.COBBLESTONE.getBlockState().getBaseState();
+		/*IBlockState STONE = Blocks.STONE.getBlockState().getBaseState();
+		IBlockState COBBLESTONE = Blocks.COBBLESTONE.getBlockState().getBaseState();*/
+		final IBlockState POINTER_BLOCK = world.getBlockState(pos);
+		final WorldTransmutation transmutation = WorldTransmutation.getTransmutation(POINTER_BLOCK.getBlock());
 		
 		
 		for(BlockPos changingPos : getAffectedBlocks(world, pos, player.isSneaking())) {
 			IBlockState target = world.getBlockState(changingPos);
-			if(target == STONE) {
-				world.setBlockState(changingPos, COBBLESTONE);
-			} else if(target == COBBLESTONE) {
-				world.setBlockState(changingPos, STONE);
-			}
+			
 		}
 		
 		return EnumActionResult.SUCCESS;
