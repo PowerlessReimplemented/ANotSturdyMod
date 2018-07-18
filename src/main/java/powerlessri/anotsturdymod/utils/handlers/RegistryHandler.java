@@ -8,8 +8,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import powerlessri.anotsturdymod.init.ModBlocks;
 import powerlessri.anotsturdymod.init.ModItems;
-import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasNoVariants;
-import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasVariants;
+import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 
 @EventBusSubscriber
 public class RegistryHandler {
@@ -18,7 +17,6 @@ public class RegistryHandler {
 	
 	@SubscribeEvent
 	public static void onItemRegister(RegistryEvent.Register<Item> event) {
-		//TODO support IHasVariants items.
 		event.getRegistry()
 		     .registerAll(ModItems.ITEMS.toArray(new Item[0]));
 	}
@@ -33,13 +31,9 @@ public class RegistryHandler {
 	@SubscribeEvent
 	public static void onModelRegister(ModelRegistryEvent event) {
 		for(Item item : ModItems.ITEMS) {
-			
-			if(item instanceof IHasNoVariants) {
-				((IHasNoVariants) item).registerModel();
-			} else if(item instanceof IHasVariants) {
-				((IHasVariants) item).registerModel();
+			if(item instanceof ItemBasicItem) {
+				((ItemBasicItem) item).registerModel();
 			}
-			
 		}
 	}
 	

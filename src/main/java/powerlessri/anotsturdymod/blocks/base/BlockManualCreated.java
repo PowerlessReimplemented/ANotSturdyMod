@@ -6,10 +6,9 @@ import net.minecraft.item.ItemBlock;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.init.ModBlocks;
 import powerlessri.anotsturdymod.init.ModItems;
-import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasNoVariants;
 
 @Deprecated
-public class BlockManualCreated extends BlockBase implements IHasNoVariants {
+public class BlockManualCreated extends BlockBase {
 	
 	public BlockManualCreated(String registry_name, String unlocalized_name, Material material) {
 		super(registry_name, unlocalized_name, material);
@@ -30,7 +29,6 @@ public class BlockManualCreated extends BlockBase implements IHasNoVariants {
 	
 	
 	
-	@Override
 	public void registerModel() {
 		ANotSturdyMod.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
 	}

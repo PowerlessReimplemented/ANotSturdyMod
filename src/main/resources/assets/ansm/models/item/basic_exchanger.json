@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "ansm:items/iron_exchanger"
+    }
+}
+w

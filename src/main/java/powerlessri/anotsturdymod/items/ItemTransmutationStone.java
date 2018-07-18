@@ -3,6 +3,8 @@ package powerlessri.anotsturdymod.items;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -11,15 +13,31 @@ import net.minecraft.world.World;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 
-public class ItemTransmutator extends ItemBasicItem {
+public class ItemTransmutationStone extends ItemBasicItem {
 	
-	public ItemTransmutator(String name) {
-		super(name, name);
+	public ItemTransmutationStone() {
+		super("transmutation_orb");
 		
 		this.setCreativeTab(CreativeTabs.TOOLS);
 		this.setMaxStackSize(1);
+		this.setMaxDamage(5);
+		this.setNoRepair();
 	}
 	
+	
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		ItemStack resultStack = player.getHeldItem(hand);
+		
+		// Increase charge (damage) by 1
+		resultStack.setItemDamage(resultStack.getItemDamage() + 1);
+		// If exceeded maximum charge (damage), go back to 0
+		if(resultStack.getItemDamage() > this.getMaxDamage(resultStack)) {
+			resultStack.setItemDamage(0);
+		}
+		
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
+	}
 	
 	
 	@Override
@@ -29,15 +47,16 @@ public class ItemTransmutator extends ItemBasicItem {
 		
 		IBlockState pointerBlock = world.getBlockState(pos);
 		
-		// Get the transmutation that includes the block at player's pointer
 		WorldTransmutation transm = WorldTransmutation.getTransmutation(pointerBlock.getBlock());
+		if(!WorldTransmutation._getTransmutationSuccessed)
+			return EnumActionResult.FAIL;
+		
 		int currentBlock = transm.indexOf(pointerBlock.getBlock());
 		
-		for(BlockPos changingPos : getAffectedBlocks(world, pos, facing, player.isSneaking())) {
+		for(BlockPos changingPos : getAffectedBlocks(world, pos, facing, player.getHeldItemMainhand().getItemDamage(), player.isSneaking())) {
 			// If the affected pos is not the block at player's point
 			// Which means it should not be affected
 			if( !(pointerBlock == world.getBlockState(changingPos)) ) {
-				//Utils.getLogger().debug("Okay, this is not the same block");
 				continue;
 			}
 			
@@ -54,34 +73,27 @@ public class ItemTransmutator extends ItemBasicItem {
 	}
 	
 	
-	private Iterable<BlockPos> getAffectedBlocks(World world, BlockPos pos, EnumFacing faceHit, boolean sneaking) {
-		//Iterable<BlockPos> iterator;
+	private Iterable<BlockPos> getAffectedBlocks(World world, BlockPos pos, EnumFacing faceHit, int charge, boolean sneaking) {
 		
 		if(!sneaking) {
 		    return BlockPos.getAllInBox(pos, pos);
 		}
 		
-		int xOffset = 0;
-		int zOffset = 0;
-		
 		switch(faceHit) {
 		    case UP:
 		    case DOWN:
-		        return BlockPos.getAllInBox(pos.add(1, 0, 1), pos.add(-1, 0, -1));
+		        return BlockPos.getAllInBox(pos.add(charge, 0, charge), pos.add(-charge, 0, -charge));
+		    
+		    // On a wall, it's either x changing or z
 		    case NORTH:
 		    case SOUTH:
-		        xOffset = 1;
-		        break;
+		        return BlockPos.getAllInBox(pos.add(charge, charge, 0), pos.add(-charge, -charge, 0));
 		    case EAST:
 		    case WEST:
-		    	zOffset = 1;
-		        break;
+		    	return BlockPos.getAllInBox(pos.add(0, charge, charge), pos.add(0, -charge, -charge));
 		}
 		
-		// On a wall, it's either x changing or z
-		return BlockPos.getAllInBox(pos.add(xOffset, 1, zOffset), pos.add(-xOffset, -1, -zOffset));
-		
-		//return iterator;
+		return BlockPos.getAllInBox(pos, pos);
 	}
 	
 }

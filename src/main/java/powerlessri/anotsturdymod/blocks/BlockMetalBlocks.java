@@ -5,7 +5,7 @@ import powerlessri.anotsturdymod.blocks.basic.BlockBasicBlock;
 import powerlessri.anotsturdymod.utils.handlers.enums.EHarvestLevel;
 import powerlessri.anotsturdymod.utils.handlers.enums.EHarvestTool;
 
-//TODO 
+//TODO complete texture/model
 public class BlockMetalBlocks extends BlockBasicBlock {
 	
 	public BlockMetalBlocks(String name, Material material) {

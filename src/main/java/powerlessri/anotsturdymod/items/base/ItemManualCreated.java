@@ -3,7 +3,6 @@ package powerlessri.anotsturdymod.items.base;
 import net.minecraft.creativetab.CreativeTabs;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.init.ModItems;
-import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasNoVariants;
 
 /**
  * The main difference of this class is it automatically
@@ -13,7 +12,7 @@ import powerlessri.anotsturdymod.utils.handlers.interfaces.IHasNoVariants;
  *
  */
 @Deprecated
-public class ItemManualCreated extends ItemBase implements IHasNoVariants {
+public class ItemManualCreated extends ItemBase {
 	
 	public ItemManualCreated(String registry_name, String unlocalized_name, CreativeTabs tab) {
 		super(registry_name, unlocalized_name);
@@ -34,7 +33,6 @@ public class ItemManualCreated extends ItemBase implements IHasNoVariants {
 	
 	
 	
-	@Override
 	public void registerModel() {
 		ANotSturdyMod.proxy.registerItemRenderer(this, 0, "inventory");
 	}

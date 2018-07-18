@@ -1,7 +1,6 @@
 package powerlessri.anotsturdymod.items.handler;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -41,7 +40,6 @@ public class WorldTransmutation {
 		Utils.getLogger().debug("WorldTransmutation.prototype.indexOf: running...");
 		for(int i = 0; i < this.members.length; i++) {
 			if(members[i] == b) {
-				//Utils.getLogger().debug("WorldTransmutation.prototype.indexOf: " + true);
 				return i;
 			}
 		}
@@ -94,17 +92,27 @@ public class WorldTransmutation {
 	 * @return The transmutation that includes the targeting block
 	 */
 	public static WorldTransmutation getTransmutation(Block includes) {
-		Utils.getLogger().debug("WorldTransmutation.getTransmutation: running... ");
+		_getTransmutationSuccessed = true;
+		
 		for(WorldTransmutation transm : transmutations) {
 			for(int i = 0; i < transm.members.length; i++) {
 				if(transm.at(i) == includes) {
-					//Utils.getLogger().debug("WorldTransmutation.getTransmutation: " + true);
 					return transm;
 				}
 			}
 		}
 		
+		_getTransmutationSuccessed = false;
 		return transmutations.get(0);
 	}
+
+	//TODO Yes this is a ugly design, but is there a better way to do it?
+	/**
+	 * Specially for WorldTransmutation getTransmutaiton(Block).
+	 * If non of the transmutations match, this variable will be false.
+	 * Otherwise true.
+	 */
+	public static boolean _getTransmutationSuccessed;
+	
 	
 }
