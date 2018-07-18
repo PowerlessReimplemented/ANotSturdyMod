@@ -1,7 +1,6 @@
 package powerlessri.anotsturdymod.proxy;
 
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -28,15 +27,15 @@ public class CommonProxy {
 	
 	
 	public void preInit(FMLPreInitializationEvent event) {
-		ModItems.registerItems(new String[] {
+		/*ModItems.registerItems(new String[] {
 				"null_item",
 				"obsidian_ingot",
 				"redstone_ingot",
 				"glowstone_ingot",
-			}, CreativeTabs.MISC);
+		}, CreativeTabs.MISC);*/
 		
-		ModItems.ITEMS.add(new ItemTransmutator("transmutator"));
-		ModItems.ITEMS.add(new ItemExchanger("exchanger"));
+		ModItems.ITEMS.add(new ItemTransmutator("stone_of_transmutation"));
+		ModItems.ITEMS.add(new ItemExchanger("simple_exchanger"));
 	}
 	
 	public void init(FMLInitializationEvent event) {

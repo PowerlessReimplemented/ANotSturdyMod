@@ -1,4 +1,2 @@
-item.null_item.name=Null Item
-
-item.transmutator.name=Transmutator of Stone
-item.exchanger.name=Simple Exchanger
+item.ansm:stone_of_transmutation.name=Stone of Transmutations
+item.ansm:simple_exchanger.name=Simple Exchanger

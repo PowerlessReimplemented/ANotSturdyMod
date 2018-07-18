@@ -1,0 +1,6 @@
+{
+    "parent": "builtin/generated",
+    "textures": {
+        "layer0": "ansm:items/stone_of_transmutation"
+    }
+}

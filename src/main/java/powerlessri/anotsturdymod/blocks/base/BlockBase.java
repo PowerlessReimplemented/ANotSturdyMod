@@ -12,6 +12,7 @@ public abstract class BlockBase extends Block {
 		
 		this.setRegistryName(new ResourceLocation(Reference.MODID, registry_name));
 		this.setUnlocalizedName(Reference.MODID + ":" + registry_name);
+		//this.setUnlocalizedName(unlocalized_name);
 	}
 	
 }
