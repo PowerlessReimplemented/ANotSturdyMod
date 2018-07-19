@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.items.handler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -9,17 +10,15 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import powerlessri.anotsturdymod.utils.Utils;
 
 public class WorldTransmutation {
 	
 	public static void init(FMLInitializationEvent event) {
-		registerTransmutations(EnumTransmutationType.EXCHANGE, "inter_smeltery", Blocks.STONE, Blocks.COBBLESTONE, Blocks.GRASS);
-		registerTransmutations(EnumTransmutationType.EXCHANGE, "hell_of_fires", Blocks.NETHERRACK, Blocks.SOUL_SAND);
-		registerTransmutations(EnumTransmutationType.EXCHANGE, "particles_party", Blocks.SAND, Blocks.GLASS);
-		registerTransmutations(EnumTransmutationType.EXCHANGE, "particles_party", Blocks.SAND, Blocks.GLASS);
+		registerTransmutations("inter_smeltery", Blocks.STONE, Blocks.COBBLESTONE, Blocks.GRASS);
+		registerTransmutations("hell_of_fires", Blocks.NETHERRACK, Blocks.SOUL_SAND);
+		registerTransmutations("particles_party", Blocks.SAND, Blocks.GLASS);
 		
-		//registerTransmutations(EnumTransmutationType.TRANSFORMAL, "igneous_reform", Blocks.STONE.getDefaultState().withProperty(property, value));
+//		registerTransmutations(EnumTransmutationType.TRANSFORMAL, "igneous_reform", (state) -> state.getActualState(blockAccess, pos));
 	}
 	
 	
@@ -27,7 +26,9 @@ public class WorldTransmutation {
 	public static List<WorldTransmutation> transmutations = new ArrayList<WorldTransmutation>();
 	public static enum EnumTransmutationType {
 		
+	    /** Given a list of blocks, and cycle through them */
 		EXCHANGE(),
+		/** Given a single IBlockState and a condition, cycle through the metas */
 		TRANSFORMAL();
 		
 	}
@@ -39,10 +40,16 @@ public class WorldTransmutation {
 	private String id;
 	private EnumTransmutationType type;
 	
+	/** EnumTransmutationType.EXCHANGE */
 	public WorldTransmutation(EnumTransmutationType type, String id, int length) {
 		this.type = type;
 		this.id = id;
 		this.members = new IBlockState[length];
+	}
+	/** EnumTransmutationType.TRANSFORMAL */
+	public WorldTransmutation(EnumTransmutationType type, String id, IBlockState baseState) {
+	    this.type = type;
+	    this.id = id;
 	}
 	
 	
@@ -53,7 +60,12 @@ public class WorldTransmutation {
 		return this.type;
 	}
 	
+	// ======== Type: EXCHANGE starts ======== //
+	
 	public int indexOf(IBlockState b) {
+	    if(this.type != EnumTransmutationType.EXCHANGE)
+	        return -1;
+	    
 		for(int i = 0; i < this.members.length; i++) {
 			if(members[i] == b) {
 				return i;
@@ -63,8 +75,10 @@ public class WorldTransmutation {
 		return -1;
 	}
 	
-	
 	public void addMember(IBlockState block) {
+	    if(this.type != EnumTransmutationType.EXCHANGE)
+            return;
+	    
 		// Idiot input protection
 		if(this.nextInserstion == this.members.length) {
 			return;
@@ -74,13 +88,14 @@ public class WorldTransmutation {
 		this.nextInserstion++;
 	}
 	
-	// ======== Writing Optimizations STARTS ======== //
-	
 	public IBlockState at(int i) {
+	    if(this.type != EnumTransmutationType.EXCHANGE)
+            return null;
+	    
 		return this.members[i];
 	}
 	
-	// ========= Writing Optimizations ENDS ========= //
+	// ======== Type: EXCHANGE ends ======== //
 	
 	
 	
@@ -91,8 +106,8 @@ public class WorldTransmutation {
 	 * @param id An unique id
 	 * @param members The blocks that the transmutation will include
 	 */
-	public static void registerTransmutations(EnumTransmutationType t, String id, Block... members) {
-		WorldTransmutation transm = new WorldTransmutation(t, id, members.length);
+	public static void registerTransmutations(String id, Block... members) {
+		WorldTransmutation transm = new WorldTransmutation(EnumTransmutationType.EXCHANGE, id, members.length);
 		
 		for(int i = 0; i < members.length; i++) { 
 			transm.addMember(members[i].getDefaultState());
@@ -101,12 +116,8 @@ public class WorldTransmutation {
 		transmutations.add(transm);
 	}
 	
-	public static void registerTransmutations(EnumTransmutationType t, String id, IBlockState... members) {
-		WorldTransmutation transm = new WorldTransmutation(t, id, members.length);
-		
-		for(int i = 0; i < members.length; i++) { 
-			transm.addMember(members[i]);
-		}
+	public static void registerTransmutations(String id, IBlockState baseState, Predicate<IBlockState> cond) {
+		WorldTransmutation transm = new WorldTransmutation(EnumTransmutationType.TRANSFORMAL, id, baseState);
 		
 		transmutations.add(transm);
 	}
