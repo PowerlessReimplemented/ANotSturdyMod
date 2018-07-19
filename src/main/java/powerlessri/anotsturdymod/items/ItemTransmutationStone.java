@@ -4,6 +4,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -12,6 +13,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
+import powerlessri.anotsturdymod.utils.handlers.enums.EDataType;
+import powerlessri.anotsturdymod.utils.handlers.interfaces.IEnumNBTTags;
 
 public class ItemTransmutationStone extends ItemBasicItem {
 	
@@ -20,10 +23,19 @@ public class ItemTransmutationStone extends ItemBasicItem {
 		
 		this.setCreativeTab(CreativeTabs.TOOLS);
 		this.setMaxStackSize(1);
-		this.setMaxDamage(5);
-		this.setNoRepair();
 	}
 	
+	
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) {
+	    String name = super.getItemStackDisplayName(stack);
+	    
+	    this.initItemNBT(stack);
+	    int sideLength = this.getTagBValue(stack, EnumTags.CHARGE) * 2 + 1;
+	    name = name + " (" + sideLength + "*" + sideLength + ")";
+	    
+	    return name;
+	}
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
@@ -33,36 +45,29 @@ public class ItemTransmutationStone extends ItemBasicItem {
 		if(world.isRemote)
 			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
 		
-		
-		//resultStack.damageItem(1, player); // Increase charge (damage) by 1
-		resultStack.setItemDamage(resultStack.getItemDamage() + 1);
-		
-		// If exceeded maximum charge (damage), go back to 0
-		if(resultStack.getItemDamage() > resultStack.getMaxDamage()) {
-			resultStack.setItemDamage(0);
-		}
+		//this.initItemNBT(resultStack);
+		this.cycleTagBValue(resultStack, EnumTags.CHARGE, (byte) 1);
 		
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
 	}
-	
 	
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		
 		if(world.isRemote)
 			return EnumActionResult.SUCCESS;
-		
 		IBlockState pointerBlock = world.getBlockState(pos);
-		IBlockState next = WorldTransmutation.getTransmutationNext(world, pos, pointerBlock.getBlock());
+		IBlockState next = WorldTransmutation.getTransmutationNext(world, pos, pointerBlock);
 		
 		// Didn't found any matched transmutation
 		if(next == null)
 			return EnumActionResult.FAIL;
 		
-		for(BlockPos changingPos : getAffectedBlocks(world, pos, facing, player.getHeldItem(hand).getItemDamage(), player.isSneaking())) {
+		int charge = (int) this.getTagBValue(player.getHeldItem(hand), EnumTags.CHARGE);
+		for(BlockPos changingPos : getAffectedBlocks(world, pos, facing, charge, player.isSneaking())) {
 			// If the affected pos is not the block at player's point
 			// Which means it should not be affected
-			if( !(pointerBlock == world.getBlockState(changingPos)) ) {
+			if(pointerBlock != world.getBlockState(changingPos)) {
 				continue;
 			}
 			
@@ -70,7 +75,6 @@ public class ItemTransmutationStone extends ItemBasicItem {
 		}
 		
 		return EnumActionResult.SUCCESS;
-		
 	}
 	
 	
@@ -96,5 +100,74 @@ public class ItemTransmutationStone extends ItemBasicItem {
 		
 		return BlockPos.getAllInBox(pos, pos);
 	}
+	
+	private void cycleTagBValue(ItemStack stack, EnumTags tag, byte by) {
+        if(stack.getTagCompound().getByte(tag.key) >= tag.max) {
+            stack.getTagCompound().setByte(tag.key, (byte) 0);
+            return;
+        }
+        stack.getTagCompound().setByte(tag.key, (byte) (getTagBValue(stack, tag) + by));
+    }
+	private byte getTagBValue(ItemStack stack, EnumTags tag) {
+        return stack.getTagCompound().getByte(tag.key);
+    }
+    
+	
+	
+	
+	private static enum EnumTags implements IEnumNBTTags {
+        
+        CHARGE("charge", 0, 5, EDataType.BYTE);
+        
+        public EDataType type;
+        public String key;
+        public String defaultStr;
+        public int defaultValue;
+        public int max;
+        
+        private EnumTags(String key, int defaultVal, int max, EDataType type) {
+            this.key = key;
+            this.defaultValue = defaultVal;
+            this.max = max;
+            this.type = type;
+        }
+        private EnumTags(String key, String defaultStr, EDataType type) {
+            this.key = key;
+            this.defaultStr = defaultStr;
+            this.type = type;
+        }
+        
+    }
+    
+    public void initItemNBT(ItemStack stack) {
+        stack.setTagCompound(this.initNBTTag(stack.getTagCompound()));
+    }
+    public NBTTagCompound initNBTTag(NBTTagCompound tag) {
+        if (tag == null) {
+            tag = new NBTTagCompound();
+        }
+        
+        if(tag.getTag(EnumTags.CHARGE.key) == null) {
+            this.resetTag(tag, EnumTags.CHARGE);
+        }
+        
+        return tag;
+    }
+    
+    private void resetTag(NBTTagCompound tag, EnumTags data) {
+        switch(data.type) {
+            case BYTE:
+                tag.setByte(data.key, (byte) data.defaultValue);
+                break;
+            case INT:
+                tag.setInteger(data.key, data.defaultValue);
+                break;
+            case STRING:
+                tag.setString(data.key, data.defaultStr);
+                break;
+            
+            default: break;
+        }
+    }
 	
 }

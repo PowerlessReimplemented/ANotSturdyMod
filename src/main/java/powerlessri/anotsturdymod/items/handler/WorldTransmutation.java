@@ -53,8 +53,7 @@ public class WorldTransmutation {
 		return this.type;
 	}
 	
-	public int indexOf(Block b) {
-		Utils.getLogger().debug("WorldTransmutation.prototype.indexOf: running...");
+	public int indexOf(IBlockState b) {
 		for(int i = 0; i < this.members.length; i++) {
 			if(members[i] == b) {
 				return i;
@@ -120,12 +119,12 @@ public class WorldTransmutation {
 	 * @param includes Targeting block
 	 * @return The transmutation that includes the targeting block
 	 */
-	public static WorldTransmutation getTransmutation(Block includes) {
+	public static WorldTransmutation getTransmutation(IBlockState includes) {
 		getTransmutationSuccessed = true;
 		
 		for(WorldTransmutation transm : transmutations) {
 			for(int i = 0; i < transm.members.length; i++) {
-				if(transm.at(i) == includes) {
+				if(transm.at(i).getBlock() == includes.getBlock()) {
 					return transm;
 				}
 			}
@@ -135,10 +134,13 @@ public class WorldTransmutation {
 		return transmutations.get(0);
 	}
 	
-	public static IBlockState getTransmutationNext(World world, BlockPos pointer, Block current) {
+	public static IBlockState getTransmutationNext(World world, BlockPos pointer, IBlockState current) {
 		WorldTransmutation targetTransm = getTransmutation(current);
 		if(getTransmutationSuccessed) {
-			return targetTransm.at( targetTransm.indexOf(current) );
+		    int next = targetTransm.indexOf(current) + 1;
+		    if(next >= targetTransm.members.length)
+		        return targetTransm.at(0);
+			return targetTransm.at(next);
 		} else {
 			return null;
 		}
