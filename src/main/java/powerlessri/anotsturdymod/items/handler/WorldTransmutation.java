@@ -4,36 +4,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import powerlessri.anotsturdymod.utils.Utils;
 
 public class WorldTransmutation {
 	
 	public static void init(FMLInitializationEvent event) {
-		registerTransmutations("stone_reform", Blocks.STONE, Blocks.COBBLESTONE, Blocks.GRASS);
-		registerTransmutations("hell_of_fires", Blocks.NETHERRACK, Blocks.SOUL_SAND);
-		registerTransmutations("particles_party", Blocks.SAND, Blocks.GRAVEL);
+		registerTransmutations(EnumTransmutationType.EXCHANGE, "inter_smeltery", Blocks.STONE, Blocks.COBBLESTONE, Blocks.GRASS);
+		registerTransmutations(EnumTransmutationType.EXCHANGE, "hell_of_fires", Blocks.NETHERRACK, Blocks.SOUL_SAND);
+		registerTransmutations(EnumTransmutationType.EXCHANGE, "particles_party", Blocks.SAND, Blocks.GLASS);
+		registerTransmutations(EnumTransmutationType.EXCHANGE, "particles_party", Blocks.SAND, Blocks.GLASS);
+		
+		//registerTransmutations(EnumTransmutationType.TRANSFORMAL, "igneous_reform", Blocks.STONE.getDefaultState().withProperty(property, value));
 	}
 	
 	
 	
 	public static List<WorldTransmutation> transmutations = new ArrayList<WorldTransmutation>();
+	public static enum EnumTransmutationType {
+		
+		EXCHANGE(),
+		TRANSFORMAL();
+		
+	}
 	
 	
-	public Block[] members;
-	
+	public IBlockState[] members;
 	private int nextInserstion = 0;
-	private String id;
 	
-	public WorldTransmutation(String id, int length) {
+	private String id;
+	private EnumTransmutationType type;
+	
+	public WorldTransmutation(EnumTransmutationType type, String id, int length) {
+		this.type = type;
 		this.id = id;
-		this.members = new Block[length];
+		this.members = new IBlockState[length];
 	}
 	
 	
 	public String getId() {
 		return this.id;
+	}
+	public EnumTransmutationType getType() {
+		return this.type;
 	}
 	
 	public int indexOf(Block b) {
@@ -48,7 +65,7 @@ public class WorldTransmutation {
 	}
 	
 	
-	public void addMember(Block block) {
+	public void addMember(IBlockState block) {
 		// Idiot input protection
 		if(this.nextInserstion == this.members.length) {
 			return;
@@ -60,7 +77,7 @@ public class WorldTransmutation {
 	
 	// ======== Writing Optimizations STARTS ======== //
 	
-	public Block at(int i) {
+	public IBlockState at(int i) {
 		return this.members[i];
 	}
 	
@@ -75,8 +92,18 @@ public class WorldTransmutation {
 	 * @param id An unique id
 	 * @param members The blocks that the transmutation will include
 	 */
-	public static void registerTransmutations(String id, Block... members) {
-		WorldTransmutation transm = new WorldTransmutation(id, members.length);
+	public static void registerTransmutations(EnumTransmutationType t, String id, Block... members) {
+		WorldTransmutation transm = new WorldTransmutation(t, id, members.length);
+		
+		for(int i = 0; i < members.length; i++) { 
+			transm.addMember(members[i].getDefaultState());
+		}
+		
+		transmutations.add(transm);
+	}
+	
+	public static void registerTransmutations(EnumTransmutationType t, String id, IBlockState... members) {
+		WorldTransmutation transm = new WorldTransmutation(t, id, members.length);
 		
 		for(int i = 0; i < members.length; i++) { 
 			transm.addMember(members[i]);
@@ -85,6 +112,8 @@ public class WorldTransmutation {
 		transmutations.add(transm);
 	}
 	
+	
+	
 	/**
 	 * Get the series of transmutation that includes the targeting block.
 	 * 
@@ -92,7 +121,7 @@ public class WorldTransmutation {
 	 * @return The transmutation that includes the targeting block
 	 */
 	public static WorldTransmutation getTransmutation(Block includes) {
-		_getTransmutationSuccessed = true;
+		getTransmutationSuccessed = true;
 		
 		for(WorldTransmutation transm : transmutations) {
 			for(int i = 0; i < transm.members.length; i++) {
@@ -102,17 +131,21 @@ public class WorldTransmutation {
 			}
 		}
 		
-		_getTransmutationSuccessed = false;
+		getTransmutationSuccessed = false;
 		return transmutations.get(0);
 	}
-
-	//TODO Yes this is a ugly design, but is there a better way to do it?
-	/**
-	 * Specially for WorldTransmutation getTransmutaiton(Block).
-	 * If non of the transmutations match, this variable will be false.
-	 * Otherwise true.
-	 */
-	public static boolean _getTransmutationSuccessed;
+	
+	public static IBlockState getTransmutationNext(World world, BlockPos pointer, Block current) {
+		WorldTransmutation targetTransm = getTransmutation(current);
+		if(getTransmutationSuccessed) {
+			return targetTransm.at( targetTransm.indexOf(current) );
+		} else {
+			return null;
+		}
+		
+		//return null;
+	}
+	private static boolean getTransmutationSuccessed;
 	
 	
 }

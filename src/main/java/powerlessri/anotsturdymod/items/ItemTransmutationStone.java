@@ -27,12 +27,18 @@ public class ItemTransmutationStone extends ItemBasicItem {
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		
 		ItemStack resultStack = player.getHeldItem(hand);
 		
-		// Increase charge (damage) by 1
+		if(world.isRemote)
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
+		
+		
+		//resultStack.damageItem(1, player); // Increase charge (damage) by 1
 		resultStack.setItemDamage(resultStack.getItemDamage() + 1);
+		
 		// If exceeded maximum charge (damage), go back to 0
-		if(resultStack.getItemDamage() > this.getMaxDamage(resultStack)) {
+		if(resultStack.getItemDamage() > resultStack.getMaxDamage()) {
 			resultStack.setItemDamage(0);
 		}
 		
@@ -43,29 +49,24 @@ public class ItemTransmutationStone extends ItemBasicItem {
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		
-		if(world.isRemote) return EnumActionResult.SUCCESS;
+		if(world.isRemote)
+			return EnumActionResult.SUCCESS;
 		
 		IBlockState pointerBlock = world.getBlockState(pos);
+		IBlockState next = WorldTransmutation.getTransmutationNext(world, pos, pointerBlock.getBlock());
 		
-		WorldTransmutation transm = WorldTransmutation.getTransmutation(pointerBlock.getBlock());
-		if(!WorldTransmutation._getTransmutationSuccessed)
+		// Didn't found any matched transmutation
+		if(next == null)
 			return EnumActionResult.FAIL;
 		
-		int currentBlock = transm.indexOf(pointerBlock.getBlock());
-		
-		for(BlockPos changingPos : getAffectedBlocks(world, pos, facing, player.getHeldItemMainhand().getItemDamage(), player.isSneaking())) {
+		for(BlockPos changingPos : getAffectedBlocks(world, pos, facing, player.getHeldItem(hand).getItemDamage(), player.isSneaking())) {
 			// If the affected pos is not the block at player's point
 			// Which means it should not be affected
 			if( !(pointerBlock == world.getBlockState(changingPos)) ) {
 				continue;
 			}
 			
-			int nextIndex = currentBlock + 1;
-			// If it's the last one in the array, go back to first one
-			if(nextIndex >= transm.members.length)
-				nextIndex = 0;
-			
-			world.setBlockState(changingPos, transm.at(nextIndex).getDefaultState());
+			world.setBlockState(changingPos, next);
 		}
 		
 		return EnumActionResult.SUCCESS;
@@ -75,7 +76,7 @@ public class ItemTransmutationStone extends ItemBasicItem {
 	
 	private Iterable<BlockPos> getAffectedBlocks(World world, BlockPos pos, EnumFacing faceHit, int charge, boolean sneaking) {
 		
-		if(!sneaking) {
+		if(sneaking) {
 		    return BlockPos.getAllInBox(pos, pos);
 		}
 		
