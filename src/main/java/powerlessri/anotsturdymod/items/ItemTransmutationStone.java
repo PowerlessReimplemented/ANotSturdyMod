@@ -30,7 +30,7 @@ public class ItemTransmutationStone extends ItemBasicItem {
 	public String getItemStackDisplayName(ItemStack stack) {
 	    String name = super.getItemStackDisplayName(stack);
 	    
-	    this.initItemNBT(stack);
+	    this.updateItemNBT(stack);
 	    int sideLength = this.getTagBValue(stack, EnumTags.CHARGE) * 2 + 1;
 	    name = name + " (" + sideLength + "*" + sideLength + ")";
 	    
@@ -119,11 +119,12 @@ public class ItemTransmutationStone extends ItemBasicItem {
         
         CHARGE("charge", 0, 5, EDataType.BYTE);
         
-        public EDataType type;
-        public String key;
-        public String defaultStr;
-        public int defaultValue;
-        public int max;
+	    // You should never modify these!
+        EDataType type;
+        String key;
+        String defaultStr;
+        int defaultValue;
+        int max;
         
         private EnumTags(String key, int defaultVal, int max, EDataType type) {
             this.key = key;
@@ -139,22 +140,27 @@ public class ItemTransmutationStone extends ItemBasicItem {
         
     }
     
-    public void initItemNBT(ItemStack stack) {
-        stack.setTagCompound(this.initNBTTag(stack.getTagCompound()));
+	/** Set the stack's NBT to default state */
+    public void updateItemNBT(ItemStack stack) {
+        if(!stack.hasTagCompound()) {
+            stack.setTagCompound(this.defaultNBTTag());
+        } else {
+            NBTTagCompound tag = stack.getTagCompound();
+            
+            if(tag.hasKey(EnumTags.CHARGE.key))
+                this.setTag(tag, EnumTags.CHARGE);
+        }
     }
-    public NBTTagCompound initNBTTag(NBTTagCompound tag) {
-        if (tag == null) {
-            tag = new NBTTagCompound();
-        }
+    
+    /** Get the default NBT an stack would have */
+    public NBTTagCompound defaultNBTTag() {
+        NBTTagCompound tag = new NBTTagCompound();
         
-        if(tag.getTag(EnumTags.CHARGE.key) == null) {
-            this.resetTag(tag, EnumTags.CHARGE);
-        }
+        this.setTag(tag, EnumTags.CHARGE);
         
         return tag;
     }
-    
-    private void resetTag(NBTTagCompound tag, EnumTags data) {
+    private void setTag(NBTTagCompound tag, EnumTags data) {
         switch(data.type) {
             case BYTE:
                 tag.setByte(data.key, (byte) data.defaultValue);
