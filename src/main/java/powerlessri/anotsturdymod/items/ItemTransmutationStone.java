@@ -45,7 +45,7 @@ public class ItemTransmutationStone extends ItemBasicItem {
 		if(world.isRemote)
 			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
 		
-		//this.initItemNBT(resultStack);
+		this.updateItemNBT(resultStack);
 		this.cycleTagBValue(resultStack, EnumTags.CHARGE, (byte) 1);
 		
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
@@ -142,7 +142,7 @@ public class ItemTransmutationStone extends ItemBasicItem {
     
 	/** Set the stack's NBT to default state */
     public void updateItemNBT(ItemStack stack) {
-        if(!stack.hasTagCompound()) {
+        if(stack.getTagCompound() == null) {
             stack.setTagCompound(this.defaultNBTTag());
         } else {
             NBTTagCompound tag = stack.getTagCompound();
