@@ -18,8 +18,8 @@ import powerlessri.anotsturdymod.utils.handlers.interfaces.IEnumNBTTags;
 
 public class ItemTransmutationStone extends ItemBasicItem {
 	
-	public ItemTransmutationStone() {
-		super("transmutation_orb");
+	public ItemTransmutationStone(String name) {
+		super(name);
 		
 		this.setCreativeTab(CreativeTabs.TOOLS);
 		this.setMaxStackSize(1);

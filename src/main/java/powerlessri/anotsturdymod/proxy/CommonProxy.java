@@ -22,7 +22,7 @@ public class CommonProxy {
 	
 	
 	public void preInit(FMLPreInitializationEvent event) {
-		ModItems.ITEMS.add(new ItemTransmutationStone());
+		ModItems.ITEMS.add(new ItemTransmutationStone("transmutation_orb"));
 		ModItems.ITEMS.add(new ItemExchanger(EMachineLevel.BASIC));
 		ModItems.ITEMS.add(new ItemExchanger(EMachineLevel.ADVANCED));
 	}
