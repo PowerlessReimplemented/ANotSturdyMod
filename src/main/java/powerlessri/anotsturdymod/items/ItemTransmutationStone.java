@@ -33,7 +33,7 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
 	    String name = super.getItemStackDisplayName(stack);
 	    
 	    this.updateItemTag(stack);
-	    int sideLength = this.getTagBValue(stack, EnumTags.CHARGE) * 2 + 1;
+	    int sideLength = this.getByteTag(stack, EnumTags.CHARGE) * 2 + 1;
 	    name = name + " (" + sideLength + "*" + sideLength + ")";
 	    
 	    return name;
@@ -48,7 +48,7 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
 			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
 		
 		this.updateItemTag(resultStack);
-		this.cycleTagBValue(resultStack, EnumTags.CHARGE, (byte) 1);
+		this.cycleByteTag(resultStack, EnumTags.CHARGE, (byte) 1);
 		
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
 	}
@@ -58,6 +58,7 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
 		
 		if(world.isRemote)
 			return EnumActionResult.SUCCESS;
+		
 		IBlockState pointerBlock = world.getBlockState(pos);
 		IBlockState next = WorldTransmutation.getTransmutationNext(world, pos, pointerBlock);
 		
@@ -65,24 +66,21 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
 		if(next == null)
 			return EnumActionResult.FAIL;
 		
-		int charge = (int) this.getTagBValue(player.getHeldItem(hand), EnumTags.CHARGE);
+		int charge = (int) this.getByteTag(player.getHeldItem(hand), EnumTags.CHARGE);
 		for(BlockPos changingPos : getAffectedBlocks(world, pos, facing, charge, player.isSneaking())) {
-			// If the affected pos is not the block at player's point
-			// Which means it should not be affected
-			if(pointerBlock != world.getBlockState(changingPos)) {
-				continue;
+			// Only the block that is same to the block at player's pointer will get changed
+			if(pointerBlock == world.getBlockState(changingPos)) {
+				world.setBlockState(changingPos, next);
 			}
-			
-			world.setBlockState(changingPos, next);
 		}
 		
 		return EnumActionResult.SUCCESS;
 	}
 	
 	
-	private Iterable<BlockPos> getAffectedBlocks(World world, BlockPos pos, EnumFacing faceHit, int charge, boolean sneaking) {
+	private Iterable<BlockPos> getAffectedBlocks(World world, BlockPos pos, EnumFacing faceHit, int charge, boolean isSneaking) {
 		
-		if(sneaking) {
+		if(isSneaking) {
 		    return BlockPos.getAllInBox(pos, pos);
 		}
 		
@@ -103,13 +101,15 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
 		return BlockPos.getAllInBox(pos, pos);
 	}
 	
-	private byte getTagBValue(ItemStack stack, EnumTags tag) {
+	
+	
+	private byte getByteTag(ItemStack stack, EnumTags tag) {
         return stack.getTagCompound().getByte(tag.key);
     }
 	
-	private void cycleTagBValue(ItemStack stack, EnumTags targetNbt, byte increase) {
+	private void cycleByteTag(ItemStack stack, EnumTags targetNbt, byte increase) {
 		NBTTagCompound tag = NBTUtils.getTagSafe(stack);
-		byte originalVal = getTagBValue(stack, targetNbt);
+		byte originalVal = getByteTag(stack, targetNbt);
 		
         if(originalVal >= targetNbt.max) {
             tag.setByte(targetNbt.key, (byte) 0);
@@ -122,7 +122,7 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
 	
 	private static enum EnumTags implements IEnumNBTTags<Object> {
         
-        CHARGE("charge", 0, 5, EDataType.BYTE);
+        CHARGE("charge", 0, EDataType.BYTE, 5);
         
 	    // You should never modify these values!
         EDataType type;
@@ -137,7 +137,7 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
             this.defaultValue = defaultVal;
             this.type = type;
         }
-        private EnumTags(String key, int defaultVal, int max, EDataType type) {
+        private EnumTags(String key, int defaultVal, EDataType type, int max) {
             this.key = key;
             if(type == EDataType.BYTE) {
             	this.defaultValue = (byte) defaultVal;

@@ -15,11 +15,11 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 public class WorldTransmutation {
 	
 	public static void init(FMLInitializationEvent event) {
-		registerTransmutations("plant_infusion", Blocks.DIRT, Blocks.GRASS);
-		registerTransmutations("hell_of_fires", Blocks.NETHERRACK, Blocks.SOUL_SAND);
-		registerTransmutations("particles_party", Blocks.SAND, Blocks.GLASS);
+		registerTransmutation("plant_infusion", Blocks.DIRT, Blocks.GRASS);
+		registerTransmutation("hell_of_fires", Blocks.NETHERRACK, Blocks.SOUL_SAND);
+		registerTransmutation("particles_party", Blocks.SAND, Blocks.GLASS, Blocks.GRAVEL);
 		
-		registerTransmutations("igneous_reform",
+		registerTransmutation("igneous_reform",
 		        Blocks.STONE.getDefaultState(), 
 		        Blocks.COBBLESTONE.getDefaultState(),
 		        Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE),
@@ -75,19 +75,17 @@ public class WorldTransmutation {
 	/**
 	 * Register a series of block transmutation, with an <b>unique</b> id. <br />
 	 * <s>Unfortunately too lazy to check if it is unique</s>
-	 * 
-	 * @param id An unique id
-	 * @param members The blocks that the transmutation will include
 	 */
-	public static void registerTransmutations(String id, Block... members) {
-	    WorldTransmutation transm = new WorldTransmutation(id, members.length);
-        for(int i = 0; i < members.length; i++) { 
-            transm.addMember(members[i].getDefaultState());
-        }
+	public static void registerTransmutation(String id, Block... blocks) {
+	    WorldTransmutation transm = new WorldTransmutation(id, blocks.length);
+	    Stream.of(blocks).forEach((b) -> { 
+            transm.addMember(b.getDefaultState());
+        });
+	    
         transmutations.add(transm);
 	}
 	
-	public static void registerTransmutations(String id, IBlockState... states) {
+	public static void registerTransmutation(String id, IBlockState... states) {
 		WorldTransmutation transm = new WorldTransmutation(id, states.length);
 		Stream.of(states).forEach((s) -> {
 		    transm.addMember(s);
@@ -100,13 +98,8 @@ public class WorldTransmutation {
 	
 	/**
 	 * Get the series of transmutation that includes the targeting block.
-	 * 
-	 * @param includes Targeting block
-	 * @return The transmutation that includes the targeting block
 	 */
 	public static WorldTransmutation getTransmutation(IBlockState includes) {
-		getTransmutationSuccessed = true;
-		
 		for(WorldTransmutation transm : transmutations) {
 			for(int i = 0; i < transm.members.length; i++) {
 				if(transm.at(i).getBlock() == includes.getBlock()) {
@@ -115,24 +108,20 @@ public class WorldTransmutation {
 			}
 		}
 		
-		getTransmutationSuccessed = false;
-		return transmutations.get(0);
+		return null;
 	}
 	
 	public static IBlockState getTransmutationNext(World world, BlockPos pointer, IBlockState current) {
 		WorldTransmutation targetTransm = getTransmutation(current);
-		if(getTransmutationSuccessed) {
+		if(targetTransm != null) {
 		    int next = targetTransm.indexOf(current) + 1;
 		    if(next >= targetTransm.members.length)
 		        return targetTransm.at(0);
 			return targetTransm.at(next);
-		} else {
-			return null;
 		}
 		
-		//return null;
+		return null;
 	}
-	private static boolean getTransmutationSuccessed;
 	
 	
 }

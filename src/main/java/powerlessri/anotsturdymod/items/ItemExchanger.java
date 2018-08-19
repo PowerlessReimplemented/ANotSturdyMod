@@ -6,8 +6,8 @@ import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 
 public class ItemExchanger extends ItemBasicItem {
 	
-	public ItemExchanger(EMachineLevel level) {
-		super(level.getName() + "_exchanger");
+	public ItemExchanger(String name, EMachineLevel level) {
+		super(level.getName() + "_" + name);
 		
 		this.setCreativeTab(CreativeTabs.TOOLS);
 		this.setMaxStackSize(1);

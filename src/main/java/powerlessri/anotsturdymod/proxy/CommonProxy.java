@@ -13,7 +13,7 @@ import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 
 public class CommonProxy {
 	
-	// leave to be overridden for ClientProxy
+	// Client side only stuffs
 	public void registerItemRenderer(Item item, int meta, String id) {
 	}
 	public void registerBlockRenderer(Block block, int meta, String id) {
@@ -23,8 +23,8 @@ public class CommonProxy {
 	
 	public void preInit(FMLPreInitializationEvent event) {
 		ModItems.ITEMS.add(new ItemTransmutationStone("transmutation_orb"));
-		ModItems.ITEMS.add(new ItemExchanger(EMachineLevel.BASIC));
-		ModItems.ITEMS.add(new ItemExchanger(EMachineLevel.ADVANCED));
+		ModItems.ITEMS.add(new ItemExchanger("exchanger", EMachineLevel.BASIC));
+		ModItems.ITEMS.add(new ItemExchanger("exchanger", EMachineLevel.ADVANCED));
 	}
 	
 	public void init(FMLInitializationEvent event) {

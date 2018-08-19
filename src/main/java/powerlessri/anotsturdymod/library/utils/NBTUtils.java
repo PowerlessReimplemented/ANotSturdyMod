@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import powerlessri.anotsturdymod.items.base.ITagBasedItem;
 import powerlessri.anotsturdymod.library.interfaces.IEnumNBTTags;
 
-public class NBTUtils<V> {
+public class NBTUtils {
 
 	private NBTUtils() {
 	}

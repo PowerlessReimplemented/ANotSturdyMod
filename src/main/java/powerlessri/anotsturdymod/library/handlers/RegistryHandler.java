@@ -13,7 +13,8 @@ import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 @EventBusSubscriber
 public class RegistryHandler {
 	
-	private RegistryHandler() {}
+	private RegistryHandler() {
+	}
 	
 	@SubscribeEvent
 	public static void onItemRegister(RegistryEvent.Register<Item> event) {

@@ -4,6 +4,15 @@ public class Reference {
 	
 	private Reference() {}
 	
+	public static final int BYTE_BYTE_LENGTH = 1;
+    public static final int FLOAT_BYTE_LENGTH = 4;
+    public static final int INT_BYTE_LENGTH = 4;
+    
+    // 4 is the rate of 4bit = 1byte
+    public static final int BYTE_BIT_LENGTH = BYTE_BYTE_LENGTH * 4;
+    public static final int FLOAT_BIT_LENGTH = FLOAT_BYTE_LENGTH * 4;
+    public static final int INT_BIT_LENGTH = INT_BYTE_LENGTH * 4;
+	
     /**
      * ANotSturdyMod  => "ANotSturdyMod" (NAME)
      * ^^  ^     ^    => "ansm" (MODID)
