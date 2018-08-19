@@ -4,6 +4,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -102,6 +103,10 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
 		return BlockPos.getAllInBox(pos, pos);
 	}
 	
+	private byte getTagBValue(ItemStack stack, EnumTags tag) {
+        return stack.getTagCompound().getByte(tag.key);
+    }
+	
 	private void cycleTagBValue(ItemStack stack, EnumTags tag, byte by) {
         if(stack.getTagCompound().getByte(tag.key) >= tag.max) {
             stack.getTagCompound().setByte(tag.key, (byte) 0);
@@ -109,10 +114,6 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
         }
         stack.getTagCompound().setByte(tag.key, (byte) (getTagBValue(stack, tag) + by));
     }
-	private byte getTagBValue(ItemStack stack, EnumTags tag) {
-        return stack.getTagCompound().getByte(tag.key);
-    }
-    
 	
 	
 	
@@ -161,7 +162,9 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
 
 	@Override
 	public void buildDefaultTag(ItemStack stack) {
-		NBTUtils.buildDefaultTag(stack.getTagCompound(), EnumTags.values());
+		NBTTagCompound tag = new NBTTagCompound();
+		NBTUtils.buildDefaultTag(tag, EnumTags.values());
+		stack.setTagCompound(tag);
 	}
 
 
