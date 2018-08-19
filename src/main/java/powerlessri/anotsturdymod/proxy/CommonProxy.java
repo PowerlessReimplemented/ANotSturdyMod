@@ -23,8 +23,8 @@ public class CommonProxy {
 	
 	public void preInit(FMLPreInitializationEvent event) {
 		ModItems.ITEMS.add(new ItemTransmutationStone("transmutation_orb"));
-		ModItems.ITEMS.add(new ItemExchanger("exchanger", EMachineLevel.BASIC));
-		ModItems.ITEMS.add(new ItemExchanger("exchanger", EMachineLevel.ADVANCED));
+		ModItems.ITEMS.add(new ItemExchanger("exchanger", EMachineLevel.BASIC, 1));
+		ModItems.ITEMS.add(new ItemExchanger("exchanger", EMachineLevel.ADVANCED, 4));
 	}
 	
 	public void init(FMLInitializationEvent event) {
