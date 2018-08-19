@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
 
 public class Utils {
 	
@@ -26,16 +27,11 @@ public class Utils {
 		return new ResourceLocation(Reference.MODID, id).toString();
 	}
 	
-	
-	public static int arrayIndex2D(int x, int y, int width) {
-	    return x + y * width;
+	public static TextComponentString createStringRed(String description) {
+	    TextComponentString result = new TextComponentString(description);
+        result.setStyle(Reference.STYLE_RED);
+        
+        return result;
 	}
-    
-    public static int pow(int base, int exponent) {
-        //TODO own pow() implementation
-        return (int) Math.pow(base, exponent);
-    }
-    public static int pow(int base) {
-        return base * base;
-    }
+	
 }

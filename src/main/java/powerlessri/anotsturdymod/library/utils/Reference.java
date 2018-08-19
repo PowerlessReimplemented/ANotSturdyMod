@@ -1,5 +1,8 @@
 package powerlessri.anotsturdymod.library.utils;
 
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+
 public class Reference {
 	
 	private Reference() {}
@@ -26,5 +29,11 @@ public class Reference {
 	
 	public static final String ERR_NON_SUBTYPED_ITEM = "Trying register sub-typed item model with non-sub-typed item.";
 	public static final String ERR_SUBTYPED_ITEM = "Trying register non-sub-typed item model with sub-typed item.";
+	
+	public static final String COMMAND_RESOURCE_PATH_PREFIX = "command.ansm:";
+	public static final String COMMAND_SUFFIX_KEYWORD = ".name";
+	public static final String COMMAND_SUFFIX_USAGE = ".usage";
+	
+	public static final Style STYLE_RED = new Style().setColor(TextFormatting.RED);
 	
 }
