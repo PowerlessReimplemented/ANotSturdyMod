@@ -1,7 +1,8 @@
-package powerlessri.anotsturdymod.utils.handlers.enums;
+package powerlessri.anotsturdymod.library.enums;
 
 import net.minecraft.nbt.NBTTagCompound;
 
+@Deprecated
 public enum ENBTTagBase {
     
     EXAMPLE_STR("TagKeyStr", "this is a string"),

@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.utils.exceptions;
+package powerlessri.anotsturdymod.library.exceptions;
 
 public class IllegalArgumentsException extends RuntimeException {
 	

@@ -6,9 +6,9 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import powerlessri.anotsturdymod.library.utils.Reference;
+import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.proxy.CommonProxy;
-import powerlessri.anotsturdymod.utils.Reference;
-import powerlessri.anotsturdymod.utils.Utils;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class ANotSturdyMod {

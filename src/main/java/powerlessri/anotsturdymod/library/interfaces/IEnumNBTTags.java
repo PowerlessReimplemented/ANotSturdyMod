@@ -1,6 +1,6 @@
-package powerlessri.anotsturdymod.utils.handlers.interfaces;
+package powerlessri.anotsturdymod.library.interfaces;
 
-import powerlessri.anotsturdymod.utils.handlers.enums.EDataType;
+import powerlessri.anotsturdymod.library.enums.EDataType;
 
 /**
  * Support for all NBT-related classes 
@@ -9,7 +9,9 @@ import powerlessri.anotsturdymod.utils.handlers.enums.EDataType;
  */
 public interface IEnumNBTTags<T> {
     
-    EDataType getType();
+    default EDataType getType () {
+    	return EDataType.UNKOWN;
+    };
     
     String getKey();
     T getDefaultValue();

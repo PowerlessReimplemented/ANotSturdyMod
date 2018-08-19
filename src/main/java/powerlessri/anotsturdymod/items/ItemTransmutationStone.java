@@ -4,20 +4,20 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import powerlessri.anotsturdymod.items.base.ITagBasedItem;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
-import powerlessri.anotsturdymod.utils.NBTUtils;
-import powerlessri.anotsturdymod.utils.handlers.enums.EDataType;
-import powerlessri.anotsturdymod.utils.handlers.interfaces.IEnumNBTTags;
+import powerlessri.anotsturdymod.library.enums.EDataType;
+import powerlessri.anotsturdymod.library.interfaces.IEnumNBTTags;
+import powerlessri.anotsturdymod.library.utils.NBTUtils;
 
-public class ItemTransmutationStone extends ItemBasicItem {
+public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedItem {
 	
 	public ItemTransmutationStone() {
 		super("transmutation_orb");
@@ -31,7 +31,7 @@ public class ItemTransmutationStone extends ItemBasicItem {
 	public String getItemStackDisplayName(ItemStack stack) {
 	    String name = super.getItemStackDisplayName(stack);
 	    
-	    this.updateItemNBT(stack);
+	    this.updateItemTag(stack);
 	    int sideLength = this.getTagBValue(stack, EnumTags.CHARGE) * 2 + 1;
 	    name = name + " (" + sideLength + "*" + sideLength + ")";
 	    
@@ -118,18 +118,17 @@ public class ItemTransmutationStone extends ItemBasicItem {
 	
 	private static enum EnumTags implements IEnumNBTTags<Object> {
         
-        CHARGE("charge", 0, EDataType.BYTE);
+        CHARGE("charge", 0, 5, EDataType.BYTE);
         
 	    // You should never modify these values!
         EDataType type;
         String key;
-        String defaultStr;
         Object defaultValue;
         
         /** Numbers ONLY */
         int max;
         
-        private EnumTags(String key, Object defaultVal, EDataType type) {
+        private EnumTags(String key, String defaultVal, EDataType type) {
             this.key = key;
             this.defaultValue = defaultVal;
             this.type = type;
@@ -156,33 +155,21 @@ public class ItemTransmutationStone extends ItemBasicItem {
         }
         
     }
-    
-	
-	public void initItemNBT(ItemStack stack) {
-	    if(!stack.hasTagCompound()) {
-            stack.setTagCompound(this.defaultNBTTag());
-        }
+
+
+
+
+	@Override
+	public void buildDefaultTag(ItemStack stack) {
+		NBTUtils.buildDefaultTag(stack.getTagCompound(), EnumTags.values());
 	}
-	
-	/** Set the stack's NBT to default state */
-    public void updateItemNBT(ItemStack stack) {
-        if(!stack.hasTagCompound()) {
-            stack.setTagCompound(this.defaultNBTTag());
-        } else {
-            NBTTagCompound tag = stack.getTagCompound();
-            
-            if(tag.hasKey(EnumTags.CHARGE.key))
-                NBTUtils.setTag(tag, EnumTags.CHARGE);
-        }
-    }
-    
-    /** Get the default NBT an stack would have */
-    public NBTTagCompound defaultNBTTag() {
-        NBTTagCompound tag = new NBTTagCompound();
-        
-        NBTUtils.setTag(tag, EnumTags.CHARGE);
-        
-        return tag;
-    }
+
+
+	@Override
+	public void updateItemTag(ItemStack stack) {
+		if(stack.getTagCompound() == null)  {
+			this.buildDefaultTag(stack);
+		}
+	}
 	
 }

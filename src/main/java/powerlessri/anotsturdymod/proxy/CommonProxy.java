@@ -9,7 +9,7 @@ import powerlessri.anotsturdymod.init.ModItems;
 import powerlessri.anotsturdymod.items.ItemExchanger;
 import powerlessri.anotsturdymod.items.ItemTransmutationStone;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
-import powerlessri.anotsturdymod.utils.handlers.enums.EMachineLevel;
+import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 
 public class CommonProxy {
 	

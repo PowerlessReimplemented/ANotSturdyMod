@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.utils.handlers.interfaces;
+package powerlessri.anotsturdymod.library.interfaces;
 
 public interface INumberSerializable {
 	

@@ -1,6 +1,8 @@
-package powerlessri.anotsturdymod.utils.handlers.enums;
+package powerlessri.anotsturdymod.library.enums;
 
 public enum EDataType {
+	
+	UNKOWN(),
 	
     BOOLEAN(),
 	BYTE(),
