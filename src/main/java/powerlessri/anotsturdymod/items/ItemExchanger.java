@@ -83,14 +83,15 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
         Block exchBlockInst = exchangeSource.getBlock();
         
         Iterable<BlockPos> affectedBlocks = PosUtils.blocksOnPlane(posHit, faceHit, radius);
-        Item itemDropped = exchBlockInst.getItemDropped(replacementBlock, world.rand, fortuneLevel);
+        Item itemDropped = exchBlockInst.getItemDropped(exchangeSource, world.rand, fortuneLevel);
         int quantityDropped = 0;
         
-        Utils.getLogger().info("exchange attempt: radius={0}, rep={1}:{2}, source={3}:{4}", new Object[] {radius, replacementName, replacementMeta, exchBlockInst.getRegistryName().toString(), exchBlockInst.getMetaFromState(exchangeSource)});
+        Utils.getLogger().info(String.format("exchange attempt: radius=%d, rep=%s:%d, source=%s:%d",
+                radius, replacementName, replacementMeta, exchBlockInst.getRegistryName().toString(), exchBlockInst.getMetaFromState(exchangeSource)));
         
         for(BlockPos pos : affectedBlocks) {
             IBlockState state = world.getBlockState(pos);
-            if(state != replacementBlock) {
+            if(state != exchangeSource) {
                 continue;
             }
             
