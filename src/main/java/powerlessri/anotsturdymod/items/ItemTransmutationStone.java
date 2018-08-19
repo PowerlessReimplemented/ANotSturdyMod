@@ -47,7 +47,7 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
 		if(world.isRemote)
 			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
 		
-		//this.initItemNBT(resultStack);
+		this.updateItemTag(resultStack);
 		this.cycleTagBValue(resultStack, EnumTags.CHARGE, (byte) 1);
 		
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
@@ -107,12 +107,15 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
         return stack.getTagCompound().getByte(tag.key);
     }
 	
-	private void cycleTagBValue(ItemStack stack, EnumTags tag, byte by) {
-        if(stack.getTagCompound().getByte(tag.key) >= tag.max) {
-            stack.getTagCompound().setByte(tag.key, (byte) 0);
-            return;
+	private void cycleTagBValue(ItemStack stack, EnumTags targetNbt, byte increase) {
+		NBTTagCompound tag = NBTUtils.getTagSafe(stack);
+		byte originalVal = getTagBValue(stack, targetNbt);
+		
+        if(originalVal >= targetNbt.max) {
+            tag.setByte(targetNbt.key, (byte) 0);
+        } else {
+        	NBTUtils.setTagEnum(tag, targetNbt, (byte) (originalVal + increase));
         }
-        stack.getTagCompound().setByte(tag.key, (byte) (getTagBValue(stack, tag) + by));
     }
 	
 	
@@ -136,8 +139,13 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
         }
         private EnumTags(String key, int defaultVal, int max, EDataType type) {
             this.key = key;
-            this.defaultValue = defaultVal;
-            this.max = max;
+            if(type == EDataType.BYTE) {
+            	this.defaultValue = (byte) defaultVal;
+            	this.max = (byte) max;
+        	} else {
+        		this.defaultValue = defaultVal;
+        		this.max = max;
+        	}
             this.type = type;
         }
         
@@ -159,12 +167,11 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
 
 
 
-
 	@Override
-	public void buildDefaultTag(ItemStack stack) {
+	public NBTTagCompound getDefaultTag() {
 		NBTTagCompound tag = new NBTTagCompound();
-		NBTUtils.buildDefaultTag(tag, EnumTags.values());
-		stack.setTagCompound(tag);
+		NBTUtils.buildTagWithDefault(tag, EnumTags.values());
+		return tag;
 	}
 
 

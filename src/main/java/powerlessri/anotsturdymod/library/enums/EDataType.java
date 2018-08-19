@@ -14,6 +14,7 @@ public enum EDataType {
 	FLOAT(),
 	DOUBLE(),
 	STRING(),
-	NBT_TAG();
+	NBT_TAG(),
+	NBT_LIST();
 	
 }

@@ -29,43 +29,44 @@ public interface IEnumNBTTags<T> {
     			throw new UnexpectedTypeException();
 
     		case BOOLEAN:
-    			NBTUtils.setTag(tag, this, (boolean) value);
+    			NBTUtils.setTagEnum(tag, this, (boolean) value);
     			break;
     		case BYTE:
-    			NBTUtils.setTag(tag, this, (byte) value);
+    			NBTUtils.setTagEnum(tag, this, (byte) value);
     			break;
     		case INT:
-    			NBTUtils.setTag(tag, this, (int) value);
+    			NBTUtils.setTagEnum(tag, this, (int) value);
     			break;
     		case BYTE_ARRAY:
-    			NBTUtils.setTag(tag, this, (byte[]) value);
+    			NBTUtils.setTagEnum(tag, this, (byte[]) value);
     			break;
     		case INT_ARRAY:
-    			NBTUtils.setTag(tag, this, (int[]) value);
+    			NBTUtils.setTagEnum(tag, this, (int[]) value);
     			break;
     		case SHORT:
-    			NBTUtils.setTag(tag, this, (short) value);
+    			NBTUtils.setTagEnum(tag, this, (short) value);
     			break;
     		case LONG:
-    			NBTUtils.setTag(tag, this, (long) value);
+    			NBTUtils.setTagEnum(tag, this, (long) value);
     			break;
     		case FLOAT:
-    			NBTUtils.setTag(tag, this, (float) value);
+    			NBTUtils.setTagEnum(tag, this, (float) value);
     			break;
     		case DOUBLE:
-    			NBTUtils.setTag(tag, this, (double) value);
+    			NBTUtils.setTagEnum(tag, this, (double) value);
     			break;
     		case STRING:
-    			NBTUtils.setTag(tag, this, (String) value);
+    			NBTUtils.setTagEnum(tag, this, (String) value);
     			break;
+    		case NBT_LIST:
     		case NBT_TAG:
-    			NBTUtils.setTag(tag, this, (NBTBase) value);
+    			NBTUtils.setTagEnum(tag, this, (NBTBase) value);
     			break;
     		}
     	} catch(Throwable e) {
     		CrashReport crashReport = CrashReport.makeCrashReport(e,
     				e instanceof UnexpectedTypeException ? "Didn't specify tag type" :
-    				e instanceof ClassCastException ? "Specifyed type mismatched with real type" :
+    				e instanceof ClassCastException ? "Specified type mismatched with real type" :
     				"Unkown issue on default setTag method");
     		
     		throw new ReportedException(crashReport);
