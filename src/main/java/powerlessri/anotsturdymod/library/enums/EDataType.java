@@ -1,6 +1,8 @@
-package powerlessri.anotsturdymod.utils.handlers.enums;
+package powerlessri.anotsturdymod.library.enums;
 
 public enum EDataType {
+	
+	UNKOWN(),
 	
     BOOLEAN(),
 	BYTE(),
@@ -12,6 +14,7 @@ public enum EDataType {
 	FLOAT(),
 	DOUBLE(),
 	STRING(),
-	NBT_TAG();
+	NBT_TAG(),
+	NBT_LIST();
 	
 }

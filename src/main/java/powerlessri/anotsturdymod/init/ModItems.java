@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import powerlessri.anotsturdymod.items.ItemExchanger;
 import powerlessri.anotsturdymod.items.ItemTransmutationStone;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
-import powerlessri.anotsturdymod.utils.exceptions.IllegalArgumentsException;
+import powerlessri.anotsturdymod.library.exceptions.IllegalArgumentsException;
 
 public class ModItems {
 

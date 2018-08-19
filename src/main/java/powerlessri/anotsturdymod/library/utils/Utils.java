@@ -1,20 +1,15 @@
-package powerlessri.anotsturdymod.utils;
+package powerlessri.anotsturdymod.library.utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import net.minecraft.util.ResourceLocation;
 
 public class Utils {
 	
 	private Utils() {}
 	
-    public static final int BYTE_BYTE_LENGTH = 1;
-    public static final int FLOAT_BYTE_LENGTH = 4;
-    public static final int INT_BYTE_LENGTH = 4;
     
-    // 4 is the rate of 4bit = 1byte
-    public static final int BYTE_BIT_LENGTH = BYTE_BYTE_LENGTH * 4;
-    public static final int FLOAT_BIT_LENGTH = FLOAT_BYTE_LENGTH * 4;
-    public static final int INT_BIT_LENGTH = INT_BYTE_LENGTH * 4;
 	
 	private static Logger logger;
 	
@@ -23,6 +18,12 @@ public class Utils {
 			logger = LogManager.getFormatterLogger(Reference.MODID);
 		}
 		return logger;
+	}
+	
+	public static String formatRegistryId(String id) {
+		// I'm not sure why do I chose this way...
+		// Maybe for compability if someday Mojang decided to change resource path format
+		return new ResourceLocation(Reference.MODID, id).toString();
 	}
 	
 	

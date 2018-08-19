@@ -4,8 +4,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
-import powerlessri.anotsturdymod.utils.handlers.enums.EHarvestLevel;
-import powerlessri.anotsturdymod.utils.handlers.enums.EHarvestTool;
+import powerlessri.anotsturdymod.library.enums.EHarvestLevel;
+import powerlessri.anotsturdymod.library.enums.EHarvestTool;
 
 public class BlockBasicBlock extends BlockBase {
 
