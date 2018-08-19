@@ -1,6 +1,6 @@
-package powerlessri.anotsturdymod.utils.handlers.enums;
+package powerlessri.anotsturdymod.library.enums;
 
-import powerlessri.anotsturdymod.utils.handlers.interfaces.INumberSerializable;
+import powerlessri.anotsturdymod.library.interfaces.INumberSerializable;
 
 public enum EHarvestLevel implements INumberSerializable {
 	WOODEN(0),

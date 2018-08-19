@@ -2,8 +2,8 @@ package powerlessri.anotsturdymod.blocks;
 
 import net.minecraft.block.material.Material;
 import powerlessri.anotsturdymod.blocks.basic.BlockBasicBlock;
-import powerlessri.anotsturdymod.utils.handlers.enums.EHarvestLevel;
-import powerlessri.anotsturdymod.utils.handlers.enums.EHarvestTool;
+import powerlessri.anotsturdymod.library.enums.EHarvestLevel;
+import powerlessri.anotsturdymod.library.enums.EHarvestTool;
 
 //TODO complete texture/model
 public class BlockMetalBlocks extends BlockBasicBlock {

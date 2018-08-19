@@ -11,12 +11,14 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import powerlessri.anotsturdymod.items.base.ITagBasedItem;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
-import powerlessri.anotsturdymod.utils.handlers.enums.EDataType;
-import powerlessri.anotsturdymod.utils.handlers.interfaces.IEnumNBTTags;
+import powerlessri.anotsturdymod.library.enums.EDataType;
+import powerlessri.anotsturdymod.library.interfaces.IEnumNBTTags;
+import powerlessri.anotsturdymod.library.utils.NBTUtils;
 
-public class ItemTransmutationStone extends ItemBasicItem {
+public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedItem {
 	
 	public ItemTransmutationStone(String name) {
 		super(name);
@@ -30,7 +32,7 @@ public class ItemTransmutationStone extends ItemBasicItem {
 	public String getItemStackDisplayName(ItemStack stack) {
 	    String name = super.getItemStackDisplayName(stack);
 	    
-	    this.updateItemNBT(stack);
+	    this.updateItemTag(stack);
 	    int sideLength = this.getTagBValue(stack, EnumTags.CHARGE) * 2 + 1;
 	    name = name + " (" + sideLength + "*" + sideLength + ")";
 	    
@@ -45,7 +47,7 @@ public class ItemTransmutationStone extends ItemBasicItem {
 		if(world.isRemote)
 			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
 		
-		//this.initItemNBT(resultStack);
+		this.updateItemTag(resultStack);
 		this.cycleTagBValue(resultStack, EnumTags.CHARGE, (byte) 1);
 		
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
@@ -101,79 +103,83 @@ public class ItemTransmutationStone extends ItemBasicItem {
 		return BlockPos.getAllInBox(pos, pos);
 	}
 	
-	private void cycleTagBValue(ItemStack stack, EnumTags tag, byte by) {
-        if(stack.getTagCompound().getByte(tag.key) >= tag.max) {
-            stack.getTagCompound().setByte(tag.key, (byte) 0);
-            return;
-        }
-        stack.getTagCompound().setByte(tag.key, (byte) (getTagBValue(stack, tag) + by));
-    }
 	private byte getTagBValue(ItemStack stack, EnumTags tag) {
         return stack.getTagCompound().getByte(tag.key);
     }
-    
+	
+	private void cycleTagBValue(ItemStack stack, EnumTags targetNbt, byte increase) {
+		NBTTagCompound tag = NBTUtils.getTagSafe(stack);
+		byte originalVal = getTagBValue(stack, targetNbt);
+		
+        if(originalVal >= targetNbt.max) {
+            tag.setByte(targetNbt.key, (byte) 0);
+        } else {
+        	NBTUtils.setTagEnum(tag, targetNbt, (byte) (originalVal + increase));
+        }
+    }
 	
 	
 	
-	private static enum EnumTags implements IEnumNBTTags {
+	private static enum EnumTags implements IEnumNBTTags<Object> {
         
         CHARGE("charge", 0, 5, EDataType.BYTE);
         
-	    // You should never modify these!
+	    // You should never modify these values!
         EDataType type;
         String key;
-        String defaultStr;
-        int defaultValue;
+        Object defaultValue;
+        
+        /** Numbers ONLY */
         int max;
         
-        private EnumTags(String key, int defaultVal, int max, EDataType type) {
+        private EnumTags(String key, String defaultVal, EDataType type) {
             this.key = key;
             this.defaultValue = defaultVal;
-            this.max = max;
             this.type = type;
         }
-        private EnumTags(String key, String defaultStr, EDataType type) {
+        private EnumTags(String key, int defaultVal, int max, EDataType type) {
             this.key = key;
-            this.defaultStr = defaultStr;
+            if(type == EDataType.BYTE) {
+            	this.defaultValue = (byte) defaultVal;
+            	this.max = (byte) max;
+        	} else {
+        		this.defaultValue = defaultVal;
+        		this.max = max;
+        	}
             this.type = type;
         }
         
-    }
-    
-	/** Set the stack's NBT to default state */
-    public void updateItemNBT(ItemStack stack) {
-        if(!stack.hasTagCompound()) {
-            stack.setTagCompound(this.defaultNBTTag());
-        } else {
-            NBTTagCompound tag = stack.getTagCompound();
-            
-            if(tag.hasKey(EnumTags.CHARGE.key))
-                this.setTag(tag, EnumTags.CHARGE);
-        }
-    }
-    
-    /** Get the default NBT an stack would have */
-    public NBTTagCompound defaultNBTTag() {
-        NBTTagCompound tag = new NBTTagCompound();
         
-        this.setTag(tag, EnumTags.CHARGE);
-        
-        return tag;
-    }
-    private void setTag(NBTTagCompound tag, EnumTags data) {
-        switch(data.type) {
-            case BYTE:
-                tag.setByte(data.key, (byte) data.defaultValue);
-                break;
-            case INT:
-                tag.setInteger(data.key, data.defaultValue);
-                break;
-            case STRING:
-                tag.setString(data.key, data.defaultStr);
-                break;
-            
-            default: break;
+        @Override
+        public EDataType getType() {
+            return this.type;
         }
+        @Override
+        public String getKey() {
+            return this.key;
+        }
+        @Override
+        public Object getDefaultValue() {
+            return this.defaultValue;
+        }
+        
     }
+
+
+
+	@Override
+	public NBTTagCompound getDefaultTag() {
+		NBTTagCompound tag = new NBTTagCompound();
+		NBTUtils.buildTagWithDefault(tag, EnumTags.values());
+		return tag;
+	}
+
+
+	@Override
+	public void updateItemTag(ItemStack stack) {
+		if(stack.getTagCompound() == null)  {
+			this.buildDefaultTag(stack);
+		}
+	}
 	
 }

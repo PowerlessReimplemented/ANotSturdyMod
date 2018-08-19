@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.utils.handlers.enums;
+package powerlessri.anotsturdymod.library.enums;
 
 import net.minecraft.util.IStringSerializable;
 

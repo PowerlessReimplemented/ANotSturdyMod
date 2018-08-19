@@ -2,7 +2,7 @@ package powerlessri.anotsturdymod.items;
 
 import net.minecraft.creativetab.CreativeTabs;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
-import powerlessri.anotsturdymod.utils.handlers.enums.EMachineLevel;
+import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 
 public class ItemExchanger extends ItemBasicItem {
 	

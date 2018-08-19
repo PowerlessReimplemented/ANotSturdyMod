@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.utils.handlers;
+package powerlessri.anotsturdymod.library.handlers;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
