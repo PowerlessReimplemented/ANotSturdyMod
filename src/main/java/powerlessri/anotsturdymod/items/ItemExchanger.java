@@ -5,6 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
@@ -19,6 +20,7 @@ import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 import powerlessri.anotsturdymod.library.interfaces.IEnumNBTTags;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
 import powerlessri.anotsturdymod.library.utils.PosUtils;
+import powerlessri.anotsturdymod.library.utils.Utils;
 
 public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
 
@@ -61,34 +63,42 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
         NBTTagCompound tag = exchanger.getTagCompound();
         
         NBTUtils.setTagEnum(tag, EnumTags.TARGET_BLOCK, pointerBlock.getBlock().getRegistryName().toString());
+        NBTUtils.setTagEnum(tag, EnumTags.TARGET_META, pointerBlock.getBlock().getMetaFromState(pointerBlock));
     }
     
     private void attemptExchange(ItemStack exchanger, EntityPlayer player, World world, BlockPos posHit, EnumFacing faceHit) {
         NBTTagCompound tag = exchanger.getTagCompound();
         
-        String tragetName = tag.getString(EnumTags.TARGET_BLOCK.key);
-        int targetMeta = tag.getByte(EnumTags.TARGET_BLOCK_META.key);
-        int radius = tag.getByte(EnumTags.RADIUS.key);
+        String replacementName = tag.getString(EnumTags.TARGET_BLOCK.key);
+        int replacementMeta = tag.getByte(EnumTags.TARGET_META.key);
         
         //TODO get item's fortune by nbt
+        int radius = tag.getByte(EnumTags.RADIUS.key);
         int fortuneLevel = 0;
         
         @SuppressWarnings("deprecation")
-        IBlockState exchangeTarget = Block.getBlockFromName(tragetName).getStateFromMeta(targetMeta);
+        IBlockState replacementBlock = Block.getBlockFromName(replacementName).getStateFromMeta(replacementMeta);
+        IBlockState exchangeSource = world.getBlockState(posHit);
+        Block repBlockInst = replacementBlock.getBlock();
+        Block exchBlockInst = exchangeSource.getBlock();
+        
         Iterable<BlockPos> affectedBlocks = PosUtils.blocksOnPlane(posHit, faceHit, radius);
-        int resultQuantity = 0;
+        Item itemDropped = exchBlockInst.getItemDropped(replacementBlock, world.rand, fortuneLevel);
+        int quantityDropped = 0;
+        
+        Utils.getLogger().info("exchange attempt: radius={0}, rep={1}:{2}, source={3}:{4}", new Object[] {radius, replacementName, replacementMeta, exchBlockInst.getRegistryName().toString(), exchBlockInst.getMetaFromState(exchangeSource)});
         
         for(BlockPos pos : affectedBlocks) {
             IBlockState state = world.getBlockState(pos);
-            if(state != exchangeTarget) {
+            if(state != replacementBlock) {
                 continue;
             }
             
-            resultQuantity += state.getBlock().quantityDropped(state, fortuneLevel, world.rand);
-            world.setBlockState(pos, exchangeTarget);
+            quantityDropped += state.getBlock().quantityDropped(state, fortuneLevel, world.rand);
+            world.setBlockState(pos, replacementBlock);
         }
         
-        player.inventory.addItemStackToInventory(new ItemStack(exchangeTarget.getBlock(), resultQuantity));
+        player.inventory.addItemStackToInventory(new ItemStack(itemDropped, quantityDropped));
     }
     
     
@@ -99,7 +109,7 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
         MAX_RADIUS("max_radius", (byte) -1, EDataType.BYTE),
         
         TARGET_BLOCK("target_block", Blocks.AIR.getRegistryName().toString(), EDataType.STRING),
-        TARGET_BLOCK_META("target_meta", (byte) 0, EDataType.BYTE);
+        TARGET_META("target_meta", (byte) 0, EDataType.BYTE);
 
         EDataType type;
         String key;
