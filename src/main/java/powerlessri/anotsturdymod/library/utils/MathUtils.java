@@ -1,9 +1,9 @@
 package powerlessri.anotsturdymod.library.utils;
 
 
-public class Maths {
+public class MathUtils {
     
-    private Maths() {
+    private MathUtils() {
     }
     
     

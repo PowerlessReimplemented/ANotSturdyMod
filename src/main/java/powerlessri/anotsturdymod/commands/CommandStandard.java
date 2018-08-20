@@ -6,6 +6,7 @@ import java.util.function.BiConsumer;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import powerlessri.anotsturdymod.init.ModCommands;
 import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.library.utils.Utils;
 
@@ -14,30 +15,40 @@ public abstract class CommandStandard extends CommandBase {
 
     protected final Map<String, BiConsumer<ICommandSender, String[]>> options;
 
-    protected String keyword;
+    protected final String keyword;
+    protected final String langPath;
+    
     protected boolean useModIDPrefix;
+    protected char prefixSeparator;
     
     protected String usage;
     protected String errorUnkownSyntax;
     protected String errorParsing;
 
-    public CommandStandard() {
+    public CommandStandard(String keyword) {
         this.options = new HashMap<String, BiConsumer<ICommandSender, String[]>>();
+        this.keyword = keyword;
+        this.langPath = Reference.COMMAND_RESOURCE_PATH_PREFIX + this.keyword;
+        
+        this.useModIDPrefix = false;
+        this.prefixSeparator = ':';
+        
+        ModCommands.COMMANDS.add(this);
     }
     
-    protected void setUsageFromLang() {
-        
+    protected void setupUsageFromLang() {
+        this.usage = Utils.readFromLang(this.langPath + Reference.COMMAND_SUFFIX_USAGE);
     }
     
-    protected void setUnkownSyntaxFromLang() {
-        
+    protected void setupUnkownSyntaxFromLang() {
+        this.errorUnkownSyntax = Utils.readFromLang(this.langPath + Reference.COMMAND_SUFFIX_USAGE);
     }
 
 
     @Override
     public String getName() {
         if(this.useModIDPrefix) {
-            return Reference.MODID + "_" + this.keyword;
+            return Reference.MODID + this.prefixSeparator + this.keyword;
         }
         return this.keyword;
     }

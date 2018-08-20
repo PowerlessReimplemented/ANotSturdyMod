@@ -7,7 +7,8 @@ import net.minecraft.block.Block;
 
 public class ModBlocks {
 	
-	private ModBlocks() {}
+	private ModBlocks() {
+	}
 	
 	public static final List<Block> BLOCKS = new ArrayList<Block>();
 	

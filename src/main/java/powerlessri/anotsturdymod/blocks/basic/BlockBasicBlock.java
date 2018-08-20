@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
+import powerlessri.anotsturdymod.init.ModBlocks;
 import powerlessri.anotsturdymod.library.enums.EHarvestLevel;
 import powerlessri.anotsturdymod.library.enums.EHarvestTool;
 
@@ -11,6 +12,7 @@ public class BlockBasicBlock extends BlockBase {
 
 	public BlockBasicBlock(String name, Material material) {
 		super(name, name, material);
+		ModBlocks.BLOCKS.add(this);
 	}
 
 	public void registerModel() {

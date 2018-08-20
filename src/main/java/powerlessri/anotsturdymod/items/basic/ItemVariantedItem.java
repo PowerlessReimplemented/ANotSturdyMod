@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.items.base;
+package powerlessri.anotsturdymod.items.basic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 
-@Deprecated
-public class ItemVariantedItem extends ItemBase {
+
+public class ItemVariantedItem extends ItemBasicItem {
 	
 	//unlocalizedName for each item.
 	public final List<String> VARIANT_NAMES = new ArrayList<String>();

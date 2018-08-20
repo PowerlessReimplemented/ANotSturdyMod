@@ -9,23 +9,25 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import powerlessri.anotsturdymod.items.ItemExchanger;
 import powerlessri.anotsturdymod.items.ItemTransmutationStone;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
+import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 import powerlessri.anotsturdymod.library.exceptions.IllegalArgumentsException;
 
 public class ModItems {
 
-	private ModItems() {}
+	private ModItems() {
+	}
 
 	public static final List<Item> ITEMS = new ArrayList<Item>();
 	
 	
 	@GameRegistry.ObjectHolder("ansm:transmutation_orb")
-	public static ItemTransmutationStone transmutationStone;
+	public static final ItemTransmutationStone transmutationStone = new ItemTransmutationStone("transmutation_orb");
 	
 	@GameRegistry.ObjectHolder("ansm:basic_exchanger")
-	public static ItemExchanger exchangerBasic;
+	public static final ItemExchanger exchangerBasic = new ItemExchanger("exchanger", EMachineLevel.BASIC);
 	
 	@GameRegistry.ObjectHolder("ansm:advanced_exchanger")
-	public static ItemExchanger exchangerAdvanced;
+	public static final ItemExchanger exchangerAdvanced = new ItemExchanger("exchanger", EMachineLevel.ADVANCED);
 	
 	
 	

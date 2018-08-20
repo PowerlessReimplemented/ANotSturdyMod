@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.proxy.CommonProxy;
@@ -21,7 +22,7 @@ public class ANotSturdyMod {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		Utils.getLogger().info("preinit...");
+		Utils.getLogger().info(Reference.MODID + " excuting preInit");
 		
 		proxy.preInit(event);
 		
@@ -29,16 +30,23 @@ public class ANotSturdyMod {
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		Utils.getLogger().info("init...");
+		Utils.getLogger().info(Reference.MODID + " excuting init");
 		
 		proxy.init(event);
 	}
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		Utils.getLogger().info("postinit...");
+		Utils.getLogger().info(Reference.MODID + " excuting postInit");
 		
 		proxy.postInit(event);
 	}
+	
+	@EventHandler
+    public void serverStarting(FMLServerStartingEvent event){
+	    Utils.getLogger().info(Reference.MODID + " excuting serverStarting");
+	    
+	    proxy.serverStarting(event);
+    }
 	
 }

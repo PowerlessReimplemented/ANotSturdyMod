@@ -29,11 +29,6 @@ public class RegistryHandler {
              .registerAll(ModBlocks.BLOCKS.toArray(new Block[0]));
     }
 
-//    @SubscribeEvent
-//    public static void onCommandRegister(CommandRegistryEvent event) {
-//
-//    }
-
 
 
     @SubscribeEvent

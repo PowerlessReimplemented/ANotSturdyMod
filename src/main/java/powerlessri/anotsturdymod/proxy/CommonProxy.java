@@ -5,6 +5,8 @@ import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import powerlessri.anotsturdymod.init.ModCommands;
 import powerlessri.anotsturdymod.init.ModItems;
 import powerlessri.anotsturdymod.items.ItemExchanger;
 import powerlessri.anotsturdymod.items.ItemTransmutationStone;
@@ -22,9 +24,6 @@ public class CommonProxy {
 	
 	
 	public void preInit(FMLPreInitializationEvent event) {
-		ModItems.ITEMS.add(new ItemTransmutationStone("transmutation_orb"));
-		ModItems.ITEMS.add(new ItemExchanger("exchanger", EMachineLevel.BASIC));
-		ModItems.ITEMS.add(new ItemExchanger("exchanger", EMachineLevel.ADVANCED));
 	}
 	
 	public void init(FMLInitializationEvent event) {
@@ -32,6 +31,12 @@ public class CommonProxy {
 	}
 	
 	public void postInit(FMLPostInitializationEvent event) {
+	}
+	
+	public void serverStarting(FMLServerStartingEvent event) {
+	    ModCommands.COMMANDS.forEach((c) -> {
+	        event.registerServerCommand(c);
+	    });
 	}
 	
 }

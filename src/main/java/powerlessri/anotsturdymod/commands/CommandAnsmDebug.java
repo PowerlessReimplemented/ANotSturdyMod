@@ -14,21 +14,21 @@ import net.minecraft.util.text.TextComponentString;
 public class CommandAnsmDebug extends CommandStandard {
 
     public CommandAnsmDebug() {
-        super();
+        super("debug");
 
         this.options.put("hand", (sender, rest) -> {
             EntityPlayer player = (EntityPlayer) sender;
             ItemStack mainHand = player.getHeldItemMainhand();
 
-            if(rest[0].equals("id") || rest.length == 0) sender.sendMessage(new TextComponentString("Item CodeId: " + mainHand.getItem().getRegistryName()));
-            if(rest[0].equals("meta") || rest.length == 0) sender.sendMessage(new TextComponentString("Item Metadata: " + mainHand.getItemDamage()));
-            if(rest[0].equals("nbt") || rest.length == 0) sender.sendMessage(new TextComponentString("Item NBT: " + mainHand.getTagCompound()));
+            if(rest.length == 0 || rest[0].equals("id")) sender.sendMessage(new TextComponentString("Item CodeId: " + mainHand.getItem().getRegistryName()));
+            if(rest.length == 0 || rest[0].equals("meta")) sender.sendMessage(new TextComponentString("Item Metadata: " + mainHand.getItemDamage()));
+            if(rest.length == 0 || rest[0].equals("nbt")) sender.sendMessage(new TextComponentString("Item NBT: " + mainHand.getTagCompound()));
         });
         
-        this.keyword = "debug";
         this.useModIDPrefix = true;
-        this.setUsageFromLang();
-        this.setUnkownSyntaxFromLang();
+        this.prefixSeparator = '_';
+        this.setupUsageFromLang();
+        this.setupUnkownSyntaxFromLang();
     }
 
     @Override
