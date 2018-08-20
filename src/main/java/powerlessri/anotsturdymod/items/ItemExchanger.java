@@ -42,73 +42,91 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
 
         if(world.isRemote)
             return EnumActionResult.SUCCESS;
-        
+
         if(hand == EnumHand.OFF_HAND) {
             return EnumActionResult.FAIL;
         }
 
         ItemStack exchanger = player.getHeldItem(hand);
         this.updateItemTag(exchanger);
-        
+
         if(player.isSneaking()) {
-            selectTargetBlock(exchanger, world.getBlockState(pos));
-        } else {
-            attemptExchange(exchanger, player, world, pos, facing);
+            return selectTargetBlock(exchanger, world.getBlockState(pos));
         }
+
+        return attemptExchange(exchanger, player, world, pos, facing);
+    }
+
+    private EnumActionResult selectTargetBlock(ItemStack exchanger, IBlockState pointerBlock) {
+        NBTTagCompound tag = exchanger.getTagCompound();
+
+        NBTUtils.setTagEnum(tag, EnumTags.TARGET_BLOCK, pointerBlock.getBlock().getRegistryName().toString());
+        NBTUtils.setTagEnum(tag, EnumTags.TARGET_META, pointerBlock.getBlock().getMetaFromState(pointerBlock));
 
         return EnumActionResult.SUCCESS;
     }
-    
-    private void selectTargetBlock(ItemStack exchanger, IBlockState pointerBlock) {
+
+    private EnumActionResult attemptExchange(ItemStack exchanger, EntityPlayer player, World world, BlockPos posHit, EnumFacing faceHit) {
         NBTTagCompound tag = exchanger.getTagCompound();
-        
-        NBTUtils.setTagEnum(tag, EnumTags.TARGET_BLOCK, pointerBlock.getBlock().getRegistryName().toString());
-        NBTUtils.setTagEnum(tag, EnumTags.TARGET_META, pointerBlock.getBlock().getMetaFromState(pointerBlock));
-    }
-    
-    private void attemptExchange(ItemStack exchanger, EntityPlayer player, World world, BlockPos posHit, EnumFacing faceHit) {
-        NBTTagCompound tag = exchanger.getTagCompound();
-        
+
         String replacementName = tag.getString(EnumTags.TARGET_BLOCK.key);
         int replacementMeta = tag.getByte(EnumTags.TARGET_META.key);
-        
+
         //TODO get item's fortune by nbt
         int radius = tag.getByte(EnumTags.RADIUS.key);
         int fortuneLevel = 0;
-        
+
         @SuppressWarnings("deprecation")
         IBlockState replacementBlock = Block.getBlockFromName(replacementName).getStateFromMeta(replacementMeta);
         IBlockState exchangeSource = world.getBlockState(posHit);
         Block repBlockInst = replacementBlock.getBlock();
         Block exchBlockInst = exchangeSource.getBlock();
-        
+        ItemStack replacementStack = Item.getItemFromBlock(repBlockInst).getDefaultInstance();
+
         Iterable<BlockPos> affectedBlocks = PosUtils.blocksOnPlane(posHit, faceHit, radius);
-        Item itemDropped = exchBlockInst.getItemDropped(exchangeSource, world.rand, fortuneLevel);
         int quantityDropped = 0;
-        
+        // Actual amount of block gets exchanged
+        int blocksAffectedCount = 0;
+
         Utils.getLogger().info(String.format("exchange attempt: radius=%d, rep=%s:%d, source=%s:%d",
                 radius, replacementName, replacementMeta, exchBlockInst.getRegistryName().toString(), exchBlockInst.getMetaFromState(exchangeSource)));
-        
+
         for(BlockPos pos : affectedBlocks) {
             IBlockState state = world.getBlockState(pos);
             if(state != exchangeSource) {
                 continue;
             }
-            
+
             quantityDropped += state.getBlock().quantityDropped(state, fortuneLevel, world.rand);
             world.setBlockState(pos, replacementBlock);
+
+            blocksAffectedCount++;
         }
-        
-        player.inventory.addItemStackToInventory(new ItemStack(itemDropped, quantityDropped));
+
+        int replacementInInventory = 0;
+
+        for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+            ItemStack slot = player.inventory.getStackInSlot(i);
+            if(slot.isItemEqual(replacementStack)) {
+                replacementInInventory += slot.getCount();
+            }
+            
+            if(blocksAffectedCount > replacementInInventory && !player.isCreative()) {
+                return EnumActionResult.FAIL;
+            }
+        }
+
+        player.inventory.addItemStackToInventory(new ItemStack(exchBlockInst.getItemDropped(exchangeSource, world.rand, fortuneLevel), quantityDropped));
+        return EnumActionResult.SUCCESS;
     }
-    
-    
-    
+
+
+
     public static enum EnumTags implements IEnumNBTTags<Object> {
-        
+
         RADIUS("radius", (byte) 0, EDataType.BYTE),
         MAX_RADIUS("max_radius", (byte) -1, EDataType.BYTE),
-        
+
         TARGET_BLOCK("target_block", Blocks.AIR.getRegistryName().toString(), EDataType.STRING),
         TARGET_META("target_meta", (byte) 0, EDataType.BYTE);
 
@@ -135,10 +153,10 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
         public Object getDefaultValue() {
             return this.defaultValue;
         }
-        
+
     }
 
-    
+
 
     @Override
     public NBTTagCompound getDefaultTag() {
@@ -146,19 +164,17 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
         NBTUtils.buildTagWithDefault(tag, EnumTags.values());
         return tag;
     }
-    
+
     @Override
     public void updateItemTag(ItemStack stack) {
         NBTTagCompound tag = stack.getTagCompound();
         if(tag == null)  {
             this.buildDefaultTag(stack);
         }
-        
+
         if(tag.getByte(EnumTags.MAX_RADIUS.key) == -1) {
             NBTUtils.setTagEnum(tag, EnumTags.MAX_RADIUS, this.maxRadius);
         }
-        
-        NBTUtils.setTagEnum(tag, EnumTags.RADIUS, 2);
     }
 
 
