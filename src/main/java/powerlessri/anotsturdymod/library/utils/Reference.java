@@ -34,6 +34,21 @@ public class Reference {
 	public static final String COMMAND_SUFFIX_KEYWORD = ".name";
 	public static final String COMMAND_SUFFIX_USAGE = ".usage";
 	
+	public static final Style STYLE_EMPTY = new Style();
 	public static final Style STYLE_RED = new Style().setColor(TextFormatting.RED);
+	public static final Style STYLE_BLUE = new Style().setColor(TextFormatting.BLUE);
+	public static final Style STYLE_DARK_GRAY = new Style().setColor(TextFormatting.DARK_GRAY);
+	public static final Style STYLE_LIGHT_GRAY = new Style().setColor(TextFormatting.GRAY);
+	
+	/** Actual explanation for what this does */
+	public static final Style STYLE_TOOLTIP_DESCRIPTION = new Style().setColor(TextFormatting.GRAY);
+	/** Vazkii styled description */
+	public static final Style STYLE_TOOLTIP_GRIND = new Style().setColor(TextFormatting.DARK_GRAY).setItalic(true);
+	
+	/** Stat label on item's tooltip */
+    public static final Style STYLE_TOOLTIP_STAT_TYPE = new Style().setColor(TextFormatting.DARK_PURPLE).setBold(true);
+	/** Changing value on a stat display for item */
+	public static final Style STYLE_TOOLTIP_STAT_VALUE = new Style();
+	
 	
 }

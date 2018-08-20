@@ -4,9 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 
+@SuppressWarnings("deprecation")
 public class Utils {
 
     private Utils() {}
@@ -21,7 +23,6 @@ public class Utils {
         return logger;
     }
 
-    @SuppressWarnings("deprecation")
     public static String readFromLang(String key) {
         String result = I18n.translateToLocal(key);
         return result == null ? "" : result;
@@ -32,12 +33,31 @@ public class Utils {
         // Maybe for compability if someday Mojang decided to change resource path format
         return new ResourceLocation(Reference.MODID, id).toString();
     }
+    
+    private static TextComponentString textStringWithStyle(String text, Style style) {
+        TextComponentString result = new TextComponentString(text);
+        result.setStyle(style);
+        return result;
+    }
 
     public static TextComponentString createStringRed(String description) {
-        TextComponentString result = new TextComponentString(description);
-        result.setStyle(Reference.STYLE_RED);
-
-        return result;
+        return textStringWithStyle(description, Reference.STYLE_RED);
+    }
+    
+    public static TextComponentString createStringBlue(String description) {
+        return textStringWithStyle(description, Reference.STYLE_BLUE);
+    }
+    
+    public static TextComponentString createStringGray(String description) {
+        return textStringWithStyle(description, Reference.STYLE_LIGHT_GRAY);
+    }
+    
+    public static TextComponentString createStringDarkGray(String description) {
+        return textStringWithStyle(description, Reference.STYLE_DARK_GRAY);
+    }
+    
+    public static TextComponentString createToolDescription(String description) {
+        return textStringWithStyle(description, Reference.STYLE_TOOLTIP_DESCRIPTION);
     }
 
 }

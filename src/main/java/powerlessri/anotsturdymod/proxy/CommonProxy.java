@@ -7,11 +7,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import powerlessri.anotsturdymod.init.ModCommands;
-import powerlessri.anotsturdymod.init.ModItems;
-import powerlessri.anotsturdymod.items.ItemExchanger;
-import powerlessri.anotsturdymod.items.ItemTransmutationStone;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
-import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 
 public class CommonProxy {
 	

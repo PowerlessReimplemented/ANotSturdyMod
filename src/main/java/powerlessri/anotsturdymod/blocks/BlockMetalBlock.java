@@ -6,9 +6,9 @@ import powerlessri.anotsturdymod.library.enums.EHarvestLevel;
 import powerlessri.anotsturdymod.library.enums.EHarvestTool;
 
 //TODO complete texture/model
-public class BlockMetalBlocks extends BlockBasicBlock {
+public class BlockMetalBlock extends BlockBasicBlock {
 	
-	public BlockMetalBlocks(String name, Material material) {
+	public BlockMetalBlock(String name, Material material) {
 		super(name, material);
 		
 		this.setHardness(4.5f);

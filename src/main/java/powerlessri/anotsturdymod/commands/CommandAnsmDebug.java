@@ -11,6 +11,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 
 
+/**
+ * General debug tool for mod/map/modpack development.
+ * 
+ * @author root-user
+ */
 public class CommandAnsmDebug extends CommandStandard {
 
     public CommandAnsmDebug() {
