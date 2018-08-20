@@ -20,10 +20,19 @@ public class Utils {
 		return logger;
 	}
 	
+	
+	public static ResourceLocation locationOf(String path) {
+        return locationOf(Reference.MINECRAFT, path);
+    }
+	
+	public static ResourceLocation locationOf(String domain, String path) {
+        return new ResourceLocation(domain, path);
+    }
+	
 	public static String formatRegistryId(String id) {
 		// I'm not sure why do I chose this way...
 		// Maybe for compability if someday Mojang decided to change resource path format
-		return new ResourceLocation(Reference.MODID, id).toString();
+		return locationOf(Reference.MODID, id).toString();
 	}
 	
 	

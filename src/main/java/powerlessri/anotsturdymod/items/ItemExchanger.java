@@ -2,7 +2,6 @@ package powerlessri.anotsturdymod.items;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.audio.SoundList;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -12,9 +11,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import powerlessri.anotsturdymod.init.ModItems;
 import powerlessri.anotsturdymod.items.base.ITagBasedItem;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.library.enums.EDataType;
@@ -22,6 +21,7 @@ import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 import powerlessri.anotsturdymod.library.interfaces.IEnumNBTTags;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
 import powerlessri.anotsturdymod.library.utils.PosUtils;
+import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.library.utils.Utils;
 
 public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
@@ -52,6 +52,8 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
         ItemStack exchanger = player.getHeldItem(hand);
         this.updateItemTag(exchanger);
 
+        Utils.getLogger().info("Player is " + (player.isSneaking() ? "" : "not " + "sneaking, ") + (player.isSneaking() ? "selectBlock" : "replacement"));
+        
         if(player.isSneaking()) {
             return selectTargetBlock(exchanger, world.getBlockState(pos));
         }
@@ -83,7 +85,10 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
         IBlockState exchangeSource = world.getBlockState(posHit);
         Block repBlockInst = replacementBlock.getBlock();
         Block exchBlockInst = exchangeSource.getBlock();
-        ItemStack replacementStack = Item.getItemFromBlock(repBlockInst).getDefaultInstance();
+//        ItemStack replacementStack = Item.getItemFromBlock(repBlockInst).getDefaultInstance();
+        
+        Item repItemInst = Item.getItemFromBlock(repBlockInst);
+        int repItemMeta = repBlockInst.getMetaFromState(replacementBlock);
 
         Iterable<BlockPos> affectedBlocks = PosUtils.blocksOnPlane(posHit, faceHit, radius);
         int quantityDropped = 0;
@@ -109,9 +114,12 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
 //        boolean useTransmutation = false;
         int replacementInInventory = 0;
 
+        ItemStack replacementStack = new ItemStack(repItemInst);
+        replacementStack.setItemDamage(repItemMeta);
         for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
             ItemStack slot = player.inventory.getStackInSlot(i);
             if(slot.isItemEqual(replacementStack)) {
+//            if(slot.getItem() == ) {
                 replacementInInventory += slot.getCount();
             }
             
@@ -127,6 +135,9 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
             return EnumActionResult.SUCCESS;
         }
         
+//        Utils.getLogger().info(String.format("blocksAffected=%d, avaliableBlocks=%d",
+//                blocksAffectedCount, replacementInInventory));;
+        
         if(blocksAffectedCount > replacementInInventory) {
             return EnumActionResult.FAIL;
         }
@@ -134,21 +145,27 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
         int decreamentRequested = replacementInInventory;
         
         for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+            if(decreamentRequested <= 0)
+                break;
+            
             ItemStack slot = player.inventory.getStackInSlot(i);
             
             if(slot.isItemEqual(replacementStack)) {
+                decreamentRequested -= slot.getCount();
+                
                 if(slot.getCount() < decreamentRequested) {
                     player.inventory.removeStackFromSlot(i);
                 } else {
                     slot.setCount( slot.getCount() - decreamentRequested );
-                    break;
                 }
             }
         }
 
-        player.inventory.addItemStackToInventory(new ItemStack(exchBlockInst.getItemDropped(exchangeSource, world.rand, fortuneLevel), quantityDropped));
+        ItemStack resultStack = new ItemStack(exchBlockInst.getItemDropped(exchangeSource, world.rand, fortuneLevel), quantityDropped);
+        resultStack.setItemDamage(exchBlockInst.getMetaFromState(exchangeSource));
+        player.inventory.addItemStackToInventory(resultStack);
         
-//        player.playSound(S, volume, pitch);
+        player.playSound(new SoundEvent(Utils.locationOf("endermen_teleport")), 0.7f, 1.0f);
         
         return EnumActionResult.SUCCESS;
     }
@@ -210,6 +227,8 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
         if(tag.getByte(EnumTags.MAX_RADIUS.key) == -1) {
             NBTUtils.setTagEnum(tag, EnumTags.MAX_RADIUS, this.maxRadius);
         }
+        
+        NBTUtils.setTagEnum(tag, EnumTags.RADIUS, 2);
     }
 
 
