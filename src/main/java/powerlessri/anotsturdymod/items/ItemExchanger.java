@@ -42,11 +42,18 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
     @Override 
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
-        if(world.isRemote)
+        if(world.isRemote) {
+            if(player.isSneaking()) {
+                
+            } else {
+                player.playSound(new SoundEvent(Utils.locationOf("endermen_teleport")), 0.7f, 1.0f);
+            }
+            
             return EnumActionResult.SUCCESS;
+        }
 
         if(hand == EnumHand.OFF_HAND) {
-            return EnumActionResult.FAIL;
+            return EnumActionResult.PASS;
         }
 
         ItemStack exchanger = player.getHeldItem(hand);
@@ -105,8 +112,6 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
             }
 
             quantityDropped += state.getBlock().quantityDropped(state, fortuneLevel, world.rand);
-            world.setBlockState(pos, replacementBlock);
-
             blocksAffectedCount++;
         }
 
@@ -132,6 +137,7 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
                 blocksAffectedCount, replacementInInventory));
         
         if(player.isCreative()) {
+            replaceBlocks(world, affectedBlocks, exchangeSource, replacementBlock);
             return EnumActionResult.SUCCESS;
         }
         
@@ -142,21 +148,19 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
             return EnumActionResult.FAIL;
         }
         
-        int decreamentRequested = replacementInInventory;
+        int decreamentRequested = blocksAffectedCount;
         
         for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
-            if(decreamentRequested <= 0)
-                break;
-            
             ItemStack slot = player.inventory.getStackInSlot(i);
             
             if(slot.isItemEqual(replacementStack)) {
-                decreamentRequested -= slot.getCount();
-                
-                if(slot.getCount() < decreamentRequested) {
+                if(slot.getCount() <=  decreamentRequested) {
+                    decreamentRequested -= slot.getCount();
                     player.inventory.removeStackFromSlot(i);
                 } else {
                     slot.setCount( slot.getCount() - decreamentRequested );
+                    decreamentRequested = 0;
+                    break;
                 }
             }
         }
@@ -165,9 +169,20 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
         resultStack.setItemDamage(exchBlockInst.getMetaFromState(exchangeSource));
         player.inventory.addItemStackToInventory(resultStack);
         
-        player.playSound(new SoundEvent(Utils.locationOf("endermen_teleport")), 0.7f, 1.0f);
+        replaceBlocks(world, affectedBlocks, exchangeSource, replacementBlock);
         
         return EnumActionResult.SUCCESS;
+    }
+    
+    private void replaceBlocks(World world, Iterable<BlockPos> posList, IBlockState from, IBlockState to) {
+        for(BlockPos pos : posList) {
+            IBlockState state = world.getBlockState(pos);
+            if(state != from) {
+                continue;
+            }
+
+            world.setBlockState(pos, to);
+        }
     }
 
 
