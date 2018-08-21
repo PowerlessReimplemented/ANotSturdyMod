@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.command.CommandBase;
-import powerlessri.anotsturdymod.commands.CommandAnsmDebug;
+import powerlessri.anotsturdymod.commands.CommandDebug;
 
 public class ModCommands {
     
@@ -12,8 +12,5 @@ public class ModCommands {
     }
 
     public static final List<CommandBase> COMMANDS = new ArrayList<CommandBase>();
-    
-    
-    public static final CommandAnsmDebug ansmDebug = new CommandAnsmDebug();
     
 }

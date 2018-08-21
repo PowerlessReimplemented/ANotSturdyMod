@@ -3,15 +3,22 @@ package powerlessri.anotsturdymod.library.utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 
+
+/**
+ * General utilities for Forge Mod developing.
+ */
 @SuppressWarnings("deprecation")
 public class Utils {
 
-    private Utils() {}
+    private Utils() {
+    }
 
 
 

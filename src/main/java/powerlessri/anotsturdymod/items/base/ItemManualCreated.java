@@ -7,12 +7,9 @@ import powerlessri.anotsturdymod.init.ModItems;
 /**
  * The main difference of this class is it automatically
  * add the instance to ModItems.ITEMS once you instance it.
- * 
- * @author root-user
- *
  */
 @Deprecated
-public class ItemManualCreated extends ItemBase {
+public abstract class ItemManualCreated extends ItemBase {
 	
 	public ItemManualCreated(String registry_name, String unlocalized_name, CreativeTabs tab) {
 		super(registry_name, unlocalized_name);

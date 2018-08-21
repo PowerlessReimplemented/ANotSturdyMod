@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.items.base;
+package powerlessri.anotsturdymod.library.interfaces;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

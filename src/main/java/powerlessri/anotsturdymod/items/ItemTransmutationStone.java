@@ -11,11 +11,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import powerlessri.anotsturdymod.items.base.ITagBasedItem;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.library.enums.EDataType;
 import powerlessri.anotsturdymod.library.interfaces.IEnumNBTTags;
+import powerlessri.anotsturdymod.library.interfaces.ITagBasedItem;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
 import powerlessri.anotsturdymod.library.utils.PosUtils;
 

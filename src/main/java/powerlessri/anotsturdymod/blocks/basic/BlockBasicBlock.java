@@ -12,7 +12,6 @@ public class BlockBasicBlock extends BlockBase {
 
 	public BlockBasicBlock(String name, Material material) {
 		super(name, name, material);
-		ModBlocks.BLOCKS.add(this);
 	}
 
 	public void registerModel() {

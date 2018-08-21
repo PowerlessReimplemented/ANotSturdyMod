@@ -16,9 +16,9 @@ import net.minecraft.util.text.TextComponentString;
  * 
  * @author root-user
  */
-public class CommandAnsmDebug extends CommandStandard {
+public class CommandDebug extends CommandStandard {
 
-    public CommandAnsmDebug() {
+    public CommandDebug() {
         super("debug");
 
         this.options.put("hand", (sender, rest) -> {
@@ -40,7 +40,6 @@ public class CommandAnsmDebug extends CommandStandard {
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if(sender.getCommandSenderEntity() instanceof EntityPlayer) {
             matchOptions(sender, args[0], Arrays.copyOfRange(args, 1, args.length));
-            return;
         }
     }
 

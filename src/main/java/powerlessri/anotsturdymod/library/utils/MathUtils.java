@@ -2,16 +2,18 @@ package powerlessri.anotsturdymod.library.utils;
 
 
 public class MathUtils {
-    
+
     private MathUtils() {
     }
-    
-    
-    
+
+
+
     public static int arrayIndex2D(int x, int y, int width) {
         return x + y * width;
     }
-    
+
+
+
     public static int pow(int base, int exponent) {
         //TODO own pow() implementation
         return (int) Math.pow(base, exponent);
@@ -19,5 +21,5 @@ public class MathUtils {
     public static int pow(int base) {
         return base * base;
     }
-    
+
 }

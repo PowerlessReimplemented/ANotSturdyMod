@@ -11,10 +11,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
 public class WorldTransmutation {
 	
-	public static void init(FMLInitializationEvent event) {
+	public static void init(FMLPostInitializationEvent  event) {
 		registerTransmutation("plant_infusion", Blocks.DIRT, Blocks.GRASS);
 		registerTransmutation("hell_of_fires", Blocks.NETHERRACK, Blocks.SOUL_SAND);
 		registerTransmutation("particles_party", Blocks.SAND, Blocks.GLASS, Blocks.GRAVEL);

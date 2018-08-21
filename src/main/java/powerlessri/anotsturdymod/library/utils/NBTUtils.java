@@ -3,8 +3,8 @@ package powerlessri.anotsturdymod.library.utils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import powerlessri.anotsturdymod.items.base.ITagBasedItem;
 import powerlessri.anotsturdymod.library.interfaces.IEnumNBTTags;
+import powerlessri.anotsturdymod.library.interfaces.ITagBasedItem;
 
 public class NBTUtils {
 

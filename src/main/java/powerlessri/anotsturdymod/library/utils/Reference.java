@@ -5,16 +5,17 @@ import net.minecraft.util.text.TextFormatting;
 
 public class Reference {
 
-    private Reference() {}
+    private Reference() {
+    }
 
     public static final int BYTE_BYTE_LENGTH = 1;
     public static final int FLOAT_BYTE_LENGTH = 4;
     public static final int INT_BYTE_LENGTH = 4;
 
-    // 4 is the rate of 4bit = 1byte
-    public static final int BYTE_BIT_LENGTH = BYTE_BYTE_LENGTH * 4;
-    public static final int FLOAT_BIT_LENGTH = FLOAT_BYTE_LENGTH * 4;
-    public static final int INT_BIT_LENGTH = INT_BYTE_LENGTH * 4;
+    // 8 is the rate of 8bit = 1byte
+    public static final int BYTE_BIT_LENGTH = BYTE_BYTE_LENGTH * 8;
+    public static final int FLOAT_BIT_LENGTH = FLOAT_BYTE_LENGTH * 8;
+    public static final int INT_BIT_LENGTH = INT_BYTE_LENGTH * 8;
 
     /**
      * ANotSturdyMod  => "ANotSturdyMod" (NAME)
@@ -24,11 +25,13 @@ public class Reference {
     public static final String NAME = "ANotSturdyMod";
     public static final String VERSION = "1.0.2";
     public static final String ACCEPTED_VERSIONS = "[1.12.2]";
-    public static final String SERVER_PROXY_CLASS = "powerlessri.anotsturdymod.proxy.CommonProxy";
+    public static final String COMMON_PROXY_CLASS = "powerlessri.anotsturdymod.proxy.ClientProxy";
+    public static final String SERVER_PROXY_CLASS = "powerlessri.anotsturdymod.proxy.ServerProxy";
     public static final String CLIENT_PROXY_CLASS = "powerlessri.anotsturdymod.proxy.ClientProxy";
 
-    public static final String ERR_NON_SUBTYPED_ITEM = "Trying register sub-typed item model with non-sub-typed item.";
-    public static final String ERR_SUBTYPED_ITEM = "Trying register non-sub-typed item model with sub-typed item.";
+    //TODO load these in .lang file
+//    public static final String ERR_NON_SUBTYPED_ITEM = "Trying register sub-typed item model with non-sub-typed item.";
+//    public static final String ERR_SUBTYPED_ITEM = "Trying register non-sub-typed item model with sub-typed item.";
 
     public static final String DOMAIN_MINECRAFT = "minecraft";
 
@@ -47,10 +50,12 @@ public class Reference {
     /** Vazkii styled description */
     public static final Style STYLE_TOOLTIP_GRIND = new Style().setColor(TextFormatting.DARK_GRAY).setItalic(true);
 
-    /** Stat label on item's tooltip */
+    /** Status label on item's tooltip */
     public static final Style STYLE_TOOLTIP_STAT_TYPE = new Style().setColor(TextFormatting.DARK_PURPLE).setBold(true);
-    /** Changing value on a stat display for item */
+    /** Changing value on a status display for item */
     public static final Style STYLE_TOOLTIP_STAT_VALUE = new Style();
+    
+    
 
 
 }

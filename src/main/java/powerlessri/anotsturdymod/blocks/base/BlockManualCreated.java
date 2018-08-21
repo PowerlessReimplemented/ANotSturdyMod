@@ -8,7 +8,7 @@ import powerlessri.anotsturdymod.init.ModBlocks;
 import powerlessri.anotsturdymod.init.ModItems;
 
 @Deprecated
-public class BlockManualCreated extends BlockBase {
+public abstract class BlockManualCreated extends BlockBase {
 	
 	public BlockManualCreated(String registry_name, String unlocalized_name, Material material) {
 		super(registry_name, unlocalized_name, material);

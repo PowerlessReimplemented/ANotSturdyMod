@@ -16,7 +16,7 @@ public abstract class CommandStandard extends CommandBase {
     protected final Map<String, BiConsumer<ICommandSender, String[]>> options;
 
     protected final String keyword;
-    protected final String langPath;
+    protected final String langKey;
     
     protected boolean useModIDPrefix;
     protected char prefixSeparator;
@@ -28,20 +28,18 @@ public abstract class CommandStandard extends CommandBase {
     public CommandStandard(String keyword) {
         this.options = new HashMap<String, BiConsumer<ICommandSender, String[]>>();
         this.keyword = keyword;
-        this.langPath = Reference.COMMAND_RESOURCE_PATH_PREFIX + this.keyword;
+        this.langKey = Reference.COMMAND_RESOURCE_PATH_PREFIX + this.keyword;
         
         this.useModIDPrefix = false;
         this.prefixSeparator = ':';
-        
-        ModCommands.COMMANDS.add(this);
     }
     
     protected void setupUsageFromLang() {
-        this.usage = Utils.readFromLang(this.langPath + Reference.COMMAND_SUFFIX_USAGE);
+        this.usage = Utils.readFromLang(this.langKey + Reference.COMMAND_SUFFIX_USAGE);
     }
     
     protected void setupUnkownSyntaxFromLang() {
-        this.errorUnkownSyntax = Utils.readFromLang(this.langPath + Reference.COMMAND_SUFFIX_USAGE);
+        this.errorUnkownSyntax = Utils.readFromLang(this.langKey + Reference.COMMAND_SUFFIX_USAGE);
     }
 
 

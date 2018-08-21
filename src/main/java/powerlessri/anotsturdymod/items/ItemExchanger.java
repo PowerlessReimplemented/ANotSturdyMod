@@ -5,20 +5,22 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import powerlessri.anotsturdymod.items.base.ITagBasedItem;
+import powerlessri.anotsturdymod.init.ModItems;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.library.enums.EDataType;
 import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 import powerlessri.anotsturdymod.library.interfaces.IEnumNBTTags;
+import powerlessri.anotsturdymod.library.interfaces.ITagBasedItem;
+import powerlessri.anotsturdymod.library.utils.InventoryUtils;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
 import powerlessri.anotsturdymod.library.utils.PosUtils;
 import powerlessri.anotsturdymod.library.utils.Utils;
@@ -40,26 +42,17 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
 
     @Override 
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-
         if(world.isRemote) {
-            if(player.isSneaking()) {
-                
-            } else {
-                player.playSound(new SoundEvent(Utils.locationOf("endermen_teleport")), 0.7f, 1.0f);
+            if(!player.isSneaking()) {
+                player.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0f, 1.0f);
             }
             
             return EnumActionResult.SUCCESS;
         }
 
-        if(hand == EnumHand.OFF_HAND) {
-            return EnumActionResult.PASS;
-        }
-
         ItemStack exchanger = player.getHeldItem(hand);
         this.updateItemTag(exchanger);
 
-        Utils.getLogger().info("Player is " + (player.isSneaking() ? "" : "not " + "sneaking, ") + (player.isSneaking() ? "selectBlock" : "replacement"));
-        
         if(player.isSneaking()) {
             return selectTargetBlock(exchanger, world.getBlockState(pos));
         }
@@ -70,8 +63,8 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
     private EnumActionResult selectTargetBlock(ItemStack exchanger, IBlockState pointerBlock) {
         NBTTagCompound tag = exchanger.getTagCompound();
 
-        NBTUtils.setTagEnum(tag, EnumTags.TARGET_BLOCK, pointerBlock.getBlock().getRegistryName().toString());
-        NBTUtils.setTagEnum(tag, EnumTags.TARGET_META, pointerBlock.getBlock().getMetaFromState(pointerBlock));
+        tag.setString(EnumTags.TARGET_BLOCK.key, pointerBlock.getBlock().getRegistryName().toString());
+        tag.setByte(EnumTags.TARGET_META.key, (byte) pointerBlock.getBlock().getMetaFromState(pointerBlock));
 
         return EnumActionResult.SUCCESS;
     }
@@ -82,8 +75,9 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
         String replacementName = tag.getString(EnumTags.TARGET_BLOCK.key);
         int replacementMeta = tag.getByte(EnumTags.TARGET_META.key);
 
-        //TODO get item's fortune by nbt
+        //TODO get item's fortune/silk touch by tag
         int radius = tag.getByte(EnumTags.RADIUS.key);
+        boolean isSilkTouch = false;
         int fortuneLevel = 0;
 
         @SuppressWarnings("deprecation")
@@ -91,18 +85,12 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
         IBlockState exchangeSource = world.getBlockState(posHit);
         Block repBlockInst = replacementBlock.getBlock();
         Block exchBlockInst = exchangeSource.getBlock();
-//        ItemStack replacementStack = Item.getItemFromBlock(repBlockInst).getDefaultInstance();
-        
         Item repItemInst = Item.getItemFromBlock(repBlockInst);
-        int repItemMeta = repBlockInst.getMetaFromState(replacementBlock);
 
         Iterable<BlockPos> affectedBlocks = PosUtils.blocksOnPlane(posHit, faceHit, radius);
         int quantityDropped = 0;
         // Actual amount of block gets exchanged
         int blocksAffectedCount = 0;
-
-        Utils.getLogger().info(String.format("exchange attempt: radius=%d, rep=%s:%d, source=%s:%d",
-                radius, replacementName, replacementMeta, exchBlockInst.getRegistryName().toString(), exchBlockInst.getMetaFromState(exchangeSource)));
 
         for(BlockPos pos : affectedBlocks) {
             IBlockState state = world.getBlockState(pos);
@@ -110,63 +98,46 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
                 continue;
             }
 
-            quantityDropped += state.getBlock().quantityDropped(state, fortuneLevel, world.rand);
+            quantityDropped += isSilkTouch ? 1 : state.getBlock().quantityDropped(state, fortuneLevel, world.rand);
             blocksAffectedCount++;
         }
 
-//        boolean useTransmutationEnabled = tag.getBoolean(EnumTags.USE_TRANSMUTATION_ORB.key);
-//        boolean useTransmutation = false;
+        boolean useTransmutationEnabled = tag.getBoolean(EnumTags.USE_TRANSMUTATION_ORB.key);
+        boolean hasTransumationOrb = false;
         int replacementInInventory = 0;
 
-        ItemStack replacementStack = new ItemStack(repItemInst);
-        replacementStack.setItemDamage(repItemMeta);
+        // ItemStack for comparison
+        ItemStack replacementStack = InventoryUtils.stackOf(repItemInst, replacementMeta);
+        
         for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
             ItemStack slot = player.inventory.getStackInSlot(i);
             if(slot.isItemEqual(replacementStack)) {
-//            if(slot.getItem() == ) {
                 replacementInInventory += slot.getCount();
             }
             
-//            if(useTransmutationEnabled && slot.getItem() == ModItems.transmutationStone) {
-//                useTransmutation = true;
-//            }
+            if(useTransmutationEnabled && slot.getItem() == ModItems.transmutationStone) {
+                hasTransumationOrb = true;
+            }
         }
-        
-        Utils.getLogger().info(String.format("invetory serach result: required=%d, aviliable=%d",
-                blocksAffectedCount, replacementInInventory));
         
         if(player.isCreative()) {
             replaceBlocks(world, affectedBlocks, exchangeSource, replacementBlock);
             return EnumActionResult.SUCCESS;
         }
         
-//        Utils.getLogger().info(String.format("blocksAffected=%d, avaliableBlocks=%d",
-//                blocksAffectedCount, replacementInInventory));;
+        // Survival-only below
         
         if(blocksAffectedCount > replacementInInventory) {
             return EnumActionResult.FAIL;
         }
         
-        int decreamentRequested = blocksAffectedCount;
-        
-        for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
-            ItemStack slot = player.inventory.getStackInSlot(i);
-            
-            if(slot.isItemEqual(replacementStack)) {
-                if(slot.getCount() <=  decreamentRequested) {
-                    decreamentRequested -= slot.getCount();
-                    player.inventory.removeStackFromSlot(i);
-                } else {
-                    slot.setCount( slot.getCount() - decreamentRequested );
-                    decreamentRequested = 0;
-                    break;
-                }
-            }
-        }
+        InventoryUtils.takeItems(player.inventory, replacementStack);
 
-        ItemStack resultStack = new ItemStack(exchBlockInst.getItemDropped(exchangeSource, world.rand, fortuneLevel), quantityDropped);
-        resultStack.setItemDamage(exchBlockInst.getMetaFromState(exchangeSource));
-        player.inventory.addItemStackToInventory(resultStack);
+        // Blocks got exchanged out
+        player.inventory.addItemStackToInventory(
+                InventoryUtils.stackOf(exchBlockInst.getItemDropped(exchangeSource, world.rand, fortuneLevel),
+                                       exchBlockInst.getMetaFromState(exchangeSource),
+                                       quantityDropped));
         
         replaceBlocks(world, affectedBlocks, exchangeSource, replacementBlock);
         

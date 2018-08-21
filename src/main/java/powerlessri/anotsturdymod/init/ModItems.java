@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import powerlessri.anotsturdymod.items.ItemExchanger;
 import powerlessri.anotsturdymod.items.ItemTransmutationStone;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
@@ -21,14 +21,14 @@ public class ModItems {
     public static final List<Item> ITEMS = new ArrayList<Item>();
 
 
-    @GameRegistry.ObjectHolder("ansm:transmutation_orb")
-    public static final ItemTransmutationStone transmutationStone = new ItemTransmutationStone("transmutation_orb");
+    @ObjectHolder("ansm:transmutation_orb")
+    public static final ItemTransmutationStone transmutationStone = null;
 
-    @GameRegistry.ObjectHolder("ansm:basic_exchanger")
-    public static final ItemExchanger exchangerBasic = new ItemExchanger("exchanger", EMachineLevel.BASIC, 1);
+    @ObjectHolder("ansm:basic_exchanger")
+    public static final ItemExchanger exchangerBasic = null;
 
-    @GameRegistry.ObjectHolder("ansm:advanced_exchanger")
-    public static final ItemExchanger exchangerAdvanced = new ItemExchanger("exchanger", EMachineLevel.ADVANCED, 4);
+    @ObjectHolder("ansm:advanced_exchanger")
+    public static final ItemExchanger exchangerAdvanced = null;
 
 
 
