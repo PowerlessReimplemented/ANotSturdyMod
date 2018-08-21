@@ -12,68 +12,69 @@ import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 import powerlessri.anotsturdymod.library.exceptions.IllegalArgumentsException;
 
+
 public class ModItems {
 
-	private ModItems() {
-	}
+    private ModItems() {
+    }
 
-	public static final List<Item> ITEMS = new ArrayList<Item>();
-	
-	
-	@GameRegistry.ObjectHolder("ansm:transmutation_orb")
-	public static final ItemTransmutationStone transmutationStone = new ItemTransmutationStone("transmutation_orb");
-	
-	@GameRegistry.ObjectHolder("ansm:basic_exchanger")
-	public static final ItemExchanger exchangerBasic = new ItemExchanger("exchanger", EMachineLevel.BASIC);
-	
-	@GameRegistry.ObjectHolder("ansm:advanced_exchanger")
-	public static final ItemExchanger exchangerAdvanced = new ItemExchanger("exchanger", EMachineLevel.ADVANCED);
-	
-	
-	
-	/**
-	 * Add array of items to the game.
-	 *
-	 * @param items  (Item[]) The array of items that will be registered.
-	 */
-	@Deprecated
-	public static void registerItems(Item[] items) {
-		for(int i = 0; i < items.length; i++) {
-			ITEMS.add(items[i]);
-		}
-	}
-	
-	
-	
-	/**
-	 * This is the base method of registerItems(), should ONLY called when you want
-	 * to register items with different registryName and unlocalizedName.
-	 *
-	 * @param registry_names     (String[]) The registryName that will be given to the items.
-	 * @param unlocalized_names  (String[]) The unlocalizedName that will be given to the items.
-	 * @param tab                (CreativeTabs) creative tab that items will belong to.
-	 *
-	 * @throws IllegalArguments  When registry_names.length does not equal to unlocalized_names.length. (didn't give enough information to register all items)
-	 */
-	public static void registerItems(String[] registry_names, String[] unlocalized_names, CreativeTabs tab) throws IllegalArgumentsException {
-		if(registry_names.length != unlocalized_names.length) {
-			throw new IllegalArgumentsException();
-		}
+    public static final List<Item> ITEMS = new ArrayList<Item>();
 
-		for(int i = 0; i < registry_names.length; i++) {
-			ITEMS.add(new ItemBasicItem(registry_names[i], unlocalized_names[i]).setCreativeTab(tab));
-		}
-	}
 
-	/**
-	 * In most of the case (aka. registryName == unlocalizedName), you should use this method:
-	 * sharing registryName and unlocalizedName, and give items a custom creative tab.
-	 *
-	 * @param common_names  (String[]) Both registryName and unlocalizedName for the items.
-	 * @param tab           (CreativeTabs) Creative tab that items will belong to.
-	 */
-	public static void registerItems(String[] common_names, CreativeTabs tab) {
-		registerItems(common_names, common_names, tab);
-	}
-	
+    @GameRegistry.ObjectHolder("ansm:transmutation_orb")
+    public static final ItemTransmutationStone transmutationStone = new ItemTransmutationStone("transmutation_orb");
+
+    @GameRegistry.ObjectHolder("ansm:basic_exchanger")
+    public static final ItemExchanger exchangerBasic = new ItemExchanger("exchanger", EMachineLevel.BASIC, 1);
+
+    @GameRegistry.ObjectHolder("ansm:advanced_exchanger")
+    public static final ItemExchanger exchangerAdvanced = new ItemExchanger("exchanger", EMachineLevel.ADVANCED, 4);
+
+
+
+    /**
+     * Add array of items to the game.
+     *
+     * @param items  (Item[]) The array of items that will be registered.
+     */
+    @Deprecated
+    public static void registerItems(Item[] items) {
+        for(int i = 0; i < items.length; i++) {
+            ITEMS.add(items[i]);
+        }
+    }
+
+
+
+    /**
+     * This is the base method of registerItems(), should ONLY called when you want
+     * to register items with different registryName and unlocalizedName.
+     *
+     * @param registry_names     (String[]) The registryName that will be given to the items.
+     * @param unlocalized_names  (String[]) The unlocalizedName that will be given to the items.
+     * @param tab                (CreativeTabs) creative tab that items will belong to.
+     *
+     * @throws IllegalArguments  When registry_names.length does not equal to unlocalized_names.length. (didn't give enough information to register all items)
+     */
+    public static void registerItems(String[] registry_names, String[] unlocalized_names, CreativeTabs tab) throws IllegalArgumentsException {
+        if(registry_names.length != unlocalized_names.length) {
+            throw new IllegalArgumentsException();
+        }
+
+        for(int i = 0; i < registry_names.length; i++) {
+            ITEMS.add(new ItemBasicItem(registry_names[i], unlocalized_names[i]).setCreativeTab(tab));
+        }
+    }
+
+    /**
+     * In most of the case (aka. registryName == unlocalizedName), you should use this method:
+     * sharing registryName and unlocalizedName, and give items a custom creative tab.
+     *
+     * @param common_names  (String[]) Both registryName and unlocalizedName for the items.
+     * @param tab           (CreativeTabs) Creative tab that items will belong to.
+     */
+    public static void registerItems(String[] common_names, CreativeTabs tab) {
+        registerItems(common_names, common_names, tab);
+    }
+
 }
