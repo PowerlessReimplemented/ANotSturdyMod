@@ -4,4 +4,4 @@ item.ansm:basic_exchanger.name=Basic Exchanger
 item.ansm:advanced_exchanger.name=Advanced Exchanger
 
 # Command usage
-command.ansm:debug.usage=/ansm_debug <option> [appends...]
+command.ansm:debug.usage=Usage: /ansm_debug <option> [appends...]
