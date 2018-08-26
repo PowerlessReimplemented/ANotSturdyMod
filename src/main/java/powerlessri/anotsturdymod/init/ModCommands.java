@@ -5,11 +5,12 @@ import java.util.List;
 
 import net.minecraft.command.CommandBase;
 
+
 public class ModCommands {
 
-	private ModCommands() {
-	}
+    private ModCommands() {
+    }
 
-	public static final List<CommandBase> COMMANDS = new ArrayList<CommandBase>();
+    public static final List<CommandBase> COMMANDS = new ArrayList<CommandBase>();
 
 }

@@ -16,198 +16,213 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.init.ModItems;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
-import powerlessri.anotsturdymod.library.enums.EDataType;
 import powerlessri.anotsturdymod.library.enums.EMachineLevel;
-import powerlessri.anotsturdymod.library.interfaces.IEnumNBTTags;
-import powerlessri.anotsturdymod.library.interfaces.ITagBasedItem;
+import powerlessri.anotsturdymod.library.tags.EDataType;
+import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;
+import powerlessri.anotsturdymod.library.tags.ITagBasedItem;
 import powerlessri.anotsturdymod.library.utils.InventoryUtils;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
-import powerlessri.anotsturdymod.library.utils.PosUtils;
+import powerlessri.anotsturdymod.library.utils.PosExtractor;
+
 
 public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
 
-	private final int maxRadius;
+    private final int maxRadius;
 
-	public ItemExchanger(String name, EMachineLevel level, int radius) {
-		super(level.getName() + "_" + name);
+    public ItemExchanger(String name, EMachineLevel level, int radius) {
+        super(level.getName() + "_" + name);
 
-		this.setCreativeTab(CreativeTabs.TOOLS);
-		this.setMaxStackSize(1);
+        this.setCreativeTab(CreativeTabs.TOOLS);
+        this.setMaxStackSize(1);
 
-		this.maxRadius = radius;
-	}
+        this.maxRadius = radius;
+    }
 
-	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing,
-			float hitX, float hitY, float hitZ) {
-		if (world.isRemote) {
-			if (!player.isSneaking()) {
-				player.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0f, 1.0f);
-			}
+    @Override
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing,
+            float hitX, float hitY, float hitZ) {
+        if(world.isRemote) {
+            if(!player.isSneaking()) {
+                player.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0f, 1.0f);
+            }
 
-			return EnumActionResult.SUCCESS;
-		}
+            return EnumActionResult.SUCCESS;
+        }
 
-		ItemStack exchanger = player.getHeldItem(hand);
-		this.updateItemTag(exchanger);
+        ItemStack exchanger = player.getHeldItem(hand);
+        this.updateItemTag(exchanger);
 
-		if (player.isSneaking()) {
-			return selectTargetBlock(exchanger, world.getBlockState(pos));
-		}
+        if(player.isSneaking()) {
+            return selectTargetBlock(exchanger, world.getBlockState(pos));
+        }
 
-		return attemptExchange(exchanger, player, world, pos, facing);
-	}
+        return attemptExchange(exchanger, player, world, pos, facing);
+    }
 
-	private EnumActionResult selectTargetBlock(ItemStack exchanger, IBlockState pointerBlock) {
-		NBTTagCompound tag = exchanger.getTagCompound();
+    private EnumActionResult selectTargetBlock(ItemStack exchanger, IBlockState pointerBlock) {
+        NBTTagCompound tag = exchanger.getTagCompound();
 
-		tag.setString(EnumTags.TARGET_BLOCK.key, pointerBlock.getBlock().getRegistryName().toString());
-		tag.setByte(EnumTags.TARGET_META.key, (byte) pointerBlock.getBlock().getMetaFromState(pointerBlock));
+        tag.setString(EnumTags.TARGET_BLOCK.key, pointerBlock.getBlock().getRegistryName().toString());
+        tag.setByte(EnumTags.TARGET_META.key, (byte) pointerBlock.getBlock().getMetaFromState(pointerBlock));
 
-		return EnumActionResult.SUCCESS;
-	}
+        return EnumActionResult.SUCCESS;
+    }
 
-	private EnumActionResult attemptExchange(ItemStack exchanger, EntityPlayer player, World world, BlockPos posHit,
-			EnumFacing faceHit) {
-		NBTTagCompound tag = exchanger.getTagCompound();
+    private EnumActionResult attemptExchange(ItemStack exchanger, EntityPlayer player, World world, BlockPos posHit,
+            EnumFacing faceHit) {
+        NBTTagCompound tag = exchanger.getTagCompound();
 
-		String replacementName = tag.getString(EnumTags.TARGET_BLOCK.key);
-		int replacementMeta = tag.getByte(EnumTags.TARGET_META.key);
+        String replacementName = tag.getString(EnumTags.TARGET_BLOCK.key);
+        int replacementMeta = tag.getByte(EnumTags.TARGET_META.key);
 
-		// TODO get item's fortune/silk touch by tag
-		int radius = tag.getByte(EnumTags.RADIUS.key);
-		boolean isSilkTouch = false;
-		int fortuneLevel = 0;
+        // TODO get item's fortune/silk touch by tag
+        int radius = tag.getByte(EnumTags.RADIUS.key);
+        boolean isSilkTouch = false;
+        int fortuneLevel = 0;
 
-		@SuppressWarnings("deprecation")
-		IBlockState replacementBlock = Block.getBlockFromName(replacementName).getStateFromMeta(replacementMeta);
-		IBlockState exchangeSource = world.getBlockState(posHit);
-		Block repBlockInst = replacementBlock.getBlock();
-		Block exchBlockInst = exchangeSource.getBlock();
-		Item repItemInst = Item.getItemFromBlock(repBlockInst);
+        @SuppressWarnings("deprecation")
+        IBlockState replacementBlock = Block.getBlockFromName(replacementName).getStateFromMeta(replacementMeta);
+        IBlockState exchangeSource = world.getBlockState(posHit);
+        Block repBlockInst = replacementBlock.getBlock();
+        Block exchBlockInst = exchangeSource.getBlock();
+        Item repItemInst = Item.getItemFromBlock(repBlockInst);
 
-		Iterable<BlockPos> affectedBlocks = PosUtils.blocksOnPlane(posHit, faceHit, radius);
-		int quantityDropped = 0;
-		// Actual amount of block gets exchanged
-		int blocksAffectedCount = 0;
+        Iterable<BlockPos> posList = PosExtractor.posOnPlane(posHit, faceHit, radius);
 
-		for (BlockPos pos : affectedBlocks) {
-			IBlockState state = world.getBlockState(pos);
-			if (state != exchangeSource) {
-				continue;
-			}
+        int quantityDropped = 0;
+        // Actual amount of block gets exchanged
+        int blockAffected = 0;
 
-			quantityDropped += isSilkTouch ? 1 : state.getBlock().quantityDropped(state, fortuneLevel, world.rand);
-			blocksAffectedCount++;
-		}
+        for(BlockPos pos : posList) {
+            IBlockState state = world.getBlockState(pos);
 
-		boolean useTransmutationEnabled = tag.getBoolean(EnumTags.USE_TRANSMUTATION_ORB.key);
-		boolean hasTransumationOrb = false;
-		int replacementInInventory = 0;
+            if(state != exchangeSource) {
+                quantityDropped += isSilkTouch ? 1 : state.getBlock().quantityDropped(state, fortuneLevel, world.rand);
+                blockAffected++;
+            }
+        }
 
-		// ItemStack for comparison
-		ItemStack replacementStack = InventoryUtils.stackOf(repItemInst, replacementMeta);
+        boolean useTransmutationEnabled = tag.getBoolean(EnumTags.USE_TRANSMUTATION_ORB.key);
+        boolean hasTransumationOrb = false;
+        int replacementInInventory = 0;
 
-		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-			ItemStack slot = player.inventory.getStackInSlot(i);
-			if (slot.isItemEqual(replacementStack)) {
-				replacementInInventory += slot.getCount();
-			}
+        // ItemStack for comparison
+        ItemStack replacementStack = InventoryUtils.stackOf(repItemInst, replacementMeta);
 
-			if (useTransmutationEnabled && slot.getItem() == ModItems.transmutationStone) {
-				hasTransumationOrb = true;
-			}
-		}
+        for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+            ItemStack slot = player.inventory.getStackInSlot(i);
+            if(slot.isItemEqual(replacementStack)) {
+                replacementInInventory += slot.getCount();
+            }
 
-		if (player.isCreative()) {
-			replaceBlocks(world, affectedBlocks, exchangeSource, replacementBlock);
-			return EnumActionResult.SUCCESS;
-		}
+            if(useTransmutationEnabled && slot.getItem() == ModItems.transmutationStone) {
+                hasTransumationOrb = true;
+            }
+        }
 
-		// Survival-only below
+        if(player.isCreative()) {
+            replaceBlocks(world, posList, exchangeSource, replacementBlock);
+            return EnumActionResult.SUCCESS;
+        }
 
-		if (blocksAffectedCount > replacementInInventory) {
-			return EnumActionResult.FAIL;
-		}
+        // Survival-only below
 
-		InventoryUtils.takeItems(player.inventory, replacementStack);
+        if(blockAffected > replacementInInventory) {
+            return EnumActionResult.FAIL;
+        }
 
-		// Blocks got exchanged out
-		player.inventory.addItemStackToInventory(
-				InventoryUtils.stackOf(exchBlockInst.getItemDropped(exchangeSource, world.rand, fortuneLevel),
-						exchBlockInst.getMetaFromState(exchangeSource), quantityDropped));
+        InventoryUtils.takeItems(player.inventory, replacementStack);
 
-		replaceBlocks(world, affectedBlocks, exchangeSource, replacementBlock);
+        // Blocks got exchanged out
+        player.inventory
+                .addItemStackToInventory(
+                        InventoryUtils
+                                .stackOf(
+                                        isSilkTouch ? Item.getItemFromBlock(exchBlockInst)
+                                                : exchBlockInst.getItemDropped(exchangeSource, world.rand,
+                                                        fortuneLevel),
+                                        exchBlockInst.getMetaFromState(exchangeSource), quantityDropped));
 
-		return EnumActionResult.SUCCESS;
-	}
+        replaceBlocks(world, posList, exchangeSource, replacementBlock);
 
-	private void replaceBlocks(World world, Iterable<BlockPos> posList, IBlockState from, IBlockState to) {
-		for (BlockPos pos : posList) {
-			IBlockState state = world.getBlockState(pos);
-			if (state != from) {
-				continue;
-			}
+        return EnumActionResult.SUCCESS;
+    }
 
-			world.setBlockState(pos, to);
-		}
-	}
+    private boolean isStackSame(ItemStack stack1, ItemStack stack2, boolean matchTransmutation) {
+        if(matchTransmutation) {
+            // TODO match world transmutation
+            return stack1.isItemEqual(stack2);
+        }
 
-	public static enum EnumTags implements IEnumNBTTags<Object> {
+        return stack1.isItemEqual(stack2);
+    }
 
-		RADIUS("radius", (byte) 0, EDataType.BYTE), MAX_RADIUS("max_radius", (byte) -1, EDataType.BYTE),
+    private void replaceBlocks(World world, Iterable<BlockPos> posList, IBlockState from, IBlockState to) {
+        for(BlockPos pos : posList) {
+            IBlockState state = world.getBlockState(pos);
+            if(state != from) {
+                continue;
+            }
 
-		TARGET_BLOCK("target_block", Blocks.AIR.getRegistryName().toString(), EDataType.STRING),
-		TARGET_META("target_meta", (byte) 0, EDataType.BYTE),
+            world.setBlockState(pos, to);
+        }
+    }
 
-		USE_TRANSMUTATION_ORB("use_transmutations", false, EDataType.BOOLEAN);
+    public static enum EnumTags implements IEnumNBTTags<Object> {
 
-		EDataType type;
-		String key;
-		Object defaultValue;
+        RADIUS("radius", (byte) 0, EDataType.BYTE), MAX_RADIUS("max_radius", (byte) -1, EDataType.BYTE),
 
-		private EnumTags(String key, Object defaultVal, EDataType type) {
-			this.key = key;
-			this.defaultValue = defaultVal;
-			this.type = type;
-		}
+        TARGET_BLOCK("target_block", Blocks.AIR.getRegistryName().toString(), EDataType.STRING),
+        TARGET_META("target_meta", (byte) 0, EDataType.BYTE),
 
-		@Override
-		public EDataType getType() {
-			return this.type;
-		}
+        USE_TRANSMUTATION_ORB("use_transmutations", false, EDataType.BOOLEAN);
 
-		@Override
-		public String getKey() {
-			return this.key;
-		}
+        EDataType type;
+        String key;
+        Object defaultValue;
 
-		@Override
-		public Object getDefaultValue() {
-			return this.defaultValue;
-		}
+        private EnumTags(String key, Object defaultVal, EDataType type) {
+            this.key = key;
+            this.defaultValue = defaultVal;
+            this.type = type;
+        }
 
-	}
+        @Override
+        public EDataType getType() {
+            return this.type;
+        }
 
-	@Override
-	public NBTTagCompound getDefaultTag() {
-		NBTTagCompound tag = new NBTTagCompound();
-		NBTUtils.buildTagWithDefault(tag, EnumTags.values());
-		return tag;
-	}
+        @Override
+        public String getKey() {
+            return this.key;
+        }
 
-	@Override
-	public void updateItemTag(ItemStack stack) {
-		if (!stack.hasTagCompound()) {
-			this.buildDefaultTag(stack);
-		}
+        @Override
+        public Object getDefaultValue() {
+            return this.defaultValue;
+        }
 
-		NBTTagCompound tag = stack.getTagCompound();
-		if (tag.getByte(EnumTags.MAX_RADIUS.key) == -1) {
-			NBTUtils.setTagEnum(tag, EnumTags.MAX_RADIUS, this.maxRadius);
-		}
+    }
 
-		tag.setByte(EnumTags.RADIUS.key, (byte) 2);
-	}
+    @Override
+    public NBTTagCompound getDefaultTag() {
+        NBTTagCompound tag = new NBTTagCompound();
+        NBTUtils.buildTagWithDefault(tag, EnumTags.values());
+        return tag;
+    }
+
+    @Override
+    public void updateItemTag(ItemStack stack) {
+        if(!stack.hasTagCompound()) {
+            this.buildDefaultTag(stack);
+        }
+
+        NBTTagCompound tag = stack.getTagCompound();
+        if(tag.getByte(EnumTags.MAX_RADIUS.key) == -1) {
+            NBTUtils.setTagEnum(tag, EnumTags.MAX_RADIUS, this.maxRadius);
+        }
+
+        tag.setByte(EnumTags.RADIUS.key, (byte) 2);
+    }
 
 }

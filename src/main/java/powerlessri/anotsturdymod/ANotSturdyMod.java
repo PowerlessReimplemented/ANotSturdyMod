@@ -12,47 +12,48 @@ import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.proxy.CommonProxy;
 
+
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class ANotSturdyMod {
 
-	@Mod.Instance(Reference.MODID)
-	public static ANotSturdyMod instance;
+    @Mod.Instance(Reference.MODID)
+    public static ANotSturdyMod instance;
 
-	@SidedProxy(serverSide = Reference.SERVER_PROXY_CLASS, clientSide = Reference.CLIENT_PROXY_CLASS)
-	public static CommonProxy proxy;
+    @SidedProxy(serverSide = Reference.SERVER_PROXY_CLASS, clientSide = Reference.CLIENT_PROXY_CLASS)
+    public static CommonProxy proxy;
 
-	// Side-dependent start //
+    // Side-dependent start //
 
-	public ReloadHandler reloadHandler;
+    public ReloadHandler reloadHandler;
 
-	// Side-dependent end //
+    // Side-dependent end //
 
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-		Utils.getLogger().info(Reference.MODID + " excuting preInit");
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        Utils.getLogger().info(Reference.MODID + " excuting preInit");
 
-		proxy.preInit(event);
-	}
+        proxy.preInit(event);
+    }
 
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		Utils.getLogger().info(Reference.MODID + " excuting init");
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
+        Utils.getLogger().info(Reference.MODID + " excuting init");
 
-		proxy.init(event);
-	}
+        proxy.init(event);
+    }
 
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
-		Utils.getLogger().info(Reference.MODID + " excuting postInit");
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        Utils.getLogger().info(Reference.MODID + " excuting postInit");
 
-		proxy.postInit(event);
-	}
+        proxy.postInit(event);
+    }
 
-	@EventHandler
-	public void serverStarting(FMLServerStartingEvent event) {
-		Utils.getLogger().info(Reference.MODID + " excuting serverStarting");
+    @EventHandler
+    public void serverStarting(FMLServerStartingEvent event) {
+        Utils.getLogger().info(Reference.MODID + " excuting serverStarting");
 
-		proxy.serverStarting(event);
-	}
+        proxy.serverStarting(event);
+    }
 
 }

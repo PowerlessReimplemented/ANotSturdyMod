@@ -4,17 +4,18 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 
+
 public class CommandAnsm extends CommandStandardReloadable {
 
-	public CommandAnsm() {
-		super("ansm");
+    public CommandAnsm() {
+        super("ansm");
 
-		this.reload();
-	}
+        this.reload();
+    }
 
-	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+    @Override
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 
-	}
+    }
 
 }

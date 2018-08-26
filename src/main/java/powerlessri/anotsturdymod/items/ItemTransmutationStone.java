@@ -13,146 +13,147 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
-import powerlessri.anotsturdymod.library.enums.EDataType;
-import powerlessri.anotsturdymod.library.interfaces.IEnumNBTTags;
-import powerlessri.anotsturdymod.library.interfaces.ITagBasedItem;
+import powerlessri.anotsturdymod.library.tags.EDataType;
+import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;
+import powerlessri.anotsturdymod.library.tags.ITagBasedItem;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
-import powerlessri.anotsturdymod.library.utils.PosUtils;
+import powerlessri.anotsturdymod.library.utils.PosExtractor;
+
 
 public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedItem {
 
-	public ItemTransmutationStone(String name) {
-		super(name);
+    public ItemTransmutationStone(String name) {
+        super(name);
 
-		this.setCreativeTab(CreativeTabs.TOOLS);
-		this.setMaxStackSize(1);
-	}
+        this.setCreativeTab(CreativeTabs.TOOLS);
+        this.setMaxStackSize(1);
+    }
 
-	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
-		String name = super.getItemStackDisplayName(stack);
+    @Override
+    public String getItemStackDisplayName(ItemStack stack) {
+        String name = super.getItemStackDisplayName(stack);
 
-		this.updateItemTag(stack);
-		int sideLength = this.getByteTag(stack, EnumTags.CHARGE) * 2 + 1;
-		name = name + " (" + sideLength + "*" + sideLength + ")";
+        this.updateItemTag(stack);
+        int sideLength = this.getByteTag(stack, EnumTags.CHARGE) * 2 + 1;
+        name = name + " (" + sideLength + "*" + sideLength + ")";
 
-		return name;
-	}
+        return name;
+    }
 
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
-		ItemStack resultStack = player.getHeldItem(hand);
+        ItemStack resultStack = player.getHeldItem(hand);
 
-		if (world.isRemote)
-			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
+        if(world.isRemote)
+            return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
 
-		this.updateItemTag(resultStack);
-		this.cycleByteTag(resultStack, EnumTags.CHARGE, (byte) 1);
+        this.updateItemTag(resultStack);
+        this.cycleByteTag(resultStack, EnumTags.CHARGE, (byte) 1);
 
-		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
-	}
+        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
+    }
 
-	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing,
-			float hitX, float hitY, float hitZ) {
+    @Override
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing,
+            float hitX, float hitY, float hitZ) {
 
-		if (world.isRemote)
-			return EnumActionResult.SUCCESS;
+        if(world.isRemote)
+            return EnumActionResult.SUCCESS;
 
-		IBlockState pointerBlock = world.getBlockState(pos);
-		IBlockState next = WorldTransmutation.getTransmutationNext(world, pos, pointerBlock,
-				player.isSneaking() ? -1 : 1);
+        IBlockState pointerBlock = world.getBlockState(pos);
+        IBlockState next = WorldTransmutation.getTransmutationNext(world, pos, pointerBlock,
+                player.isSneaking() ? -1 : 1);
 
-		// Didn't found any matched transmutation
-		if (next == null)
-			return EnumActionResult.FAIL;
+        // Didn't found any matched transmutation
+        if(next == null)
+            return EnumActionResult.FAIL;
 
-		int charge = (int) this.getByteTag(player.getHeldItem(hand), EnumTags.CHARGE);
-		for (BlockPos changingPos : PosUtils.blocksOnPlane(pos, facing, charge)) {
-			// Only the block that is same to the block at player's pointer will get changed
-			if (pointerBlock == world.getBlockState(changingPos)) {
-				world.setBlockState(changingPos, next);
-			}
-		}
+        int charge = (int) this.getByteTag(player.getHeldItem(hand), EnumTags.CHARGE);
+        for(BlockPos changingPos : PosExtractor.posOnPlane(pos, facing, charge)) {
+            // Only the block that is same to the block at player's pointer will get changed
+            if(pointerBlock == world.getBlockState(changingPos)) {
+                world.setBlockState(changingPos, next);
+            }
+        }
 
-		return EnumActionResult.SUCCESS;
-	}
+        return EnumActionResult.SUCCESS;
+    }
 
-	private byte getByteTag(ItemStack stack, EnumTags tag) {
-		return stack.getTagCompound().getByte(tag.key);
-	}
+    private byte getByteTag(ItemStack stack, EnumTags tag) {
+        return stack.getTagCompound().getByte(tag.key);
+    }
 
-	private void cycleByteTag(ItemStack stack, EnumTags targetNbt, byte increase) {
-		NBTTagCompound tag = NBTUtils.getTagSafe(stack);
-		byte originalVal = getByteTag(stack, targetNbt);
+    private void cycleByteTag(ItemStack stack, EnumTags targetNbt, byte increase) {
+        NBTTagCompound tag = NBTUtils.getTagSafe(stack);
+        byte originalVal = getByteTag(stack, targetNbt);
 
-		if (originalVal >= targetNbt.max) {
-			tag.setByte(targetNbt.key, (byte) 0);
-		} else {
-			NBTUtils.setTagEnum(tag, targetNbt, (byte) (originalVal + increase));
-		}
-	}
+        if(originalVal >= targetNbt.max) {
+            tag.setByte(targetNbt.key, (byte) 0);
+        } else {
+            NBTUtils.setTagEnum(tag, targetNbt, (byte) (originalVal + increase));
+        }
+    }
 
-	private static enum EnumTags implements IEnumNBTTags<Object> {
+    private static enum EnumTags implements IEnumNBTTags<Object> {
 
-		CHARGE("charge", 0, EDataType.BYTE, 5);
+        CHARGE("charge", 0, EDataType.BYTE, 5);
 
-		// You should never modify these values!
-		EDataType type;
-		String key;
-		Object defaultValue;
+        // You should never modify these values!
+        EDataType type;
+        String key;
+        Object defaultValue;
 
-		/** Numbers ONLY */
-		int max;
+        /** Numbers ONLY */
+        int max;
 
-		private EnumTags(String key, String defaultVal, EDataType type) {
-			this.key = key;
-			this.defaultValue = defaultVal;
-			this.type = type;
-		}
+        private EnumTags(String key, String defaultVal, EDataType type) {
+            this.key = key;
+            this.defaultValue = defaultVal;
+            this.type = type;
+        }
 
-		private EnumTags(String key, int defaultVal, EDataType type, int max) {
-			this.key = key;
-			if (type == EDataType.BYTE) {
-				this.defaultValue = (byte) defaultVal;
-				this.max = (byte) max;
-			} else {
-				this.defaultValue = defaultVal;
-				this.max = max;
-			}
-			this.type = type;
-		}
+        private EnumTags(String key, int defaultVal, EDataType type, int max) {
+            this.key = key;
+            if(type == EDataType.BYTE) {
+                this.defaultValue = (byte) defaultVal;
+                this.max = (byte) max;
+            } else {
+                this.defaultValue = defaultVal;
+                this.max = max;
+            }
+            this.type = type;
+        }
 
-		@Override
-		public EDataType getType() {
-			return this.type;
-		}
+        @Override
+        public EDataType getType() {
+            return this.type;
+        }
 
-		@Override
-		public String getKey() {
-			return this.key;
-		}
+        @Override
+        public String getKey() {
+            return this.key;
+        }
 
-		@Override
-		public Object getDefaultValue() {
-			return this.defaultValue;
-		}
+        @Override
+        public Object getDefaultValue() {
+            return this.defaultValue;
+        }
 
-	}
+    }
 
-	@Override
-	public NBTTagCompound getDefaultTag() {
-		NBTTagCompound tag = new NBTTagCompound();
-		NBTUtils.buildTagWithDefault(tag, EnumTags.values());
-		return tag;
-	}
+    @Override
+    public NBTTagCompound getDefaultTag() {
+        NBTTagCompound tag = new NBTTagCompound();
+        NBTUtils.buildTagWithDefault(tag, EnumTags.values());
+        return tag;
+    }
 
-	@Override
-	public void updateItemTag(ItemStack stack) {
-		if (stack.getTagCompound() == null) {
-			this.buildDefaultTag(stack);
-		}
-	}
+    @Override
+    public void updateItemTag(ItemStack stack) {
+        if(stack.getTagCompound() == null) {
+            this.buildDefaultTag(stack);
+        }
+    }
 
 }
