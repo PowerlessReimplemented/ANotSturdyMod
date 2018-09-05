@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+import powerlessri.anotsturdymod.blocks.BlockLightCube;
+import powerlessri.anotsturdymod.items.ItemTransmutationStone;
 
 
 public class ModBlocks {
@@ -12,5 +15,8 @@ public class ModBlocks {
     }
 
     public static final List<Block> BLOCKS = new ArrayList<Block>();
+    
+    @ObjectHolder("ansm:light_cube")
+    public static final BlockLightCube LIGHT_CUBE = null;
 
 }

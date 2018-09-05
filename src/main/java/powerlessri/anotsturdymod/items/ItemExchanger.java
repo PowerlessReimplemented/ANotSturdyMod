@@ -41,6 +41,7 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing,
             float hitX, float hitY, float hitZ) {
+        
         if(world.isRemote) {
             if(!player.isSneaking()) {
                 player.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0f, 1.0f);
@@ -115,7 +116,7 @@ public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
                 replacementInInventory += slot.getCount();
             }
 
-            if(useTransmutationEnabled && slot.getItem() == ModItems.transmutationStone) {
+            if(useTransmutationEnabled && slot.getItem() == ModItems.TRANSMUTATION_ORB) {
                 hasTransumationOrb = true;
             }
         }

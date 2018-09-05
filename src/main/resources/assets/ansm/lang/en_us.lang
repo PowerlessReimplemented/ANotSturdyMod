@@ -2,6 +2,7 @@
 item.ansm:transmutation_orb.name=Orb of Transmutations
 item.ansm:basic_exchanger.name=Basic Exchanger
 item.ansm:advanced_exchanger.name=Advanced Exchanger
+item.ansm:basic_lighting_placer.name=Illuminator
 
 # Command usage
 command.ansm:debug.usage=Usage: /ansm_debug <option> [appends...]

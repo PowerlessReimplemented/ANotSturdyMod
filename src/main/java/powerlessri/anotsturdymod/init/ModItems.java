@@ -7,6 +7,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import powerlessri.anotsturdymod.items.ItemExchanger;
+import powerlessri.anotsturdymod.items.ItemLightingPlacer;
 import powerlessri.anotsturdymod.items.ItemTransmutationStone;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.library.exceptions.IllegalArgumentsException;
@@ -20,13 +21,16 @@ public class ModItems {
     public static final List<Item> ITEMS = new ArrayList<Item>();
 
     @ObjectHolder("ansm:transmutation_orb")
-    public static final ItemTransmutationStone transmutationStone = null;
+    public static final ItemTransmutationStone TRANSMUTATION_ORB = null;
 
     @ObjectHolder("ansm:basic_exchanger")
-    public static final ItemExchanger exchangerBasic = null;
+    public static final ItemExchanger BASIC_EXCHANGER = null;
 
     @ObjectHolder("ansm:advanced_exchanger")
-    public static final ItemExchanger exchangerAdvanced = null;
+    public static final ItemExchanger ADVANCED_EXCHAGNER = null;
+    
+    @ObjectHolder("ansm:basic_lighting_placer")
+    public static final ItemLightingPlacer BASIC_LIGHTING_PLACER = null;
 
     /**
      * Add array of items to the game.
