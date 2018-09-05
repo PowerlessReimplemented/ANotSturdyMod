@@ -12,8 +12,8 @@ public class ItemVariantedItem extends ItemBasicItem {
     // unlocalizedName for each item.
     public final List<String> VARIANT_NAMES = new ArrayList<String>();
 
-    public ItemVariantedItem(String registry_name, String unlocalized_name, CreativeTabs tab) {
-        super(registry_name, unlocalized_name);
+    public ItemVariantedItem(String registryName, CreativeTabs tab) {
+        super(registryName);
 
         this.setCreativeTab(tab);
     }

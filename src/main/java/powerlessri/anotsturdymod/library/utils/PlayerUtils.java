@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.utils;
+package powerlessri.anotsturdymod.library.utils;
 
 public class PlayerUtils {
 

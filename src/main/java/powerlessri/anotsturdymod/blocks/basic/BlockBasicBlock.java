@@ -11,7 +11,7 @@ import powerlessri.anotsturdymod.library.enums.EHarvestTool;
 public class BlockBasicBlock extends BlockBase {
 
     public BlockBasicBlock(String name, Material material) {
-        super(name, name, material);
+        super(name, material);
     }
 
     public void registerModel() {

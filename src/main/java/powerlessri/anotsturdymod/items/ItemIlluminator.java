@@ -13,9 +13,9 @@ import powerlessri.anotsturdymod.init.ModBlocks;
 import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 
-public class ItemLightingPlacer extends ItemBasicItem {
+public class ItemIlluminator extends ItemBasicItem {
 
-    public ItemLightingPlacer(String name, EMachineLevel level) {
+    public ItemIlluminator(String name, EMachineLevel level) {
         super(level.getName() + "_" + name);
         
         this.setCreativeTab(CreativeTabs.TOOLS);

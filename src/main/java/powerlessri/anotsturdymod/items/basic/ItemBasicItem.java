@@ -6,12 +6,8 @@ import powerlessri.anotsturdymod.items.base.ItemBase;
 
 public class ItemBasicItem extends ItemBase {
 
-    public ItemBasicItem(String registryName, String unlocalizedName) {
-        super(registryName, unlocalizedName);
-    }
-
     public ItemBasicItem(String name) {
-        this(name, name);
+        super(name, name);
     }
 
     public void registerModel() {
