@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
+import powerlessri.anotsturdymod.library.utils.Utils;
 
 
 /**
@@ -18,6 +19,8 @@ import net.minecraft.util.text.TextComponentString;
  */
 public class CommandDebug extends CommandStandardReloadable {
 
+    public static final String OUTPUT_DESCRIPTION = ".outputDescription";
+
     public CommandDebug() {
         super("debug");
 
@@ -25,12 +28,23 @@ public class CommandDebug extends CommandStandardReloadable {
             EntityPlayer player = (EntityPlayer) sender;
             ItemStack mainHand = player.getHeldItemMainhand();
 
-            if(rest.length == 0 || rest[0].equals("id"))
-                sender.sendMessage(new TextComponentString("Item CodeId: " + mainHand.getItem().getRegistryName()));
-            if(rest.length == 0 || rest[0].equals("meta"))
-                sender.sendMessage(new TextComponentString("Item Metadata: " + mainHand.getItemDamage()));
-            if(rest.length == 0 || rest[0].equals("nbt"))
-                sender.sendMessage(new TextComponentString("Item NBT: " + mainHand.getTagCompound()));
+            if(rest.length == 0 || rest[0].equals("id")) {
+                sender.sendMessage(new TextComponentString(
+                        Utils.readCommand(keyword, "id" + OUTPUT_DESCRIPTION) +
+                        mainHand.getItem().getRegistryName()));
+            }
+
+            if(rest.length == 0 || rest[0].equals("meta")) {
+                sender.sendMessage(new TextComponentString(
+                        Utils.readCommand(keyword, "meta" + OUTPUT_DESCRIPTION) +
+                        mainHand.getItemDamage()));
+            }
+
+            if(rest.length == 0 || rest[0].equals("nbt")) {
+                sender.sendMessage(new TextComponentString(
+                        Utils.readCommand(keyword, "nbt" + OUTPUT_DESCRIPTION) +
+                        mainHand.getTagCompound()));
+            }
         });
 
         this.useModIDPrefix = true;
@@ -49,7 +63,7 @@ public class CommandDebug extends CommandStandardReloadable {
         BiConsumer<ICommandSender, String[]> excution = this.options.get(option);
 
         if(excution == null) {
-            this.sendUnkownUsage(sender);
+            this.sendUnkownSyntax(sender);
             return;
         }
 

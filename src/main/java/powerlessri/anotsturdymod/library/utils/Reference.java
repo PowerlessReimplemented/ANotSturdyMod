@@ -36,8 +36,6 @@ public class Reference {
     public static final String DOMAIN_MINECRAFT = "minecraft";
 
     public static final String COMMAND_RESOURCE_PATH_PREFIX = "command.ansm:";
-    public static final String COMMAND_SUFFIX_KEYWORD = ".keyword";
-    public static final String COMMAND_SUFFIX_USAGE = ".usage";
 
     public static final Style STYLE_EMPTY = new Style();
     public static final Style STYLE_RED = new Style().setColor(TextFormatting.RED);

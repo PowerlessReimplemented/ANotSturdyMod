@@ -31,6 +31,10 @@ public class Utils {
         String result = I18n.translateToLocal(key);
         return result == null ? "" : result;
     }
+    
+    public static String readCommand(String command, String suffix) {
+        return readFromLang(Reference.COMMAND_RESOURCE_PATH_PREFIX + command + "." + suffix);
+    }
 
     private static TextComponentString textStringWithStyle(String text, Style style) {
         TextComponentString result = new TextComponentString(text);

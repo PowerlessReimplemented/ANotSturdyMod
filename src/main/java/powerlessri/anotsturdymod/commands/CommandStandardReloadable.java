@@ -14,10 +14,15 @@ import powerlessri.anotsturdymod.library.utils.Utils;
 
 public abstract class CommandStandardReloadable extends CommandBase implements IResourcesReloadable {
 
+    public static final String SUFFIX_KEYWORD = "keyword";
+    public static final String SUFFIX_USAGE = "usage";
+    public static final String SUFFIX_UNKOWN_SYNTAX = "unkownSyntax";
+    
+    
+    
     protected final Map<String, BiConsumer<ICommandSender, String[]>> options;
 
     protected final String keyword;
-    protected final String langKey;
 
     protected boolean useModIDPrefix;
     protected char prefixSeparator;
@@ -29,7 +34,6 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
     public CommandStandardReloadable(String keyword) {
         this.options = new HashMap<String, BiConsumer<ICommandSender, String[]>>();
         this.keyword = keyword;
-        this.langKey = Reference.COMMAND_RESOURCE_PATH_PREFIX + this.keyword;
 
         this.useModIDPrefix = false;
         this.prefixSeparator = ':';
@@ -37,19 +41,13 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
         ANotSturdyMod.instance.reloadHandler.addLang(this);
     }
 
-    protected void setupUsageFromLang() {
-        this.usage = Utils.readFromLang(this.langKey + Reference.COMMAND_SUFFIX_USAGE);
-    }
-
-    protected void setupUnkownSyntaxFromLang() {
-        this.errorUnkownSyntax = Utils.readFromLang(this.langKey + Reference.COMMAND_SUFFIX_USAGE);
-    }
-
+    
     @Override
     public String getName() {
         if(this.useModIDPrefix) {
             return Reference.MODID + this.prefixSeparator + this.keyword;
         }
+        
         return this.keyword;
     }
 
@@ -58,23 +56,34 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
         return this.usage;
     }
 
-    public String getUnkownUsage(ICommandSender sender) {
+    /** Message when option does not exist */
+    public String getUnkownSyntax(ICommandSender sender) {
         return this.errorUnkownSyntax;
     }
 
-    public void sendUnkownUsage(ICommandSender sender) {
-        sender.sendMessage(Utils.createStringRed(this.getUnkownUsage(sender)));
+    
+    public void sendUnkownSyntax(ICommandSender sender) {
+        sender.sendMessage(Utils.createStringRed(this.getUnkownSyntax(sender)));
     }
 
-    public void sendUnkownUsage(ICommandSender sender, String description) {
-        sendUnkownUsage(sender);
+    public void sendUnkownSyntax(ICommandSender sender, String description) {
+        sendUnkownSyntax(sender);
         sender.sendMessage(Utils.createStringRed(description));
     }
 
+    
     @Override
     public void reload() {
         this.setupUsageFromLang();
         this.setupUnkownSyntaxFromLang();
+    }
+    
+    protected void setupUsageFromLang() {
+        this.usage = Utils.readCommand(this.keyword, SUFFIX_USAGE);
+    }
+
+    protected void setupUnkownSyntaxFromLang() {
+        this.errorUnkownSyntax = Utils.readCommand(this.keyword, SUFFIX_UNKOWN_SYNTAX);
     }
 
 }
