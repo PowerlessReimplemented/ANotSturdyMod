@@ -6,3 +6,6 @@ item.ansm:basic_illuminator.name=照明之杖（基础）
 
 # Command usage
 command.ansm:debug.usage=用法: /ansm_debug <功能> [附加参数...]
+command.ansm:debug.hand.id.outputDescription=物品ID: 
+command.ansm:debug.hand.meta.outputDescription=物品Metadata: 
+command.ansm:debug.hand.nbt.outputDescription=物品NBT: 

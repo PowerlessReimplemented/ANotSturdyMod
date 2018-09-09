@@ -6,3 +6,6 @@ item.ansm:basic_illuminator.name=Illuminator (Basic)
 
 # Command usage
 command.ansm:debug.usage=Usage: /ansm_debug <option> [appends...]
+command.ansm:debug.hand.id.outputDescription=Item CodeID: 
+command.ansm:debug.hand.meta.outputDescription=Item Meta: 
+command.ansm:debug.hand.nbt.outputDescription=Item NBT: 
