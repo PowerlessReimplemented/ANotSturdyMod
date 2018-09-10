@@ -1,3 +1,6 @@
+# Block names
+tile.ansm:infinite_cobble_generator.name=Infinite Cobblestone Generator
+
 # Item names
 item.ansm:transmutation_orb.name=Orb of Transmutations
 item.ansm:basic_exchanger.name=Basic Exchanger
