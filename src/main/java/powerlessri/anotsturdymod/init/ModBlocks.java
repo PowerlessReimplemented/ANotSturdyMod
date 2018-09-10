@@ -5,8 +5,8 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+import powerlessri.anotsturdymod.blocks.BlockInfiniteCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
-import powerlessri.anotsturdymod.items.ItemTransmutationStone;
 
 
 public class ModBlocks {
@@ -18,5 +18,8 @@ public class ModBlocks {
     
     @ObjectHolder("ansm:light_cube")
     public static final BlockLightCube LIGHT_CUBE = null;
+    
+    @ObjectHolder("ansm:infinite_cobble_generator")
+    public static final BlockInfiniteCobbleGenerator INFINTE_COBBLE_GENERATOR = null;
 
 }
