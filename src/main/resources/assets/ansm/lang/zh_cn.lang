@@ -4,6 +4,8 @@ item.ansm:basic_exchanger.name=方块交换器
 item.ansm:advanced_exchanger.name=高级方块交换器
 item.ansm:basic_illuminator.name=照明之杖（基础）
 
+item.ansm.exchangers.error.tileEntity=方块交换器不能作用在Tile Entity上！
+
 # Command usage
 command.ansm:debug.usage=用法: /ansm_debug <功能> [附加参数...]
 command.ansm:debug.hand.id.outputDescription=物品ID: 
