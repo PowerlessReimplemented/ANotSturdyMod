@@ -7,10 +7,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import powerlessri.anotsturdymod.library.handlers.ReloadHandler;
+import powerlessri.anotsturdymod.library.handlers.CommonReloadHandler;
 import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.library.utils.Utils;
-import powerlessri.anotsturdymod.proxy.CommonProxy;
 
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
@@ -24,7 +23,7 @@ public class ANotSturdyMod {
 
     // Side-dependent start //
 
-    public ReloadHandler reloadHandler;
+    public CommonReloadHandler reloadHandler;
 
     // Side-dependent end //
 

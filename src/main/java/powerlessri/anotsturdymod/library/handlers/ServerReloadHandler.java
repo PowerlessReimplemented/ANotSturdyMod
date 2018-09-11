@@ -8,7 +8,7 @@ import java.util.Set;
 import powerlessri.anotsturdymod.library.IResourcesReloadable;
 
 
-public class AnsmReloadHandler extends ReloadHandler {
+public class ServerReloadHandler extends CommonReloadHandler {
 
     private Set<IResourcesReloadable> all;
     private Set<IResourcesReloadable> json;
@@ -17,7 +17,7 @@ public class AnsmReloadHandler extends ReloadHandler {
     private List<IResourcesReloadable> recipes;
     private List<IResourcesReloadable> cfg;
 
-    public AnsmReloadHandler() {
+    public ServerReloadHandler() {
         super();
 
         this.all = new HashSet<IResourcesReloadable>();

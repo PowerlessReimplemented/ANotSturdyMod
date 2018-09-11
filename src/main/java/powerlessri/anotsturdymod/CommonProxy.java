@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.proxy;
+package powerlessri.anotsturdymod;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;

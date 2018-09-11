@@ -4,7 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.IStringSerializable;
 import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.library.INumberSerializable;
+import powerlessri.anotsturdymod.library.IIntegerSerializable;
 
 
 /**
@@ -17,10 +17,13 @@ import powerlessri.anotsturdymod.library.INumberSerializable;
 //     + item model file should be named <registryName>.json too
 public abstract class BasicBlockBase extends BlockBase {
     
-    public enum EHarvestTool implements IStringSerializable {
-        PICKAXE("pickaxe"), AXE("axe"), SHOVEL("shovel"), SWORD("sword");
+    public static enum EHarvestTool implements IStringSerializable {
+        PICKAXE("pickaxe"),
+        AXE("axe"),
+        SHOVEL("shovel"),
+        SWORD("sword");
 
-        private String name;
+        public final String name;
 
         private EHarvestTool(String name) {
             this.name = name;
@@ -33,22 +36,22 @@ public abstract class BasicBlockBase extends BlockBase {
 
     }
     
-    public enum EHarvestLevel implements INumberSerializable {
+    public static enum EHarvestLevel implements IIntegerSerializable {
         
         WOODEN(0), 
         STONE(1), 
         IRON(2), 
         DIAMOND(2);
 
-        private int number;
+        public final int level;
 
         private EHarvestLevel(int numericalId) {
-            this.number = numericalId;
+            this.level = numericalId;
         }
 
         @Override
-        public int getNumber() {
-            return this.number;
+        public int getInt() {
+            return this.level;
         }
 
     }
@@ -74,7 +77,7 @@ public abstract class BasicBlockBase extends BlockBase {
 
 
     public void setHarvestLevel(EHarvestTool tool, EHarvestLevel level) {
-        this.setHarvestLevel(tool.getName(), level.getNumber());
+        this.setHarvestLevel(tool.getName(), level.getInt());
     }
 
     public void setMaxStackSize(int size) {

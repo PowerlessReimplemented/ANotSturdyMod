@@ -13,6 +13,7 @@ import powerlessri.anotsturdymod.init.ModBlocks;
 import powerlessri.anotsturdymod.items.base.BasicItemBase;
 import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 
+
 public class ItemIlluminator extends BasicItemBase {
 
     public ItemIlluminator(String name, EMachineLevel level) {
@@ -31,6 +32,7 @@ public class ItemIlluminator extends BasicItemBase {
         }
         
         BlockPos placementPos = pos.offset(facing);
+        
         IBlockState placementOriginal = world.getBlockState(placementPos);
         Block placementParent = placementOriginal.getBlock();
         

@@ -1,4 +1,4 @@
 package powerlessri.anotsturdymod.library.handlers;
 
-public class ClientReloadHandler extends ReloadHandler {
+public class ClientReloadHandler extends CommonReloadHandler {
 }

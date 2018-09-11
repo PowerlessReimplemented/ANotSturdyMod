@@ -5,9 +5,11 @@ import net.minecraft.util.IStringSerializable;
 
 public enum EMachineLevel implements IStringSerializable {
 
-    BASIC("basic"), ADVANCED("advanced"), ULTIMATE("ultimate");
+    BASIC("basic"),
+    ADVANCED("advanced"),
+    ULTIMATE("ultimate");
 
-    private String name;
+    public final String name;
 
     private EMachineLevel(String name) {
         this.name = name;

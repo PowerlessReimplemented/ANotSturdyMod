@@ -18,7 +18,6 @@ import net.minecraft.world.World;
 import powerlessri.anotsturdymod.init.ModItems;
 import powerlessri.anotsturdymod.items.base.BasicItemBase;
 import powerlessri.anotsturdymod.library.enums.EMachineLevel;
-import powerlessri.anotsturdymod.library.tags.EDataType;
 import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;
 import powerlessri.anotsturdymod.library.tags.ITagBasedItem;
 import powerlessri.anotsturdymod.library.utils.InventoryUtils;

@@ -3,9 +3,9 @@ package powerlessri.anotsturdymod.library.handlers;
 import powerlessri.anotsturdymod.library.IResourcesReloadable;
 
 
-public abstract class ReloadHandler {
+public abstract class CommonReloadHandler {
 
-    public ReloadHandler() {
+    public CommonReloadHandler() {
     }
 
     public void onReload() {

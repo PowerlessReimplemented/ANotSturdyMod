@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.proxy;
+package powerlessri.anotsturdymod;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -8,7 +8,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.library.handlers.ClientReloadHandler;
 
 
