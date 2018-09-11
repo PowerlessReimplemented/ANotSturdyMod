@@ -2,10 +2,7 @@
 	"forge-marker": 1,
 	"variants": {
 		"normal": {
-			"model": "ansm:invisible_light_cube",
-			"textures": {
-				"all": "ansm:blocks/BlockLightCube"
-			}
+			"model": "ansm:invisible_light_cube"
 		}
 	}
 }

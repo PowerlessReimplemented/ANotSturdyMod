@@ -25,10 +25,13 @@ public class ClientProxy extends CommonProxy {
 
     }
 
+    // This method is here just for oCd reasons, it doesn't do anything
     @Override
     public void registerBlockRenderer(Block block, int meta, String id) {
-
+        super.registerBlockRenderer(block, meta, id);
     }
+
+
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {

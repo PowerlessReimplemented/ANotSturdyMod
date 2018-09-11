@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.init.ModItems;
-import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
+import powerlessri.anotsturdymod.items.base.BasicItemBase;
 import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 import powerlessri.anotsturdymod.library.tags.EDataType;
 import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;
@@ -28,7 +28,7 @@ import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.library.utils.Utils;
 
 
-public class ItemExchanger extends ItemBasicItem implements ITagBasedItem {
+public class ItemExchanger extends BasicItemBase implements ITagBasedItem {
 
     private final int maxRadius;
 

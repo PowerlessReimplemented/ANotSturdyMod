@@ -11,7 +11,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
+import powerlessri.anotsturdymod.items.base.BasicItemBase;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.library.tags.EDataType;
 import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;
@@ -20,7 +20,7 @@ import powerlessri.anotsturdymod.library.utils.NBTUtils;
 import powerlessri.anotsturdymod.library.utils.PosExtractor;
 
 
-public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedItem {
+public class ItemTransmutationStone extends BasicItemBase implements ITagBasedItem {
 
     public ItemTransmutationStone(String name) {
         super(name);
