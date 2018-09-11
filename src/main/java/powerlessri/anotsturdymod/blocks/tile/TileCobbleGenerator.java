@@ -4,14 +4,14 @@ import javax.annotation.Nullable;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
 
-public class TileCobbleGenerator extends TileEntity implements IItemHandler, ICapabilityProvider {
+public class TileCobbleGenerator extends TileEntityBase implements IItemHandler, ICapabilityProvider {
 
     private int cobbleRemainded;
     private final ItemStack representaionCobbleStack;

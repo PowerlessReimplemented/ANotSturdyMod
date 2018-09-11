@@ -9,24 +9,24 @@ import powerlessri.anotsturdymod.init.ModItems;
 
 
 @Deprecated
-public abstract class BlockManualCreated extends BlockBase {
+public abstract class ManualCreatedBlockBase extends BlockBase {
 
-    public BlockManualCreated(String registry_name, String unlocalized_name, Material material) {
+    public ManualCreatedBlockBase(String registry_name, String unlocalized_name, Material material) {
         super(registry_name, unlocalized_name, material);
 
         ModBlocks.BLOCKS.add(this);
         ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
     }
 
-    public BlockManualCreated(String name, Material material) {
+    public ManualCreatedBlockBase(String name, Material material) {
         this(name, name, material);
     }
 
-    public BlockManualCreated(String registry_name, String unlocalized_name) {
+    public ManualCreatedBlockBase(String registry_name, String unlocalized_name) {
         this(registry_name, unlocalized_name, Material.ROCK);
     }
 
-    public BlockManualCreated(String common_name) {
+    public ManualCreatedBlockBase(String common_name) {
         this(common_name, common_name);
     }
 

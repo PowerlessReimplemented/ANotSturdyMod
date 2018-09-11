@@ -10,10 +10,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.init.ModBlocks;
-import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
+import powerlessri.anotsturdymod.items.base.BasicItemBase;
 import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 
-public class ItemIlluminator extends ItemBasicItem {
+public class ItemIlluminator extends BasicItemBase {
 
     public ItemIlluminator(String name, EMachineLevel level) {
         super(level.getName() + "_" + name);

@@ -1,7 +1,6 @@
 {
 	"forge-marker": 1,
 	"variants": {
-		"normal": { "model": "ansm:cobblestone_generator_simple" },
-		"inventory": { "model": "ansm:cobblestone_generator_simple" }
+		"normal": { "model": "ansm:cobblestone_generator_simple" }
 	}
 }

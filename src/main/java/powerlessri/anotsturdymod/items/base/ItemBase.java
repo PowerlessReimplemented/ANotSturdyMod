@@ -1,7 +1,8 @@
 package powerlessri.anotsturdymod.items.base;
 
 import net.minecraft.item.Item;
-import powerlessri.anotsturdymod.library.utils.Utils;
+import net.minecraft.util.ResourceLocation;
+import powerlessri.anotsturdymod.library.utils.Reference;
 
 
 public abstract class ItemBase extends Item {
@@ -11,8 +12,8 @@ public abstract class ItemBase extends Item {
     }
 
     public ItemBase(String registryName, String unlocalizedName) {
-        this.setRegistryName(registryName);
-        this.setUnlocalizedName(Utils.formatRegistryId(unlocalizedName));
+        this.setRegistryName(new ResourceLocation(Reference.MODID, registryName));
+        this.setUnlocalizedName(this.getRegistryName().toString());
     }
 
 }

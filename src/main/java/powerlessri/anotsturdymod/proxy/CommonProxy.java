@@ -8,8 +8,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import powerlessri.anotsturdymod.blocks.BlockInfiniteCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
+import powerlessri.anotsturdymod.blocks.base.BasicBlockBase;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
-import powerlessri.anotsturdymod.blocks.basic.BlockBasicBlock;
 import powerlessri.anotsturdymod.commands.CommandAnsm;
 import powerlessri.anotsturdymod.commands.CommandDebug;
 import powerlessri.anotsturdymod.init.ModBlocks;
@@ -18,8 +18,8 @@ import powerlessri.anotsturdymod.init.ModItems;
 import powerlessri.anotsturdymod.items.ItemExchanger;
 import powerlessri.anotsturdymod.items.ItemIlluminator;
 import powerlessri.anotsturdymod.items.ItemTransmutationStone;
+import powerlessri.anotsturdymod.items.base.BasicItemBase;
 import powerlessri.anotsturdymod.items.base.ItemBase;
-import powerlessri.anotsturdymod.items.basic.ItemBasicItem;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 
@@ -34,15 +34,6 @@ public class CommonProxy {
     }
 
 
-
-    public void serverStarting(FMLServerStartingEvent event) {
-        ModCommands.COMMANDS.add(new CommandDebug());
-        ModCommands.COMMANDS.add(new CommandAnsm());
-
-        ModCommands.COMMANDS.forEach((c) -> {
-            event.registerServerCommand(c);
-        });
-    }
 
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
@@ -61,31 +52,40 @@ public class CommonProxy {
         WorldTransmutation.init(event);
     }
 
+    public void serverStarting(FMLServerStartingEvent event) {
+        ModCommands.COMMANDS.add(new CommandDebug());
+        ModCommands.COMMANDS.add(new CommandAnsm());
+
+        ModCommands.COMMANDS.forEach((c) -> {
+            event.registerServerCommand(c);
+        });
+    }
+
 
 
     protected void registerBlock(Block block) {
         ModBlocks.BLOCKS.add(block);
     }
-    
+
     protected void registerBlock(BlockBase block) {
         this.registerBlock((Block) block);
     }
 
-    protected void registerBlock(BlockBasicBlock block) {
+    protected void registerBlock(BasicBlockBase block) {
         this.registerBlock((BlockBase) block);
         this.registerItem(block.getItemBlock());
     }
 
-    
+
     protected void registerItem(Item item) {
         ModItems.ITEMS.add(item);
     }
-    
+
     protected void registerItem(ItemBase item) {
         this.registerItem((Item) item);
     }
-    
-    protected void registerItem(ItemBasicItem item) {
+
+    protected void registerItem(BasicItemBase item) {
         this.registerItem((ItemBase) item);
     }
 

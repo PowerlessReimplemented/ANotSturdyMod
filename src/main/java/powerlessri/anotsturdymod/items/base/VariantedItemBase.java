@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.items.basic;
+package powerlessri.anotsturdymod.items.base;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,12 +7,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 
 
-public class ItemVariantedItem extends ItemBasicItem {
+public class VariantedItemBase extends BasicItemBase {
 
     // unlocalizedName for each item.
     public final List<String> VARIANT_NAMES = new ArrayList<String>();
 
-    public ItemVariantedItem(String registryName, CreativeTabs tab) {
+    public VariantedItemBase(String registryName, CreativeTabs tab) {
         super(registryName);
 
         this.setCreativeTab(tab);

@@ -16,7 +16,7 @@ public abstract class BlockBase extends Block {
         super(material);
 
         this.setRegistryName(new ResourceLocation(Reference.MODID, registryName));
-        this.setUnlocalizedName(Reference.MODID + ":" + unlocalizedName);
+        this.setUnlocalizedName(this.getRegistryName().toString());
     }
 
 }
