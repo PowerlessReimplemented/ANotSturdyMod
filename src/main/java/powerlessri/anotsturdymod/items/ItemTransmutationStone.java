@@ -45,27 +45,34 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
 
         ItemStack resultStack = player.getHeldItem(hand);
 
-        if(world.isRemote)
+        if(world.isRemote) {
             return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
+        }
 
-        this.updateItemTag(resultStack);
-        this.cycleByteTag(resultStack, EnumTags.CHARGE, (byte) 1);
 
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
+        if(player.isSneaking()) {
+            this.updateItemTag(resultStack);
+            this.cycleByteTag(resultStack, EnumTags.CHARGE, (byte) 1);
+
+            return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
+        }
+        
+        return new ActionResult<ItemStack>(EnumActionResult.FAIL, resultStack);
     }
 
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing,
             float hitX, float hitY, float hitZ) {
 
-        if(world.isRemote)
+        if(world.isRemote) {
             return EnumActionResult.SUCCESS;
+        }
 
         IBlockState pointerBlock = world.getBlockState(pos);
         IBlockState next = WorldTransmutation.getTransmutationNext(world, pos, pointerBlock,
                 player.isSneaking() ? -1 : 1);
 
-        // Didn't found any matched transmutation
+        // Didn't find any matched transmutation
         if(next == null)
             return EnumActionResult.FAIL;
 
@@ -94,6 +101,8 @@ public class ItemTransmutationStone extends ItemBasicItem implements ITagBasedIt
             NBTUtils.setTagEnum(tag, targetNbt, (byte) (originalVal + increase));
         }
     }
+
+
 
     private static enum EnumTags implements IEnumNBTTags<Object> {
 
