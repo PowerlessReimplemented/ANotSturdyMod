@@ -9,6 +9,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -41,6 +42,26 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
     }
 
 
+    
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        
+        ItemStack item = player.getHeldItem(hand);
+        
+        if(world.isRemote) {
+            return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, item);
+        }
+        
+        
+        if(player.isSneaking()) {
+            this.updateItemTag(item);
+            NBTTagCompound tag = item.getTagCompound();
+            
+            byte radius = tag.getByte(EnumTags.RADIUS.key);
+            tag.setByte(EnumTags.RADIUS.key, (byte) (radius == this.maxRadius ? 0 : radius + 1)); 
+        }
+        return new ActionResult<>(EnumActionResult.FAIL, item);
+    }
 
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing,
@@ -54,6 +75,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
             return EnumActionResult.SUCCESS;
         }
 
+        
         ItemStack exchanger = player.getHeldItem(hand);
         this.updateItemTag(exchanger);
 
@@ -211,9 +233,8 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
     public static enum EnumTags implements IEnumNBTTags<Object> {
 
         RADIUS("radius", (byte) 0, EDataType.BYTE),
-        MAX_RADIUS("max_radius", (byte) -1, EDataType.BYTE),
 
-        TARGET_BLOCK("target_block", Blocks.AIR.getRegistryName().toString(), EDataType.STRING),
+        TARGET_BLOCK("target_block", Blocks.STONE.getRegistryName().toString(), EDataType.STRING),
         TARGET_META("target_meta", (byte) 0, EDataType.BYTE),
 
         USE_TRANSMUTATION_ORB("use_transmutations", false, EDataType.BOOLEAN);
@@ -259,11 +280,8 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
         }
 
         NBTTagCompound tag = stack.getTagCompound();
-        if(tag.getByte(EnumTags.MAX_RADIUS.key) == -1) {
-            NBTUtils.setTagEnum(tag, EnumTags.MAX_RADIUS, this.maxRadius);
-        }
 
-        tag.setByte(EnumTags.RADIUS.key, (byte) 2);
+        tag.setByte(EnumTags.RADIUS.key, (byte) this.maxRadius);
     }
 
 }
