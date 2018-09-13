@@ -1,11 +1,11 @@
 package powerlessri.anotsturdymod.blocks;
 
 import net.minecraft.block.material.Material;
-import powerlessri.anotsturdymod.blocks.base.BasicBlockBase;
+import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 
 
 //TODO complete texture/model
-public class BlockMetalBlock extends BasicBlockBase {
+public class BlockMetalBlock extends SimpleBlockBase {
 
     public BlockMetalBlock(String name, Material material) {
         super(name, material);

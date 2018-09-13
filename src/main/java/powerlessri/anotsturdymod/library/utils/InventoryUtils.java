@@ -61,9 +61,9 @@ public class InventoryUtils {
             }
 
             if(takeawayLeft <= 0) {
-                stackRemovingList.forEach((index) -> {
-                    inventory.removeStackFromSlot(index);
-                });
+                while(!stackRemovingList.isEmpty()) {
+                    inventory.removeStackFromSlot(stackRemovingList.remove());
+                }
 
                 return true;
             }

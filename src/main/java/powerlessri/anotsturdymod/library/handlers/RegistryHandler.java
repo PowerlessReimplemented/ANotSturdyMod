@@ -6,10 +6,10 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import powerlessri.anotsturdymod.blocks.base.BasicBlockBase;
+import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.init.ModBlocks;
 import powerlessri.anotsturdymod.init.ModItems;
-import powerlessri.anotsturdymod.items.base.BasicItemBase;
+import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 
 
 @EventBusSubscriber
@@ -32,14 +32,14 @@ public class RegistryHandler {
     @SubscribeEvent
     public static void onModelRegister(ModelRegistryEvent event) {
         for(Item item : ModItems.ITEMS) {
-            if(item instanceof BasicItemBase) {
-                ((BasicItemBase) item).registerModel();
+            if(item instanceof SimpleItemBase) {
+                ((SimpleItemBase) item).registerModel();
             }
         }
         
         for(Block block : ModBlocks.BLOCKS) {
-            if(block instanceof BasicBlockBase) {
-                ((BasicBlockBase) block).registerModel();
+            if(block instanceof SimpleBlockBase) {
+                ((SimpleBlockBase) block).registerModel();
             }
         }
     }

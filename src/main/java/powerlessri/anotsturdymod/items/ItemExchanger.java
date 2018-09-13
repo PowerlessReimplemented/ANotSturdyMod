@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.init.ModItems;
-import powerlessri.anotsturdymod.items.base.BasicItemBase;
+import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;
 import powerlessri.anotsturdymod.library.tags.ITagBasedItem;
@@ -27,7 +27,7 @@ import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.library.utils.Utils;
 
 
-public class ItemExchanger extends BasicItemBase implements ITagBasedItem {
+public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
     private final int maxRadius;
 
@@ -163,8 +163,7 @@ public class ItemExchanger extends BasicItemBase implements ITagBasedItem {
         player.inventory
         .addItemStackToInventory(
                 InventoryUtils.stackOf(
-                        isSilkTouch ? Item.getItemFromBlock(exchBlockInst)
-                                : exchBlockInst.getItemDropped(exchangeSource, world.rand, fortuneLevel),
+                        isSilkTouch ? Item.getItemFromBlock(exchBlockInst) : exchBlockInst.getItemDropped(exchangeSource, world.rand, fortuneLevel),
                                 exchBlockInst.getMetaFromState(exchangeSource), quantityDropped));
 
         replaceBlocks(world, posList, exchangeSource, replacementBlock);
@@ -211,7 +210,8 @@ public class ItemExchanger extends BasicItemBase implements ITagBasedItem {
 
     public static enum EnumTags implements IEnumNBTTags<Object> {
 
-        RADIUS("radius", (byte) 0, EDataType.BYTE), MAX_RADIUS("max_radius", (byte) -1, EDataType.BYTE),
+        RADIUS("radius", (byte) 0, EDataType.BYTE),
+        MAX_RADIUS("max_radius", (byte) -1, EDataType.BYTE),
 
         TARGET_BLOCK("target_block", Blocks.AIR.getRegistryName().toString(), EDataType.STRING),
         TARGET_META("target_meta", (byte) 0, EDataType.BYTE),

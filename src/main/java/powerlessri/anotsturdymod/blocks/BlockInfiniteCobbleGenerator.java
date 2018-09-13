@@ -6,7 +6,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
-import powerlessri.anotsturdymod.blocks.tile.TileCobbleGenerator;
+import powerlessri.anotsturdymod.tile.TileCobbleGenerator;
 
 public class BlockInfiniteCobbleGenerator extends TileBlockBase {
 
@@ -19,8 +19,6 @@ public class BlockInfiniteCobbleGenerator extends TileBlockBase {
 
         this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.DECORATIONS);
-        
-        this.hasTileEntity = true;
     }
 
 

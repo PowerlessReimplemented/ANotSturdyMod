@@ -15,7 +15,7 @@ import powerlessri.anotsturdymod.library.IIntegerSerializable;
 // Some notes for creating blockstate/model file for the block:
 //     + blockstate file should be named <registryName>.json
 //     + item model file should be named <registryName>.json too
-public abstract class BasicBlockBase extends BlockBase {
+public abstract class SimpleBlockBase extends BlockBase {
     
     public static enum EHarvestTool implements IStringSerializable {
         PICKAXE("pickaxe"),
@@ -60,7 +60,7 @@ public abstract class BasicBlockBase extends BlockBase {
 
     protected final ItemBlock itemBlock;
 
-    public BasicBlockBase(String name, Material material) {
+    public SimpleBlockBase(String name, Material material) {
         super(name, material);
 
         this.itemBlock = new ItemBlock(this);

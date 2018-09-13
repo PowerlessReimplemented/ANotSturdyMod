@@ -7,7 +7,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 
 
-public class VariantedItemBase extends BasicItemBase {
+public class VariantedItemBase extends SimpleItemBase {
 
     // unlocalizedName for each item.
     public final List<String> VARIANT_NAMES = new ArrayList<String>();

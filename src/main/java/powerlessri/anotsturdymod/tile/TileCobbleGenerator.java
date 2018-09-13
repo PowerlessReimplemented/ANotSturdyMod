@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.blocks.tile;
+package powerlessri.anotsturdymod.tile;
 
 import javax.annotation.Nullable;
 
@@ -9,7 +9,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.tile.base.TileEntityBase;
 
 public class TileCobbleGenerator extends TileEntityBase implements IItemHandler, ICapabilityProvider {
 
@@ -61,8 +61,8 @@ public class TileCobbleGenerator extends TileEntityBase implements IItemHandler,
 
     @Override
     public ItemStack extractItem(int slot, int amount, boolean simulate) {
-        amount = Math.min(this.cobbleRemainded, amount);
-        return new ItemStack(Blocks.COBBLESTONE, amount);
+        int extractionAmount = Math.min(this.cobbleRemainded, amount);
+        return new ItemStack(Blocks.COBBLESTONE, extractionAmount);
     }
 
     @Override
