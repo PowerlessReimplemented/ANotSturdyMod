@@ -2,14 +2,16 @@ package powerlessri.anotsturdymod;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import powerlessri.anotsturdymod.blocks.BlockInfiniteCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
-import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
+import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
+import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.commands.CommandAnsm;
 import powerlessri.anotsturdymod.commands.CommandDebug;
 import powerlessri.anotsturdymod.init.ModBlocks;
@@ -18,8 +20,8 @@ import powerlessri.anotsturdymod.init.ModItems;
 import powerlessri.anotsturdymod.items.ItemExchanger;
 import powerlessri.anotsturdymod.items.ItemIlluminator;
 import powerlessri.anotsturdymod.items.ItemTransmutationStone;
-import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.items.base.ItemBase;
+import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.library.enums.EMachineLevel;
 
@@ -74,6 +76,12 @@ public class CommonProxy {
     protected void registerBlock(SimpleBlockBase block) {
         this.registerBlock((BlockBase) block);
         this.registerItem(block.getItemBlock());
+    }
+    
+    protected void registerBlock(TileBlockBase block) {
+        this.registerBlock((SimpleBlockBase) block);
+        
+        TileEntity.register(block.getRegistryName().toString(), block.getTileEntityClass());
     }
 
 

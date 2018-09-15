@@ -25,7 +25,6 @@ public class RegistryHandler {
 
     @SubscribeEvent
     public static void onBlockRegister(RegistryEvent.Register<Block> event) {
-        // TODO register ItemBlock corresponding to the blocks
         event.getRegistry().registerAll(ModBlocks.BLOCKS.toArray(new Block[0]));
     }
 

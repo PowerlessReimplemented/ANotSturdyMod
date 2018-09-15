@@ -27,5 +27,12 @@ public class BlockInfiniteCobbleGenerator extends TileBlockBase {
     public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileCobbleGenerator();
     }
+    
+    
+    
+    @Override
+    public Class<? extends TileEntity> getTileEntityClass() {
+        return TileCobbleGenerator.class;
+    }
 
 }

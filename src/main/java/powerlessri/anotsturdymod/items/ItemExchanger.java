@@ -74,7 +74,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
             return EnumActionResult.SUCCESS;
         }
-
+        
         
         ItemStack exchanger = player.getHeldItem(hand);
         this.updateItemTag(exchanger);
@@ -99,7 +99,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
             return EnumActionResult.SUCCESS;
         }
 
-        this.sendErrorTileEntity(player);
+        this.sendTileEntityError(player);
         return EnumActionResult.FAIL;
     }
 
@@ -120,7 +120,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
         IBlockState exchangeSource = world.getBlockState(posHit);
 
         if(!this.isBlockValid(exchangeSource)) {
-            this.sendErrorTileEntity(player);
+            this.sendTileEntityError(player);
             return EnumActionResult.FAIL;
         }
 
@@ -195,7 +195,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
 
 
-    private void sendErrorTileEntity(EntityPlayer player) {
+    private void sendTileEntityError(EntityPlayer player) {
         player.sendMessage(
                 new TextComponentString(Utils.readFromLang("item.ansm.exchangers.error.tileEntity"))
                 .setStyle(Reference.STYLE_RED));

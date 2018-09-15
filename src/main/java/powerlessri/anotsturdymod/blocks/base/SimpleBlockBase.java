@@ -69,7 +69,7 @@ public abstract class SimpleBlockBase extends BlockBase {
     }
 
     public void registerModel() {
-        // You don't actually register block renderer yourself, just for oCd reasons
+        // You don't actually register block renderer yourself, did it just for oCd reasons
         ANotSturdyMod.proxy.registerBlockRenderer(this, 0, "");
         ANotSturdyMod.proxy.registerItemRenderer(this.getItemBlock(), 0, "inventory");
     }
