@@ -7,7 +7,11 @@ import net.minecraft.nbt.NBTTagCompound;
 public interface ITagBasedItem {
 
     @Deprecated
-    void updateItemTag(ItemStack stack);
+    default void updateItemTag(ItemStack stack) {
+        if(!stack.hasTagCompound()) {
+            this.buildDefaultTag(stack);
+        }
+    }
 
     /** Get the default NBT tag for this item */
     NBTTagCompound getDefaultTag();

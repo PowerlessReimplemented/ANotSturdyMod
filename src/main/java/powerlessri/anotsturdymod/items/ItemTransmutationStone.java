@@ -107,10 +107,9 @@ public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedI
 
         CHARGE("charge", 0, EDataType.BYTE, 5);
 
-        // You should never modify these values!
-        EDataType type;
-        String key;
-        Object defaultValue;
+        final EDataType type;
+        final String key;
+        final Object defaultValue;
 
         /** Numbers ONLY */
         int max;
