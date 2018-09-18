@@ -18,7 +18,7 @@ public class BlockInfiniteCobbleGenerator extends TileBlockBase {
         this.setHarvestLevel(EHarvestTool.PICKAXE, EHarvestLevel.STONE);
 
         this.setMaxStackSize(1);
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
+        this.setCreativeTab(CreativeTabs.MISC);
     }
 
 

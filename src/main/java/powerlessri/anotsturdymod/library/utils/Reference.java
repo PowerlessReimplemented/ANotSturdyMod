@@ -52,5 +52,14 @@ public class Reference {
     public static final Style STYLE_TOOLTIP_STAT_TYPE = new Style().setColor(TextFormatting.DARK_PURPLE).setBold(true);
     /** Changing value on a status display for item */
     public static final Style STYLE_TOOLTIP_STAT_VALUE = new Style();
+    
+    
+    
+    public static enum EEnergyAccessState {
+        BLOCKED(),
+        BOTH(),
+        INPUT(),
+        OUTPUT();
+    }
 
 }
