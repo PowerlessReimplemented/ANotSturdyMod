@@ -12,11 +12,11 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
-import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;
 import powerlessri.anotsturdymod.library.tags.ITagBasedItem;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
 import powerlessri.anotsturdymod.library.utils.PosExtractor;
+import powerlessri.anotsturdymod.world.handler.WorldTransmutation;
 
 
 public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedItem {

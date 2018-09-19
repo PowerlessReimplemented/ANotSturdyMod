@@ -22,8 +22,8 @@ import powerlessri.anotsturdymod.items.ItemIlluminator;
 import powerlessri.anotsturdymod.items.ItemTransmutationStone;
 import powerlessri.anotsturdymod.items.base.ItemBase;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
-import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.library.enums.EMachineLevel;
+import powerlessri.anotsturdymod.world.handler.WorldTransmutation;
 
 
 public class CommonProxy {
