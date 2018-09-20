@@ -17,22 +17,19 @@ public class BlockInfiniteCobbleGenerator extends TileBlockBase {
         this.setResistance(10.0f);
         this.setHarvestLevel(EHarvestTool.PICKAXE, EHarvestLevel.STONE);
 
-        this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.MISC);
     }
 
 
 
     @Override
-    public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileCobbleGenerator();
-    }
-    
-    
-    
-    @Override
     public Class<? extends TileEntity> getTileEntityClass() {
         return TileCobbleGenerator.class;
+    }
+    
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
+        return new TileCobbleGenerator();
     }
 
 }

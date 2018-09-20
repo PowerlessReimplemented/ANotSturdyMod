@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import powerlessri.anotsturdymod.blocks.BlockInfiniteCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
+import powerlessri.anotsturdymod.blocks.BlockRemoteEnergyCell;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
 import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
@@ -39,6 +40,9 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
+        for(int i = 0; i < 1; i++) {
+            registerBlock(new BlockRemoteEnergyCell("remote_energy_cell_" + i));
+        }
         registerBlock(new BlockLightCube("light_cube"));
 
         registerItem(new ItemTransmutationStone("transmutation_orb"));
