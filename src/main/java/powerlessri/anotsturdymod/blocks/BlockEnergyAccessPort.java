@@ -21,21 +21,27 @@ public class BlockEnergyAccessPort extends TileBlockBase {
     /**
      * No idea why is the name soooooo long.
      */
-    public static class TileControllerEnergyNetworkAccessPort extends TileEntityBase {
+    public static class TileControllerEnergyNetworkAccessPort extends TileEntityBase implements IEnergyStorage {
 
         /** Reference to (supposedly) the only instance of BlockEnergyController. Exists for compat issues. */
         public static final BlockEnergyController CONTROLLER_BLOCK = BlockEnergyController.INSTANCE;
 
 
-
+        
+        /**
+         * When isPlug, this access is for inserting energy to controller.
+         * When !isPlug, this access is used for extracting energy to the controller
+         */
+        private boolean isPlug;
         private int channel;
 
-        public TileControllerEnergyNetworkAccessPort() {
-            this(0);
+        public TileControllerEnergyNetworkAccessPort(boolean isPlug) {
+            this(0, isPlug);
         }
 
-        public TileControllerEnergyNetworkAccessPort(int channel) {
+        public TileControllerEnergyNetworkAccessPort(int channel, boolean isPlug) {
             this.channel = channel;
+            this.isPlug = isPlug;
         }
 
 
@@ -54,21 +60,6 @@ public class BlockEnergyAccessPort extends TileBlockBase {
             }
 
             return null;
-        }
-
-        public EnergyStorage getControllerStorage() {
-            TileEnergyNetworkController controller = this.getController();
-            if(controller != null) {
-                return controller.storage;
-            }
-            return new EnergyStorage(0, 0, 0, 0);
-        }
-        
-        public EnergyStorage getChameleonStorage() {
-            EnergyStorage controllerStorage = this.getControllerStorage();
-            int maxIO = ((BlockEnergyAccessPort) this.getWorldBlockType()).MAX_IO;
-            
-            return new EnergyStorage(controllerStorage.getMaxEnergyStored(), maxIO, maxIO, controllerStorage.getEnergyStored());
         }
 
 
@@ -92,7 +83,7 @@ public class BlockEnergyAccessPort extends TileBlockBase {
         @Override
         public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
             if(this.hasCapability(capability, facing, true)) {
-                return CapabilityEnergy.ENERGY.cast(this.getControllerStorage());
+//                return CapabilityEnergy.ENERGY.cast(this.getControllerStorage());
             }
 
             return super.getCapability(capability, facing);
@@ -113,7 +104,47 @@ public class BlockEnergyAccessPort extends TileBlockBase {
             return super.writeToNBT(tag);
         }
 
+        
+        // ====== Energy Capabilities ====== //
+        
+        @Override
+        public int receiveEnergy(int maxReceive, boolean simulate) {
+            if(!simulate && this.canReceive()) {
+                return this.getController().insertEnergy(maxReceive);
+            }
+            return 0;
+        }
+
+        @Override
+        public int extractEnergy(int maxExtract, boolean simulate) {
+            if(!simulate && this.canExtract()) {
+                return this.getController().extractEnergy(maxExtract);
+            }
+            return 0;
+        }
+
+        @Override
+        public int getEnergyStored() {
+            return this.getController().getEnergyStored();
+        }
+
+        @Override
+        public int getMaxEnergyStored() {
+            return this.getController().getStorageCapacity();
+        }
+
+        @Override
+        public boolean canExtract() {
+            return this.isPlug;
+        }
+
+        @Override
+        public boolean canReceive() {
+            return !this.isPlug;
+        }
+
     }
+    
 
 
 
@@ -128,7 +159,8 @@ public class BlockEnergyAccessPort extends TileBlockBase {
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileControllerEnergyNetworkAccessPort();
+        // TODO vary by state
+        return new TileControllerEnergyNetworkAccessPort(this.MAX_IO, false);
     }
 
     @Override

@@ -14,9 +14,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.tile.base.TileEntityBase;
 
@@ -47,15 +46,20 @@ public class BlockEnergyController extends TileBlockBase {
         
         
         
-        public EnergyStorage storage;
+        /** {@code true} when is loaded, {@code false} when is not loaded. */
+        public boolean isAlive;
         
+        
+        /** A unique channel id (in the save) */
         private int channel;
         /** Capacity formula: <i>DEFAULT_CAPACITY * (amountStorageUpgrades + 1)</i> */
         private int amountStorageUpgrades;
+        //TODO make everything long compatible
+        private long energy;
         
         
         public TileEnergyNetworkController() {
-            this.storage = new EnergyStorage(this.getStorageCapacity(), DEFAULT_IO, DEFAULT_IO, 0);
+            this.energy = 0;
         }
         
         
@@ -72,8 +76,27 @@ public class BlockEnergyController extends TileBlockBase {
             return channel;
         }
         
+        
+        /** @return The amount of energy failed to insert. */
+        public int insertEnergy(int attempt) {
+            int actualInsertion = Math.min(this.getStorageCapacity(), Math.min(DEFAULT_IO, attempt));
+            this.energy += actualInsertion;
+            return attempt - actualInsertion;
+        }
+        
+        /** @return The amount of energy failed to extract. */
+        public int extractEnergy(int attempt) {
+            int actualExtraction = Math.min(this.getEnergyStored(), Math.min(DEFAULT_IO, attempt));
+            this.energy -= actualExtraction;
+            return attempt - actualExtraction;
+        }
+        
         public int getStorageCapacity() {
             return DEFAULT_CAPACITY * (this.amountStorageUpgrades + 1);
+        }
+        
+        public int getEnergyStored() {
+            return (int) this.energy;
         }
         
         
@@ -81,6 +104,8 @@ public class BlockEnergyController extends TileBlockBase {
         public void onLoad() {
             if(channel != DEFAULT_CHANNEL && INSTANCE.tiles.get(this.channel) == null) {
                 INSTANCE.tiles.set(this.channel, this);
+                
+                this.isAlive = true;
             } else {
                 String description = "Unexpected repeating channel from BlockEnergyController";
                 IllegalAccessException e = new IllegalAccessException(description);
@@ -93,6 +118,8 @@ public class BlockEnergyController extends TileBlockBase {
         @Override
         public void onChunkUnload() {
             INSTANCE.tiles.set(this.channel, null);
+            
+            this.isAlive = false;
         }
         
         
@@ -102,16 +129,14 @@ public class BlockEnergyController extends TileBlockBase {
             
             this.channel = tag.getInteger(CHANNEL);
             this.amountStorageUpgrades = tag.getInteger(STORAGE_UPGRADES);
-            int energyStored = tag.getInteger(STORAGE_ENERGY_REMAIN);
-            
-            this.storage = new EnergyStorage(this.getStorageCapacity(), DEFAULT_IO, DEFAULT_IO, energyStored);
+            this.energy = tag.getInteger(STORAGE_ENERGY_REMAIN);
         }
         
         @Override
         public NBTTagCompound writeToNBT(NBTTagCompound tag) {
             tag.setInteger(CHANNEL, this.channel);
             tag.setInteger(STORAGE_UPGRADES, this.amountStorageUpgrades);
-            tag.setInteger(STORAGE_ENERGY_REMAIN, this.storage.getEnergyStored());
+            tag.setInteger(STORAGE_ENERGY_REMAIN, this.getEnergyStored());
             
             return super.writeToNBT(tag);
         }
@@ -120,7 +145,13 @@ public class BlockEnergyController extends TileBlockBase {
     
     
     
-    
+    /* (non-Javadoc)
+     * Some notes to this id system:
+     *     This system will NOT auto clean-up the tile entitiy list after: 
+     *         1. Any form of breaking the block
+     *         2. world.setBlockState(...)
+     *     You need to run #tileCleanup method manually, wether through a command or a tick timer to clean the tile entities that doesn't exist anymore.
+     */
     /** A list of loaded & working (assigned with a channel) controller tile entities. */
     public final List<TileEnergyNetworkController> tiles;
 
@@ -161,6 +192,19 @@ public class BlockEnergyController extends TileBlockBase {
     @Override
     public Class<? extends TileEntity> getTileEntityClass() {
         return TileEnergyNetworkController.class;
+    }
+    
+    
+    public void tileCleanup() {
+        for(TileEnergyNetworkController tile : this.tiles) {
+            World world = tile.getWorld();
+            BlockPos pos = tile.getPos();
+            TileEntity targetTile = world.getTileEntity(pos);
+            
+            if(targetTile == null || !(targetTile instanceof TileEnergyNetworkController)) {
+                this.tiles.set(tile.getChannel(), null);
+            }
+        }
     }
 
 }
