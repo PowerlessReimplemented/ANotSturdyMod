@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.energy.IEnergyStorage;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.tile.base.TileEntityBase;
 
@@ -43,10 +44,6 @@ public class BlockEnergyController extends TileBlockBase {
         
         private static final int DEFAULT_CHANNEL = 0;
         private static int channelUsage = DEFAULT_CHANNEL + 1;
-        
-        static {
-//            INSTANCE.tiles.set(DEFAULT_CHANNEL, new TileEnergyNetworkController());
-        }
         
         
         

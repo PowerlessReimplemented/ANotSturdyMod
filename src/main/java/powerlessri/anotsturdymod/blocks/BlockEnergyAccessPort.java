@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.energy.IEnergyStorage;
 import powerlessri.anotsturdymod.blocks.BlockEnergyController.TileEnergyNetworkController;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.tile.base.TileEntityBase;
@@ -40,9 +41,10 @@ public class BlockEnergyAccessPort extends TileBlockBase {
 
         @Nullable
         public TileEnergyNetworkController getController() {
-         // This channel has been allocated
+            // This channel has been allocated
             if(CONTROLLER_BLOCK.tiles.size() > this.channel) {
                 TileEnergyNetworkController attempt = CONTROLLER_BLOCK.tiles.get(this.channel);
+
                 // The controller tile entity is loaded
                 if(attempt != null) {
                     return attempt;
@@ -50,16 +52,23 @@ public class BlockEnergyAccessPort extends TileBlockBase {
                     return CONTROLLER_BLOCK.tiles.get(0);
                 }
             }
-            
+
             return null;
         }
-        
+
         public EnergyStorage getControllerStorage() {
             TileEnergyNetworkController controller = this.getController();
             if(controller != null) {
                 return controller.storage;
             }
             return new EnergyStorage(0, 0, 0, 0);
+        }
+        
+        public EnergyStorage getChameleonStorage() {
+            EnergyStorage controllerStorage = this.getControllerStorage();
+            int maxIO = ((BlockEnergyAccessPort) this.getWorldBlockType()).MAX_IO;
+            
+            return new EnergyStorage(controllerStorage.getMaxEnergyStored(), maxIO, maxIO, controllerStorage.getEnergyStored());
         }
 
 
@@ -108,8 +117,11 @@ public class BlockEnergyAccessPort extends TileBlockBase {
 
 
 
+    private final int MAX_IO;
+    
     public BlockEnergyAccessPort(String name, int ioLimit) {
         super(name, Material.ROCK);
+        this.MAX_IO = ioLimit;
     }
 
 
