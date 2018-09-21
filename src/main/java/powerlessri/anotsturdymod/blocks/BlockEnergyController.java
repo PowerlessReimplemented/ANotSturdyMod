@@ -26,29 +26,38 @@ public class BlockEnergyController extends TileBlockBase {
 //    public static final Item STORAGE_UPGRADE = new ItemUpgrade("energy_storage_upgrade");
     
     
-    public static class TileEnergyController extends TileEntityBase {
+    /**
+     * This block does not meant to be a direct part of forge energy system. Use BlockEnergyAccessPort
+     * for any access to the power storage managed by this block.
+     */
+    public static class TileEnergyNetworkController extends TileEntityBase {
         
-        private static final int DEFAULT_CAPACITY = 1000000000; // a billion
-        // Let port's implementation to specify IO limit
-        private static final int DEFAULT_IO = Integer.MAX_VALUE;
+        public static final int DEFAULT_CAPACITY = 1000000000; // a billion
+        /** Don't limit IO for custom access port traits. */
+        public static final int DEFAULT_IO = Integer.MAX_VALUE;
         
-        private static final String CHANNEL = "storageChannel";
-        private static final String STORAGE_UPGRADES = "storageUpgrades";
-        private static final String STORAGE_ENERGY_REMAIN = "energyStored";
+        // NBT tags
+        public static final String CHANNEL = "storageChannel";
+        public static final String STORAGE_UPGRADES = "storageUpgrades";
+        public static final String STORAGE_ENERGY_REMAIN = "energyStored";
         
         private static final int DEFAULT_CHANNEL = 0;
         private static int channelUsage = DEFAULT_CHANNEL + 1;
+        
+        static {
+//            INSTANCE.tiles.set(DEFAULT_CHANNEL, new TileEnergyNetworkController());
+        }
         
         
         
         public EnergyStorage storage;
         
         private int channel;
-        // Capacity formula: DEFAULT_CAPACITY * (amountStorageUpgrades + 1)
+        /** Capacity formula: <i>DEFAULT_CAPACITY * (amountStorageUpgrades + 1)</i> */
         private int amountStorageUpgrades;
         
         
-        public TileEnergyController() {
+        public TileEnergyNetworkController() {
             this.storage = new EnergyStorage(this.getStorageCapacity(), DEFAULT_IO, DEFAULT_IO, 0);
         }
         
@@ -58,6 +67,9 @@ public class BlockEnergyController extends TileBlockBase {
             if(channel == DEFAULT_CHANNEL) {
                 channel = channelUsage;
                 channelUsage++;
+                
+                // Store 'this' to BlockEnergyController#tiles
+                this.onLoad();
             }
             
             return channel;
@@ -112,7 +124,8 @@ public class BlockEnergyController extends TileBlockBase {
     
     
     
-    public final List<TileEnergyController> tiles;
+    /** A list of loaded & working (assigned with a channel) controller tile entities. */
+    public final List<TileEnergyNetworkController> tiles;
 
     public BlockEnergyController(String name) {
         super(name, Material.ROCK);
@@ -135,7 +148,7 @@ public class BlockEnergyController extends TileBlockBase {
 //            return true;
 //        }
         
-        TileEnergyController tile = (TileEnergyController) world.getTileEntity(pos);
+        TileEnergyNetworkController tile = (TileEnergyNetworkController) world.getTileEntity(pos);
         player.sendMessage(new TextComponentString("controller id: " + tile.getChannel()));
         
         return true;
@@ -145,12 +158,12 @@ public class BlockEnergyController extends TileBlockBase {
     
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileEnergyController();
+        return new TileEnergyNetworkController();
     }
     
     @Override
     public Class<? extends TileEntity> getTileEntityClass() {
-        return TileEnergyController.class;
+        return TileEnergyNetworkController.class;
     }
 
 }
