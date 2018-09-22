@@ -41,7 +41,8 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(BlockEnergyController.INSTANCE);
-        registerBlock(new BlockEnergyAccessPort("remote_energy_access_port", 5000));
+        registerBlock(new BlockEnergyAccessPort("remote_energy_input_port", 5000, false));
+        registerBlock(new BlockEnergyAccessPort("remote_energy_output_port", 5000, true));
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
         registerBlock(new BlockLightCube("light_cube"));
 

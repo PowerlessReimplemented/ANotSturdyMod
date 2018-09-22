@@ -10,7 +10,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import powerlessri.anotsturdymod.blocks.BlockEnergyController.TileEnergyNetworkController;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
@@ -30,19 +29,22 @@ public class BlockEnergyAccessPort extends TileBlockBase {
         
         private TileEnergyNetworkController buffer;
         
+        private int channel;
+        private int ioLimit;
         /**
          * When isPlug, this access is for inserting energy to controller.
          * When !isPlug, this access is used for extracting energy to the controller
          */
         private boolean isPlug;
-        private int channel;
+        
 
         public TileControllerEnergyNetworkAccessPort(boolean isPlug) {
-            this(0, isPlug);
+            this(0, 5000    , isPlug);
         }
 
-        public TileControllerEnergyNetworkAccessPort(int channel, boolean isPlug) {
+        public TileControllerEnergyNetworkAccessPort(int channel, int ioLimit, boolean isPlug) {
             this.channel = channel;
+            this.ioLimit = ioLimit;
             this.isPlug = isPlug;
         }
 
@@ -63,6 +65,8 @@ public class BlockEnergyAccessPort extends TileBlockBase {
         }
         
         
+        // Note: even though this method might return null, TileControllerEnergyNetworkAccessPort#setChannel will ensure it won't happen by ensuring the input channel exists.
+        // Exception: started with a channel don't even exist.
         @Nullable
         public TileEnergyNetworkController getController() {
             if(this.buffer != null && this.buffer.isAlive && !this.buffer.isDirty) {
@@ -157,12 +161,20 @@ public class BlockEnergyAccessPort extends TileBlockBase {
 
         @Override
         public boolean canExtract() {
-            return this.isPlug;
+            return this.canExtract(0);
         }
 
         @Override
         public boolean canReceive() {
-            return !this.isPlug;
+            return this.canReceive(0);
+        }
+        
+        public boolean canExtract(int attempt) {
+            return this.isPlug && this.ioLimit > attempt;
+        }
+
+        public boolean canReceive(int attempt) {
+            return !this.isPlug && this.ioLimit > attempt;
         }
 
     }
@@ -171,18 +183,19 @@ public class BlockEnergyAccessPort extends TileBlockBase {
 
 
     private final int MAX_IO;
+    private final boolean isPlug;
     
-    public BlockEnergyAccessPort(String name, int ioLimit) {
+    public BlockEnergyAccessPort(String name, int ioLimit, boolean isPlug) {
         super(name, Material.ROCK);
         this.MAX_IO = ioLimit;
+        this.isPlug = isPlug;
     }
 
 
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        // TODO vary by state
-        return new TileControllerEnergyNetworkAccessPort(this.MAX_IO, false);
+        return new TileControllerEnergyNetworkAccessPort(0, this.MAX_IO, this.isPlug);
     }
 
     @Override
