@@ -1,7 +1,6 @@
 package powerlessri.anotsturdymod.blocks;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -16,6 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
+import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.tile.base.TileEntityBase;
 
 public class BlockEnergyController extends TileBlockBase {
@@ -41,18 +41,19 @@ public class BlockEnergyController extends TileBlockBase {
         public static final String STORAGE_ENERGY_REMAIN = "energyStored";
 
         private static final int DEFAULT_CHANNEL = 0;
-        private static int channelUsage = DEFAULT_CHANNEL + 1;
+        private static int nextChannel = DEFAULT_CHANNEL + 1;
 
 
 
         /** {@code true} when is loaded, {@code false} when is not loaded. */
         public boolean isAlive = false;
+        /** Used to update reference of controller of BlockEnergyAccessPort. {@code true} when needs a update */
         public boolean isDirty = true;
 
 
-        /** A unique channel id (in the save) */
+        /** A unique channel id (in the save). An allocated (non-default) channel is at least {@code 1}. */
         private int channel;
-        /** Capacity formula: <i>DEFAULT_CAPACITY * (amountStorageUpgrades + 1)</i> */
+        /** Capacity formula: {@code DEFAULT_CAPACITY * (amountStorageUpgrades + 1)} */
         private int amountStorageUpgrades;
         //TODO make everything long compatible
         private long energy;
@@ -65,11 +66,16 @@ public class BlockEnergyController extends TileBlockBase {
 
 
         public int getChannel() {
-            if(channel == DEFAULT_CHANNEL) {
-                channel = channelUsage;
-                channelUsage++;
+            if(!isInitalized()) {
+                channel = nextChannel;
+                nextChannel++;
+                if(INSTANCE.tiles.size() - nextChannel < 5) {
+                    int oldSize = INSTANCE.tiles.size();
+                    INSTANCE.tiles.ensureCapacity((int) (INSTANCE.tiles.size() * 1.5f));
+                    Utils.getLogger().info("Ensured size of BlockEnergyController#tiles from " + oldSize + " to " + INSTANCE.tiles.size());
+                }
 
-                // Store 'this' to BlockEnergyController#tiles
+                // Now it has a channel, put itself into the reference list.
                 this.onLoad();
             }
 
@@ -94,25 +100,32 @@ public class BlockEnergyController extends TileBlockBase {
         public int getEnergyStored() {
             return (int) this.energy;
         }
-        
+
         public int getStorageCapacity() {
             return DEFAULT_CAPACITY * (this.amountStorageUpgrades + 1);
         }
+
 
         public boolean isInitalized() {
             return this.channel != DEFAULT_CHANNEL;
         }
 
-
         // TODO use a better way to manage channels
         @Override
         public void onLoad() {
-            // Wait until player's right click to allocate a new channel
-            if(this.isInitalized()) {
-                // This tile entity with the channel does not exist, which is good
-                if(INSTANCE.tiles.size() >= this.channel && INSTANCE.tiles.get(this.channel) == null) {
-                    INSTANCE.tiles.add(this.channel, this);
+            // Wait until player activate this block (wait until it has a channel)
+            if(isInitalized()) {
+                // This step might cause an IndexOutOfBoundsException, if channel is not allocated by #getChannel()
+                // but you're not suppose to do it other than #getChannel(), so it's fine.
+                //
+                // BlockEnergyController#tiles actually has the appropriate size && This tile entity with the channel does not exist
+                // When channel == DEFAULT_CHANNEL, #tiles[c] will always be a FakeEnergyNetworkController (non-null)
+                if(INSTANCE.tiles.get(this.channel) == null) {
+                    INSTANCE.tiles.set(this.channel, this);
+                    this.isAlive = true;
+                    this.isDirty = true;
                 } else {
+                    // Whenever the program goes here, it's probably because INSTANCE.tiles.size() is too small
                     String description = "Unexpected repeating channel from BlockEnergyController";
                     IllegalAccessException e = new IllegalAccessException(description);
                     CrashReport crashReport = CrashReport.makeCrashReport(e, description);
@@ -122,14 +135,20 @@ public class BlockEnergyController extends TileBlockBase {
             }
         }
 
-        /** Used to simulate this block is removed, does not matter it's unloading (save to disk) or not. */
         @Override
-        public void onChunkUnload() {
+        public void onRemoved() {
             INSTANCE.tiles.set(this.channel, null);
-
             this.isAlive = false;
             this.isDirty = true;
         }
+
+        // Redirecting
+        @Override
+        public void onChunkUnload() {
+            this.onRemoved();
+        }
+
+
 
 
         @Override
@@ -154,8 +173,10 @@ public class BlockEnergyController extends TileBlockBase {
 
     public static class FakeEnergyNetworkController extends TileEnergyNetworkController {
 
-        public boolean isAlive = true;
-        public boolean isDirty = false;
+        public FakeEnergyNetworkController() {
+            this.isAlive = true;
+            this.isDirty = false;
+        }
 
         public int getChannel() {
             return 0;
@@ -187,8 +208,12 @@ public class BlockEnergyController extends TileBlockBase {
         public void onChunkUnload() {
         }
 
+        @Override
+        public void onRemoved() {
+        }
 
-        // These can be empty because this tile entity does nothing and stores nothing (immutable).
+
+        // These can be empty because this tile entity does nothing and stores nothing and immutable.
         @Override
         public void readFromNBT(NBTTagCompound tag) {
         }
@@ -202,13 +227,14 @@ public class BlockEnergyController extends TileBlockBase {
 
 
     /** A list of loaded & working (assigned with a channel) controller tile entities. */
-    public final List<TileEnergyNetworkController> tiles;
+    public final ArrayList<TileEnergyNetworkController> tiles;
 
     public BlockEnergyController(String name) {
         super(name, Material.ROCK);
 
-        this.tiles = new ArrayList<>(10);
-
+        // TODO store size to some nbt file
+        this.tiles = new ArrayList<>();
+        for(int i = 0; i < 64; i++) this.tiles.add(null);
         this.tiles.add(new FakeEnergyNetworkController());
     }
 
@@ -234,14 +260,6 @@ public class BlockEnergyController extends TileBlockBase {
     }
 
 
-    // Redirect event to Tile#onChunkUnload, which removes from itself form reference list.
-    @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        TileEnergyNetworkController tile = (TileEnergyNetworkController) world.getTileEntity(pos);
-        tile.onChunkUnload();
-    }
-
-
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
@@ -254,6 +272,7 @@ public class BlockEnergyController extends TileBlockBase {
     }
 
 
+    @Deprecated
     public void tileCleanup() {
         for(TileEnergyNetworkController tile : this.tiles) {
             World world = tile.getWorld();

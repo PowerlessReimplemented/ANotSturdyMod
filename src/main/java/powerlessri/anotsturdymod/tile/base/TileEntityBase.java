@@ -7,6 +7,18 @@ import net.minecraft.tileentity.TileEntity;
 
 public abstract class TileEntityBase extends TileEntity {
     
+    // TODO figure out how to make this thing work
+    /** Called when tile entity is added to world. Does not include chunk reloading. */
+    public void onAdded() {
+    }
+    
+    // Implementation Note: 
+    //     This method gets invoked at TileBlockBase#breakBlock(World, BlockPos, IBlockState)
+    /** Called when tile entity is removed from world. Does not include chunk unloading. */
+    public void onRemoved() {
+    }
+    
+    
     public IBlockState getWorldBlockState() {
         return this.getWorld().getBlockState( this.getPos() );
     }
