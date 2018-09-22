@@ -41,8 +41,8 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(BlockEnergyController.INSTANCE);
-        registerBlock(new BlockEnergyAccessPort("remote_energy_input_port", 5000, false));
-        registerBlock(new BlockEnergyAccessPort("remote_energy_output_port", 5000, true));
+        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", 5000, false));
+        registerBlock(new BlockEnergyAccessPort("energy_network_output_port", 5000, true));
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
         registerBlock(new BlockLightCube("light_cube"));
 
@@ -85,8 +85,7 @@ public class CommonProxy {
     
     protected void registerBlock(TileBlockBase block) {
         this.registerBlock((SimpleBlockBase) block);
-        
-        TileEntity.register(block.getRegistryName().toString(), block.getTileEntityClass());
+        block.registerTileEntity();
     }
 
 

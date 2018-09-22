@@ -14,14 +14,13 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.tile.base.TileEntityBase;
 
 public class BlockEnergyController extends TileBlockBase {
 
-    public static final BlockEnergyController INSTANCE = new BlockEnergyController("remote_energy_controller");
+    public static final BlockEnergyController INSTANCE = new BlockEnergyController("energy_network_controller");
 
     //    public static final Item STORAGE_UPGRADE = new ItemUpgrade("energy_storage_upgrade");
 
@@ -202,9 +201,9 @@ public class BlockEnergyController extends TileBlockBase {
     public BlockEnergyController(String name) {
         super(name, Material.ROCK);
 
-        tiles = new ArrayList<>(10); // Preinitialize to prevent weird IndexOutOfBoundException(s)
+        this.tiles = new ArrayList<>(10);
         
-        this.tiles.set(0, new FakeEnergyNetworkController());
+        this.tiles.add(new FakeEnergyNetworkController());
     }
 
 

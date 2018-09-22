@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.blocks.base;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.tileentity.TileEntity;
 
 public abstract class TileBlockBase extends SimpleBlockBase implements ITileIntergratedBlock {
 
@@ -9,6 +10,7 @@ public abstract class TileBlockBase extends SimpleBlockBase implements ITileInte
         super(name, material);
         
         this.hasTileEntity = true;
+        
     }
 
 
@@ -22,6 +24,17 @@ public abstract class TileBlockBase extends SimpleBlockBase implements ITileInte
     @Override
     public boolean hasTileEntity(IBlockState state) {
         return this.hasTileEntity;
+    }
+    
+    // ====== Initialization tool kit ====== //
+    
+    private static boolean hasRegisteredTileEntity = false;
+    
+    public void registerTileEntity() {
+        if(!hasRegisteredTileEntity) {
+            TileEntity.register(this.getRegistryName().toString(), this.getTileEntityClass());
+            hasRegisteredTileEntity = true;
+        }
     }
 
 }
