@@ -28,6 +28,8 @@ public class BlockEnergyAccessPort extends TileBlockBase {
 
 
         
+        private TileEnergyNetworkController buffer;
+        
         /**
          * When isPlug, this access is for inserting energy to controller.
          * When !isPlug, this access is used for extracting energy to the controller
@@ -45,8 +47,28 @@ public class BlockEnergyAccessPort extends TileBlockBase {
         }
 
 
+        public int getChannel() {
+            return this.channel;
+        }
+        
+        /** @return {@code true} for success. <br /> {@code false} for fail.*/
+        public boolean setChannel(int channel) {
+            int oldChannel = this.channel;
+            this.channel = channel;
+            if(this.getController() == null) {
+                this.channel = oldChannel;
+                return false;
+            }
+            return true;
+        }
+        
+        
         @Nullable
         public TileEnergyNetworkController getController() {
+            if(this.buffer != null && this.buffer.isAlive && !this.buffer.isDirty) {
+                return this.buffer;
+            }
+            
             // This channel has been allocated
             if(CONTROLLER_BLOCK.tiles.size() > this.channel) {
                 TileEnergyNetworkController attempt = CONTROLLER_BLOCK.tiles.get(this.channel);
@@ -83,7 +105,7 @@ public class BlockEnergyAccessPort extends TileBlockBase {
         @Override
         public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
             if(this.hasCapability(capability, facing, true)) {
-//                return CapabilityEnergy.ENERGY.cast(this.getControllerStorage());
+                return CapabilityEnergy.ENERGY.cast(this);
             }
 
             return super.getCapability(capability, facing);

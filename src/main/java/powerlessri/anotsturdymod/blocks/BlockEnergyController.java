@@ -47,7 +47,8 @@ public class BlockEnergyController extends TileBlockBase {
 
 
         /** {@code true} when is loaded, {@code false} when is not loaded. */
-        public boolean isAlive;
+        public boolean isAlive = false;
+        public boolean isDirty = true;
 
 
         /** A unique channel id (in the save) */
@@ -59,7 +60,6 @@ public class BlockEnergyController extends TileBlockBase {
 
 
         public TileEnergyNetworkController() {
-            super();
             this.energy = 0;
         }
 
@@ -107,6 +107,7 @@ public class BlockEnergyController extends TileBlockBase {
                 INSTANCE.tiles.set(this.channel, this);
 
                 this.isAlive = true;
+                this.isDirty = false;
             } else {
                 String description = "Unexpected repeating channel from BlockEnergyController";
                 IllegalAccessException e = new IllegalAccessException(description);
@@ -122,6 +123,7 @@ public class BlockEnergyController extends TileBlockBase {
             INSTANCE.tiles.set(this.channel, null);
 
             this.isAlive = false;
+            this.isDirty = true;
         }
 
 
@@ -144,6 +146,53 @@ public class BlockEnergyController extends TileBlockBase {
         }
 
     }
+    
+    public static class FakeEnergyNetworkController extends TileEnergyNetworkController {
+        
+        public boolean isAlive = true;
+        public boolean isDirty = false;
+
+        public int getChannel() {
+            return 0;
+        }
+
+
+        public int insertEnergy(int attempt) {
+            return attempt;
+        }
+
+        public int extractEnergy(int attempt) {
+            return attempt;
+        }
+
+        public int getStorageCapacity() {
+            return 0;
+        }
+        
+        public int getEnergyStored() {
+            return 0;
+        }
+
+
+        @Override
+        public void onLoad() {
+        }
+
+        @Override
+        public void onChunkUnload() {
+        }
+
+
+        // These can be empty because this tile entity does nothing and stores nothing (immutable).
+        @Override
+        public void readFromNBT(NBTTagCompound tag) {
+        }
+
+        @Override
+        public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+            return tag;
+        }
+    }
 
 
 
@@ -154,6 +203,8 @@ public class BlockEnergyController extends TileBlockBase {
         super(name, Material.ROCK);
 
         tiles = new ArrayList<>(10); // Preinitialize to prevent weird IndexOutOfBoundException(s)
+        
+        this.tiles.set(0, new FakeEnergyNetworkController());
     }
 
 
@@ -176,20 +227,9 @@ public class BlockEnergyController extends TileBlockBase {
 
         return true;
     }
-
-
-    
-//    public void removeRecordedTile(int channel) {
-//        this.removeRecordedTile(this.tiles.get(channel));
-//    }
-//    
-//    public void removeRecordedTile(TileEnergyNetworkController tile) {
-//        if(tile != null) {
-//            tile.onChunkUnload();
-//        }
-//    }
     
 
+    // Redirect event to Tile#onChunkUnload, which removes from itself form reference list.
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
         TileEnergyNetworkController tile = (TileEnergyNetworkController) world.getTileEntity(pos);
