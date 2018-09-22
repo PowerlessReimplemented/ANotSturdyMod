@@ -46,6 +46,10 @@ public class CommandDebug extends CommandStandardReloadable {
                         mainHand.getTagCompound()));
             }
         });
+        
+        this.options.put("pointer", (sender, args) -> {
+            EntityPlayer player = (EntityPlayer) sender;
+        });
 
         this.useModIDPrefix = true;
         this.prefixSeparator = '_';

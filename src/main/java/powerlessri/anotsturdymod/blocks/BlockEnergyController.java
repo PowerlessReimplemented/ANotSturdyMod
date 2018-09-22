@@ -1,12 +1,13 @@
 package powerlessri.anotsturdymod.blocks;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -22,8 +23,9 @@ import powerlessri.anotsturdymod.tile.base.TileEntityBase;
 public class BlockEnergyController extends TileBlockBase {
     
     public static final BlockEnergyController INSTANCE = new BlockEnergyController("remote_energy_controller");
-
-//    public static final Item STORAGE_UPGRADE = new ItemUpgrade("energy_storage_upgrade");
+    
+    public static final Item STORAGE_UPGRADE = null; ///new ItemUpgrade("energy_storage_upgrade")
+    
     
     
     public static class TileEnergyController extends TileEntityBase {
@@ -34,7 +36,7 @@ public class BlockEnergyController extends TileBlockBase {
         
         private static final String CHANNEL = "storageChannel";
         private static final String STORAGE_UPGRADES = "storageUpgrades";
-        private static final String STORAGE_ENERGY_REMAIN = "energyStored";
+        private static final String STORAGE_ENERGY_REMAINED = "energyStored";
         
         private static final int DEFAULT_CHANNEL = 0;
         private static int channelUsage = DEFAULT_CHANNEL + 1;
@@ -43,9 +45,9 @@ public class BlockEnergyController extends TileBlockBase {
         
         public EnergyStorage storage;
         
-        private int channel;
+        private int channel = DEFAULT_CHANNEL;
         // Capacity formula: DEFAULT_CAPACITY * (amountStorageUpgrades + 1)
-        private int amountStorageUpgrades;
+        private int amountStorageUpgrades = 0;
         
         
         public TileEnergyController() {
@@ -67,17 +69,26 @@ public class BlockEnergyController extends TileBlockBase {
             return DEFAULT_CAPACITY * (this.amountStorageUpgrades + 1);
         }
         
+        public boolean isInitalized() {
+            return this.channel != DEFAULT_CHANNEL;
+        }
         
+        
+        // TODO use a better way to manage channels
         @Override
         public void onLoad() {
-            if(channel != DEFAULT_CHANNEL && INSTANCE.tiles.get(this.channel) == null) {
-                INSTANCE.tiles.set(this.channel, this);
-            } else {
-                String description = "Unexpected repeating channel from BlockEnergyController";
-                IllegalAccessException e = new IllegalAccessException(description);
-                CrashReport crashReport = CrashReport.makeCrashReport(e, description);
-                
-                throw new ReportedException(crashReport);
+            // Wait until player's right click to allocate a new channel
+            if(this.isInitalized()) {
+                // This tile entity with the channel does not exist, which is good
+                if(INSTANCE.tiles.size() >= this.channel && INSTANCE.tiles.get(this.channel) == null) {
+                    INSTANCE.tiles.add(this.channel, this);
+                } else {
+                    String description = "Unexpected repeating channel from BlockEnergyController";
+                    IllegalAccessException e = new IllegalAccessException(description);
+                    CrashReport crashReport = CrashReport.makeCrashReport(e, description);
+                    
+                    throw new ReportedException(crashReport);
+                }
             }
         }
         
@@ -93,7 +104,7 @@ public class BlockEnergyController extends TileBlockBase {
             
             this.channel = tag.getInteger(CHANNEL);
             this.amountStorageUpgrades = tag.getInteger(STORAGE_UPGRADES);
-            int energyStored = tag.getInteger(STORAGE_ENERGY_REMAIN);
+            int energyStored = tag.getInteger(STORAGE_ENERGY_REMAINED);
             
             this.storage = new EnergyStorage(this.getStorageCapacity(), DEFAULT_IO, DEFAULT_IO, energyStored);
         }
@@ -102,7 +113,7 @@ public class BlockEnergyController extends TileBlockBase {
         public NBTTagCompound writeToNBT(NBTTagCompound tag) {
             tag.setInteger(CHANNEL, this.channel);
             tag.setInteger(STORAGE_UPGRADES, this.amountStorageUpgrades);
-            tag.setInteger(STORAGE_ENERGY_REMAIN, this.storage.getEnergyStored());
+            tag.setInteger(STORAGE_ENERGY_REMAINED, this.storage.getEnergyStored());
             
             return super.writeToNBT(tag);
         }
@@ -112,7 +123,7 @@ public class BlockEnergyController extends TileBlockBase {
     
     
     
-    public final List<TileEnergyController> tiles;
+    public final ArrayList<TileEnergyController> tiles;
 
     public BlockEnergyController(String name) {
         super(name, Material.ROCK);
@@ -129,11 +140,11 @@ public class BlockEnergyController extends TileBlockBase {
             return false;
         }
         
-//        ItemStack hand = player.getHeldItem(hand);
-//        
-//        if(hand.getItem() == STORAGE_UPGRADE) {
-//            return true;
-//        }
+        ItemStack heldItem = player.getHeldItem(hand);
+        
+        if(heldItem.getItem() == STORAGE_UPGRADE) {
+            return true;
+        }
         
         TileEnergyController tile = (TileEnergyController) world.getTileEntity(pos);
         player.sendMessage(new TextComponentString("controller id: " + tile.getChannel()));
