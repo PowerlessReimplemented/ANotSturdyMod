@@ -17,6 +17,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
 
+// TODO light cubes with color
 public class BlockLightCube extends BlockBase {
 
     protected static final AxisAlignedBB LIGHT_CUBE_AABB = new AxisAlignedBB(0.3, 0.3, 0.3, 0.7, 0.7, 0.7);

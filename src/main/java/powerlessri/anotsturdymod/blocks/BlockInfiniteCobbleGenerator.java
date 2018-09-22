@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.tile.TileCobbleGenerator;
 
+// TODO different cobblestone generators
 public class BlockInfiniteCobbleGenerator extends TileBlockBase {
 
     public BlockInfiniteCobbleGenerator(String name) {
