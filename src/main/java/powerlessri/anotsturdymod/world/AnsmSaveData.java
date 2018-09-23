@@ -15,9 +15,9 @@ public class AnsmSaveData extends WorldSavedData {
     // TODO code clean-up, and keep it DRY
     // Mojang's sh*t nbt implementation.
     public static class RemoteEnergyNetworkData implements INBTSerializable<NBTTagCompound> {
-        
+
         public static final float CAPACITY_ENSURING_MULTIPLYER = 1.5f;
-        
+
         public static final String CHANNEL_USAGE = "chnnlUsage";
         public static final String LIST_DATA = "storageData";
         public static final String CAPACITY = "capacitiy";
@@ -51,7 +51,7 @@ public class AnsmSaveData extends WorldSavedData {
                 if(storedEnergy != -1) this.storedEnergy[channel] = storedEnergy;
             }
         }
-        
+
         public void update() {
             // nextChannel = 0 when channelUsage = 1
             if(nextChannel - channelUsage < 2) {
@@ -62,7 +62,7 @@ public class AnsmSaveData extends WorldSavedData {
                 this.capacity = new int[(int) (oldCapacity.length * CAPACITY_ENSURING_MULTIPLYER)];
                 this.ioLimit = new int[(int) (oldIOLimit.length * CAPACITY_ENSURING_MULTIPLYER)];
                 this.storedEnergy = new int[(int) (oldStoredEnergy.length * CAPACITY_ENSURING_MULTIPLYER)];
-                
+
                 for(int i = 0; i < this.channelUsage; i++) {
                     this.capacity[i] = oldCapacity[i];
                     this.ioLimit[i] = oldIOLimit[i];
@@ -75,16 +75,16 @@ public class AnsmSaveData extends WorldSavedData {
         @Override
         public NBTTagCompound serializeNBT() {
             NBTTagCompound tag = new NBTTagCompound();
-            
+
             tag.setInteger(CHANNEL_USAGE, channelUsage);
-            
+
             NBTTagList dataList = new NBTTagList();
             for(int i = 0; i < this.channelUsage; i++) {
                 NBTTagCompound dataComp = new NBTTagCompound();
                 dataComp.setInteger(CAPACITY, capacity[i]);
                 dataComp.setInteger(IO_LIMIT, ioLimit[i]);
                 dataComp.setInteger(STORED_ENERGY, storedEnergy[i]);
-                
+
                 dataList.appendTag(dataComp);
             }
             tag.setTag(LIST_DATA, dataList);
@@ -114,30 +114,32 @@ public class AnsmSaveData extends WorldSavedData {
 
     }
 
-    
+
     public static AnsmSaveData fromWorld(World world) {
         MapStorage storage = world.getMapStorage();
         AnsmSaveData result = (AnsmSaveData) storage.getOrLoadData(AnsmSaveData.class, DATA_NAME);
-        
+
         if(result == null) {
             result = new AnsmSaveData();
             storage.setData(DATA_NAME, result);
         }
-        
+
         return result;
     }
-    
-    
+
+
 
     public static final String DATA_NAME = Reference.MODID;
-    
+
     // NBT tag keys
     public static final String CONTROLLER_CHANNEL_USAGE = "cntrllrNextChnnl";
+
+
 
     // TODO redesign so it's not coupled with BlockEnergyController.nextChannel
     public int controllerNextChannel = 1;
 
-    
+
     public AnsmSaveData() {
         super(DATA_NAME);
     }

@@ -8,7 +8,9 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import powerlessri.anotsturdymod.blocks.BlockEnergyAccessPort;
+import powerlessri.anotsturdymod.blocks.BlockEnergyAccessPort.TileControllerEnergyNetworkAccessPort;
 import powerlessri.anotsturdymod.blocks.BlockEnergyController;
+import powerlessri.anotsturdymod.blocks.BlockEnergyController.TileEnergyNetworkController;
 import powerlessri.anotsturdymod.blocks.BlockInfiniteCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
@@ -26,6 +28,7 @@ import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.library.EMachineLevel;
 import powerlessri.anotsturdymod.library.handlers.CommonReloadHandler;
+import powerlessri.anotsturdymod.tile.TileCobbleGenerator;
 
 
 public class CommonProxy {
@@ -52,6 +55,10 @@ public class CommonProxy {
         registerBlock(new BlockEnergyAccessPort("energy_network_output_port", 5000, true));
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
         registerBlock(new BlockLightCube("light_cube"));
+        
+        TileEntity.register("te.energy_network_controller", TileEnergyNetworkController.class);
+        TileEntity.register("te.energy_network_access", TileControllerEnergyNetworkAccessPort.class);
+        TileEntity.register("te.cobble_generator", TileCobbleGenerator.class);
 
         registerItem(new ItemTransmutationStone("transmutation_orb"));
         registerItem(new ItemExchanger("exchanger", EMachineLevel.BASIC, 1));
@@ -87,7 +94,6 @@ public class CommonProxy {
 
     protected void registerBlock(TileBlockBase block) {
         this.registerBlock((SimpleBlockBase) block);
-        block.registerTileEntity();
     }
 
 

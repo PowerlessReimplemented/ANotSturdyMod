@@ -25,16 +25,19 @@ public class InventoryUtils {
 
     public static int countItems(IInventory inventory, BiFunction<ItemStack, Integer, Integer> lambd) {
         int count = 0;
-
         for(int i = 0; i < inventory.getSizeInventory(); i++) {
             count = lambd.apply(inventory.getStackInSlot(i), count);
         }
-
         return count;
     }
 
     public static int getAmountItems(IInventory inventory, ItemStack specifiedItem) {
-        return countItems(inventory, (stack, sum) -> sum += stack.getCount());
+        return countItems(inventory, (stack, sum) -> {
+            if(stack.isItemEqual(specifiedItem)) { 
+                return sum += stack.getCount();
+            }
+            return sum;
+        });
     }
 
     public static void takeItems(IInventory inventory, ItemStack specifiedItem) {
@@ -71,6 +74,8 @@ public class InventoryUtils {
 
         return false;
     }
+
+
 
     public static ItemStack stackOf(Item item, int meta) {
         return stackOf(item, meta, 1);

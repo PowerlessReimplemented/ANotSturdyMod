@@ -57,11 +57,10 @@ public class BlockEnergyController extends TileBlockBase {
         /** Capacity formula: {@code DEFAULT_CAPACITY * (amountStorageUpgrades + 1)} */
         private int amountStorageUpgrades;
         //TODO make everything long compatible
-        private long energy;
+        private long energy = 0;
 
 
         public TileEnergyNetworkController() {
-            this.energy = 0;
         }
 
 

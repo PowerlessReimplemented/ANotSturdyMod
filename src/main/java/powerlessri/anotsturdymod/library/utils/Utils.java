@@ -27,24 +27,18 @@ public class Utils {
         return logger;
     }
 
+
+
     public static String readFromLang(String key) {
         String result = I18n.translateToLocal(key);
         return result == null ? "" : result;
     }
-    
+
     public static String readCommand(String command, String suffix) {
         return readFromLang(Reference.COMMAND_RESOURCE_PATH_PREFIX + command + "." + suffix);
     }
 
-    private static TextComponentString textStringWithStyle(String text, Style style) {
-        TextComponentString result = new TextComponentString(text);
-        result.setStyle(style);
-        return result;
-    }
 
-    public static TextComponentString createStringRed(String description) {
-        return textStringWithStyle(description, Reference.STYLE_RED);
-    }
 
     public static ResourceLocation locationOf(String path) {
         return locationOf(Reference.DOMAIN_MINECRAFT, path);
@@ -57,12 +51,20 @@ public class Utils {
     public static String formatRegistryId(String id) {
         // I'm not sure why do I chose this way...
         // Maybe for compability if someday Mojang decided to change resource path
-        // format
+        // format.
         return locationOf(Reference.MODID, id).toString();
     }
 
-    public static int arrayIndex2D(int x, int y, int width) {
-        return x + y * width;
+
+
+    private static TextComponentString textStringWithStyle(String text, Style style) {
+        TextComponentString result = new TextComponentString(text);
+        result.setStyle(style);
+        return result;
+    }
+
+    public static TextComponentString createStringRed(String description) {
+        return textStringWithStyle(description, Reference.STYLE_RED);
     }
 
     public static TextComponentString createStringBlue(String description) {

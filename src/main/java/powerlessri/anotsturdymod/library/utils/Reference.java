@@ -19,7 +19,8 @@ public class Reference {
     public static final int INT_BIT_LENGTH = INT_BYTE_LENGTH * 8;
 
     /**
-     * ANotSturdyMod => "ANotSturdyMod" (NAME) ^^ ^ ^ => "ansm" (MODID)
+     * ANotSturdyMod => "ANotSturdyMod" (NAME)
+     * ^^  ^     ^ => "ansm" (MODID)
      */
     public static final String MODID = "ansm";
     public static final String NAME = "ANotSturdyMod";
@@ -45,7 +46,7 @@ public class Reference {
 
     /** Actual explanation for what this does */
     public static final Style STYLE_TOOLTIP_DESCRIPTION = new Style().setColor(TextFormatting.GRAY);
-    /** Vazkii styled description */
+    /** Botania styled description */
     public static final Style STYLE_TOOLTIP_GRIND = new Style().setColor(TextFormatting.DARK_GRAY).setItalic(true);
 
     /** Status label on item's tooltip */

@@ -13,7 +13,7 @@ public class PosExtractor {
      * Get all blocks on a plane with {@code radius} * 2 + 1 side length, parallel
      * with {@code sideHit}. <br />
      * 
-     * e.g. {@code sideHit} = <b>UP/DOWN</b>: BlockPos with same y <br />
+     * {@code sideHit} = <b>UP/DOWN</b>: BlockPos with same y <br />
      * {@code sideHit} = <b>NORTH/SOUTH</b>: BlockPos with same z <br />
      * {@code sideHit} = <b>EAST/WEST</b>: BlockPos with same x <br />
      */

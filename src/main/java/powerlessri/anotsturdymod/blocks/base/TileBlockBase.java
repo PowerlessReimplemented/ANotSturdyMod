@@ -13,7 +13,6 @@ public abstract class TileBlockBase extends SimpleBlockBase implements ITileInte
         super(name, material);
         
         this.hasTileEntity = true;
-        
     }
 
 
@@ -34,19 +33,6 @@ public abstract class TileBlockBase extends SimpleBlockBase implements ITileInte
         TileEntity tile = world.getTileEntity(pos);
         if(tile != null && tile instanceof TileEntityBase) {
             ((TileEntityBase) tile).onRemoved();
-        }
-    }
-    
-    
-    
-    // ====== Initialization tool kit ====== //
-    
-    private static boolean hasRegisteredTileEntity = false;
-    
-    public void registerTileEntity() {
-        if(!hasRegisteredTileEntity) {
-            TileEntity.register(this.getRegistryName().toString(), this.getTileEntityClass());
-            hasRegisteredTileEntity = true;
         }
     }
 
