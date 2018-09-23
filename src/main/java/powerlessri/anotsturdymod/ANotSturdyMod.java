@@ -8,7 +8,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import powerlessri.anotsturdymod.init.ModCommands;
-import powerlessri.anotsturdymod.library.handlers.CommonReloadHandler;
 import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.library.utils.Utils;
 
@@ -26,7 +25,7 @@ public class ANotSturdyMod {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         Utils.getLogger().info(Reference.MODID + " excuting preInit");
-
+        
         proxy.modInit();
         proxy.preInit(event);
     }

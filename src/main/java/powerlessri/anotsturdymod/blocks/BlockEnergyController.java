@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.world.AnsmSaveData;
 
 public class BlockEnergyController extends TileBlockBase {
 
@@ -65,10 +66,17 @@ public class BlockEnergyController extends TileBlockBase {
 
 
 
-        public int getChannel() {
+        public int getOrAllocChannel(World world) {
+            return this.getOrAllocChannel(AnsmSaveData.fromWorld(world));
+        }
+        
+        public int getOrAllocChannel(AnsmSaveData data) {
             if(!isInitalized()) {
                 channel = nextChannel;
                 nextChannel++;
+                data.controllerNextChannel++;
+                data.markDirty();
+                
                 if(INSTANCE.tiles.size() - nextChannel < 5) {
                     int oldSize = INSTANCE.tiles.size();
                     INSTANCE.tiles.ensureCapacity((int) (INSTANCE.tiles.size() * 1.5f));
@@ -79,6 +87,10 @@ public class BlockEnergyController extends TileBlockBase {
                 this.onLoad();
             }
 
+            return this.getChannel();
+        }
+        
+        public int getChannel() {
             return channel;
         }
 
@@ -178,7 +190,7 @@ public class BlockEnergyController extends TileBlockBase {
             this.isDirty = false;
         }
 
-        public int getChannel() {
+        public int getOrAllocChannel() {
             return 0;
         }
 
@@ -214,6 +226,7 @@ public class BlockEnergyController extends TileBlockBase {
 
 
         // These can be empty because this tile entity does nothing and stores nothing and immutable.
+        
         @Override
         public void readFromNBT(NBTTagCompound tag) {
         }
@@ -254,7 +267,7 @@ public class BlockEnergyController extends TileBlockBase {
         //        }
 
         TileEnergyNetworkController tile = (TileEnergyNetworkController) world.getTileEntity(pos);
-        player.sendMessage(new TextComponentString("controller id: " + tile.getChannel()));
+        player.sendMessage(new TextComponentString("controller id: " + tile.getOrAllocChannel(world)));
 
         return true;
     }
@@ -269,20 +282,6 @@ public class BlockEnergyController extends TileBlockBase {
     @Override
     public Class<? extends TileEntity> getTileEntityClass() {
         return TileEnergyNetworkController.class;
-    }
-
-
-    @Deprecated
-    public void tileCleanup() {
-        for(TileEnergyNetworkController tile : this.tiles) {
-            World world = tile.getWorld();
-            BlockPos pos = tile.getPos();
-            TileEntity targetTile = world.getTileEntity(pos);
-
-            if(targetTile == null || !(targetTile instanceof TileEnergyNetworkController)) {
-                this.tiles.set(tile.getChannel(), null);
-            }
-        }
     }
 
 }

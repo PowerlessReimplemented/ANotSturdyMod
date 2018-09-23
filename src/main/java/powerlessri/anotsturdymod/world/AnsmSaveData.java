@@ -1,8 +1,9 @@
 package powerlessri.anotsturdymod.world;
 
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.World;
+import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -13,7 +14,7 @@ public class AnsmSaveData extends WorldSavedData {
     // TODO complete the code part that is actually related to this part (branch 'remote-energy-cell')
     // TODO code clean-up, and keep it DRY
     // Mojang's sh*t nbt implementation.
-    public static class RemoteEnergyNetworkData implements INBTSerializable {
+    public static class RemoteEnergyNetworkData implements INBTSerializable<NBTTagCompound> {
         
         public static final float CAPACITY_ENSURING_MULTIPLYER = 1.5f;
         
@@ -72,7 +73,7 @@ public class AnsmSaveData extends WorldSavedData {
 
 
         @Override
-        public NBTBase serializeNBT() {
+        public NBTTagCompound serializeNBT() {
             NBTTagCompound tag = new NBTTagCompound();
             
             tag.setInteger(CHANNEL_USAGE, channelUsage);
@@ -93,38 +94,52 @@ public class AnsmSaveData extends WorldSavedData {
 
 
         @Override
-        public void deserializeNBT(NBTBase nbt) {
-            if(nbt instanceof NBTTagCompound) {
-                NBTTagCompound tag = (NBTTagCompound) nbt;
-                
-                this.channelUsage = tag.getInteger(CHANNEL_USAGE);
-                // Actual size of array, suppose to be bigger than channelUsage
-                int arraySize = (int) (channelUsage * CAPACITY_ENSURING_MULTIPLYER);
-                
-                this.capacity = new int[arraySize];
-                this.ioLimit = new int[arraySize];
-                this.storedEnergy = new int[arraySize];
-                
-                NBTTagList dataList = tag.getTagList(LIST_DATA, Constants.NBT.TAG_COMPOUND);
-                for(int i = 0; i < this.channelUsage; i++) {
-                    NBTTagCompound dataComp = dataList.getCompoundTagAt(i);
-                    this.capacity[i] = dataComp.getInteger(CAPACITY);
-                    this.ioLimit[i] = dataComp.getInteger(IO_LIMIT);
-                    this.storedEnergy[i] = dataComp.getInteger(STORED_ENERGY);
-                }
+        public void deserializeNBT(NBTTagCompound tag) {
+            this.channelUsage = tag.getInteger(CHANNEL_USAGE);
+            // Actual size of array, suppose to be bigger than channelUsage
+            int arraySize = (int) (channelUsage * CAPACITY_ENSURING_MULTIPLYER);
+
+            this.capacity = new int[arraySize];
+            this.ioLimit = new int[arraySize];
+            this.storedEnergy = new int[arraySize];
+
+            NBTTagList dataList = tag.getTagList(LIST_DATA, Constants.NBT.TAG_COMPOUND);
+            for(int i = 0; i < this.channelUsage; i++) {
+                NBTTagCompound dataComp = dataList.getCompoundTagAt(i);
+                this.capacity[i] = dataComp.getInteger(CAPACITY);
+                this.ioLimit[i] = dataComp.getInteger(IO_LIMIT);
+                this.storedEnergy[i] = dataComp.getInteger(STORED_ENERGY);
             }
         }
 
     }
 
+    
+    public static AnsmSaveData fromWorld(World world) {
+        MapStorage storage = world.getMapStorage();
+        AnsmSaveData result = (AnsmSaveData) storage.getOrLoadData(AnsmSaveData.class, DATA_NAME);
+        
+        if(result == null) {
+            result = new AnsmSaveData();
+            storage.setData(DATA_NAME, result);
+        }
+        
+        return result;
+    }
+    
+    
 
+    public static final String DATA_NAME = Reference.MODID;
+    
+    // NBT tag keys
     public static final String CONTROLLER_CHANNEL_USAGE = "cntrllrNextChnnl";
 
-    public int controllerNextChannel;
+    // TODO redesign so it's not coupled with BlockEnergyController.nextChannel
+    public int controllerNextChannel = 1;
 
     
     public AnsmSaveData() {
-        super(Reference.MODID);
+        super(DATA_NAME);
     }
 
 
