@@ -14,6 +14,7 @@ import net.minecraft.util.ReportedException;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import powerlessri.anotsturdymod.blocks.BlockEnergyController.TileEnergyNetworkController;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.tile.base.TileEntityBase;
@@ -124,6 +125,8 @@ public class BlockEnergyController extends TileBlockBase {
         // TODO use a better way to manage channels
         @Override
         public void onLoad() {
+            super.onLoad();
+            
             // Wait until player activate this block (wait until it has a channel)
             if(isInitalized()) {
                 // This step might cause an IndexOutOfBoundsException, if channel is not allocated by #getChannel()
@@ -156,6 +159,8 @@ public class BlockEnergyController extends TileBlockBase {
         // Redirecting
         @Override
         public void onChunkUnload() {
+            super.onChunkUnload();
+            
             this.onRemoved();
         }
 
@@ -238,16 +243,15 @@ public class BlockEnergyController extends TileBlockBase {
 
 
 
-    /** A list of loaded & working (assigned with a channel) controller tile entities. */
-    public final ArrayList<TileEnergyNetworkController> tiles;
+    
 
-    public BlockEnergyController(String name) {
+    public ArrayList<TileEnergyNetworkController> tiles = new ArrayList<>();
+    
+    private BlockEnergyController(String name) {
         super(name, Material.ROCK);
-
-        // TODO store size to some nbt file
-        this.tiles = new ArrayList<>();
-        for(int i = 0; i < 64; i++) this.tiles.add(null);
-        this.tiles.add(new FakeEnergyNetworkController());
+        
+        for(int i = 0; i < 64; i++) tiles.add(null);
+        tiles.add(new FakeEnergyNetworkController());
     }
 
 
