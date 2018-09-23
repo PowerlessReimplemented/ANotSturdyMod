@@ -17,12 +17,12 @@ import powerlessri.anotsturdymod.library.utils.Utils;
  * 
  * @author root-user
  */
-public class CommandDebug extends CommandStandardReloadable {
+public class CommandAnsmUtils extends CommandStandardReloadable {
 
     public static final String OUTPUT_DESCRIPTION = ".outputDescription";
 
-    public CommandDebug() {
-        super("debug");
+    public CommandAnsmUtils() {
+        super("utils");
 
         this.options.put("hand", (sender, rest) -> {
             EntityPlayer player = (EntityPlayer) sender;

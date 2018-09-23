@@ -14,8 +14,7 @@ import powerlessri.anotsturdymod.blocks.BlockLightCube;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
 import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
-import powerlessri.anotsturdymod.commands.CommandAnsm;
-import powerlessri.anotsturdymod.commands.CommandDebug;
+import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
 import powerlessri.anotsturdymod.init.ModBlocks;
 import powerlessri.anotsturdymod.init.ModCommands;
 import powerlessri.anotsturdymod.init.ModItems;
@@ -25,10 +24,14 @@ import powerlessri.anotsturdymod.items.ItemTransmutationStone;
 import powerlessri.anotsturdymod.items.base.ItemBase;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
-import powerlessri.anotsturdymod.library.enums.EMachineLevel;
+import powerlessri.anotsturdymod.library.EMachineLevel;
+import powerlessri.anotsturdymod.library.handlers.CommonReloadHandler;
 
 
 public class CommonProxy {
+    
+    public CommonReloadHandler reloadHandler;
+    
 
     // ClientSide-only stuffs
     public void registerItemRenderer(Item item, int meta, String id) {
@@ -38,6 +41,10 @@ public class CommonProxy {
     }
 
 
+    /** Initializing mod stuffs that are side-dependent. */
+    public void modInit() {
+        this.reloadHandler = new CommonReloadHandler();
+    }
 
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(BlockEnergyController.INSTANCE);
@@ -60,12 +67,7 @@ public class CommonProxy {
     }
 
     public void serverStarting(FMLServerStartingEvent event) {
-        ModCommands.COMMANDS.add(new CommandDebug());
-        ModCommands.COMMANDS.add(new CommandAnsm());
-
-        ModCommands.COMMANDS.forEach((c) -> {
-            event.registerServerCommand(c);
-        });
+        ModCommands.COMMANDS.add(new CommandAnsmUtils());
     }
 
 

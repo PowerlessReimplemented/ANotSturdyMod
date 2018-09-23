@@ -1,8 +1,11 @@
 package powerlessri.anotsturdymod.library.utils;
 
+import org.apache.logging.log4j.util.TriConsumer;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;
 import powerlessri.anotsturdymod.library.tags.ITagBasedItem;
 
