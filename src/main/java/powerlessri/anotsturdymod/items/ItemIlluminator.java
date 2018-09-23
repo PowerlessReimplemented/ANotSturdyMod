@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.init.ModBlocks;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
-import powerlessri.anotsturdymod.library.enums.EMachineLevel;
+import powerlessri.anotsturdymod.library.EMachineLevel;
 
 
 public class ItemIlluminator extends SimpleItemBase {

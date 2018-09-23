@@ -18,7 +18,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.init.ModItems;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
-import powerlessri.anotsturdymod.library.enums.EMachineLevel;
+import powerlessri.anotsturdymod.library.EMachineLevel;
 import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;
 import powerlessri.anotsturdymod.library.tags.ITagBasedItem;
 import powerlessri.anotsturdymod.library.utils.InventoryUtils;
@@ -30,6 +30,7 @@ import powerlessri.anotsturdymod.library.utils.Utils;
 
 public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
+    // Maximum radius for this type of exchanger
     private final int maxRadius;
 
     public ItemExchanger(String name, EMachineLevel level, int radius) {
@@ -49,7 +50,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
         ItemStack item = player.getHeldItem(hand);
         
         if(world.isRemote) {
-            return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, item);
+            return new ActionResult<>(EnumActionResult.SUCCESS, item);
         }
         
         
@@ -58,8 +59,11 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
             NBTTagCompound tag = item.getTagCompound();
             
             byte radius = tag.getByte(EnumTags.RADIUS.key);
-            tag.setByte(EnumTags.RADIUS.key, (byte) (radius == this.maxRadius ? 0 : radius + 1)); 
+            tag.setByte(EnumTags.RADIUS.key, (byte) (radius == this.maxRadius ? 0 : radius + 1));
+            
+            return new ActionResult<>(EnumActionResult.SUCCESS, item);
         }
+        
         return new ActionResult<>(EnumActionResult.FAIL, item);
     }
 
@@ -80,7 +84,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
         this.updateItemTag(exchanger);
 
         if(!player.isSneaking()) {
-            return attemptExchange(exchanger, player, world, pos, facing);
+            return attemptExchange(player, exchanger, world, pos, facing);
         } else {
             return selectTargetBlock(player, exchanger, world.getBlockState(pos));
         }
@@ -103,7 +107,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
         return EnumActionResult.FAIL;
     }
 
-    private EnumActionResult attemptExchange(ItemStack exchanger, EntityPlayer player, World world, BlockPos posHit,
+    private EnumActionResult attemptExchange(EntityPlayer player, ItemStack exchanger, World world, BlockPos posHit,
             EnumFacing faceHit) {
         NBTTagCompound tag = exchanger.getTagCompound();
 
@@ -173,7 +177,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
             return EnumActionResult.SUCCESS;
         }
 
-        // Survival-only below
+        // ==== Survival-only ==== //
 
         if(blockAffected > replacementInInventory) {
             return EnumActionResult.FAIL;
@@ -239,9 +243,9 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
         USE_TRANSMUTATION_ORB("use_transmutations", false, EDataType.BOOLEAN);
 
-        EDataType type;
-        String key;
-        Object defaultValue;
+        final EDataType type;
+        final String key;
+        final Object defaultValue;
 
         private EnumTags(String key, Object defaultVal, EDataType type) {
             this.key = key;

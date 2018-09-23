@@ -15,9 +15,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.tile.TileEnergyStorage;
+import powerlessri.anotsturdymod.world.AnsmSaveData;
 import powerlessri.anotsturdymod.world.handler.LinkedEnergyStorage;
 
 public class BlockRemoteEnergyCell extends TileBlockBase {
@@ -27,11 +30,6 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
     
     private static List<BlockRemoteEnergyCell> instances = new ArrayList<>();
     
-    @Nullable
-    public static LinkedEnergyStorage forMultiStorage(int id) {
-        return instances.get(id).multiStorage;
-    }
-    
     
     
     public static class TileRemoteEnergyCell extends TileEnergyStorage {
@@ -40,21 +38,17 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
         private static final int DEFAULT_MAX_RECEIVE = 5000;
         private static final int DEFAULT_MAX_EXTRACT = 5000;
         
-        private static final String MULTISTORAGE_ID = "multiStorageId";
         private static final String CHANNEL = "channel";
         
         
-        // Id of instance of BlockRemoteEnergyCell, used to find the corresponding multistorage
-        private int instanceId;
         private LinkedEnergyStorage multiStorage;
         
         private int channel;
         
-        public TileRemoteEnergyCell(int instanceId) {
+        public TileRemoteEnergyCell() {
             super();
             
-            this.instanceId = instanceId;
-            this.multiStorage = forMultiStorage(instanceId);
+            this.multiStorage = AnsmSaveData.fromWorld(getWorld()).linkedEnergyNet.get(0);
             this.channel = DEFAULT_STORAGE_ID;
         }
         
@@ -72,6 +66,10 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
             }
             
             this.updateStorage(DEFAULT_CAPACITY);
+        }
+        
+        public EnergyStorage getStorage() {
+            return multiStorage.getStorage(this.channel);
         }
         
         public void updateStorage() {
@@ -93,24 +91,37 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
         public void readFromNBT(NBTTagCompound tag) {
             super.readFromNBT(tag);
             
-            this.multiStorage = BlockRemoteEnergyCell.forMultiStorage(tag.getByte(MULTISTORAGE_ID));
             this.channel = tag.getByte(CHANNEL);
         }
         
         @Override
         public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-            tag.setByte(MULTISTORAGE_ID, (byte) this.instanceId);
             tag.setByte(CHANNEL, (byte) this.channel);
             
             return super.writeToNBT(tag);
         }
         
+        
+        
+        @Override
+        public boolean hasCapability(Capability<?> capability, EnumFacing facing, boolean ignoreFacing) {
+            // TODO add facing
+            if(CapabilityEnergy.ENERGY == capability && (ignoreFacing || true)) {
+                return true;
+            }
+            return super.hasCapability(capability, facing, ignoreFacing);
+        }
+        
+        @Override
+        public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+            if(this.hasCapability(capability, facing, true)) {
+                return CapabilityEnergy.ENERGY.cast(this.getStorage());
+            }
+            return super.getCapability(capability, facing);
+        }
+        
     }
     
-    
-    
-    private final int instanceId;
-    private final LinkedEnergyStorage multiStorage;
     
 
     public BlockRemoteEnergyCell(String name) {
@@ -122,11 +133,6 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
 
         // TODO add own creative tab
         this.setCreativeTab(CreativeTabs.MISC);
-        
-        instances.add(this);
-        this.instanceId = instances.size() - 1;
-        
-        this.multiStorage = new LinkedEnergyStorage();
     }
 
 
@@ -152,7 +158,7 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
     
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileRemoteEnergyCell(this.instanceId);
+        return new TileRemoteEnergyCell();
     }
 
 }

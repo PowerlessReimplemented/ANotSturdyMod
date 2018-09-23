@@ -16,9 +16,9 @@ public class LinkedEnergyStorage {
     private List<EnergyStorage> storages;
     private int currentChannel;
     
-    private int defaultCapacity;
-    private int defaultMaxIn;
-    private int defaultMaxOut;
+    public int defaultCapacity;
+    public int defaultMaxIn;
+    public int defaultMaxOut;
     
     
     public LinkedEnergyStorage() {
