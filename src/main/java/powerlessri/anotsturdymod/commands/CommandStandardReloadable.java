@@ -7,6 +7,7 @@ import java.util.function.BiConsumer;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import powerlessri.anotsturdymod.ANotSturdyMod;
+import powerlessri.anotsturdymod.CommonProxy;
 import powerlessri.anotsturdymod.library.IResourcesReloadable;
 import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.library.utils.Utils;
@@ -38,7 +39,7 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
         this.useModIDPrefix = false;
         this.prefixSeparator = ':';
 
-        ANotSturdyMod.instance.reloadHandler.addLang(this);
+        ANotSturdyMod.proxy.reloadHandler.addLang(this);
     }
 
     
