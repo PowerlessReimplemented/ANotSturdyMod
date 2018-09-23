@@ -28,9 +28,9 @@ import powerlessri.anotsturdymod.world.handler.WorldTransmutation;
 
 
 public class CommonProxy {
-    
+
     public CommonReloadHandler reloadHandler;
-    
+
 
     // ClientSide-only stuffs
     public void registerItemRenderer(Item item, int meta, String id) {
@@ -47,9 +47,7 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
-        for(int i = 0; i < 1; i++) {
-            registerBlock(new BlockRemoteEnergyCell("remote_energy_cell_" + i));
-        }
+        registerBlock(new BlockRemoteEnergyCell("remote_energy_cell"));
         registerBlock(new BlockLightCube("light_cube"));
 
         registerItem(new ItemTransmutationStone("transmutation_orb"));

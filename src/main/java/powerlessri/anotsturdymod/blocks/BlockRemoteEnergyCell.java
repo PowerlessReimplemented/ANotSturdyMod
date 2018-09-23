@@ -1,10 +1,5 @@
 package powerlessri.anotsturdymod.blocks;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -24,94 +19,102 @@ import powerlessri.anotsturdymod.world.AnsmSaveData;
 import powerlessri.anotsturdymod.world.handler.LinkedEnergyStorage;
 
 public class BlockRemoteEnergyCell extends TileBlockBase {
-    
-    private static final LinkedEnergyStorage DEFAULT_MULTISTORAGE = new LinkedEnergyStorage();
-    private static final int DEFAULT_STORAGE_ID = DEFAULT_MULTISTORAGE.nextChannel();
-    
-    private static List<BlockRemoteEnergyCell> instances = new ArrayList<>();
-    
-    
-    
+
     public static class TileRemoteEnergyCell extends TileEnergyStorage {
-        
+
         private static final int DEFAULT_CAPACITY = 1000000;
         private static final int DEFAULT_MAX_RECEIVE = 5000;
         private static final int DEFAULT_MAX_EXTRACT = 5000;
-        
+
         private static final String CHANNEL = "channel";
-        
-        
+
+
+        private final int capacity;
+        private final int maxReceive;
+        private final int maxExtract;
+
+        private AnsmSaveData data;
+        /** Reference to level-wide multiStorage */
         private LinkedEnergyStorage multiStorage;
-        
+
         private int channel;
-        
-        public TileRemoteEnergyCell() {
+
+        public TileRemoteEnergyCell(int capacity, int maxReceive, int maxExtract) {
             super();
-            
-            this.multiStorage = AnsmSaveData.fromWorld(getWorld()).linkedEnergyNet.get(0);
-            this.channel = DEFAULT_STORAGE_ID;
+
+            this.capacity = Math.max(DEFAULT_CAPACITY, capacity);
+            this.maxReceive = Math.max(DEFAULT_MAX_RECEIVE, maxReceive);
+            this.maxExtract = Math.max(DEFAULT_MAX_EXTRACT, maxExtract);
+
+            this.channel = -1;
         }
-        
-        
-        
-        public void setChannel() {
-            this.setChannel(this.multiStorage.nextChannel());
-        }
-        
-        public void setChannel(int channel) {
-            this.updateStorage(-DEFAULT_CAPACITY);
-            
-            if(this.multiStorage.doesStorageExist(channel)) {
-                this.channel = channel;
+
+        @Override
+        public void onLoad() {
+            if(multiStorage == null) {
+                this.data = AnsmSaveData.fromWorld(this.getWorld());
+                this.multiStorage = this.data.linkedEnergyNet.get(0);
             }
-            
-            this.updateStorage(DEFAULT_CAPACITY);
         }
-        
+
+
+
         public EnergyStorage getStorage() {
             return multiStorage.getStorage(this.channel);
         }
-        
-        public void updateStorage() {
-            this.storage = this.multiStorage.getStorage(this.channel);
+
+        public void setChannel() {
+            this.setChannel(this.multiStorage.nextChannel());
         }
-        
-        private void updateStorage(int capacityIncreament) {
+
+        public void setChannel(int channel) {
+            this.updateParentStorage(-capacity);
+
+            if(this.multiStorage.doesStorageExist(channel)) {
+                this.channel = channel;
+            }
+
+            this.updateParentStorage(capacity);
+        }
+
+        /** Modify the capacity & stored energy of parent storage after setting channel. */
+        private void updateParentStorage(int capacityIncreament) {
             EnergyStorage last = multiStorage.getStorage(this.channel);
             // Take out DEFAULT_CAPACITY amount of capacity
             // This step will dispose the energy storage 'last'
-            multiStorage.setStorageTraits(this.channel, last.getMaxEnergyStored() + capacityIncreament, DEFAULT_MAX_RECEIVE, DEFAULT_MAX_EXTRACT);
+            multiStorage.setStorageTraits(this.channel, last.getMaxEnergyStored() + capacityIncreament, maxReceive, maxExtract);
             // Put rest of energy into the new energy storage
             multiStorage.getStorage(this.channel).receiveEnergy(last.getEnergyStored(), false);
+            this.data.markDirty();
         }
-        
-        
-        
+
+
+
         @Override
         public void readFromNBT(NBTTagCompound tag) {
             super.readFromNBT(tag);
-            
+
             this.channel = tag.getByte(CHANNEL);
         }
-        
+
         @Override
         public NBTTagCompound writeToNBT(NBTTagCompound tag) {
             tag.setByte(CHANNEL, (byte) this.channel);
-            
+
             return super.writeToNBT(tag);
         }
-        
-        
-        
+
+
+
         @Override
         public boolean hasCapability(Capability<?> capability, EnumFacing facing, boolean ignoreFacing) {
-            // TODO add facing
+            // TODO add facing (replace true with facing condition)
             if(CapabilityEnergy.ENERGY == capability && (ignoreFacing || true)) {
                 return true;
             }
             return super.hasCapability(capability, facing, ignoreFacing);
         }
-        
+
         @Override
         public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
             if(this.hasCapability(capability, facing, true)) {
@@ -119,10 +122,10 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
             }
             return super.getCapability(capability, facing);
         }
-        
+
     }
-    
-    
+
+
 
     public BlockRemoteEnergyCell(String name) {
         super(name, Material.IRON);
@@ -139,13 +142,13 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        
+
         if(world.isRemote) {
             return true;
         }
-        
+
         // TODO insert upgrades, open gui
-        
+
         return false;
     }
 
@@ -155,10 +158,11 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
     public Class<? extends TileEntity> getTileEntityClass() {
         return TileRemoteEnergyCell.class;
     }
-    
+
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileRemoteEnergyCell();
+        // Use default properties from TileRemoteEnergyCell
+        return new TileRemoteEnergyCell(-1, -1, -1);
     }
 
 }
