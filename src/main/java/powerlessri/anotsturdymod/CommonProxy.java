@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import powerlessri.anotsturdymod.blocks.BlockInfiniteCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
 import powerlessri.anotsturdymod.blocks.BlockRemoteEnergyCell;
@@ -14,6 +15,7 @@ import powerlessri.anotsturdymod.blocks.base.BlockBase;
 import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
+import powerlessri.anotsturdymod.gui.ModGuiHandler;
 import powerlessri.anotsturdymod.init.ModBlocks;
 import powerlessri.anotsturdymod.init.ModCommands;
 import powerlessri.anotsturdymod.init.ModItems;
@@ -54,6 +56,8 @@ public class CommonProxy {
         registerItem(new ItemExchanger("exchanger", EMachineLevel.BASIC, 1));
         registerItem(new ItemExchanger("exchanger", EMachineLevel.ADVANCED, 4));
         registerItem(new ItemIlluminator("illuminator", EMachineLevel.BASIC));
+        
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModGuiHandler());
     }
 
     public void init(FMLInitializationEvent event) {
