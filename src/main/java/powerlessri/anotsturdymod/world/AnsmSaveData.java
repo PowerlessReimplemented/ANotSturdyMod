@@ -66,6 +66,7 @@ public class AnsmSaveData extends WorldSavedData {
             this.linkedEnergyNet.get(i).writeNBT(storage);
             nbtLinkedEN.appendTag(storage);
         }
+        tag.setTag(SHARED_ENERGY_NETWORK, nbtLinkedEN);
             
 
         return tag;

@@ -14,6 +14,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
+import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.tile.TileEnergyStorage;
 import powerlessri.anotsturdymod.world.AnsmSaveData;
 import powerlessri.anotsturdymod.world.handler.LinkedEnergyStorage;
@@ -39,6 +40,11 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
 
         private int channel;
 
+        public TileRemoteEnergyCell() {
+            // Use default status
+            this(-1, -1, -1);
+        }
+        
         public TileRemoteEnergyCell(int capacity, int maxReceive, int maxExtract) {
             super();
 
@@ -68,26 +74,39 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
         }
 
         public void setChannel(int channel) {
-            this.updateParentStorage(-capacity);
-
-            if(this.multiStorage.doesStorageExist(channel)) {
-                this.channel = channel;
+            if(this.channel == channel) {
+                Utils.getLogger().info("Same target channel with current channel when excuting TileRemoteEnergyCell#setChannel(int)");
+                return;
             }
+            
+            // Update old storage capacity
+            if(this.channel != -1) this.updateParentStorage(-capacity);
 
-            this.updateParentStorage(capacity);
+            this.channel = channel;
+
+            // Increase new storage's capacity
+            if(this.channel != -1) this.updateParentStorage(capacity);
         }
 
         /** Modify the capacity & stored energy of parent storage after setting channel. */
         private void updateParentStorage(int capacityIncreament) {
             EnergyStorage last = multiStorage.getStorage(this.channel);
-            // Take out DEFAULT_CAPACITY amount of capacity
+            // Take out TileRemoteEnergyCell#capacity amount of storage capacity
             // This step will dispose the energy storage 'last'
             multiStorage.setStorageTraits(this.channel, last.getMaxEnergyStored() + capacityIncreament, maxReceive, maxExtract);
             // Put rest of energy into the new energy storage
             multiStorage.getStorage(this.channel).receiveEnergy(last.getEnergyStored(), false);
             this.data.markDirty();
         }
+        
 
+        
+        @Override
+        public void onChunkUnload() {
+            // Remove self's capacity & energy from all storages
+            this.setChannel(-1);
+            this.data.markDirty();
+        }
 
 
         @Override
@@ -147,6 +166,12 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
             return true;
         }
 
+        TileRemoteEnergyCell tile = ((TileRemoteEnergyCell) world.getTileEntity(pos));
+        Utils.getLogger().info("Energy cell id: " + tile.channel);
+        if(tile.channel == -1) {
+            tile.setChannel();
+            Utils.getLogger().info("Updated energy cell id: " + tile.channel);
+        }
         // TODO insert upgrades, open gui
 
         return false;
@@ -162,7 +187,7 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
         // Use default properties from TileRemoteEnergyCell
-        return new TileRemoteEnergyCell(-1, -1, -1);
+        return new TileRemoteEnergyCell(2000000, 5000, 5000);
     }
 
 }
