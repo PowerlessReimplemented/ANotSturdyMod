@@ -56,8 +56,6 @@ public class CommonProxy {
         registerItem(new ItemExchanger("exchanger", EMachineLevel.BASIC, 1));
         registerItem(new ItemExchanger("exchanger", EMachineLevel.ADVANCED, 4));
         registerItem(new ItemIlluminator("illuminator", EMachineLevel.BASIC));
-        
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModGuiHandler());
     }
 
     public void init(FMLInitializationEvent event) {

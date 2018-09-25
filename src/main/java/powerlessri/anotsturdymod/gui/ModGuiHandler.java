@@ -9,8 +9,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
+import powerlessri.anotsturdymod.container.ContainerRemoteEnergyCell;
 import powerlessri.anotsturdymod.library.TriFunction;
-import powerlessri.anotsturdymod.tile.TileRemoteEnergyCell;
 
 public class ModGuiHandler implements IGuiHandler {
     
@@ -28,6 +28,10 @@ public class ModGuiHandler implements IGuiHandler {
 
     @Override
     public Container getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+        switch(id) {
+        case 0: return new ContainerRemoteEnergyCell();
+        }
+        
         return null;
     }
 

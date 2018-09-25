@@ -7,6 +7,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import powerlessri.anotsturdymod.gui.ModGuiHandler;
 import powerlessri.anotsturdymod.init.ModCommands;
 import powerlessri.anotsturdymod.library.handlers.CommonReloadHandler;
 import powerlessri.anotsturdymod.library.utils.Reference;
@@ -29,6 +31,7 @@ public class ANotSturdyMod {
 
         proxy.modInit();
         proxy.preInit(event);
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModGuiHandler());
     }
 
     @EventHandler

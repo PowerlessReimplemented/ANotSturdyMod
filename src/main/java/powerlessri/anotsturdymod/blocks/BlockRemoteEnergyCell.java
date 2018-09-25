@@ -9,6 +9,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.gui.ModGuiHandler;
@@ -46,7 +47,7 @@ public class BlockRemoteEnergyCell extends TileBlockBase {
         
         // TODO insert upgrades, open gui
         player.openGui(ANotSturdyMod.instance, ModGuiHandler.REMOTE_ENERGY_CELL, world, pos.getX(), pos.getY(), pos.getZ());
-
+        
         return false;
     }
 
