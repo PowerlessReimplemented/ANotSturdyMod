@@ -3,7 +3,7 @@ package powerlessri.anotsturdymod.tile;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ReportedException;
-import net.minecraft.world.World;
+import powerlessri.anotsturdymod.blocks.BlockEnergyController;
 import powerlessri.anotsturdymod.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
@@ -12,6 +12,63 @@ import powerlessri.anotsturdymod.world.AnsmSavedData;
  * for any access to the power storage managed by this block.
  */
 public class TileEnergyNetworkController extends TileEntityBase {
+
+    public static class TileFakeEnergyNetworkController extends TileEnergyNetworkController {
+
+        public TileFakeEnergyNetworkController() {
+            this.isAlive = true;
+        }
+
+        @Override
+        public int getOrAllocChannel() {
+            return 0;
+        }
+
+        @Override
+        public int getChannel() {
+            return 0;
+        }
+
+        @Override
+        public boolean isInitialized() {
+            return true;
+        }
+
+        @Override
+        public long getCapacity() {
+            return 0;
+        }
+
+        @Override
+        public long getCapacityLeft() {
+            return 0;
+        }
+
+        @Override
+        public void onLoad() {
+        }
+
+        @Override
+        public void onRemoved() {
+        }
+
+        @Override
+        public void onChunkUnload() {
+        }
+
+        @Override
+        public void readFromNBT(NBTTagCompound tag) {
+            super.readFromNBT(tag);
+        }
+
+        @Override
+        public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+            return super.writeToNBT(tag);
+        }
+
+    }
+
+
 
     // NBT tags
     public static final String CHANNEL = "storageChannel";
@@ -40,12 +97,8 @@ public class TileEnergyNetworkController extends TileEntityBase {
 
 
 
-    public int getOrAllocChannel(World world) {
-        return this.getOrAllocChannel(AnsmSavedData.fromWorld(world));
-    }
-
-    public int getOrAllocChannel(AnsmSavedData data) {
-        if(!isInitalized()) {
+    public int getOrAllocChannel() {
+        if(!isInitialized()) {
             channel = data.controllerNextChannel;
             data.controllerNextChannel++;
             data.markDirty();
@@ -63,7 +116,7 @@ public class TileEnergyNetworkController extends TileEntityBase {
         return channel;
     }
 
-    public boolean isInitalized() {
+    public boolean isInitialized() {
         return this.channel != 0;
     }
 
@@ -82,30 +135,34 @@ public class TileEnergyNetworkController extends TileEntityBase {
     // TODO use a better way to manage channels
     @Override
     public void onLoad() {
-        super.onLoad();
-
         if(data == null) {
             data = AnsmSavedData.fromWorld(getWorld());
         }
 
         // Wait until player activate this block (wait until it has a channel)
-        if(isInitalized()) {
-            // This step might cause an IndexOutOfBoundsException, if channel is not allocated by #getChannel()
-            // but you're not suppose to do it other than #getChannel(), so it's fine.
-            //
-            // BlockEnergyController#tiles actually has the appropriate size && This tile entity with the channel does not exist
-            // When channel == DEFAULT_CHANNEL, #tiles[c] will always be a FakeEnergyNetworkController (non-null)
-            if(data.controllerTiles.get(this.channel) == null) {
-                data.controllerTiles.set(this.channel, this);
-                this.isAlive = true;
-            } else {
-                // Whenever the program goes here, it's probably because INSTANCE.tiles.size() is too small
-                String description = "Unexpected repeating channel from BlockEnergyController";
-                IllegalAccessException e = new IllegalAccessException(description);
-                CrashReport crashReport = CrashReport.makeCrashReport(e, description);
-
-                throw new ReportedException(crashReport);
+        if(isInitialized()) {
+            if(channel < data.controllerTiles.size()) {
+                updateReferenceList();
             }
+        }
+
+        isAlive = true;
+    }
+
+    public void updateReferenceList() {
+        // This step might cause an IndexOutOfBoundsException, if channel is not allocated by #getOrAllocChannel()
+        // but you're not suppose to do it other than #getOrAllocChannel(), so it's fine.
+        //
+        // BlockEnergyController#tiles actually has the appropriate size && This tile entity with the channel does not exist
+        // When channel == DEFAULT_CHANNEL, #tiles[c] will always be a FakeEnergyNetworkController (non-null)
+        if (data.controllerTiles.get(this.channel) == null) {
+            data.controllerTiles.set(this.channel, this);
+        } else {
+            String description = "Unexpected repeating channel from BlockEnergyController";
+            IllegalAccessException e = new IllegalAccessException(description);
+            CrashReport crashReport = CrashReport.makeCrashReport(e, description);
+
+            throw new ReportedException(crashReport);
         }
     }
 
@@ -118,8 +175,6 @@ public class TileEnergyNetworkController extends TileEntityBase {
     // Redirecting
     @Override
     public void onChunkUnload() {
-        super.onChunkUnload();
-
         this.onRemoved();
     }
 

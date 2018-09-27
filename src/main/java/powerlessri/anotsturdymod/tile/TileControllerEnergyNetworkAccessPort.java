@@ -14,36 +14,27 @@ import powerlessri.anotsturdymod.blocks.BlockEnergyController;
 import powerlessri.anotsturdymod.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
-/**
- * No idea why is the name soooooo long.
- */
-public class TileControllerEnergyNetworkAccessPort extends TileEntityBase implements ITickable, IEnergyStorage {
+public class TileControllerEnergyNetworkAccessPort extends TileEntityBase implements IEnergyStorage {
 
     /** Reference to (supposedly) the only instance of BlockEnergyController. Exists for compat issues. */
     public static final BlockEnergyController CONTROLLER_BLOCK = BlockEnergyController.INSTANCE;
-    public static final String IS_PLUG = "plug";
+
+    public static final String IO_LIMIT = "iolm";
 
 
 
-    private AnsmSavedData data;
+    protected AnsmSavedData data;
 
-    private int channel;
-    private int ioLimit;
-    /**
-     * When isPlug, this access is for inserting energy to controller.
-     * When !isPlug, this access is used for extracting energy to the controller
-     */
-    private boolean isPlug;
+    protected int channel;
+    protected int ioLimit;
 
 
     public TileControllerEnergyNetworkAccessPort() {
-        this(0, 5000, false);
     }
 
-    public TileControllerEnergyNetworkAccessPort(int channel, int ioLimit, boolean isPlug) {
+    public TileControllerEnergyNetworkAccessPort(int channel, int ioLimit) {
         this.channel = channel;
         this.ioLimit = ioLimit;
-        this.isPlug = isPlug;
     }
 
 
@@ -68,11 +59,11 @@ public class TileControllerEnergyNetworkAccessPort extends TileEntityBase implem
     @Nullable
     public TileEnergyNetworkController getController() {
         // This channel has been allocated
-        if(data.controllerTiles.size() > channel) {
+        if(channel < data.controllerTiles.size()) {
             return data.controllerTiles.get(this.channel);
         }
 
-        return null;
+        return data.controllerTiles.get(0);
     }
     
     @Override
@@ -106,33 +97,11 @@ public class TileControllerEnergyNetworkAccessPort extends TileEntityBase implem
 
 
     @Override
-    public void update() {
-        for(EnumFacing facing : EnumFacing.VALUES) {
-            BlockPos neighborPos = getPos().offset(facing);
-            TileEntity tile = getWorld().getTileEntity(neighborPos);
-            EnumFacing opposite = facing.getOpposite();
-            
-            // Don't insert to another access port, it might cause problems (e.g. loop)
-            if(tile != null && !(tile instanceof TileControllerEnergyNetworkAccessPort)) {
-                if(tile.hasCapability(CapabilityEnergy.ENERGY, opposite)) {
-                    IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, opposite);
-
-                    if(storage.canReceive()) {
-                        int extractLimit = this.extractEnergy(ioLimit, true);
-                        int accepted = storage.receiveEnergy(extractLimit, false);
-                        getController().energyStored -= extractLimit - accepted;
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
     public int receiveEnergy(int maxReceive, boolean simulate) {
-        if(this.canReceive()) {
-            TileEnergyNetworkController controller = this.getController();
+        TileEnergyNetworkController controller = this.getController();
+        if(this.canReceive() && controller != null) {
             
-            int accepted = Math.min((int) controller.energyStored, maxReceive);
+            int accepted = Math.min((int) controller.getCapacityLeft(), maxReceive);
             if(!simulate)
                 controller.energyStored += accepted;
             
@@ -143,10 +112,10 @@ public class TileControllerEnergyNetworkAccessPort extends TileEntityBase implem
 
     @Override
     public int extractEnergy(int maxExtract, boolean simulate) {
-        if(this.canExtract()) {
-            TileEnergyNetworkController controller = this.getController();
+        TileEnergyNetworkController controller = this.getController();
+        if(this.canExtract() && controller != null) {
             
-            int removed = Math.min((int) controller.getCapacityLeft(), maxExtract);
+            int removed = Math.min((int) controller.energyStored, maxExtract);
             if(!simulate)
                 controller.energyStored -= removed;
             
@@ -168,12 +137,12 @@ public class TileControllerEnergyNetworkAccessPort extends TileEntityBase implem
 
     @Override
     public boolean canExtract() {
-        return !isPlug;
+        return false;
     }
 
     @Override
     public boolean canReceive() {
-        return isPlug;
+        return true;
     }
 
 
@@ -183,13 +152,13 @@ public class TileControllerEnergyNetworkAccessPort extends TileEntityBase implem
         super.readFromNBT(tag);
 
         this.channel = tag.getInteger(TileEnergyNetworkController.CHANNEL);
-        this.isPlug = tag.getBoolean(IS_PLUG);
+        this.ioLimit = tag.getInteger(IO_LIMIT);
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         tag.setInteger(TileEnergyNetworkController.CHANNEL, channel);
-        tag.setBoolean(IS_PLUG, isPlug);
+        tag.setInteger(IO_LIMIT, ioLimit);
 
         return super.writeToNBT(tag);
     }

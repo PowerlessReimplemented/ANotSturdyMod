@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import powerlessri.anotsturdymod.library.utils.Reference;
+import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.tile.TileEnergyNetworkController;
 
 public class AnsmSavedData extends WorldSavedData {
@@ -18,6 +19,8 @@ public class AnsmSavedData extends WorldSavedData {
         if(result == null) {
             result = new AnsmSavedData();
             storage.setData(DATA_NAME, result);
+//            storage.setData(DATA_NAME, new AnsmSavedData());
+//            result = (AnsmSavedData) storage.getOrLoadData(AnsmSavedData.class, DATA_NAME);
         }
 
         return result;
@@ -40,16 +43,24 @@ public class AnsmSavedData extends WorldSavedData {
 
 
     public AnsmSavedData() {
-        super(DATA_NAME);
+        this(DATA_NAME);
+    }
+
+    /** Used for so that minecraft can correctly instantiate on MapStorage#getOrLoadData */
+    public AnsmSavedData(String name) {
+        super(name);
     }
 
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         this.controllerNextChannel = tag.getInteger(CONTROLLER_CHANNEL_USAGE);
-        
-        // Leave one slot for channel 0
-        for(int i = -1; i < controllerNextChannel; i++) {
+
+        controllerTiles.clear();
+        controllerTiles.add(new TileEnergyNetworkController.TileFakeEnergyNetworkController());
+        // When controllerNextChannel == 1, there's no channels got allocated
+        // Which already gave the space for channel 0
+        for(int i = 0; i < controllerNextChannel; i++) {
             this.controllerTiles.add(null);
         }
     }

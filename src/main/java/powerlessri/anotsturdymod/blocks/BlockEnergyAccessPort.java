@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.tile.TileControllerEnergyNetworkAccessPort;
+import powerlessri.anotsturdymod.tile.TileControllerEnergyNetworkOutput;
 
 public class BlockEnergyAccessPort extends TileBlockBase {
 
@@ -22,7 +23,10 @@ public class BlockEnergyAccessPort extends TileBlockBase {
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileControllerEnergyNetworkAccessPort(1, ioLimit, isPlug);
+        if(!isPlug) {
+            return new TileControllerEnergyNetworkOutput(1, ioLimit);
+        }
+        return new TileControllerEnergyNetworkAccessPort(1, ioLimit);
     }
 
     @Override
