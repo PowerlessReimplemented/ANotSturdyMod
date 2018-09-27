@@ -8,9 +8,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import powerlessri.anotsturdymod.blocks.BlockEnergyAccessPort;
-import powerlessri.anotsturdymod.blocks.BlockEnergyAccessPort.TileControllerEnergyNetworkAccessPort;
 import powerlessri.anotsturdymod.blocks.BlockEnergyController;
-import powerlessri.anotsturdymod.blocks.BlockEnergyController.TileEnergyNetworkController;
 import powerlessri.anotsturdymod.blocks.BlockInfiniteCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
@@ -29,6 +27,8 @@ import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.library.EMachineLevel;
 import powerlessri.anotsturdymod.library.handlers.CommonReloadHandler;
 import powerlessri.anotsturdymod.tile.TileCobbleGenerator;
+import powerlessri.anotsturdymod.tile.TileControllerEnergyNetworkAccessPort;
+import powerlessri.anotsturdymod.tile.TileEnergyNetworkController;
 
 
 public class CommonProxy {
