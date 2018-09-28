@@ -67,9 +67,7 @@ public class TileControllerEnergyNetworkAccessPort extends TileEntityBase implem
     }
     
     @Override
-    public void onLoad() {
-        super.onLoad();
-        
+    public void onLoadServer() {
         if(data == null) {
             data = AnsmSavedData.fromWorld(getWorld());
         }

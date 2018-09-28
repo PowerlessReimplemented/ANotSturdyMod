@@ -4,6 +4,7 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ReportedException;
 import powerlessri.anotsturdymod.blocks.BlockEnergyController;
+import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
@@ -132,9 +133,8 @@ public class TileEnergyNetworkController extends TileEntityBase {
 
 
 
-    // TODO use a better way to manage channels
     @Override
-    public void onLoad() {
+    public void onLoadServer() {
         if(data == null) {
             data = AnsmSavedData.fromWorld(getWorld());
         }
@@ -149,7 +149,7 @@ public class TileEnergyNetworkController extends TileEntityBase {
         isAlive = true;
     }
 
-    public void updateReferenceList() {
+    private void updateReferenceList() {
         // This step might cause an IndexOutOfBoundsException, if channel is not allocated by #getOrAllocChannel()
         // but you're not suppose to do it other than #getOrAllocChannel(), so it's fine.
         //
@@ -167,16 +167,17 @@ public class TileEnergyNetworkController extends TileEntityBase {
     }
 
     @Override
-    public void onRemoved() {
+    public void onChunkUnloadServer() {
         data.controllerTiles.set(this.channel, null);
         this.isAlive = false;
     }
 
-    // Redirecting
     @Override
-    public void onChunkUnload() {
-        this.onRemoved();
+    public void onRemoved() {
+        onChunkUnloadServer();
     }
+
+
 
 
 

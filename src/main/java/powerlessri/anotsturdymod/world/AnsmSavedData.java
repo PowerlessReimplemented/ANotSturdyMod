@@ -33,7 +33,6 @@ public class AnsmSavedData extends WorldSavedData {
     // NBT tag keys
     public static final String CONTROLLER_CHANNEL_USAGE = "cntrllrNextChnnl";
 
-    // TODO redesign so it's not coupled with BlockEnergyController.nextChannel
     public int controllerNextChannel = 1;
     
     

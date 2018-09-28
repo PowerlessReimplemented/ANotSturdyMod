@@ -27,11 +27,11 @@ public abstract class TileBlockBase extends SimpleBlockBase implements ITileInte
     public boolean hasTileEntity(IBlockState state) {
         return this.hasTileEntity;
     }
-    
+
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
         TileEntity tile = world.getTileEntity(pos);
-        if(tile != null && tile instanceof TileEntityBase) {
+        if (tile != null && tile instanceof TileEntityBase) {
             ((TileEntityBase) tile).onRemoved();
         }
     }

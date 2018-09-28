@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.blocks;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -21,6 +22,8 @@ public class BlockEnergyController extends TileBlockBase {
 
     private BlockEnergyController(String name) {
         super(name, Material.ROCK);
+
+        setCreativeTab(CreativeTabs.MISC);
     }
 
 
@@ -29,8 +32,6 @@ public class BlockEnergyController extends TileBlockBase {
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
         if(world.isRemote) {
-            TileEnergyNetworkController tile = (TileEnergyNetworkController) world.getTileEntity(pos);
-            player.sendMessage(new TextComponentString("controller id: " + tile.getOrAllocChannel()));
             return false;
         }
 
@@ -40,6 +41,8 @@ public class BlockEnergyController extends TileBlockBase {
         //            return true;
         //        }
 
+        TileEnergyNetworkController tile = (TileEnergyNetworkController) world.getTileEntity(pos);
+        player.sendMessage(new TextComponentString("controller id: " + tile.getOrAllocChannel()));
 
 
         return true;

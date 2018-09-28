@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.blocks;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
@@ -17,6 +18,8 @@ public class BlockEnergyAccessPort extends TileBlockBase {
         super(name, Material.ROCK);
         this.ioLimit = ioLimit;
         this.isPlug = isPlug;
+
+        setCreativeTab(CreativeTabs.MISC);
     }
 
 
