@@ -15,9 +15,9 @@ import powerlessri.anotsturdymod.blocks.base.BlockBase;
 import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
-import powerlessri.anotsturdymod.init.ModBlocks;
-import powerlessri.anotsturdymod.init.ModCommands;
-import powerlessri.anotsturdymod.init.ModItems;
+import powerlessri.anotsturdymod.handlers.ModBlocks;
+import powerlessri.anotsturdymod.handlers.ModCommands;
+import powerlessri.anotsturdymod.handlers.ModItems;
 import powerlessri.anotsturdymod.items.ItemExchanger;
 import powerlessri.anotsturdymod.items.ItemIlluminator;
 import powerlessri.anotsturdymod.items.ItemTransmutationStone;
@@ -25,11 +25,11 @@ import powerlessri.anotsturdymod.items.base.ItemBase;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.library.EMachineLevel;
-import powerlessri.anotsturdymod.library.handlers.CommonReloadHandler;
-import powerlessri.anotsturdymod.tile.TileCobbleGenerator;
-import powerlessri.anotsturdymod.tile.TileControllerEnergyNetworkAccessPort;
-import powerlessri.anotsturdymod.tile.TileEnergyNetworkController;
-import powerlessri.anotsturdymod.tile.TileControllerEnergyNetworkOutput;
+import powerlessri.anotsturdymod.handlers.CommonReloadHandler;
+import powerlessri.anotsturdymod.blocks.tile.TileCobbleGenerator;
+import powerlessri.anotsturdymod.blocks.tile.TileControllerEnergyNetworkAccessPort;
+import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkController;
+import powerlessri.anotsturdymod.blocks.tile.TileControllerEnergyNetworkOutput;
 
 
 public class CommonProxy {

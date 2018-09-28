@@ -1,11 +1,9 @@
-package powerlessri.anotsturdymod.tile;
+package powerlessri.anotsturdymod.blocks.tile;
 
 import net.minecraft.crash.CrashReport;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ReportedException;
-import powerlessri.anotsturdymod.blocks.BlockEnergyController;
-import powerlessri.anotsturdymod.library.utils.Utils;
-import powerlessri.anotsturdymod.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 /**

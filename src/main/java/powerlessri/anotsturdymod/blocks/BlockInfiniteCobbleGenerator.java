@@ -6,7 +6,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
-import powerlessri.anotsturdymod.tile.TileCobbleGenerator;
+import powerlessri.anotsturdymod.blocks.tile.TileCobbleGenerator;
 
 // TODO different cobblestone generators
 public class BlockInfiniteCobbleGenerator extends TileBlockBase {

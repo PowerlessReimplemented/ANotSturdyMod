@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.handlers;
+package powerlessri.anotsturdymod.handlers;
 
 import powerlessri.anotsturdymod.library.IResourcesReloadable;
 

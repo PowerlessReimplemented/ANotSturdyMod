@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.tile.energy;
+package powerlessri.anotsturdymod.blocks.tile.energy;
 
 public enum EEnergyOperationTypes {
     

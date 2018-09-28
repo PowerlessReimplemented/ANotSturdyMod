@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.handlers;
+package powerlessri.anotsturdymod.handlers;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -7,8 +7,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
-import powerlessri.anotsturdymod.init.ModBlocks;
-import powerlessri.anotsturdymod.init.ModItems;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 
 

@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.tile;
+package powerlessri.anotsturdymod.blocks.tile;
 
 import javax.annotation.Nullable;
 
@@ -9,7 +9,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import powerlessri.anotsturdymod.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
 
 public class TileCobbleGenerator extends TileEntityBase implements IItemHandler, ICapabilityProvider {
 

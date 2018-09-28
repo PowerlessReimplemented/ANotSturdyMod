@@ -7,8 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import powerlessri.anotsturdymod.library.utils.Reference;
-import powerlessri.anotsturdymod.library.utils.Utils;
-import powerlessri.anotsturdymod.tile.TileEnergyNetworkController;
+import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkController;
 
 public class AnsmSavedData extends WorldSavedData {
 

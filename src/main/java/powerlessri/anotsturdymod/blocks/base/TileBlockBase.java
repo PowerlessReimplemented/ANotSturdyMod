@@ -5,7 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import powerlessri.anotsturdymod.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
 
 public abstract class TileBlockBase extends SimpleBlockBase implements ITileIntergratedBlock {
 

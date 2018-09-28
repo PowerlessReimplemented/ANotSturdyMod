@@ -1,17 +1,14 @@
-package powerlessri.anotsturdymod.tile;
+package powerlessri.anotsturdymod.blocks.tile;
 
 import javax.annotation.Nullable;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import powerlessri.anotsturdymod.blocks.BlockEnergyController;
-import powerlessri.anotsturdymod.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 public class TileControllerEnergyNetworkAccessPort extends TileEntityBase implements IEnergyStorage {

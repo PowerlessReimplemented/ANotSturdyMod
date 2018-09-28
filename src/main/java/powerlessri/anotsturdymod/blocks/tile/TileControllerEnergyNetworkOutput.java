@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.tile;
+package powerlessri.anotsturdymod.blocks.tile;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -6,8 +6,6 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
-import powerlessri.anotsturdymod.library.utils.Utils;
-import powerlessri.anotsturdymod.tile.TileControllerEnergyNetworkAccessPort;
 
 public class TileControllerEnergyNetworkOutput extends TileControllerEnergyNetworkAccessPort implements ITickable {
 

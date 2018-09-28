@@ -1,5 +1,6 @@
 package powerlessri.anotsturdymod;
 
+import net.minecraft.command.CommandBase;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -7,10 +8,11 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import powerlessri.anotsturdymod.init.ModCommands;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import powerlessri.anotsturdymod.handlers.ModCommands;
+import powerlessri.anotsturdymod.handlers.ModGuiHandler;
 import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.library.utils.Utils;
-
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class ANotSturdyMod {
@@ -25,9 +27,11 @@ public class ANotSturdyMod {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         Utils.getLogger().info(Reference.MODID + " excuting preInit");
-        
+
         proxy.modInit();
         proxy.preInit(event);
+
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModGuiHandler());
     }
 
     @EventHandler
@@ -49,10 +53,10 @@ public class ANotSturdyMod {
         Utils.getLogger().info(Reference.MODID + " excuting serverStarting");
 
         proxy.serverStarting(event);
-        
-        ModCommands.COMMANDS.forEach((c) -> {
+
+        for (CommandBase c : ModCommands.COMMANDS) {
             event.registerServerCommand(c);
-        });
+        }
     }
 
 }

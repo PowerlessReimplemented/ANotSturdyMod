@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import powerlessri.anotsturdymod.library.handlers.ClientReloadHandler;
+import powerlessri.anotsturdymod.handlers.ClientReloadHandler;
 
 
 public class ClientProxy extends CommonProxy {
