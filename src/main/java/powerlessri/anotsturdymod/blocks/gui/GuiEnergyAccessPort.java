@@ -30,11 +30,6 @@ public class GuiEnergyAccessPort extends GuiContainer {
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float particalTicks) {
-        super.drawScreen(mouseX, mouseY, particalTicks);
-    }
-
-    @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 
     }

@@ -1,14 +1,18 @@
 package powerlessri.anotsturdymod.blocks.container;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.tileentity.TileEntity;
+import powerlessri.anotsturdymod.blocks.container.base.PlayerContainerBase;
 import powerlessri.anotsturdymod.blocks.tile.TileControllerEnergyNetworkAccessPort;
 
-public class ContainerEnergyAccessPort extends Container {
+public class ContainerEnergyAccessPort extends PlayerContainerBase {
 
-    public ContainerEnergyAccessPort(TileControllerEnergyNetworkAccessPort tile) {
+    protected TileControllerEnergyNetworkAccessPort tile;
 
+    public ContainerEnergyAccessPort(EntityPlayer player, TileControllerEnergyNetworkAccessPort tile) {
+        super(player);
+        this.tile = tile;
+
+        addPlayerInventorySlots(8, 84);
     }
 
     @Override
