@@ -9,6 +9,8 @@ public class ContainerEnergyAccessPort extends PlayerContainerBase {
     public EntityPlayer player;
     public TileEnergyNetworkAccessPort tile;
 
+    public int displayChannel;
+
     public ContainerEnergyAccessPort(EntityPlayer player, TileEnergyNetworkAccessPort tile) {
         super(player);
         this.player = player;

@@ -19,7 +19,7 @@ public abstract class TileEntityBase extends TileEntity {
 
     @Override
     public void onLoad() {
-        if(getWorld().isRemote) {
+        if(world.isRemote) {
             onLoadClient();
         } else {
             onLoadServer();
@@ -31,7 +31,7 @@ public abstract class TileEntityBase extends TileEntity {
 
     @Override
     public void onChunkUnload() {
-        if(getWorld().isRemote) {
+        if(world.isRemote) {
             onChunkUnloadClient();
         } else {
             onChunkUnloadServer();
@@ -40,11 +40,11 @@ public abstract class TileEntityBase extends TileEntity {
 
 
     public IBlockState getWorldBlockState() {
-        return this.getWorld().getBlockState( this.getPos() );
+        return world.getBlockState(pos);
     }
 
     public Block getWorldBlockType() {
-        return this.getWorldBlockState().getBlock();
+        return getWorldBlockState().getBlock();
     }
 
 

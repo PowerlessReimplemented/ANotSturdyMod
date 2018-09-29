@@ -75,6 +75,8 @@ public class TileEnergyNetworkController extends TileEntityBase {
     public static final String STORAGE_ENERGY_REMAIN = "energyStored";
 
     public static final long DEFAULT_CAPACITY = 1000000000L;
+    public static final long STORAGE_UPGRADE_INCREMENT = 1000000L;
+    public static final int MAX_STORAGE_UPGRADES = 64;
 
 
     private AnsmSavedData data;
@@ -84,10 +86,11 @@ public class TileEnergyNetworkController extends TileEntityBase {
 
 
     /** A unique channel id (in the save). An allocated (non-default) channel is at least {@code 1}. */
-    private int channel;
-    /** Capacity formula: {@code DEFAULT_CAPACITY * (amountStorageUpgrades + 1)} */
-    private int amountStorageUpgrades;
+    public int channel;
 
+    /** Amount of storage upgrades installed. Used to calculate total capacity. */
+    public long amountStorageUpgrades = 0;
+    /** Energy stored inside controller. */
     public long energyStored = 0;
 
 
@@ -120,9 +123,22 @@ public class TileEnergyNetworkController extends TileEntityBase {
     }
 
 
+    /**
+     * Install storage upgrades with capacity check.
+     *
+     * @return The amount of storage upgrades accepted.
+     */
+    public int installStorageUpgrade(int attempt) {
+        int availableSlots = (int) (MAX_STORAGE_UPGRADES - amountStorageUpgrades);
+        int actualInsert = Math.min(availableSlots, attempt);
+        amountStorageUpgrades += actualInsert;
+        return actualInsert;
+    }
+
+
 
     public long getCapacity() {
-        return DEFAULT_CAPACITY * (this.amountStorageUpgrades + 1L);
+        return DEFAULT_CAPACITY + (amountStorageUpgrades * STORAGE_UPGRADE_INCREMENT);
     }
 
     public long getCapacityLeft() {
@@ -185,14 +201,16 @@ public class TileEnergyNetworkController extends TileEntityBase {
         super.readFromNBT(tag);
 
         this.channel = tag.getInteger(CHANNEL);
-        this.amountStorageUpgrades = tag.getInteger(STORAGE_UPGRADES);
+
+        this.amountStorageUpgrades = tag.getLong(STORAGE_UPGRADES);
         this.energyStored = tag.getLong(STORAGE_ENERGY_REMAIN);
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         tag.setInteger(CHANNEL, this.channel);
-        tag.setInteger(STORAGE_UPGRADES, this.amountStorageUpgrades);
+
+        tag.setLong(STORAGE_UPGRADES, this.amountStorageUpgrades);
         tag.setLong(STORAGE_ENERGY_REMAIN, this.energyStored);
 
         return super.writeToNBT(tag);

@@ -8,6 +8,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import powerlessri.anotsturdymod.blocks.container.ContainerEnergyAccessPort;
+import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkAccessPort;
 import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.library.utils.Utils;
 
@@ -61,11 +62,13 @@ public class GuiEnergyAccessPort extends GuiContainer {
         GlStateManager.color(1, 1, 1);
         Minecraft.getMinecraft().renderEngine.bindTexture(BACKGROUND_LOC);
         drawTexturedModalRect(centerX, centerY, 0, 0, guiWidth, guiHeight);
+
+        fontRenderer.drawString(String.valueOf(getContainer().displayChannel), centerX + (guiWidth / 2), centerY + 40, 0x000000ff);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRenderer.drawString("0", centerX, centerY, 0x000000ff);
+
     }
 
 
@@ -76,4 +79,10 @@ public class GuiEnergyAccessPort extends GuiContainer {
 
         Utils.getLogger().info("clicked " + button.id);
     }
+
+
+    private ContainerEnergyAccessPort getContainer() {
+        return (ContainerEnergyAccessPort) inventorySlots;
+    }
+
 }

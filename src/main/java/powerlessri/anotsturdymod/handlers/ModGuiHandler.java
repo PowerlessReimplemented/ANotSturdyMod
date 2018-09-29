@@ -26,7 +26,12 @@ public class ModGuiHandler implements IGuiHandler {
     private List<Function<Container, GuiScreen>> guiSupplier = new ArrayList<>();
 
     public ModGuiHandler() {
-        addGuiS((player, pos) -> new ContainerEnergyAccessPort(player, (TileEnergyNetworkAccessPort) player.world.getTileEntity(pos)),
+        addGuiS((player, pos) -> {
+                    TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) player.world.getTileEntity(pos);
+                    ContainerEnergyAccessPort container = new ContainerEnergyAccessPort(player, tile);
+                    container.displayChannel = tile.getChannel();
+                    return container;
+                },
                 (container) -> new GuiEnergyAccessPort((ContainerEnergyAccessPort) container));
     }
 

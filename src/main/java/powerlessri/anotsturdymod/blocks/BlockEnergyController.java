@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -12,10 +13,12 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkController;
+import powerlessri.anotsturdymod.items.ItemUpgrade;
 
 public class BlockEnergyController extends TileBlockBase {
 
     public static final BlockEnergyController INSTANCE = new BlockEnergyController("energy_network_controller");
+    public static final ItemUpgrade STORAGE_UPGRADE = new ItemUpgrade("energy_network_storage_upgrade");
 
 
 
@@ -31,18 +34,30 @@ public class BlockEnergyController extends TileBlockBase {
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
         if(world.isRemote) {
-            return false;
+            return true;
         }
 
-        //        ItemStack hand = player.getHeldItem(hand);
-        //
-        //        if(hand.getItem() == STORAGE_UPGRADE) {
-        //            return true;
-        //        }
 
         TileEnergyNetworkController tile = (TileEnergyNetworkController) world.getTileEntity(pos);
-        player.sendMessage(new TextComponentString("controller id: " + tile.getOrAllocChannel()));
+        ItemStack heldItem = player.getHeldItem(hand);
 
+        if(player.isSneaking()) {
+            // TODO add pop upgrades
+            // Pop upgrades
+        } else {
+            // Insert upgrades
+            if (heldItem.getItem() == STORAGE_UPGRADE) {
+                int accepted = tile.installStorageUpgrade(heldItem.getCount());
+                heldItem.setCount( heldItem.getCount() - accepted );
+
+                return true;
+            }
+        }
+
+
+
+        // TODO make gui
+        player.sendMessage(new TextComponentString("controller id: " + tile.getOrAllocChannel()));
 
         return true;
     }

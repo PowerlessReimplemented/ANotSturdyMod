@@ -20,8 +20,8 @@ public class TileEnergyNetworkOutput extends TileEnergyNetworkAccessPort impleme
     public void update() {
         if(!getWorld().isRemote) {
             for (EnumFacing facing : EnumFacing.VALUES) {
-                BlockPos neighborPos = getPos().offset(facing);
-                TileEntity tile = getWorld().getTileEntity(neighborPos);
+                BlockPos neighborPos = pos.offset(facing);
+                TileEntity tile = world.getTileEntity(neighborPos);
                 EnumFacing opposite = facing.getOpposite();
 
                 // Don't insert to another access port, it might cause problems (e.g. loop)
