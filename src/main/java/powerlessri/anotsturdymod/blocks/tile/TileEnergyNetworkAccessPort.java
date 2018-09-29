@@ -3,6 +3,7 @@ package powerlessri.anotsturdymod.blocks.tile;
 import javax.annotation.Nullable;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.play.server.SPacketBlockChange;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -11,7 +12,7 @@ import powerlessri.anotsturdymod.blocks.BlockEnergyController;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
-public class TileControllerEnergyNetworkAccessPort extends TileEntityBase implements IEnergyStorage {
+public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEnergyStorage {
 
     /** Reference to (supposedly) the only instance of BlockEnergyController. Exists for compat issues. */
     public static final BlockEnergyController CONTROLLER_BLOCK = BlockEnergyController.INSTANCE;
@@ -26,10 +27,10 @@ public class TileControllerEnergyNetworkAccessPort extends TileEntityBase implem
     protected int ioLimit;
 
 
-    public TileControllerEnergyNetworkAccessPort() {
+    public TileEnergyNetworkAccessPort() {
     }
 
-    public TileControllerEnergyNetworkAccessPort(int channel, int ioLimit) {
+    public TileEnergyNetworkAccessPort(int channel, int ioLimit) {
         this.channel = channel;
         this.ioLimit = ioLimit;
     }
@@ -41,17 +42,20 @@ public class TileControllerEnergyNetworkAccessPort extends TileEntityBase implem
 
     /** @return {@code true} for success. <br /> {@code false} for fail.*/
     public boolean setChannel(int channel) {
-        int oldChannel = this.channel;
-        this.channel = channel;
-        if(getController() == null) {
-            this.channel = oldChannel;
-            return false;
+        if(channel > 0) {
+            int oldChannel = this.channel;
+            this.channel = channel;
+            if (getController() == null) {
+                this.channel = oldChannel;
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
 
-    // Note: even though this method might return null, TileControllerEnergyNetworkAccessPort#setChannel will ensure it won't happen by ensuring the input channel exists.
+    // Note: even though this method might return null, TileEnergyNetworkAccessPort#setChannel will ensure it won't happen by ensuring the input channel exists.
     // Except: started with a channel don't even exist.
     @Nullable
     public TileEnergyNetworkController getController() {
@@ -64,7 +68,7 @@ public class TileControllerEnergyNetworkAccessPort extends TileEntityBase implem
     }
     
     @Override
-    public void onLoadServer() {
+    public void onLoad() {
         if(data == null) {
             data = AnsmSavedData.fromWorld(getWorld());
         }

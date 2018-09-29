@@ -14,6 +14,7 @@ import powerlessri.anotsturdymod.blocks.BlockLightCube;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
 import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
+import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkAccessPort;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
 import powerlessri.anotsturdymod.handlers.ModBlocks;
 import powerlessri.anotsturdymod.handlers.ModCommands;
@@ -27,9 +28,8 @@ import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.library.EMachineLevel;
 import powerlessri.anotsturdymod.handlers.CommonReloadHandler;
 import powerlessri.anotsturdymod.blocks.tile.TileCobbleGenerator;
-import powerlessri.anotsturdymod.blocks.tile.TileControllerEnergyNetworkAccessPort;
 import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkController;
-import powerlessri.anotsturdymod.blocks.tile.TileControllerEnergyNetworkOutput;
+import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkOutput;
 
 
 public class CommonProxy {
@@ -58,8 +58,8 @@ public class CommonProxy {
         registerBlock(new BlockLightCube("light_cube"));
         
         TileEntity.register("te.energy_network_controller", TileEnergyNetworkController.class);
-        TileEntity.register("te.energy_network_input", TileControllerEnergyNetworkAccessPort.class);
-        TileEntity.register("te.energy_network_output", TileControllerEnergyNetworkOutput.class);
+        TileEntity.register("te.energy_network_input", TileEnergyNetworkAccessPort.class);
+        TileEntity.register("te.energy_network_output", TileEnergyNetworkOutput.class);
         TileEntity.register("te.cobble_generator", TileCobbleGenerator.class);
 
         registerItem(new ItemTransmutationStone("transmutation_orb"));

@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import powerlessri.anotsturdymod.blocks.container.ContainerEnergyAccessPort;
 import powerlessri.anotsturdymod.blocks.gui.GuiEnergyAccessPort;
-import powerlessri.anotsturdymod.blocks.tile.TileControllerEnergyNetworkAccessPort;
+import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkAccessPort;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -19,12 +19,15 @@ import java.util.function.Supplier;
 
 public class ModGuiHandler implements IGuiHandler {
 
+    public static final int ENERGY_ACCESS_PORT = 0;
+
+
     private List<BiFunction<EntityPlayer, BlockPos, Container>> containerSupplier = new ArrayList<>();
     private List<Function<Container, GuiScreen>> guiSupplier = new ArrayList<>();
 
     public ModGuiHandler() {
-        addGuiS((player, pos) -> new ContainerEnergyAccessPort(player, (TileControllerEnergyNetworkAccessPort) player.world.getTileEntity(pos)),
-                (container) -> new GuiEnergyAccessPort(container));
+        addGuiS((player, pos) -> new ContainerEnergyAccessPort(player, (TileEnergyNetworkAccessPort) player.world.getTileEntity(pos)),
+                (container) -> new GuiEnergyAccessPort((ContainerEnergyAccessPort) container));
     }
 
 

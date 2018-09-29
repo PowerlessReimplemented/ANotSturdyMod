@@ -132,7 +132,7 @@ public class TileEnergyNetworkController extends TileEntityBase {
 
 
     @Override
-    public void onLoadServer() {
+    public void onLoad() {
         if(data == null) {
             data = AnsmSavedData.fromWorld(getWorld());
         }
@@ -165,7 +165,7 @@ public class TileEnergyNetworkController extends TileEntityBase {
     }
 
     @Override
-    public void onChunkUnloadServer() {
+    public void onChunkUnload() {
         data.controllerTiles.set(this.channel, null);
         this.isAlive = false;
     }

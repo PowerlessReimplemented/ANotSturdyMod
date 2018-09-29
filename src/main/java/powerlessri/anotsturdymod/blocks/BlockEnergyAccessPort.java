@@ -8,14 +8,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
-import powerlessri.anotsturdymod.blocks.tile.TileControllerEnergyNetworkAccessPort;
-import powerlessri.anotsturdymod.blocks.tile.TileControllerEnergyNetworkOutput;
-
-import java.util.Objects;
+import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkAccessPort;
+import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkOutput;
+import powerlessri.anotsturdymod.handlers.ModGuiHandler;
 
 public class BlockEnergyAccessPort extends TileBlockBase {
 
@@ -38,7 +36,7 @@ public class BlockEnergyAccessPort extends TileBlockBase {
             return true;
         }
 
-        player.openGui(ANotSturdyMod.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
+        player.openGui(ANotSturdyMod.instance, ModGuiHandler.ENERGY_ACCESS_PORT, world, pos.getX(), pos.getY(), pos.getZ());
 
         return true;
     }
@@ -46,14 +44,14 @@ public class BlockEnergyAccessPort extends TileBlockBase {
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
         if(!isPlug) {
-            return new TileControllerEnergyNetworkOutput(1, ioLimit);
+            return new TileEnergyNetworkOutput(1, ioLimit);
         }
-        return new TileControllerEnergyNetworkAccessPort(1, ioLimit);
+        return new TileEnergyNetworkAccessPort(1, ioLimit);
     }
 
     @Override
     public Class<? extends TileEntity> getTileEntityClass() {
-        return TileControllerEnergyNetworkAccessPort.class;
+        return TileEnergyNetworkAccessPort.class;
     }
 
 }

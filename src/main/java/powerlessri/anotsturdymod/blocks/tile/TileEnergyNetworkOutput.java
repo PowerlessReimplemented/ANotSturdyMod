@@ -7,12 +7,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 
-public class TileControllerEnergyNetworkOutput extends TileControllerEnergyNetworkAccessPort implements ITickable {
+public class TileEnergyNetworkOutput extends TileEnergyNetworkAccessPort implements ITickable {
 
-    public TileControllerEnergyNetworkOutput() {
+    public TileEnergyNetworkOutput() {
     }
 
-    public TileControllerEnergyNetworkOutput(int channel, int ioLimit) {
+    public TileEnergyNetworkOutput(int channel, int ioLimit) {
         super(channel, ioLimit);
     }
 
@@ -25,7 +25,7 @@ public class TileControllerEnergyNetworkOutput extends TileControllerEnergyNetwo
                 EnumFacing opposite = facing.getOpposite();
 
                 // Don't insert to another access port, it might cause problems (e.g. loop)
-                if (tile != null && !(tile instanceof TileControllerEnergyNetworkAccessPort)) {
+                if (tile != null && !(tile instanceof TileEnergyNetworkAccessPort)) {
                     if (tile.hasCapability(CapabilityEnergy.ENERGY, opposite)) {
                         IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, opposite);
 
