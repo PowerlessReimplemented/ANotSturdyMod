@@ -3,12 +3,20 @@ package powerlessri.anotsturdymod.blocks.tile;
 import javax.annotation.Nullable;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import powerlessri.anotsturdymod.blocks.BlockEnergyAccessPort;
 import powerlessri.anotsturdymod.blocks.BlockEnergyController;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
+import powerlessri.anotsturdymod.library.utils.NBTUtils;
+import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEnergyStorage {
@@ -16,7 +24,11 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
     /** Reference to (supposedly) the only instance of BlockEnergyController. Exists for compat issues. */
     public static final BlockEnergyController CONTROLLER_BLOCK = BlockEnergyController.INSTANCE;
 
-    public static final String IO_LIMIT = "iolm";
+    public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_access_port");
+
+    // Tags
+    public static final String IO_LIMIT = "ioLm";
+    public static final String IO_UPGRADES = "ioUpgs";
 
 
 
@@ -44,6 +56,7 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
         if(channel > 0) {
             int oldChannel = this.channel;
             this.channel = channel;
+
             if (getController() == null) {
                 this.channel = oldChannel;
                 return false;
@@ -51,6 +64,12 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
             return true;
         }
         return false;
+    }
+
+    /** Used for store data at client side. */
+    @SideOnly(Side.CLIENT)
+    public void setChannelForced(int channel) {
+        this.channel = channel;
     }
 
 
@@ -63,7 +82,7 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
             return data.controllerTiles.get(this.channel);
         }
 
-        return data.controllerTiles.get(0);
+        return null;
     }
     
     @Override
@@ -159,6 +178,31 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
         tag.setInteger(IO_LIMIT, ioLimit);
 
         return super.writeToNBT(tag);
+    }
+
+
+    // ======== Networking ======== //
+
+    public static void initNetwork() {
+        PacketServerCommand.handlers.put(SET_CHANNEL, (msg, ctx) -> {
+            int channelTo = msg.args.getInteger(TileEnergyNetworkController.CHANNEL);
+            BlockPos tilePos = NBTUtils.readBlockPos(msg.args);
+
+            TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) ctx.getServerHandler().player.world.getTileEntity(tilePos);
+            if(tile != null) {
+                tile.setChannel(channelTo);
+            }
+        });
+    }
+
+
+    public static final String SET_CHANNEL = TILE_REGISTRY_NAME + ":setChannel";
+
+    public static NBTTagCompound makeSetChannelArgs(int x, int y, int z, int channelTo) {
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setInteger(TileEnergyNetworkController.CHANNEL, channelTo);
+        NBTUtils.writeBlockPos(tag, x, y, z);
+        return tag;
     }
 
 }

@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import powerlessri.anotsturdymod.blocks.BlockEnergyAccessPort;
 import powerlessri.anotsturdymod.blocks.BlockEnergyController;
 import powerlessri.anotsturdymod.blocks.BlockInfiniteCobbleGenerator;
@@ -16,9 +17,9 @@ import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkAccessPort;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
-import powerlessri.anotsturdymod.handlers.ModBlocks;
-import powerlessri.anotsturdymod.handlers.ModCommands;
-import powerlessri.anotsturdymod.handlers.ModItems;
+import powerlessri.anotsturdymod.handlers.init.ModBlocks;
+import powerlessri.anotsturdymod.handlers.init.ModCommands;
+import powerlessri.anotsturdymod.handlers.init.ModItems;
 import powerlessri.anotsturdymod.items.ItemExchanger;
 import powerlessri.anotsturdymod.items.ItemIlluminator;
 import powerlessri.anotsturdymod.items.ItemTransmutationStone;
@@ -30,6 +31,8 @@ import powerlessri.anotsturdymod.handlers.CommonReloadHandler;
 import powerlessri.anotsturdymod.blocks.tile.TileCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkController;
 import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkOutput;
+import powerlessri.anotsturdymod.network.PacketClientRequestedData;
+import powerlessri.anotsturdymod.network.PacketServerCommand;
 
 
 public class CommonProxy {
@@ -62,11 +65,17 @@ public class CommonProxy {
         TileEntity.register("te.energy_network_output", TileEnergyNetworkOutput.class);
         TileEntity.register("te.cobble_generator", TileCobbleGenerator.class);
 
+        TileEnergyNetworkAccessPort.initNetwork();
+
         registerItem(BlockEnergyController.STORAGE_UPGRADE);
         registerItem(new ItemTransmutationStone("transmutation_orb"));
         registerItem(new ItemExchanger("exchanger", EMachineLevel.BASIC, 1));
         registerItem(new ItemExchanger("exchanger", EMachineLevel.ADVANCED, 4));
         registerItem(new ItemIlluminator("illuminator", EMachineLevel.BASIC));
+
+        int packetId = 0;
+        ANotSturdyMod.genericChannel.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);
+        ANotSturdyMod.genericChannel.registerMessage(PacketClientRequestedData.Handler.class, PacketClientRequestedData.class, packetId++, Side.CLIENT);
     }
 
     public void init(FMLInitializationEvent event) {

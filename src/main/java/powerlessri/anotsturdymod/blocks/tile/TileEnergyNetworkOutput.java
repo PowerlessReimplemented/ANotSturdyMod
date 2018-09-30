@@ -6,8 +6,13 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 
 public class TileEnergyNetworkOutput extends TileEnergyNetworkAccessPort implements ITickable {
+
+    public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_output");
+
+
 
     public TileEnergyNetworkOutput() {
     }
@@ -18,7 +23,7 @@ public class TileEnergyNetworkOutput extends TileEnergyNetworkAccessPort impleme
 
     @Override
     public void update() {
-        if(!getWorld().isRemote) {
+        if(!world.isRemote) {
             for (EnumFacing facing : EnumFacing.VALUES) {
                 BlockPos neighborPos = pos.offset(facing);
                 TileEntity tile = world.getTileEntity(neighborPos);

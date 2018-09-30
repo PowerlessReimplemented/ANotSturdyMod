@@ -3,6 +3,7 @@ package powerlessri.anotsturdymod.library.utils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;
 import powerlessri.anotsturdymod.library.tags.ITagBasedItem;
 
@@ -108,6 +109,29 @@ public class NBTUtils {
         }
 
         return new NBTTagCompound();
+    }
+
+
+
+    public static final String X = "x";
+    public static final String Y = "y";
+    public static final String Z = "z";
+
+    public static BlockPos readBlockPos(NBTTagCompound tag) {
+        int x = tag.getInteger(X);
+        int y = tag.getInteger(Y);
+        int z = tag.getInteger(Z);
+        return new BlockPos(x, y, z);
+    }
+
+    public static void writeBlockPos(NBTTagCompound tag, BlockPos pos) {
+        writeBlockPos(tag, pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static void writeBlockPos(NBTTagCompound tag, int x, int y, int z) {
+        tag.setInteger(X, x);
+        tag.setInteger(Y, y);
+        tag.setInteger(Z, z);
     }
 
 }

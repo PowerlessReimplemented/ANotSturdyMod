@@ -16,7 +16,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import powerlessri.anotsturdymod.handlers.ModItems;
+import powerlessri.anotsturdymod.handlers.init.ModItems;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.library.EMachineLevel;
 import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;

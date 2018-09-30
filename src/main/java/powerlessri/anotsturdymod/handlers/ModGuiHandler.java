@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import powerlessri.anotsturdymod.blocks.container.ContainerEnergyAccessPort;
-import powerlessri.anotsturdymod.blocks.gui.GuiEnergyAccessPort;
+import powerlessri.anotsturdymod.blocks.gui.GuiEnergyIOAccess;
 import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkAccessPort;
 
 import javax.annotation.Nullable;
@@ -29,10 +29,9 @@ public class ModGuiHandler implements IGuiHandler {
         addGuiS((player, pos) -> {
                     TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) player.world.getTileEntity(pos);
                     ContainerEnergyAccessPort container = new ContainerEnergyAccessPort(player, tile);
-                    container.displayChannel = tile.getChannel();
                     return container;
                 },
-                (container) -> new GuiEnergyAccessPort((ContainerEnergyAccessPort) container));
+                (container) -> new GuiEnergyIOAccess((ContainerEnergyAccessPort) container));
     }
 
 

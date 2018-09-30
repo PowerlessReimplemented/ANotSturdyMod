@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.handlers;
+package powerlessri.anotsturdymod.handlers.init;
 
 import java.util.ArrayList;
 import java.util.List;

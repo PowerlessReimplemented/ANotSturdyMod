@@ -32,7 +32,6 @@ public class BlockEnergyController extends TileBlockBase {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-
         if(world.isRemote) {
             return true;
         }
@@ -41,6 +40,7 @@ public class BlockEnergyController extends TileBlockBase {
         TileEnergyNetworkController tile = (TileEnergyNetworkController) world.getTileEntity(pos);
         ItemStack heldItem = player.getHeldItem(hand);
 
+        // TODO make a gui for upgrades & storage display & channel
         if(player.isSneaking()) {
             // TODO add pop upgrades
             // Pop upgrades
@@ -55,8 +55,6 @@ public class BlockEnergyController extends TileBlockBase {
         }
 
 
-
-        // TODO make gui
         player.sendMessage(new TextComponentString("controller id: " + tile.getOrAllocChannel()));
 
         return true;

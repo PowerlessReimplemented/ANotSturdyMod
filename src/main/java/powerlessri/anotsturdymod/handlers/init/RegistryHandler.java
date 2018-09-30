@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.handlers;
+package powerlessri.anotsturdymod.handlers.init;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -39,6 +39,12 @@ public class RegistryHandler {
                 ((SimpleBlockBase) block).registerModel();
             }
         }
+    }
+
+
+
+    public static String makeTileEntityID(String teName) {
+        return "te." + teName;
     }
 
 }

@@ -16,10 +16,8 @@ public class AnsmSavedData extends WorldSavedData {
         AnsmSavedData result = (AnsmSavedData) storage.getOrLoadData(AnsmSavedData.class, DATA_NAME);
 
         if(result == null) {
-            result = new AnsmSavedData();
+            result = new AnsmSavedData(DATA_NAME);
             storage.setData(DATA_NAME, result);
-//            storage.setData(DATA_NAME, new AnsmSavedData());
-//            result = (AnsmSavedData) storage.getOrLoadData(AnsmSavedData.class, DATA_NAME);
         }
 
         return result;
@@ -39,10 +37,8 @@ public class AnsmSavedData extends WorldSavedData {
     
     public ArrayList<TileEnergyNetworkController> controllerTiles = new ArrayList<>();
 
+    // ======== Runtime Data ========//
 
-    public AnsmSavedData() {
-        this(DATA_NAME);
-    }
 
     /** Used for so that minecraft can correctly instantiate on MapStorage#getOrLoadData */
     public AnsmSavedData(String name) {

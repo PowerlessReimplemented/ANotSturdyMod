@@ -9,10 +9,13 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import powerlessri.anotsturdymod.handlers.ModCommands;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
+import powerlessri.anotsturdymod.handlers.init.ModCommands;
 import powerlessri.anotsturdymod.handlers.ModGuiHandler;
 import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.library.utils.Utils;
+import powerlessri.anotsturdymod.network.PacketServerCommand;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class ANotSturdyMod {
@@ -23,15 +26,18 @@ public class ANotSturdyMod {
     @SidedProxy(serverSide = Reference.SERVER_PROXY_CLASS, clientSide = Reference.CLIENT_PROXY_CLASS)
     public static CommonProxy proxy;
 
+    public static SimpleNetworkWrapper genericChannel;
+
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         Utils.getLogger().info(Reference.MODID + " excuting preInit");
 
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModGuiHandler());
+        genericChannel = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MODID + "main");
+
         proxy.modInit();
         proxy.preInit(event);
-
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new ModGuiHandler());
     }
 
     @EventHandler
