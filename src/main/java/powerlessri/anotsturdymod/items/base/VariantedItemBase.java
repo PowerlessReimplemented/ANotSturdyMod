@@ -6,7 +6,6 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 
-
 public class VariantedItemBase extends SimpleItemBase {
 
     // unlocalizedName for each item.

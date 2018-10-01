@@ -21,6 +21,9 @@ public class CommandAnsmUtils extends CommandStandardReloadable {
 
     public static final String OUTPUT_DESCRIPTION = ".outputDescription";
 
+    public static final String CMD_HAND  = "hand";
+    public static final String LANG_HAND =  "." + CMD_HAND;
+
     public CommandAnsmUtils() {
         super("utils");
 
@@ -30,19 +33,19 @@ public class CommandAnsmUtils extends CommandStandardReloadable {
 
             if(rest.length == 0 || rest[0].equals("id")) {
                 sender.sendMessage(new TextComponentString(
-                        Utils.readCommand(keyword, "id" + OUTPUT_DESCRIPTION) +
+                        Utils.readCommand(keyword, LANG_HAND + "id" + OUTPUT_DESCRIPTION) +
                         mainHand.getItem().getRegistryName()));
             }
 
             if(rest.length == 0 || rest[0].equals("meta")) {
                 sender.sendMessage(new TextComponentString(
-                        Utils.readCommand(keyword, "meta" + OUTPUT_DESCRIPTION) +
+                        Utils.readCommand(keyword, LANG_HAND + "meta" + OUTPUT_DESCRIPTION) +
                         mainHand.getItemDamage()));
             }
 
             if(rest.length == 0 || rest[0].equals("nbt")) {
                 sender.sendMessage(new TextComponentString(
-                        Utils.readCommand(keyword, "nbt" + OUTPUT_DESCRIPTION) +
+                        Utils.readCommand(keyword, LANG_HAND  + "nbt" + OUTPUT_DESCRIPTION) +
                         mainHand.getTagCompound()));
             }
         });

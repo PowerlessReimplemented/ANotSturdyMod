@@ -2,7 +2,6 @@ package powerlessri.anotsturdymod.items.base;
 
 import powerlessri.anotsturdymod.ANotSturdyMod;
 
-
 public abstract class SimpleItemBase extends ItemBase {
 
     public SimpleItemBase(String name) {

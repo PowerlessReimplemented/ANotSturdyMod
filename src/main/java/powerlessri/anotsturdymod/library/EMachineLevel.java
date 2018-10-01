@@ -2,7 +2,6 @@ package powerlessri.anotsturdymod.library;
 
 import net.minecraft.util.IStringSerializable;
 
-
 public enum EMachineLevel implements IStringSerializable {
 
     BASIC("basic"),

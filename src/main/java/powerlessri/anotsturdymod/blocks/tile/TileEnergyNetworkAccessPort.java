@@ -3,25 +3,29 @@ package powerlessri.anotsturdymod.blocks.tile;
 import javax.annotation.Nullable;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import powerlessri.anotsturdymod.blocks.BlockEnergyAccessPort;
+import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.BlockEnergyController;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
+import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
+import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
+import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEnergyStorage {
 
-    /** Reference to (supposedly) the only instance of BlockEnergyController. Exists for compat issues. */
+    /**
+     * Reference to (supposedly) the only instance of BlockEnergyController. Exists for compat issues.
+     */
     public static final BlockEnergyController CONTROLLER_BLOCK = BlockEnergyController.INSTANCE;
 
     public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_access_port");
@@ -29,7 +33,6 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
     // Tags
     public static final String IO_LIMIT = "ioLm";
     public static final String IO_UPGRADES = "ioUpgs";
-
 
 
     protected AnsmSavedData data;
@@ -51,9 +54,11 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
         return this.channel;
     }
 
-    /** @return {@code true} for success. <br /> {@code false} for fail.*/
+    /**
+     * @return {@code true} for success. <br /> {@code false} for fail.
+     */
     public boolean setChannel(int channel) {
-        if(channel > 0) {
+        if (channel > 0) {
             int oldChannel = this.channel;
             this.channel = channel;
 
@@ -66,37 +71,30 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
         return false;
     }
 
-    /** Used for store data at client side. */
-    @SideOnly(Side.CLIENT)
-    public void setChannelForced(int channel) {
-        this.channel = channel;
-    }
-
 
     // Note: even though this method might return null, TileEnergyNetworkAccessPort#setChannel will ensure it won't happen by ensuring the input channel exists.
     // Except: started with a channel don't even exist.
     @Nullable
     public TileEnergyNetworkController getController() {
         // This channel has been allocated
-        if(channel < data.controllerTiles.size()) {
+        if (channel < data.controllerTiles.size()) {
             return data.controllerTiles.get(this.channel);
         }
 
         return null;
     }
-    
+
     @Override
     public void onLoad() {
-        if(data == null) {
+        if (data == null) {
             data = AnsmSavedData.fromWorld(getWorld());
         }
     }
 
 
-
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        if(CapabilityEnergy.ENERGY == capability) {
+        if (CapabilityEnergy.ENERGY == capability) {
             return true;
         }
         return super.hasCapability(capability, facing);
@@ -105,23 +103,22 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
     @Nullable
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-        if(CapabilityEnergy.ENERGY == capability) {
+        if (CapabilityEnergy.ENERGY == capability) {
             return CapabilityEnergy.ENERGY.cast(this);
         }
         return super.getCapability(capability, facing);
     }
 
 
-
     @Override
     public int receiveEnergy(int maxReceive, boolean simulate) {
         TileEnergyNetworkController controller = this.getController();
-        if(this.canReceive() && controller != null) {
-            
+        if (this.canReceive() && controller != null) {
+
             int accepted = Math.min((int) controller.getCapacityLeft(), maxReceive);
-            if(!simulate)
+            if (!simulate)
                 controller.energyStored += accepted;
-            
+
             return accepted;
         }
         return 0;
@@ -130,12 +127,12 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
     @Override
     public int extractEnergy(int maxExtract, boolean simulate) {
         TileEnergyNetworkController controller = this.getController();
-        if(this.canExtract() && controller != null) {
-            
+        if (this.canExtract() && controller != null) {
+
             int removed = Math.min((int) controller.energyStored, maxExtract);
-            if(!simulate)
+            if (!simulate)
                 controller.energyStored -= removed;
-            
+
             return removed;
         }
         return 0;
@@ -163,7 +160,6 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
     }
 
 
-
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
@@ -189,13 +185,27 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
             BlockPos tilePos = NBTUtils.readBlockPos(msg.args);
 
             TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) ctx.getServerHandler().player.world.getTileEntity(tilePos);
-            if(tile != null) {
+            if (tile != null) {
                 tile.setChannel(channelTo);
             }
+        });
+
+        PacketSRequestWorld.responses.put(GET_CHANNEL, (msg, ctx) -> {
+            World world = DimensionManager.getWorld(msg.dimension);
+            TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) world.getTileEntity(new BlockPos(msg.x, msg.y, msg.z));
+
+            NBTTagCompound data = new NBTTagCompound();
+            data.setInteger(TileEnergyNetworkController.CHANNEL, tile.getChannel());
+
+            PacketClientRequestedData response = new PacketClientRequestedData(msg.requestId, data);
+            ANotSturdyMod.genericChannel.sendToAll(response);
+
+            return null;
         });
     }
 
 
+    public static final String GET_CHANNEL = TILE_REGISTRY_NAME + ":sync.getChannel";
     public static final String SET_CHANNEL = TILE_REGISTRY_NAME + ":setChannel";
 
     public static NBTTagCompound makeSetChannelArgs(int x, int y, int z, int channelTo) {

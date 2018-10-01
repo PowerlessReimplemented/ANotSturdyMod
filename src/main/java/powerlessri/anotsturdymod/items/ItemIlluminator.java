@@ -13,7 +13,6 @@ import powerlessri.anotsturdymod.handlers.init.ModBlocks;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.library.EMachineLevel;
 
-
 public class ItemIlluminator extends SimpleItemBase {
 
     public ItemIlluminator(String name, EMachineLevel level) {

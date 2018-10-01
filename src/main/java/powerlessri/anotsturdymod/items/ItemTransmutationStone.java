@@ -18,7 +18,6 @@ import powerlessri.anotsturdymod.library.tags.ITagBasedItem;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
 import powerlessri.anotsturdymod.library.utils.PosExtractor;
 
-
 public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedItem {
 
     public ItemTransmutationStone(String name) {

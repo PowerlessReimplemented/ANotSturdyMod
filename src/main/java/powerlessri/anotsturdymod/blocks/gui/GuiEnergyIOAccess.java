@@ -84,7 +84,7 @@ public class GuiEnergyIOAccess extends GuiContainer {
         BlockPos tilePos = tile.getPos();
 
         // Store channel to get the correct display
-        tile.setChannelForced(container.channel);
+        tile.setChannel(container.channel);
         // Sync channel between sides
         NetworkHelper.sendServerCommand(
                 ANotSturdyMod.genericChannel,

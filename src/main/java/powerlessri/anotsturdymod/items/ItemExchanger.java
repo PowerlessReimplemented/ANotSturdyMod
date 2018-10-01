@@ -27,7 +27,6 @@ import powerlessri.anotsturdymod.library.utils.PosExtractor;
 import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.library.utils.Utils;
 
-
 public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
     // Maximum radius for this type of exchanger

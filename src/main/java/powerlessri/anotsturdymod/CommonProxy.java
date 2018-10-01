@@ -15,8 +15,12 @@ import powerlessri.anotsturdymod.blocks.BlockLightCube;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
 import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
+import powerlessri.anotsturdymod.blocks.tile.TileCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkAccessPort;
+import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkController;
+import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkOutput;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
+import powerlessri.anotsturdymod.handlers.CommonReloadHandler;
 import powerlessri.anotsturdymod.handlers.init.ModBlocks;
 import powerlessri.anotsturdymod.handlers.init.ModCommands;
 import powerlessri.anotsturdymod.handlers.init.ModItems;
@@ -27,13 +31,9 @@ import powerlessri.anotsturdymod.items.base.ItemBase;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.library.EMachineLevel;
-import powerlessri.anotsturdymod.handlers.CommonReloadHandler;
-import powerlessri.anotsturdymod.blocks.tile.TileCobbleGenerator;
-import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkController;
-import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkOutput;
-import powerlessri.anotsturdymod.network.PacketClientRequestedData;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
-
+import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
+import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
 
 public class CommonProxy {
     
@@ -75,6 +75,7 @@ public class CommonProxy {
 
         int packetId = 0;
         ANotSturdyMod.genericChannel.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);
+        ANotSturdyMod.genericChannel.registerMessage(PacketSRequestWorld.Handler.class, PacketSRequestWorld.class, packetId++, Side.SERVER);
         ANotSturdyMod.genericChannel.registerMessage(PacketClientRequestedData.Handler.class, PacketClientRequestedData.class, packetId++, Side.CLIENT);
     }
 

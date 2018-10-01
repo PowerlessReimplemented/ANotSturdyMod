@@ -32,12 +32,16 @@ public class BlockEnergyController extends TileBlockBase {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        TileEnergyNetworkController tile = (TileEnergyNetworkController) world.getTileEntity(pos);
+
         if(world.isRemote) {
+            if(!tile.isInitialized()) {
+
+            }
             return true;
         }
 
 
-        TileEnergyNetworkController tile = (TileEnergyNetworkController) world.getTileEntity(pos);
         ItemStack heldItem = player.getHeldItem(hand);
 
         // TODO make a gui for upgrades & storage display & channel
@@ -55,6 +59,7 @@ public class BlockEnergyController extends TileBlockBase {
         }
 
 
+        // Also allocate new channel (if hasn't yet) on server side
         player.sendMessage(new TextComponentString("controller id: " + tile.getOrAllocChannel()));
 
         return true;
