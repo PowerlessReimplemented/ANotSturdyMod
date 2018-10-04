@@ -113,9 +113,18 @@ public class NBTUtils {
 
 
 
+    // ================================ //
+
+
+
+    public static final String DIMENSION = "dimension";
     public static final String X = "x";
     public static final String Y = "y";
     public static final String Z = "z";
+
+    public static void writeDimension(NBTTagCompound tag, int dimension) {
+        tag.setInteger(DIMENSION, dimension);
+    }
 
     public static BlockPos readBlockPos(NBTTagCompound tag) {
         int x = tag.getInteger(X);

@@ -4,6 +4,7 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ReportedException;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 /**
@@ -44,15 +45,15 @@ public class TileEnergyNetworkController extends TileEntityBase {
         }
 
         @Override
-        public void onLoad() {
+        public void onLoadServer() {
+        }
+
+        @Override
+        public void onChunkUnloadServer() {
         }
 
         @Override
         public void onRemoved() {
-        }
-
-        @Override
-        public void onChunkUnload() {
         }
 
         @Override
@@ -94,10 +95,6 @@ public class TileEnergyNetworkController extends TileEntityBase {
     public long energyStored = 0;
 
 
-    public TileEnergyNetworkController() {
-    }
-
-
 
     public int getOrAllocChannel() {
         if(!isInitialized()) {
@@ -108,7 +105,7 @@ public class TileEnergyNetworkController extends TileEntityBase {
             // Increase the capacity, so ArrayList#set won't throw exception
             data.controllerTiles.add(null);
             // Now it has a channel, put itself into the reference list.
-            this.onLoad();
+            this.onLoadServer();
         }
 
         return this.getChannel();
@@ -148,9 +145,9 @@ public class TileEnergyNetworkController extends TileEntityBase {
 
 
     @Override
-    public void onLoad() {
+    public void onLoadServer() {
         if(data == null) {
-            data = AnsmSavedData.fromWorld(getWorld());
+            data = AnsmSavedData.fromWorld(world);
         }
 
         // Wait until player activate this block (wait until it has a channel)
@@ -167,8 +164,7 @@ public class TileEnergyNetworkController extends TileEntityBase {
         // This step might cause an IndexOutOfBoundsException, if channel is not allocated by #getOrAllocChannel()
         // but you're not suppose to do it other than #getOrAllocChannel(), so it's fine.
         //
-        // BlockEnergyController#tiles actually has the appropriate size && This tile entity with the channel does not exist
-        // When channel == DEFAULT_CHANNEL, #tiles[c] will always be a FakeEnergyNetworkController (non-null)
+        // Note that when channel == DEFAULT_CHANNEL, #tiles[c] will always be a FakeEnergyNetworkController\
         if (data.controllerTiles.get(this.channel) == null) {
             data.controllerTiles.set(this.channel, this);
         } else {
@@ -181,7 +177,7 @@ public class TileEnergyNetworkController extends TileEntityBase {
     }
 
     @Override
-    public void onChunkUnload() {
+    public void onChunkUnloadServer() {
         data.controllerTiles.set(this.channel, null);
         this.isAlive = false;
     }

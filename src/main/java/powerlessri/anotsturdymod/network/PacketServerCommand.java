@@ -10,7 +10,6 @@ import powerlessri.anotsturdymod.library.utils.Utils;
 
 import java.util.HashMap;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class PacketServerCommand implements IMessage {
 

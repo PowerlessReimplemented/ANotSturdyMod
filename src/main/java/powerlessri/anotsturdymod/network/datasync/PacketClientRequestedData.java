@@ -19,7 +19,7 @@ import java.util.function.BiConsumer;
 
 public class PacketClientRequestedData implements IMessage {
 
-    public static void requestWorldData(String requestName, BiConsumer<PacketClientRequestedData, MessageContext> onResponse, int x, int y, int z) {
+    public static void requestWorldData(String requestName, BiConsumer<PacketClientRequestedData, MessageContext> onResponse, int dimension, int x, int y, int z) {
         int requestId = getRequestId();
         handlers.set(requestId, (msg, ctx) -> {
             onResponse.accept(msg, ctx);
@@ -28,6 +28,7 @@ public class PacketClientRequestedData implements IMessage {
 
         PacketSRequestWorld request = new PacketSRequestWorld(requestId, requestName);
         request.isServerThread = true;
+        request.dimension = dimension;
         request.x = x;
         request.y = y;
         request.z = z;

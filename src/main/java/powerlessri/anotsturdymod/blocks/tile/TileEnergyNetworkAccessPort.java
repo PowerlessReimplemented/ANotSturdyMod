@@ -1,7 +1,5 @@
 package powerlessri.anotsturdymod.blocks.tile;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -15,11 +13,12 @@ import powerlessri.anotsturdymod.blocks.BlockEnergyController;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
-import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
 import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
+
+import javax.annotation.Nullable;
 
 public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEnergyStorage {
 
@@ -62,11 +61,11 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
             int oldChannel = this.channel;
             this.channel = channel;
 
-            if (getController() == null) {
-                this.channel = oldChannel;
-                return false;
+            if (getController() != null) {
+                return true;
             }
-            return true;
+
+            this.channel = oldChannel;
         }
         return false;
     }
@@ -85,7 +84,7 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
     }
 
     @Override
-    public void onLoad() {
+    public void onLoadServer() {
         if (data == null) {
             data = AnsmSavedData.fromWorld(getWorld());
         }
@@ -182,9 +181,11 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
     public static void initNetwork() {
         PacketServerCommand.handlers.put(SET_CHANNEL, (msg, ctx) -> {
             int channelTo = msg.args.getInteger(TileEnergyNetworkController.CHANNEL);
-            BlockPos tilePos = NBTUtils.readBlockPos(msg.args);
 
-            TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) ctx.getServerHandler().player.world.getTileEntity(tilePos);
+            World world = DimensionManager.getWorld(msg.args.getInteger(NBTUtils.DIMENSION));
+            BlockPos tilePos = NBTUtils.readBlockPos(msg.args);
+            TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) world.getTileEntity(tilePos);
+
             if (tile != null) {
                 tile.setChannel(channelTo);
             }
@@ -208,10 +209,13 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
     public static final String GET_CHANNEL = TILE_REGISTRY_NAME + ":sync.getChannel";
     public static final String SET_CHANNEL = TILE_REGISTRY_NAME + ":setChannel";
 
-    public static NBTTagCompound makeSetChannelArgs(int x, int y, int z, int channelTo) {
+    public static NBTTagCompound makeSetChannelArgs(int dimension, int x, int y, int z, int channelTo) {
         NBTTagCompound tag = new NBTTagCompound();
+
+        tag.setInteger(NBTUtils.DIMENSION, dimension);
         tag.setInteger(TileEnergyNetworkController.CHANNEL, channelTo);
         NBTUtils.writeBlockPos(tag, x, y, z);
+
         return tag;
     }
 

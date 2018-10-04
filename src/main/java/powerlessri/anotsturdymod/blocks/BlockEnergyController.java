@@ -21,7 +21,6 @@ public class BlockEnergyController extends TileBlockBase {
     public static final ItemUpgrade STORAGE_UPGRADE = new ItemUpgrade("energy_network_storage_upgrade");
 
 
-
     private BlockEnergyController(String name) {
         super(name, Material.ROCK);
 
@@ -29,30 +28,25 @@ public class BlockEnergyController extends TileBlockBase {
     }
 
 
-
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        TileEnergyNetworkController tile = (TileEnergyNetworkController) world.getTileEntity(pos);
-
-        if(world.isRemote) {
-            if(!tile.isInitialized()) {
-
-            }
+        if (world.isRemote) {
             return true;
         }
 
 
+        TileEnergyNetworkController tile = (TileEnergyNetworkController) world.getTileEntity(pos);
         ItemStack heldItem = player.getHeldItem(hand);
 
         // TODO make a gui for upgrades & storage display & channel
-        if(player.isSneaking()) {
+        if (player.isSneaking()) {
             // TODO add pop upgrades
             // Pop upgrades
         } else {
             // Insert upgrades
             if (heldItem.getItem() == STORAGE_UPGRADE) {
                 int accepted = tile.installStorageUpgrade(heldItem.getCount());
-                heldItem.setCount( heldItem.getCount() - accepted );
+                heldItem.setCount(heldItem.getCount() - accepted);
 
                 return true;
             }
@@ -64,7 +58,6 @@ public class BlockEnergyController extends TileBlockBase {
 
         return true;
     }
-
 
 
     @Override

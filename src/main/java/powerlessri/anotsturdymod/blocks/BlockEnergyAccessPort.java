@@ -31,7 +31,6 @@ public class BlockEnergyAccessPort extends TileBlockBase {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-
         if(world.isRemote) {
             return true;
         }
@@ -44,9 +43,9 @@ public class BlockEnergyAccessPort extends TileBlockBase {
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
         if(!isPlug) {
-            return new TileEnergyNetworkOutput(1, ioLimit);
+            return new TileEnergyNetworkOutput(0, ioLimit);
         }
-        return new TileEnergyNetworkAccessPort(1, ioLimit);
+        return new TileEnergyNetworkAccessPort(0, ioLimit);
     }
 
     @Override

@@ -30,9 +30,8 @@ public class Reference {
     public static final String SERVER_PROXY_CLASS = "powerlessri.anotsturdymod.ServerProxy";
     public static final String CLIENT_PROXY_CLASS = "powerlessri.anotsturdymod.ClientProxy";
 
-    // TODO load these in .lang file
-//    public static final String ERR_NON_SUBTYPED_ITEM = "Trying register sub-typed item model with non-sub-typed item.";
-//    public static final String ERR_SUBTYPED_ITEM = "Trying register non-sub-typed item model with sub-typed item.";
+    public static final String ERR_NON_SUBTYPED_ITEM = "Trying register sub-typed item model with non-sub-typed item.";
+    public static final String ERR_SUBTYPED_ITEM = "Trying register non-sub-typed item model with sub-typed item.";
 
     public static final String DOMAIN_MINECRAFT = "minecraft";
 

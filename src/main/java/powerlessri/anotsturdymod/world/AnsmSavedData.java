@@ -8,6 +8,7 @@ import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkController;
+import powerlessri.anotsturdymod.library.utils.Utils;
 
 public class AnsmSavedData extends WorldSavedData {
 
@@ -16,8 +17,8 @@ public class AnsmSavedData extends WorldSavedData {
         AnsmSavedData result = (AnsmSavedData) storage.getOrLoadData(AnsmSavedData.class, DATA_NAME);
 
         if(result == null) {
-            result = new AnsmSavedData(DATA_NAME);
-            storage.setData(DATA_NAME, result);
+            storage.setData(DATA_NAME, new AnsmSavedData(DATA_NAME));
+            result = (AnsmSavedData) storage.getOrLoadData((AnsmSavedData.class), DATA_NAME);
         }
 
         return result;
@@ -43,20 +44,32 @@ public class AnsmSavedData extends WorldSavedData {
     /** Used for so that minecraft can correctly instantiate on MapStorage#getOrLoadData */
     public AnsmSavedData(String name) {
         super(name);
+        constructRuntimeData();
     }
+
+
+
+    private void reconstructListControllerTiles(int size) {
+        controllerTiles.clear();
+        controllerTiles.add(new TileEnergyNetworkController.TileFakeEnergyNetworkController());
+        // When controllerNextChannel == 1, there's no channels got allocated
+        // Which already gave the space for channel 0
+        for(int i = 0; i < size; i++) {
+            controllerTiles.add(null);
+        }
+    }
+
+    private void constructRuntimeData() {
+        reconstructListControllerTiles(controllerNextChannel);
+    }
+
 
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         this.controllerNextChannel = tag.getInteger(CONTROLLER_CHANNEL_USAGE);
 
-        controllerTiles.clear();
-        controllerTiles.add(new TileEnergyNetworkController.TileFakeEnergyNetworkController());
-        // When controllerNextChannel == 1, there's no channels got allocated
-        // Which already gave the space for channel 0
-        for(int i = 0; i < controllerNextChannel; i++) {
-            this.controllerTiles.add(null);
-        }
+        constructRuntimeData();
     }
 
     @Override
