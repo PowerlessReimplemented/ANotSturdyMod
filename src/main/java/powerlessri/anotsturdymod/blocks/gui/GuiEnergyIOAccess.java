@@ -1,5 +1,7 @@
 package powerlessri.anotsturdymod.blocks.gui;
 
+import java.io.IOException;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -7,35 +9,42 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.blocks.container.ContainerEnergyAccessPort;
+import powerlessri.anotsturdymod.blocks.container.ContainerEnergyIOAccess;
 import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
+import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
 import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.network.NetworkHelper;
-
-import java.io.IOException;
 
 public class GuiEnergyIOAccess extends GuiContainer {
 
     private static final ResourceLocation BACKGROUND_LOC = new ResourceLocation(Reference.MODID,"textures/gui/access_port.png");
 
-    private final int guiWidth = 176;
-    private final int guiHeight = 166;
+    private static final int guiWidth = 176;
+    private static final int guiHeight = 166;
 
-    private int centerX;
-    private int centerY;
+    protected static int buttonId = 0;
+    protected static final int BUTTON_MINUS_10 = buttonId++;
+    protected static final int BUTTON_MINUS_1 = buttonId++;
+    protected static final int BUTTON_ADD_1 = buttonId++;
+    protected static final int BUTTON_ADD_10 = buttonId++;
 
-    private int buttonId = 0;
-    private final int BUTTON_MINUS_10 = buttonId++;
-    private final int BUTTON_MINUS_1 = buttonId++;
-    private final int BUTTON_ADD_1 = buttonId++;
-    private final int BUTTON_ADD_10 = buttonId++;
+    private static final int[] BUTTON_OPERATION_VALUES = new int[] {-10, -1, 1, 10};
+    
+    
+    
+    protected int centerX;
+    protected int centerY;
+    
+    protected final ContainerEnergyIOAccess container;
+    protected final TileENComponentBase tile; // TileEntity at client side
+    protected final BlockPos tilePos;
 
-    private final int[] BUTTON_OPERATION_VALUES = new int[] {-10, -1, 1, 10};
-
-
-
-    public GuiEnergyIOAccess(ContainerEnergyAccessPort inventory) {
-        super(inventory);
+    public GuiEnergyIOAccess(ContainerEnergyIOAccess container) {
+        super(container);
+        
+        this.container = container;
+        this.tile = container.tile;
+        this.tilePos = tile.getPos();
     }
 
 
@@ -78,10 +87,6 @@ public class GuiEnergyIOAccess extends GuiContainer {
     public void onGuiClosed() {
         super.onGuiClosed();
 
-        ContainerEnergyAccessPort container = getContainer();
-        TileENAccessPort tile = container.tile; // TileEntity at client side
-        BlockPos tilePos = tile.getPos();
-
         // Sync channel between sides
         NetworkHelper.sendServerCommand(
                 ANotSturdyMod.genericChannel,
@@ -94,7 +99,7 @@ public class GuiEnergyIOAccess extends GuiContainer {
         super.actionPerformed(button);
 
         if(button.id >= BUTTON_MINUS_10 && button.id <= BUTTON_ADD_10) {
-            ContainerEnergyAccessPort container = getContainer();
+            ContainerEnergyIOAccess container = getContainer();
 
             int oldChannel = container.channel;
             container.channel += BUTTON_OPERATION_VALUES[button.id];
@@ -106,8 +111,8 @@ public class GuiEnergyIOAccess extends GuiContainer {
     }
 
 
-    private ContainerEnergyAccessPort getContainer() {
-        return (ContainerEnergyAccessPort) inventorySlots;
+    protected ContainerEnergyIOAccess getContainer() {
+        return (ContainerEnergyIOAccess) inventorySlots;
     }
 
 }

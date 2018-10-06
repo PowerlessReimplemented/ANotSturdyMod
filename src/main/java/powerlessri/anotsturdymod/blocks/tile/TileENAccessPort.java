@@ -124,7 +124,7 @@ public class TileENAccessPort extends TileENComponentBase implements IEnergyStor
 
         PacketSRequestWorld.responses.put(GET_CHANNEL, (msg, ctx) -> {
             World world = DimensionManager.getWorld(msg.dimension);
-            TileENAccessPort tile = (TileENAccessPort) world.getTileEntity(new BlockPos(msg.x, msg.y, msg.z));
+            TileENComponentBase tile = (TileENComponentBase) world.getTileEntity(new BlockPos(msg.x, msg.y, msg.z));
 
             NBTTagCompound data = new NBTTagCompound();
             data.setInteger(TileENController.CHANNEL, tile.getChannel());
@@ -141,11 +141,9 @@ public class TileENAccessPort extends TileENComponentBase implements IEnergyStor
     public static final String SET_CHANNEL = TILE_REGISTRY_NAME + ":setChannel";
 
     public static NBTTagCompound makeSetChannelArgs(int dimension, int x, int y, int z, int channelTo) {
-        NBTTagCompound tag = new NBTTagCompound();
-
-        tag.setInteger(NBTUtils.DIMENSION, dimension);
+        NBTTagCompound tag = PacketServerCommand.makeWorldPosArgs(dimension, x, y, z);
+        
         tag.setInteger(TileENController.CHANNEL, channelTo);
-        NBTUtils.writeBlockPos(tag, x, y, z);
 
         return tag;
     }

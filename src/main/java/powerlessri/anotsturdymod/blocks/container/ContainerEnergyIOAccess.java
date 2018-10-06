@@ -5,18 +5,19 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import powerlessri.anotsturdymod.blocks.container.base.PlayerContainerBase;
 import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
+import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
 import powerlessri.anotsturdymod.blocks.tile.TileENController;
 import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
 
-public class ContainerEnergyAccessPort extends PlayerContainerBase {
+public class ContainerEnergyIOAccess extends PlayerContainerBase {
 
     public EntityPlayer player;
-    public TileENAccessPort tile;
+    public TileENComponentBase tile;
 
     @SideOnly(Side.CLIENT)
     public int channel;
 
-    public ContainerEnergyAccessPort(EntityPlayer player, TileENAccessPort tile) {
+    public ContainerEnergyIOAccess(EntityPlayer player, TileENComponentBase tile) {
         super(player);
         this.player = player;
         this.tile = tile;

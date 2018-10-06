@@ -1,12 +1,16 @@
 package powerlessri.anotsturdymod.network;
 
+import java.io.IOException;
+
+import javax.annotation.Nullable;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
+import powerlessri.anotsturdymod.library.utils.NBTUtils;
 import powerlessri.anotsturdymod.library.utils.Utils;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
 
 public class ByteIOHelper {
 
@@ -57,6 +61,16 @@ public class ByteIOHelper {
 
     public static void writeTag(ByteBuf buf, NBTTagCompound tag) {
         new PacketBuffer(buf).writeCompoundTag(tag);
+    }
+    
+    
+    
+    public static World getWorldFromDimension(NBTTagCompound dimTag) {
+        return getWorldFromDimension(dimTag.getInteger(NBTUtils.DIMENSION));
+    }
+    
+    public static World getWorldFromDimension(int dim) {
+        return DimensionManager.getWorld(dim);
     }
 
 }

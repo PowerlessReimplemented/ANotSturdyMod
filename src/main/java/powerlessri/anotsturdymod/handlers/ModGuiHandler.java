@@ -1,37 +1,44 @@
 package powerlessri.anotsturdymod.handlers;
 
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.IGuiHandler;
-import powerlessri.anotsturdymod.blocks.container.ContainerEnergyAccessPort;
-import powerlessri.anotsturdymod.blocks.gui.GuiEnergyIOAccess;
-import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
-
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
+import powerlessri.anotsturdymod.blocks.container.ContainerEnergyIOAccess;
+import powerlessri.anotsturdymod.blocks.gui.GuiENWirelessTransmitter;
+import powerlessri.anotsturdymod.blocks.gui.GuiEnergyIOAccess;
+import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
+
 public class ModGuiHandler implements IGuiHandler {
 
     public static final int ENERGY_ACCESS_PORT = 0;
+    public static final int ENERGY_WIRELESS_TRANSMITTER = 1;
 
 
     private List<BiFunction<EntityPlayer, BlockPos, Container>> containerSupplier = new ArrayList<>();
     private List<Function<Container, GuiScreen>> guiSupplier = new ArrayList<>();
 
     public ModGuiHandler() {
-        addGuiS((player, pos) -> {
-                    TileENAccessPort tile = (TileENAccessPort) player.world.getTileEntity(pos);
-                    ContainerEnergyAccessPort container = new ContainerEnergyAccessPort(player, tile);
-                    return container;
-                },
-                (container) -> new GuiEnergyIOAccess((ContainerEnergyAccessPort) container));
+        BiFunction<EntityPlayer, BlockPos, Container> containerEnergyIOAccess = (player, pos) -> {
+            TileENComponentBase tile = (TileENComponentBase) player.world.getTileEntity(pos);
+            ContainerEnergyIOAccess container = new ContainerEnergyIOAccess(player, tile);
+            return container;
+        };
+        
+        addGuiS(containerEnergyIOAccess,
+                (container) -> new GuiEnergyIOAccess((ContainerEnergyIOAccess) container));
+        addGuiS(containerEnergyIOAccess,
+                (container) -> new GuiENWirelessTransmitter((ContainerEnergyIOAccess) container));
     }
 
 
