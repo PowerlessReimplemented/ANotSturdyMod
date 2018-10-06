@@ -61,7 +61,7 @@ public class BlockEnergyAccessPort extends TileBlockBase {
                 return isPlug ? new TileENAccessPortOutput(0, ioLimit) : new TileENAccessPort(0, ioLimit);
 
             case TYPE_WIRELESS_EMITTER:
-                return isPlug ? new TileENWirelessTransmitter() : null;
+                return isPlug ? new TileENWirelessTransmitter(0, ioLimit) : null;
         }
 
         return null;

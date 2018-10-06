@@ -1,5 +1,7 @@
 package powerlessri.anotsturdymod.blocks.tile;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -10,15 +12,12 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.BlockEnergyController;
-import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
+import powerlessri.anotsturdymod.network.ByteIOHelper;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
 import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
-import powerlessri.anotsturdymod.world.AnsmSavedData;
-
-import javax.annotation.Nullable;
 
 public class TileENAccessPort extends TileENComponentBase implements IEnergyStorage {
 
@@ -114,7 +113,7 @@ public class TileENAccessPort extends TileENComponentBase implements IEnergyStor
         PacketServerCommand.handlers.put(SET_CHANNEL, (msg, ctx) -> {
             int channelTo = msg.args.getInteger(TileENController.CHANNEL);
 
-            World world = DimensionManager.getWorld(msg.args.getInteger(NBTUtils.DIMENSION));
+            World world = ByteIOHelper.getWorldFromDimension(msg.args);
             BlockPos tilePos = NBTUtils.readBlockPos(msg.args);
             TileENAccessPort tile = (TileENAccessPort) world.getTileEntity(tilePos);
 
