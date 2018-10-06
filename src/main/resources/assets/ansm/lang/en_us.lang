@@ -17,3 +17,6 @@ command.ansm:debug.hand.nbt.outputDescription=Item NBT:
 
 # Gui button names
 gui.ansm:wireless_transmitter.button.scanNearbyTiles=Scan nearby tiles
+
+# Gui texts
+gui.ansm:wireless_transmitter.text.startedScanning=Started scanning...

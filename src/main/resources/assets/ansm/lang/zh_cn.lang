@@ -16,4 +16,7 @@ command.ansm:debug.hand.meta.outputDescription=物品Metadata:
 command.ansm:debug.hand.nbt.outputDescription=物品NBT: 
 
 # Gui button names
-gui.ansm:wireless_transmitter.button.scanNearbyTiles=
+gui.ansm:wireless_transmitter.button.scanNearbyTiles=扫描RF接收者
+
+# Gui texts
+gui.ansm:wireless_transmitter.text.startedScanning=已开始扫描...
