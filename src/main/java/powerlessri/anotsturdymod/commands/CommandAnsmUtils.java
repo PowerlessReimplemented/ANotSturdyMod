@@ -1,8 +1,5 @@
 package powerlessri.anotsturdymod.commands;
 
-import java.util.Arrays;
-import java.util.function.BiConsumer;
-
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,6 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import powerlessri.anotsturdymod.library.utils.Utils;
+
+import java.util.Arrays;
+import java.util.function.BiConsumer;
 
 
 /**

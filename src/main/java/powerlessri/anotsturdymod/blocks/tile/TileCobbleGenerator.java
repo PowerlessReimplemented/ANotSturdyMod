@@ -1,7 +1,5 @@
 package powerlessri.anotsturdymod.blocks.tile;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -10,6 +8,8 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
+
+import javax.annotation.Nullable;
 
 public class TileCobbleGenerator extends TileEntityBase implements IItemHandler, ICapabilityProvider {
 

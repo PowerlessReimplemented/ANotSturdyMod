@@ -1,13 +1,13 @@
 package powerlessri.anotsturdymod.handlers.init;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import powerlessri.anotsturdymod.items.ItemExchanger;
 import powerlessri.anotsturdymod.items.ItemIlluminator;
 import powerlessri.anotsturdymod.items.ItemTransmutationStone;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ModItems {

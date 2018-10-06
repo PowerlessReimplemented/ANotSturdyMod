@@ -1,13 +1,5 @@
 package powerlessri.anotsturdymod.handlers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -18,6 +10,13 @@ import powerlessri.anotsturdymod.blocks.container.ContainerEnergyIOAccess;
 import powerlessri.anotsturdymod.blocks.gui.GuiENWirelessTransmitter;
 import powerlessri.anotsturdymod.blocks.gui.GuiEnergyIOAccess;
 import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ModGuiHandler implements IGuiHandler {
 

@@ -1,11 +1,5 @@
 package powerlessri.anotsturdymod.items.handler;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
@@ -13,6 +7,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class WorldTransmutation {
 

@@ -1,7 +1,5 @@
 package powerlessri.anotsturdymod.blocks;
 
-import java.util.function.Function;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -18,32 +16,26 @@ import powerlessri.anotsturdymod.blocks.tile.TileENAccessPortOutput;
 import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
 import powerlessri.anotsturdymod.blocks.tile.TileENWirelessTransmitter;
 
+import java.util.function.Function;
+
 public class BlockEnergyAccessPort extends TileBlockBase {
 
-    public static final int TYPE_ACCESS_PORT = 0;
-    public static final int TYPE_WIRELESS_EMITTER = 1;
+    public static final int TYPE_ACCESS_PORT_IN = 0;
+    public static final int TYPE_ACCESS_PORT_OUT = 1;
+    public static final int TYPE_WIRELESS_EMITTER = 2;
 
     private final int ioLimit;
-
-    private final boolean isPlug;
     private final int type;
     private final int guiId;
-    private final Function<Integer, TileENComponentBase> tileCreator;
 
 
-    public BlockEnergyAccessPort(String name, int ioLimit, boolean isPlug, int type, Function<Integer, TileENComponentBase> createTE) {
-        this(name, ioLimit, isPlug, type, type, createTE);
-    }
 
-    public BlockEnergyAccessPort(String name, int ioLimit, boolean isPlug, int type, int guiId, Function<Integer, TileENComponentBase> createTE) {
+    public BlockEnergyAccessPort(String name, int ioLimit, int type, int guiId) {
         super(name, Material.ROCK);
-        this.ioLimit = ioLimit;
-        this.tileCreator = createTE;
 
-        this.isPlug = isPlug;
+        this.ioLimit = ioLimit;
         this.type = type;
         this.guiId = guiId;
-        
 
         setCreativeTab(CreativeTabs.MISC);
     }
@@ -64,11 +56,10 @@ public class BlockEnergyAccessPort extends TileBlockBase {
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
         switch(type) {
-            case TYPE_ACCESS_PORT:
-                return isPlug ? new TileENAccessPortOutput(0, ioLimit) : new TileENAccessPort(0, ioLimit);
+            case TYPE_ACCESS_PORT_IN: return new TileENAccessPort(0, ioLimit);
+            case TYPE_ACCESS_PORT_OUT: return new TileENAccessPortOutput(0, ioLimit);
 
-            case TYPE_WIRELESS_EMITTER:
-                return isPlug ? new TileENWirelessTransmitter(0, ioLimit) : null;
+            case TYPE_WIRELESS_EMITTER: return new TileENWirelessTransmitter(0, ioLimit);
         }
 
         return null;

@@ -1,15 +1,16 @@
 package powerlessri.anotsturdymod.blocks.gui;
 
-import java.io.IOException;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.util.text.TextComponentString;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.container.ContainerEnergyIOAccess;
 import powerlessri.anotsturdymod.blocks.tile.TileENWirelessTransmitter;
 import powerlessri.anotsturdymod.library.utils.Utils;
-import powerlessri.anotsturdymod.network.NetworkHelper;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
+import powerlessri.anotsturdymod.network.utils.NetworkHelper;
+
+import java.io.IOException;
 
 public class GuiENWirelessTransmitter extends GuiEnergyIOAccess {
     
@@ -41,6 +42,8 @@ public class GuiENWirelessTransmitter extends GuiEnergyIOAccess {
                     ANotSturdyMod.genericChannel,
                     TileENWirelessTransmitter.SCAN_NEARBY_TILES,
                     PacketServerCommand.makeWorldPosArgs(Minecraft.getMinecraft().player.dimension, tilePos.getX(), tilePos.getY(), tilePos.getZ()));
+
+            Minecraft.getMinecraft().player.sendMessage(new TextComponentString(Utils.readFromLang("gui.ansm:wireless_transmitter.text.startedScanning")));
         }
     }
 

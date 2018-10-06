@@ -1,13 +1,13 @@
 package powerlessri.anotsturdymod.world;
 
-import java.util.ArrayList;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
-import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.blocks.tile.TileENController;
+import powerlessri.anotsturdymod.library.utils.Reference;
+
+import java.util.ArrayList;
 
 public class AnsmSavedData extends WorldSavedData {
 
@@ -38,8 +38,8 @@ public class AnsmSavedData extends WorldSavedData {
 
     // ======== Runtime Data ======== //
 
-    public final TileEnergyNetworkController.TileFakeEnergyNetworkController FAKE_EN_CONTROLLER_TILE = new TileEnergyNetworkController.TileFakeEnergyNetworkController();
-    public ArrayList<TileEnergyNetworkController> controllerTiles = new ArrayList<>();
+    public final TileENController.TileFakeENController FAKE_EN_CONTROLLER_TILE = new TileENController.TileFakeENController();
+    public ArrayList<TileENController> controllerTiles = new ArrayList<>();
 
     // ======== Runtime Data ========//
 

@@ -1,9 +1,9 @@
 package powerlessri.anotsturdymod.handlers.init;
 
+import net.minecraft.command.CommandBase;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraft.command.CommandBase;
 
 
 public class ModCommands {

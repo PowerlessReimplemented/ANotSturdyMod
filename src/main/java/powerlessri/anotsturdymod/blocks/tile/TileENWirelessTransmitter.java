@@ -1,8 +1,5 @@
 package powerlessri.anotsturdymod.blocks.tile;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
@@ -13,8 +10,11 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
 import powerlessri.anotsturdymod.library.utils.Utils;
-import powerlessri.anotsturdymod.network.ByteIOHelper;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
+import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileENWirelessTransmitter extends TileENComponentBase implements ITickable {
     
@@ -104,7 +104,8 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
         });
     }
     
-    
+
+
     public static void onPacketScanNearbyTiles(PacketServerCommand pckt, MessageContext ctx) {
         World world = ByteIOHelper.getWorldFromDimension(pckt.args);
         BlockPos tilePos = NBTUtils.readBlockPos(pckt.args);

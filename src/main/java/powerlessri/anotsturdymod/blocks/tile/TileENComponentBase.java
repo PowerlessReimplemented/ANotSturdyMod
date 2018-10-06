@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 public class TileENComponentBase extends TileEntityBase {
 
-    // Tags
+    // NBT tag keys
     public static final String IO_LIMIT = "ioLm";
     public static final String IO_UPGRADES = "ioUpgs";
 
@@ -28,6 +28,14 @@ public class TileENComponentBase extends TileEntityBase {
     }
 
 
+    @Override
+    public void onLoadServer() {
+        if (data == null) {
+            data = AnsmSavedData.fromWorld(getWorld());
+        }
+    }
+
+
     public int getChannel() {
         return this.channel;
     }
@@ -40,7 +48,7 @@ public class TileENComponentBase extends TileEntityBase {
             int oldChannel = this.channel;
             this.channel = channel;
 
-            if (getController() != null) {
+            if (isControllerValid()) {
                 return true;
             }
 
@@ -50,8 +58,10 @@ public class TileENComponentBase extends TileEntityBase {
     }
 
 
-    // Note: even though this method might return null, TileENAccessPort#setChannel will ensure it won't happen by ensuring the input channel exists.
-    // Except: started with a channel don't even exist.
+    public boolean isControllerValid() {
+        return channel < data.controllerTiles.size();
+    }
+
     @Nullable
     public TileENController getController() {
         // This channel has been allocated
@@ -59,14 +69,7 @@ public class TileENComponentBase extends TileEntityBase {
             return data.controllerTiles.get(this.channel);
         }
 
-        return null;
-    }
-
-    @Override
-    public void onLoadServer() {
-        if (data == null) {
-            data = AnsmSavedData.fromWorld(getWorld());
-        }
+        return data.FAKE_EN_CONTROLLER_TILE;
     }
 
 

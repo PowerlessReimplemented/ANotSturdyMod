@@ -15,13 +15,10 @@ import powerlessri.anotsturdymod.blocks.BlockLightCube;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
 import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
-import powerlessri.anotsturdymod.blocks.tile.TileCobbleGenerator;
-import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
-import powerlessri.anotsturdymod.blocks.tile.TileENController;
-import powerlessri.anotsturdymod.blocks.tile.TileENWirelessTransmitter;
-import powerlessri.anotsturdymod.blocks.tile.TileENAccessPortOutput;
+import powerlessri.anotsturdymod.blocks.tile.*;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
 import powerlessri.anotsturdymod.handlers.CommonReloadHandler;
+import powerlessri.anotsturdymod.handlers.ModGuiHandler;
 import powerlessri.anotsturdymod.handlers.init.ModBlocks;
 import powerlessri.anotsturdymod.handlers.init.ModCommands;
 import powerlessri.anotsturdymod.handlers.init.ModItems;
@@ -56,9 +53,9 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(BlockEnergyController.INSTANCE);
-        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", 5000, true, BlockEnergyAccessPort.TYPE_ACCESS_PORT, null));
-        registerBlock(new BlockEnergyAccessPort("energy_network_output_port", 5000, false, BlockEnergyAccessPort.TYPE_ACCESS_PORT, null));
-        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", 80, true, BlockEnergyAccessPort.TYPE_WIRELESS_EMITTER, null));
+        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", 5000, BlockEnergyAccessPort.TYPE_ACCESS_PORT_IN, ModGuiHandler.ENERGY_ACCESS_PORT));
+        registerBlock(new BlockEnergyAccessPort("energy_network_output_port", 5000, BlockEnergyAccessPort.TYPE_ACCESS_PORT_OUT, ModGuiHandler.ENERGY_ACCESS_PORT));
+        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", 80, BlockEnergyAccessPort.TYPE_WIRELESS_EMITTER, ModGuiHandler.ENERGY_WIRELESS_TRANSMITTER));
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
         registerBlock(new BlockLightCube("light_cube"));
         

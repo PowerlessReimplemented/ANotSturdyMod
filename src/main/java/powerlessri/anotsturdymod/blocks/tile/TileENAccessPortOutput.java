@@ -21,6 +21,7 @@ public class TileENAccessPortOutput extends TileENAccessPort implements ITickabl
         super(channel, ioLimit);
     }
 
+
     @Override
     public void update() {
         if(!world.isRemote) {

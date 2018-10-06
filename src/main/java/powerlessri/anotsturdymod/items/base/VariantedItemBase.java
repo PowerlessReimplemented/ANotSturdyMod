@@ -1,10 +1,10 @@
 package powerlessri.anotsturdymod.items.base;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.creativetab.CreativeTabs;
 import powerlessri.anotsturdymod.ANotSturdyMod;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class VariantedItemBase extends SimpleItemBase {
 

@@ -1,9 +1,5 @@
 package powerlessri.anotsturdymod.blocks;
 
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.ParticleManager;
@@ -16,6 +12,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
+
+import javax.annotation.Nullable;
+import java.util.Random;
 
 // TODO light cubes with color
 public class BlockLightCube extends BlockBase {

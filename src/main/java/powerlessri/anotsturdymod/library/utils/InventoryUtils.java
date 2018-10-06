@@ -1,15 +1,14 @@
 package powerlessri.anotsturdymod.library.utils;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.function.BiFunction;
-
-import org.apache.logging.log4j.util.BiConsumer;
-
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import org.apache.logging.log4j.util.BiConsumer;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.function.BiFunction;
 
 
 public class InventoryUtils {

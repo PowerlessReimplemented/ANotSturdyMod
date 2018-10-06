@@ -1,9 +1,5 @@
 package powerlessri.anotsturdymod.network.utils;
 
-import java.io.IOException;
-
-import javax.annotation.Nullable;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
@@ -11,6 +7,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
 import powerlessri.anotsturdymod.library.utils.Utils;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
 
 public class ByteIOHelper {
 

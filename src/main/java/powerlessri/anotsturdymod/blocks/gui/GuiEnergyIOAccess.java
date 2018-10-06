@@ -1,7 +1,5 @@
 package powerlessri.anotsturdymod.blocks.gui;
 
-import java.io.IOException;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -14,6 +12,8 @@ import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
 import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
 import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.network.utils.NetworkHelper;
+
+import java.io.IOException;
 
 public class GuiEnergyIOAccess extends GuiContainer {
 

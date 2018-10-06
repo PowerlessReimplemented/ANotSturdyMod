@@ -1,12 +1,12 @@
 package powerlessri.anotsturdymod.handlers.init;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import powerlessri.anotsturdymod.blocks.BlockInfiniteCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ModBlocks {

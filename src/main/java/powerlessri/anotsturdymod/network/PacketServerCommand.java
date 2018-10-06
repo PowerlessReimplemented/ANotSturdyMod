@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
 import powerlessri.anotsturdymod.library.utils.Utils;
+import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
 
 import java.util.HashMap;
 import java.util.function.BiConsumer;
