@@ -65,7 +65,6 @@ public class GuiEnergyIOAccess extends GuiContainer {
         addButton(new GuiButton(BUTTON_MINUS_1, centerX + 53, channelButtonsY, CHANNEL_BTN_WIDTH, CHANNEL_BTN_HEIGHT, "-1"));
         addButton(new GuiButton(BUTTON_ADD_1, centerX + 104, channelButtonsY, CHANNEL_BTN_WIDTH, CHANNEL_BTN_HEIGHT, "+1"));
         addButton(new GuiButton(BUTTON_ADD_10, centerX + 128, channelButtonsY, CHANNEL_BTN_WIDTH, CHANNEL_BTN_HEIGHT, "+10"));
-
     }
 
     @Override

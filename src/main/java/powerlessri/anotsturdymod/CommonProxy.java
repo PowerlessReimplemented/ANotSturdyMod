@@ -63,32 +63,7 @@ public class CommonProxy {
         registerBlock(BlockEnergyController.INSTANCE);
         registerBlock(new BlockEnergyAccessPort("energy_network_input_port", 5000, BlockEnergyAccessPort.TYPE_ACCESS_PORT_IN, ModGuiHandler.ENERGY_ACCESS_PORT));
         registerBlock(new BlockEnergyAccessPort("energy_network_output_port", 5000, BlockEnergyAccessPort.TYPE_ACCESS_PORT_OUT, ModGuiHandler.ENERGY_ACCESS_PORT));
-        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", 80, BlockEnergyAccessPort.TYPE_WIRELESS_EMITTER, ModGuiHandler.ENERGY_WIRELESS_TRANSMITTER) {
-            @Override
-            public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-                if(world.isRemote) {
-                    return true;
-                }
-
-                if(player.isSneaking()) {
-                    if(player.getHeldItem(hand).isEmpty()) {
-                        TileENWirelessTransmitter tile = (TileENWirelessTransmitter) world.getTileEntity(pos);
-                        String msg =
-                                Utils.readFromLang("gui.ansm:wireless_transmitter.text.amountSupportingTiles.1") +
-                                " " +
-                                tile.getAmountSupportingTiles() +
-                                " " +
-                                Utils.readFromLang("gui.ansm:wireless_transmitter.text.amountSupportingTiles.2");
-
-                        player.sendMessage(new TextComponentString(msg));
-                        return true;
-                    }
-                    return false;
-                }
-
-                return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
-            }
-        });
+        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", 80, BlockEnergyAccessPort.TYPE_WIRELESS_EMITTER, ModGuiHandler.ENERGY_WIRELESS_TRANSMITTER));
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
         registerBlock(new BlockLightCube("light_cube"));
         

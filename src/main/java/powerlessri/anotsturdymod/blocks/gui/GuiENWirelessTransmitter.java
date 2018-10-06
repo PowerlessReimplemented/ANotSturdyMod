@@ -15,8 +15,16 @@ import java.io.IOException;
 public class GuiENWirelessTransmitter extends GuiEnergyIOAccess {
     
     protected static final int BUTTON_SCAN_TILES = buttonId++;
-    
+
     protected static final int SCAN_TILES_BTN_WIDTH = 38;
+
+
+
+    private int buttonScanTilesX;
+    private int buttonScanTilesY;
+
+    private int textScanResultX;
+    private int textScanResultY;
 
     public GuiENWirelessTransmitter(ContainerEnergyIOAccess container) {
         super(container);
@@ -26,13 +34,30 @@ public class GuiENWirelessTransmitter extends GuiEnergyIOAccess {
     @Override
     public void initGui() {
         super.initGui();
-        
+
+        buttonScanTilesX = centerX + 29;
+        buttonScanTilesY = channelButtonsY + CHANNEL_BTN_HEIGHT + 10;
+
+        textScanResultX = buttonScanTilesX;
+        textScanResultY = buttonScanTilesY + CHANNEL_BTN_HEIGHT + 8;
+
         addButton(new GuiButton(BUTTON_SCAN_TILES,
-                centerX + 29, channelButtonsY + CHANNEL_BTN_HEIGHT + 10,
+                buttonScanTilesX, buttonScanTilesY,
                 SCAN_TILES_BTN_WIDTH, CHANNEL_BTN_HEIGHT,
                 Utils.readFromLang("gui.ansm:wireless_transmitter.button.scanNearbyTiles")));
     }
-    
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+
+        String msg = Utils.readFromLang("gui.ansm:wireless_transmitter.text.amountPowerReceivers") +
+                " " +
+                ((TileENWirelessTransmitter) container.tile).amountPowerReceivers;
+
+        fontRenderer.drawString(msg, textScanResultX, textScanResultY, 0x000000);
+    }
+
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         super.actionPerformed(button);

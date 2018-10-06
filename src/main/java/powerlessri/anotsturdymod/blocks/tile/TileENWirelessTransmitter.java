@@ -1,5 +1,7 @@
 package powerlessri.anotsturdymod.blocks.tile;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
@@ -13,26 +15,28 @@ import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TileENWirelessTransmitter extends TileENComponentBase implements ITickable {
-    
+
     public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_wireless_transmitter");
-    
+
     public static final int DEFAULT_SCAN_RADIUS = 4;
-    
-    
+    public static final String AMOUNT_POWER_RECEIVERS = "NPowerReceivers";
+
 
     private List<BlockPos> nearbyTiles = new ArrayList<>();
-    
+    /** Equivalent to nearbyTiles.size() */
+    public int amountPowerReceivers = 0;
+
     public TileENWirelessTransmitter() {
     }
-    
+
     public TileENWirelessTransmitter(int channel, int ioLimit) {
         super(channel, ioLimit);
     }
-
 
 
     @Override
@@ -44,37 +48,36 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
 
     public void scanNearbyTiles(int radius) {
         nearbyTiles.clear();
+        amountPowerReceivers = 0;
 
         // i, j, k are the offset from origin (this.pos)
-        for(int i = -radius; i <= radius; i++) {
-            for(int j = -radius; j <= radius; j++) {
-                for(int k = -radius; k <= radius; k++) {
+        for (int i = -radius; i <= radius; i++) {
+            for (int j = -radius; j <= radius; j++) {
+                for (int k = -radius; k <= radius; k++) {
                     BlockPos targetPos = pos.add(i, j, k);
                     TileEntity tile = world.getTileEntity(targetPos);
 
                     // Don't input energy into components, that might cause problems (e.g. infinite loop)
                     if (tile != null && !(tile instanceof TileENComponentBase) && tile.hasCapability(CapabilityEnergy.ENERGY, null)) {
                         nearbyTiles.add(targetPos);
+                        amountPowerReceivers++;
                     }
                 }
             }
         }
 
-        Utils.getLogger().info("scanning: " + nearbyTiles.size());
-    }
-
-    public int getAmountSupportingTiles() {
-        return nearbyTiles.size();
+        // Sync amountPowerReceivers to client
+        sendUpdates();
     }
 
     @Override
     public void update() {
-        if(nearbyTiles.size() == 0) {
+        if (amountPowerReceivers == 0 || world.isRemote) {
             return;
         }
-        
+
         TileENController controller = getController();
-        if(controller == null || controller.energyStored == 0L) {
+        if (controller == null || controller.energyStored == 0L) {
             return;
         }
 
@@ -82,7 +85,7 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
             TileEntity tile = world.getTileEntity(p);
 
             // Tile entities might change after scanning
-            if(tile != null) {
+            if (tile != null) {
                 IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, null);
 
                 if (storage != null && storage.canReceive()) {
@@ -90,32 +93,48 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
                     controller.energyStored -= accepted;
                 }
 
-                if(controller.energyStored == 0L) {
+                if (controller.energyStored == 0L) {
                     return;
                 }
             }
         }
     }
-    
-    
-    
+
+
+    @Override
+    public NBTTagCompound getUpdateTag() {
+        NBTTagCompound tag = new NBTTagCompound();
+        writeToNBT(tag);
+
+        tag.setInteger(AMOUNT_POWER_RECEIVERS, amountPowerReceivers);
+
+        return tag;
+    }
+
+    @Override
+    public void handleUpdateTag(NBTTagCompound tag) {
+        super.handleUpdateTag(tag);
+        amountPowerReceivers = tag.getInteger(AMOUNT_POWER_RECEIVERS);
+    }
+
+
+
     // ======== Networking ======== //
-    
+
     public static final String SCAN_NEARBY_TILES = TILE_REGISTRY_NAME + ":scanTe";
-    
+
     public static void initNetwork() {
         PacketServerCommand.handlers.put(SCAN_NEARBY_TILES, (msg, ctx) -> {
             onPacketScanNearbyTiles(msg, ctx);
         });
     }
-    
 
 
     public static void onPacketScanNearbyTiles(PacketServerCommand pckt, MessageContext ctx) {
         World world = ByteIOHelper.getWorldFromDimension(pckt.args);
         BlockPos tilePos = NBTUtils.readBlockPos(pckt.args);
         TileENWirelessTransmitter tile = (TileENWirelessTransmitter) world.getTileEntity(tilePos);
-        
+
         tile.scanNearbyTiles(DEFAULT_SCAN_RADIUS);
     }
 

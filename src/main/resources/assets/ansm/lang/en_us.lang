@@ -20,5 +20,4 @@ gui.ansm:wireless_transmitter.button.scanNearbyTiles=Scan nearby tiles
 
 # Gui texts
 gui.ansm:wireless_transmitter.text.startedScanning=Started scanning...
-gui.ansm:wireless_transmitter.text.amountSupportingTiles.1=Currently providing power to
-gui.ansm:wireless_transmitter.text.amountSupportingTiles.2=tiles.
+gui.ansm:wireless_transmitter.text.amountPowerReceivers=Power Receivers:
