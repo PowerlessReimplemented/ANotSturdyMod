@@ -61,6 +61,10 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
 
     @Override
     public void update() {
+        if(nearbyTiles.size() == 0) {
+            return;
+        }
+        
         TileENController controller = getController();
         if(controller == null || controller.energyStored == 0L) {
             return;

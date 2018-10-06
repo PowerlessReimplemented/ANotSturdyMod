@@ -1,5 +1,7 @@
 package powerlessri.anotsturdymod.blocks;
 
+import java.util.function.Function;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -15,9 +17,6 @@ import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
 import powerlessri.anotsturdymod.blocks.tile.TileENAccessPortOutput;
 import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
 import powerlessri.anotsturdymod.blocks.tile.TileENWirelessTransmitter;
-import powerlessri.anotsturdymod.handlers.ModGuiHandler;
-
-import java.util.function.Function;
 
 public class BlockEnergyAccessPort extends TileBlockBase {
 
@@ -28,19 +27,27 @@ public class BlockEnergyAccessPort extends TileBlockBase {
 
     private final boolean isPlug;
     private final int type;
+    private final int guiId;
     private final Function<Integer, TileENComponentBase> tileCreator;
 
-    
+
     public BlockEnergyAccessPort(String name, int ioLimit, boolean isPlug, int type, Function<Integer, TileENComponentBase> createTE) {
+        this(name, ioLimit, isPlug, type, type, createTE);
+    }
+
+    public BlockEnergyAccessPort(String name, int ioLimit, boolean isPlug, int type, int guiId, Function<Integer, TileENComponentBase> createTE) {
         super(name, Material.ROCK);
         this.ioLimit = ioLimit;
+        this.tileCreator = createTE;
 
         this.isPlug = isPlug;
         this.type = type;
-        this.tileCreator = createTE;
+        this.guiId = guiId;
+        
 
         setCreativeTab(CreativeTabs.MISC);
     }
+    
 
 
     @Override
@@ -49,7 +56,7 @@ public class BlockEnergyAccessPort extends TileBlockBase {
             return true;
         }
 
-        player.openGui(ANotSturdyMod.instance, ModGuiHandler.ENERGY_ACCESS_PORT + type, world, pos.getX(), pos.getY(), pos.getZ());
+        player.openGui(ANotSturdyMod.instance, guiId, world, pos.getX(), pos.getY(), pos.getZ());
 
         return true;
     }

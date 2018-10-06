@@ -69,6 +69,7 @@ public class CommonProxy {
         TileEntity.register("te.cobble_generator", TileCobbleGenerator.class);
 
         TileENAccessPort.initNetwork();
+        TileENWirelessTransmitter.initNetwork();
 
         registerItem(BlockEnergyController.STORAGE_UPGRADE);
         registerItem(new ItemTransmutationStone("transmutation_orb"));
