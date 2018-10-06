@@ -40,7 +40,8 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
         super.onLoadServer();
         scanNearbyTiles(DEFAULT_SCAN_RADIUS);
     }
-    
+
+
     public void scanNearbyTiles(int radius) {
         nearbyTiles.clear();
 
@@ -60,6 +61,10 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
         }
 
         Utils.getLogger().info("scanning: " + nearbyTiles.size());
+    }
+
+    public int getAmountSupportingTiles() {
+        return nearbyTiles.size();
     }
 
     @Override

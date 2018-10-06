@@ -1,8 +1,15 @@
 package powerlessri.anotsturdymod;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -29,6 +36,7 @@ import powerlessri.anotsturdymod.items.base.ItemBase;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.library.EMachineLevel;
+import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
 import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
@@ -55,7 +63,32 @@ public class CommonProxy {
         registerBlock(BlockEnergyController.INSTANCE);
         registerBlock(new BlockEnergyAccessPort("energy_network_input_port", 5000, BlockEnergyAccessPort.TYPE_ACCESS_PORT_IN, ModGuiHandler.ENERGY_ACCESS_PORT));
         registerBlock(new BlockEnergyAccessPort("energy_network_output_port", 5000, BlockEnergyAccessPort.TYPE_ACCESS_PORT_OUT, ModGuiHandler.ENERGY_ACCESS_PORT));
-        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", 80, BlockEnergyAccessPort.TYPE_WIRELESS_EMITTER, ModGuiHandler.ENERGY_WIRELESS_TRANSMITTER));
+        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", 80, BlockEnergyAccessPort.TYPE_WIRELESS_EMITTER, ModGuiHandler.ENERGY_WIRELESS_TRANSMITTER) {
+            @Override
+            public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+                if(world.isRemote) {
+                    return true;
+                }
+
+                if(player.isSneaking()) {
+                    if(player.getHeldItem(hand).isEmpty()) {
+                        TileENWirelessTransmitter tile = (TileENWirelessTransmitter) world.getTileEntity(pos);
+                        String msg =
+                                Utils.readFromLang("gui.ansm:wireless_transmitter.text.amountSupportingTiles.1") +
+                                " " +
+                                tile.getAmountSupportingTiles() +
+                                " " +
+                                Utils.readFromLang("gui.ansm:wireless_transmitter.text.amountSupportingTiles.2");
+
+                        player.sendMessage(new TextComponentString(msg));
+                        return true;
+                    }
+                    return false;
+                }
+
+                return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+            }
+        });
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
         registerBlock(new BlockLightCube("light_cube"));
         
