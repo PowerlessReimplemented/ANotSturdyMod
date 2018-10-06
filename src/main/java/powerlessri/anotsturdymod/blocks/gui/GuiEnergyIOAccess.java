@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.container.ContainerEnergyAccessPort;
-import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkAccessPort;
+import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
 import powerlessri.anotsturdymod.library.utils.Reference;
 import powerlessri.anotsturdymod.network.NetworkHelper;
 
@@ -79,14 +79,14 @@ public class GuiEnergyIOAccess extends GuiContainer {
         super.onGuiClosed();
 
         ContainerEnergyAccessPort container = getContainer();
-        TileEnergyNetworkAccessPort tile = container.tile; // TileEntity at client side
+        TileENAccessPort tile = container.tile; // TileEntity at client side
         BlockPos tilePos = tile.getPos();
 
         // Sync channel between sides
         NetworkHelper.sendServerCommand(
                 ANotSturdyMod.genericChannel,
-                TileEnergyNetworkAccessPort.SET_CHANNEL,
-                TileEnergyNetworkAccessPort.makeSetChannelArgs(Minecraft.getMinecraft().player.dimension, tilePos.getX(), tilePos.getY(), tilePos.getZ(), container.channel));
+                TileENAccessPort.SET_CHANNEL,
+                TileENAccessPort.makeSetChannelArgs(Minecraft.getMinecraft().player.dimension, tilePos.getX(), tilePos.getY(), tilePos.getZ(), container.channel));
     }
 
     @Override

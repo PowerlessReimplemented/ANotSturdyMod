@@ -7,8 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import powerlessri.anotsturdymod.library.utils.Reference;
-import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkController;
-import powerlessri.anotsturdymod.library.utils.Utils;
+import powerlessri.anotsturdymod.blocks.tile.TileENController;
 
 public class AnsmSavedData extends WorldSavedData {
 
@@ -36,7 +35,7 @@ public class AnsmSavedData extends WorldSavedData {
     
     // ======== Runtime Data ======== //
     
-    public ArrayList<TileEnergyNetworkController> controllerTiles = new ArrayList<>();
+    public ArrayList<TileENController> controllerTiles = new ArrayList<>();
 
     // ======== Runtime Data ========//
 
@@ -51,7 +50,7 @@ public class AnsmSavedData extends WorldSavedData {
 
     private void reconstructListControllerTiles(int size) {
         controllerTiles.clear();
-        controllerTiles.add(new TileEnergyNetworkController.TileFakeEnergyNetworkController());
+        controllerTiles.add(new TileENController.TileFakeEnergyNetworkController());
         // When controllerNextChannel == 1, there's no channels got allocated
         // Which already gave the space for channel 0
         for(int i = 0; i < size; i++) {

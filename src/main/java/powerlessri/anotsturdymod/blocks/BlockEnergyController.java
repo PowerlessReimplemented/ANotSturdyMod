@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
-import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkController;
+import powerlessri.anotsturdymod.blocks.tile.TileENController;
 import powerlessri.anotsturdymod.items.ItemUpgrade;
 
 public class BlockEnergyController extends TileBlockBase {
@@ -35,7 +35,7 @@ public class BlockEnergyController extends TileBlockBase {
         }
 
 
-        TileEnergyNetworkController tile = (TileEnergyNetworkController) world.getTileEntity(pos);
+        TileENController tile = (TileENController) world.getTileEntity(pos);
         ItemStack heldItem = player.getHeldItem(hand);
 
         // TODO make a gui for upgrades & storage display & channel
@@ -62,12 +62,12 @@ public class BlockEnergyController extends TileBlockBase {
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileEnergyNetworkController();
+        return new TileENController();
     }
 
     @Override
     public Class<? extends TileEntity> getTileEntityClass() {
-        return TileEnergyNetworkController.class;
+        return TileENController.class;
     }
 
 }

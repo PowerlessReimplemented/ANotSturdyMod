@@ -8,16 +8,16 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 
-public class TileEnergyNetworkOutput extends TileEnergyNetworkAccessPort implements ITickable {
+public class TileENAccessPortOutput extends TileENAccessPort implements ITickable {
 
     public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_output");
 
 
 
-    public TileEnergyNetworkOutput() {
+    public TileENAccessPortOutput() {
     }
 
-    public TileEnergyNetworkOutput(int channel, int ioLimit) {
+    public TileENAccessPortOutput(int channel, int ioLimit) {
         super(channel, ioLimit);
     }
 
@@ -30,7 +30,7 @@ public class TileEnergyNetworkOutput extends TileEnergyNetworkAccessPort impleme
                 EnumFacing opposite = facing.getOpposite();
 
                 // Don't insert to another access port, it might cause problems (e.g. loop)
-                if (tile != null && !(tile instanceof TileEnergyNetworkAccessPort)) {
+                if (tile != null && !(tile instanceof TileENAccessPort)) {
                     if (tile.hasCapability(CapabilityEnergy.ENERGY, opposite)) {
                         IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, opposite);
 
@@ -44,7 +44,7 @@ public class TileEnergyNetworkOutput extends TileEnergyNetworkAccessPort impleme
     }
 
     public void sendEnergy(IEnergyStorage targetStorage) {
-        TileEnergyNetworkController controller = getController();
+        TileENController controller = getController();
         if(controller != null) {
             int extractLimit = extractEnergy(ioLimit, true);
             int accepted = targetStorage.receiveEnergy(extractLimit, false);

@@ -4,16 +4,15 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ReportedException;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
-import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 /**
  * This block does not meant to be a direct part of forge energy system. Use BlockEnergyAccessPort
  * for any access to the power storage managed by this block.
  */
-public class TileEnergyNetworkController extends TileEntityBase {
+public class TileENController extends TileEntityBase {
 
-    public static class TileFakeEnergyNetworkController extends TileEnergyNetworkController {
+    public static class TileFakeEnergyNetworkController extends TileENController {
 
         public TileFakeEnergyNetworkController() {
             this.isAlive = true;

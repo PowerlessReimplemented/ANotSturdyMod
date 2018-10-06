@@ -11,19 +11,33 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
-import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkAccessPort;
-import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkOutput;
+import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
+import powerlessri.anotsturdymod.blocks.tile.TileENAccessPortOutput;
+import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
+import powerlessri.anotsturdymod.blocks.tile.TileENWirelessTransmitter;
 import powerlessri.anotsturdymod.handlers.ModGuiHandler;
+
+import java.util.function.Function;
 
 public class BlockEnergyAccessPort extends TileBlockBase {
 
+    public static final int TYPE_ACCESS_PORT = 0;
+    public static final int TYPE_WIRELESS_EMITTER = 1;
+
     private final int ioLimit;
+
     private final boolean isPlug;
+    private final int type;
+    private final Function<Integer, TileENComponentBase> tileCreator;
+
     
-    public BlockEnergyAccessPort(String name, int ioLimit, boolean isPlug) {
+    public BlockEnergyAccessPort(String name, int ioLimit, boolean isPlug, int type, Function<Integer, TileENComponentBase> createTE) {
         super(name, Material.ROCK);
         this.ioLimit = ioLimit;
+
         this.isPlug = isPlug;
+        this.type = type;
+        this.tileCreator = createTE;
 
         setCreativeTab(CreativeTabs.MISC);
     }
@@ -35,22 +49,27 @@ public class BlockEnergyAccessPort extends TileBlockBase {
             return true;
         }
 
-        player.openGui(ANotSturdyMod.instance, ModGuiHandler.ENERGY_ACCESS_PORT, world, pos.getX(), pos.getY(), pos.getZ());
+        player.openGui(ANotSturdyMod.instance, ModGuiHandler.ENERGY_ACCESS_PORT + type, world, pos.getX(), pos.getY(), pos.getZ());
 
         return true;
     }
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        if(!isPlug) {
-            return new TileEnergyNetworkOutput(0, ioLimit);
+        switch(type) {
+            case TYPE_ACCESS_PORT:
+                return isPlug ? new TileENAccessPortOutput(0, ioLimit) : new TileENAccessPort(0, ioLimit);
+
+            case TYPE_WIRELESS_EMITTER:
+                return isPlug ? new TileENWirelessTransmitter() : null;
         }
-        return new TileEnergyNetworkAccessPort(0, ioLimit);
+
+        return null;
     }
 
     @Override
     public Class<? extends TileEntity> getTileEntityClass() {
-        return TileEnergyNetworkAccessPort.class;
+        return TileENAccessPort.class;
     }
 
 }

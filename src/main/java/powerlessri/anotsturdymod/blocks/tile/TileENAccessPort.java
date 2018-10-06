@@ -20,7 +20,7 @@ import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 import javax.annotation.Nullable;
 
-public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEnergyStorage {
+public class TileENAccessPort extends TileENComponentBase implements IEnergyStorage {
 
     /**
      * Reference to (supposedly) the only instance of BlockEnergyController. Exists for compat issues.
@@ -29,65 +29,13 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
 
     public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_access_port");
 
-    // Tags
-    public static final String IO_LIMIT = "ioLm";
-    public static final String IO_UPGRADES = "ioUpgs";
 
 
-    protected AnsmSavedData data;
-
-    protected int channel;
-    protected int ioLimit;
-
-
-    public TileEnergyNetworkAccessPort() {
+    public TileENAccessPort() {
     }
 
-    public TileEnergyNetworkAccessPort(int channel, int ioLimit) {
-        this.channel = channel;
-        this.ioLimit = ioLimit;
-    }
-
-
-    public int getChannel() {
-        return this.channel;
-    }
-
-    /**
-     * @return {@code true} for success. <br /> {@code false} for fail.
-     */
-    public boolean setChannel(int channel) {
-        if (channel > 0) {
-            int oldChannel = this.channel;
-            this.channel = channel;
-
-            if (getController() != null) {
-                return true;
-            }
-
-            this.channel = oldChannel;
-        }
-        return false;
-    }
-
-
-    // Note: even though this method might return null, TileEnergyNetworkAccessPort#setChannel will ensure it won't happen by ensuring the input channel exists.
-    // Except: started with a channel don't even exist.
-    @Nullable
-    public TileEnergyNetworkController getController() {
-        // This channel has been allocated
-        if (channel < data.controllerTiles.size()) {
-            return data.controllerTiles.get(this.channel);
-        }
-
-        return null;
-    }
-
-    @Override
-    public void onLoadServer() {
-        if (data == null) {
-            data = AnsmSavedData.fromWorld(getWorld());
-        }
+    public TileENAccessPort(int channel, int ioLimit) {
+        super(channel, ioLimit);
     }
 
 
@@ -111,7 +59,7 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
 
     @Override
     public int receiveEnergy(int maxReceive, boolean simulate) {
-        TileEnergyNetworkController controller = this.getController();
+        TileENController controller = this.getController();
         if (this.canReceive() && controller != null) {
 
             int accepted = Math.min((int) controller.getCapacityLeft(), maxReceive);
@@ -125,7 +73,7 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
 
     @Override
     public int extractEnergy(int maxExtract, boolean simulate) {
-        TileEnergyNetworkController controller = this.getController();
+        TileENController controller = this.getController();
         if (this.canExtract() && controller != null) {
 
             int removed = Math.min((int) controller.energyStored, maxExtract);
@@ -159,32 +107,16 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
     }
 
 
-    @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-
-        this.channel = tag.getInteger(TileEnergyNetworkController.CHANNEL);
-        this.ioLimit = tag.getInteger(IO_LIMIT);
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag.setInteger(TileEnergyNetworkController.CHANNEL, channel);
-        tag.setInteger(IO_LIMIT, ioLimit);
-
-        return super.writeToNBT(tag);
-    }
-
 
     // ======== Networking ======== //
 
     public static void initNetwork() {
         PacketServerCommand.handlers.put(SET_CHANNEL, (msg, ctx) -> {
-            int channelTo = msg.args.getInteger(TileEnergyNetworkController.CHANNEL);
+            int channelTo = msg.args.getInteger(TileENController.CHANNEL);
 
             World world = DimensionManager.getWorld(msg.args.getInteger(NBTUtils.DIMENSION));
             BlockPos tilePos = NBTUtils.readBlockPos(msg.args);
-            TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) world.getTileEntity(tilePos);
+            TileENAccessPort tile = (TileENAccessPort) world.getTileEntity(tilePos);
 
             if (tile != null) {
                 tile.setChannel(channelTo);
@@ -193,10 +125,10 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
 
         PacketSRequestWorld.responses.put(GET_CHANNEL, (msg, ctx) -> {
             World world = DimensionManager.getWorld(msg.dimension);
-            TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) world.getTileEntity(new BlockPos(msg.x, msg.y, msg.z));
+            TileENAccessPort tile = (TileENAccessPort) world.getTileEntity(new BlockPos(msg.x, msg.y, msg.z));
 
             NBTTagCompound data = new NBTTagCompound();
-            data.setInteger(TileEnergyNetworkController.CHANNEL, tile.getChannel());
+            data.setInteger(TileENController.CHANNEL, tile.getChannel());
 
             PacketClientRequestedData response = new PacketClientRequestedData(msg.requestId, data);
             ANotSturdyMod.genericChannel.sendToAll(response);
@@ -213,7 +145,7 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
         NBTTagCompound tag = new NBTTagCompound();
 
         tag.setInteger(NBTUtils.DIMENSION, dimension);
-        tag.setInteger(TileEnergyNetworkController.CHANNEL, channelTo);
+        tag.setInteger(TileENController.CHANNEL, channelTo);
         NBTUtils.writeBlockPos(tag, x, y, z);
 
         return tag;
