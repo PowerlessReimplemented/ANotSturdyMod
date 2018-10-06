@@ -1,7 +1,8 @@
-package powerlessri.anotsturdymod.network;
+package powerlessri.anotsturdymod.network.utils;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import powerlessri.anotsturdymod.network.PacketServerCommand;
 
 public class NetworkHelper {
 

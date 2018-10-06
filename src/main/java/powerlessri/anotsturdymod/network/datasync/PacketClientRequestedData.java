@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.network.ByteIOHelper;
+import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

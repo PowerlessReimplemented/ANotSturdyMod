@@ -10,7 +10,7 @@ import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.container.ContainerEnergyAccessPort;
 import powerlessri.anotsturdymod.blocks.tile.TileEnergyNetworkAccessPort;
 import powerlessri.anotsturdymod.library.utils.Reference;
-import powerlessri.anotsturdymod.network.NetworkHelper;
+import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 
 import java.io.IOException;
 

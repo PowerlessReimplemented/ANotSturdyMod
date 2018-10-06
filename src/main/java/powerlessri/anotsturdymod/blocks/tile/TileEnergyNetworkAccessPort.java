@@ -8,11 +8,13 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.BlockEnergyController;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
+import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
 import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
@@ -61,7 +63,7 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
             int oldChannel = this.channel;
             this.channel = channel;
 
-            if (getController() != null) {
+            if (isControllerValid()) {
                 return true;
             }
 
@@ -71,16 +73,17 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
     }
 
 
-    // Note: even though this method might return null, TileEnergyNetworkAccessPort#setChannel will ensure it won't happen by ensuring the input channel exists.
-    // Except: started with a channel don't even exist.
-    @Nullable
+
+    public boolean isControllerValid() {
+        return channel < data.controllerTiles.size();
+    }
+    
     public TileEnergyNetworkController getController() {
-        // This channel has been allocated
-        if (channel < data.controllerTiles.size()) {
+        if (isControllerValid()) {
             return data.controllerTiles.get(this.channel);
         }
 
-        return null;
+        return data.FAKE_EN_CONTROLLER_TILE;
     }
 
     @Override
@@ -177,46 +180,62 @@ public class TileEnergyNetworkAccessPort extends TileEntityBase implements IEner
 
 
     // ======== Networking ======== //
-
-    public static void initNetwork() {
-        PacketServerCommand.handlers.put(SET_CHANNEL, (msg, ctx) -> {
-            int channelTo = msg.args.getInteger(TileEnergyNetworkController.CHANNEL);
-
-            World world = DimensionManager.getWorld(msg.args.getInteger(NBTUtils.DIMENSION));
-            BlockPos tilePos = NBTUtils.readBlockPos(msg.args);
-            TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) world.getTileEntity(tilePos);
-
-            if (tile != null) {
-                tile.setChannel(channelTo);
-            }
-        });
-
-        PacketSRequestWorld.responses.put(GET_CHANNEL, (msg, ctx) -> {
-            World world = DimensionManager.getWorld(msg.dimension);
-            TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) world.getTileEntity(new BlockPos(msg.x, msg.y, msg.z));
-
-            NBTTagCompound data = new NBTTagCompound();
-            data.setInteger(TileEnergyNetworkController.CHANNEL, tile.getChannel());
-
-            PacketClientRequestedData response = new PacketClientRequestedData(msg.requestId, data);
-            ANotSturdyMod.genericChannel.sendToAll(response);
-
-            return null;
-        });
-    }
-
-
+    
     public static final String GET_CHANNEL = TILE_REGISTRY_NAME + ":sync.getChannel";
     public static final String SET_CHANNEL = TILE_REGISTRY_NAME + ":setChannel";
 
+    public static void initNetwork() {
+        PacketServerCommand.handlers.put(SET_CHANNEL, (msg, ctx) -> {
+            onPacketSetChannel(msg, ctx);
+        });
+
+        PacketSRequestWorld.responses.put(GET_CHANNEL, (msg, ctx) -> {
+            onPacketCGetChannel(msg, ctx);
+            return null;
+        });
+    }
+    
+    
+    
+    public static void onPacketSetChannel(PacketServerCommand pckt, MessageContext ctx) {
+        int channelTo = pckt.args.getInteger(TileEnergyNetworkController.CHANNEL);
+
+        World world = DimensionManager.getWorld(NBTUtils.readDimension(pckt.args));
+        BlockPos tilePos = NBTUtils.readBlockPos(pckt.args);
+        TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) world.getTileEntity(tilePos);
+
+        if (tile != null) {
+            Utils.getLogger().info("trying set channel to " + channelTo);
+            tile.setChannel(channelTo);
+            Utils.getLogger().info("channel now " + tile.getChannel());
+        }
+    }
+    
+    public static void onPacketCGetChannel(PacketSRequestWorld pckt, MessageContext ctx) {
+        World world = DimensionManager.getWorld(pckt.dimension);
+        TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) world.getTileEntity(new BlockPos(pckt.x, pckt.y, pckt.z));
+
+        NBTTagCompound data = new NBTTagCompound();
+        data.setInteger(TileEnergyNetworkController.CHANNEL, tile.getChannel());
+
+        PacketClientRequestedData response = new PacketClientRequestedData(pckt.requestId, data);
+        ANotSturdyMod.genericChannel.sendToAll(response);
+    }
+
+    
+    
+    // ======== Message Argument Constructors ======== //
+    
     public static NBTTagCompound makeSetChannelArgs(int dimension, int x, int y, int z, int channelTo) {
         NBTTagCompound tag = new NBTTagCompound();
-
+        makeSetChannelArgs(tag, dimension, x, y, z, channelTo);
+        return tag;
+    }
+    
+    public static void makeSetChannelArgs(NBTTagCompound tag, int dimension, int x, int y, int z, int channelTo) {
         tag.setInteger(NBTUtils.DIMENSION, dimension);
         tag.setInteger(TileEnergyNetworkController.CHANNEL, channelTo);
         NBTUtils.writeBlockPos(tag, x, y, z);
-
-        return tag;
     }
 
 }

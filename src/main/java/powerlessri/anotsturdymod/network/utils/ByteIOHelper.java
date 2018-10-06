@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.network;
+package powerlessri.anotsturdymod.network.utils;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
