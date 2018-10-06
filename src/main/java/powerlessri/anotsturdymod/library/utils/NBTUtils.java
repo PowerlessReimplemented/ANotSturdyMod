@@ -122,9 +122,14 @@ public class NBTUtils {
     public static final String Y = "y";
     public static final String Z = "z";
 
+    public static int readDimension(NBTTagCompound tag) {
+        return tag.getInteger(DIMENSION);
+    }
+    
     public static void writeDimension(NBTTagCompound tag, int dimension) {
         tag.setInteger(DIMENSION, dimension);
     }
+    
 
     public static BlockPos readBlockPos(NBTTagCompound tag) {
         int x = tag.getInteger(X);

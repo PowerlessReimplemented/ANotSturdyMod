@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.network;
+package powerlessri.anotsturdymod.network.utils;
 
 import java.io.IOException;
 

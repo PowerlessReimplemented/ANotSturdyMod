@@ -13,7 +13,7 @@ import powerlessri.anotsturdymod.blocks.container.ContainerEnergyIOAccess;
 import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
 import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
 import powerlessri.anotsturdymod.library.utils.Reference;
-import powerlessri.anotsturdymod.network.NetworkHelper;
+import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 
 public class GuiEnergyIOAccess extends GuiContainer {
 

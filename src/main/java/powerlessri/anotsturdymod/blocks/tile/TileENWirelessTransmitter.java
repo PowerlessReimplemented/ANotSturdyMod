@@ -12,6 +12,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
+import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.network.ByteIOHelper;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 
@@ -57,6 +58,8 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
                 }
             }
         }
+
+        Utils.getLogger().info("scanning: " + nearbyTiles.size());
     }
 
     @Override

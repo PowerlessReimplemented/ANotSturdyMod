@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import powerlessri.anotsturdymod.network.ByteIOHelper;
+import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
 
 import java.util.HashMap;
 import java.util.Map;

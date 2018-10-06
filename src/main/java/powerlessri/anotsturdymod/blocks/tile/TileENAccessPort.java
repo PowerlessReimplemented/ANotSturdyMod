@@ -10,11 +10,13 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.BlockEnergyController;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.library.utils.NBTUtils;
 import powerlessri.anotsturdymod.network.ByteIOHelper;
+import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
 import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
@@ -28,9 +30,59 @@ public class TileENAccessPort extends TileENComponentBase implements IEnergyStor
 
     public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_access_port");
 
+    // Tags
+    public static final String IO_LIMIT = "ioLm";
+    public static final String IO_UPGRADES = "ioUpgs";
 
 
-    public TileENAccessPort() {
+    protected AnsmSavedData data;
+
+    protected int channel;
+    protected int ioLimit;
+
+
+    public TileEnergyNetworkAccessPort() {
+    }
+
+    public TileEnergyNetworkAccessPort(int channel, int ioLimit) {
+        this.channel = channel;
+        this.ioLimit = ioLimit;
+    }
+
+
+    public int getChannel() {
+        return this.channel;
+    }
+
+    /**
+     * @return {@code true} for success. <br /> {@code false} for fail.
+     */
+    public boolean setChannel(int channel) {
+        if (channel > 0) {
+            int oldChannel = this.channel;
+            this.channel = channel;
+
+            if (isControllerValid()) {
+                return true;
+            }
+
+            this.channel = oldChannel;
+        }
+        return false;
+    }
+
+
+
+    public boolean isControllerValid() {
+        return channel < data.controllerTiles.size();
+    }
+
+    public TileEnergyNetworkController getController() {
+        if (isControllerValid()) {
+            return data.controllerTiles.get(this.channel);
+        }
+
+        return data.FAKE_EN_CONTROLLER_TILE;
     }
 
     public TileENAccessPort(int channel, int ioLimit) {
@@ -109,40 +161,54 @@ public class TileENAccessPort extends TileENComponentBase implements IEnergyStor
 
     // ======== Networking ======== //
 
+    public static final String GET_CHANNEL = TILE_REGISTRY_NAME + ":sync.getChannel";
+    public static final String SET_CHANNEL = TILE_REGISTRY_NAME + ":setChannel";
+
     public static void initNetwork() {
         PacketServerCommand.handlers.put(SET_CHANNEL, (msg, ctx) -> {
-            int channelTo = msg.args.getInteger(TileENController.CHANNEL);
-
-            World world = ByteIOHelper.getWorldFromDimension(msg.args);
-            BlockPos tilePos = NBTUtils.readBlockPos(msg.args);
-            TileENAccessPort tile = (TileENAccessPort) world.getTileEntity(tilePos);
-
-            if (tile != null) {
-                tile.setChannel(channelTo);
-            }
+            onPacketSetChannel(msg, ctx);
         });
 
         PacketSRequestWorld.responses.put(GET_CHANNEL, (msg, ctx) -> {
-            World world = DimensionManager.getWorld(msg.dimension);
-            TileENComponentBase tile = (TileENComponentBase) world.getTileEntity(new BlockPos(msg.x, msg.y, msg.z));
-
-            NBTTagCompound data = new NBTTagCompound();
-            data.setInteger(TileENController.CHANNEL, tile.getChannel());
-
-            PacketClientRequestedData response = new PacketClientRequestedData(msg.requestId, data);
-            ANotSturdyMod.genericChannel.sendToAll(response);
-
+            onPacketCGetChannel(msg, ctx);
             return null;
         });
     }
 
 
-    public static final String GET_CHANNEL = TILE_REGISTRY_NAME + ":sync.getChannel";
-    public static final String SET_CHANNEL = TILE_REGISTRY_NAME + ":setChannel";
+
+    public static void onPacketSetChannel(PacketServerCommand pckt, MessageContext ctx) {
+        int channelTo = pckt.args.getInteger(TileEnergyNetworkController.CHANNEL);
+
+        World world = DimensionManager.getWorld(NBTUtils.readDimension(pckt.args));
+        BlockPos tilePos = NBTUtils.readBlockPos(pckt.args);
+        TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) world.getTileEntity(tilePos);
+
+        if (tile != null) {
+            Utils.getLogger().info("trying set channel to " + channelTo);
+            tile.setChannel(channelTo);
+            Utils.getLogger().info("channel now " + tile.getChannel());
+        }
+    }
+
+    public static void onPacketCGetChannel(PacketSRequestWorld pckt, MessageContext ctx) {
+        World world = DimensionManager.getWorld(pckt.dimension);
+        TileEnergyNetworkAccessPort tile = (TileEnergyNetworkAccessPort) world.getTileEntity(new BlockPos(pckt.x, pckt.y, pckt.z));
+
+        NBTTagCompound data = new NBTTagCompound();
+        data.setInteger(TileEnergyNetworkController.CHANNEL, tile.getChannel());
+
+        PacketClientRequestedData response = new PacketClientRequestedData(pckt.requestId, data);
+        ANotSturdyMod.genericChannel.sendToAll(response);
+    }
+
+
+
+    // ======== Message Argument Constructors ======== //
 
     public static NBTTagCompound makeSetChannelArgs(int dimension, int x, int y, int z, int channelTo) {
         NBTTagCompound tag = PacketServerCommand.makeWorldPosArgs(dimension, x, y, z);
-        
+
         tag.setInteger(TileENController.CHANNEL, channelTo);
 
         return tag;
