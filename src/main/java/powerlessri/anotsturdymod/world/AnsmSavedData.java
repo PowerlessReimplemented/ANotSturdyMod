@@ -61,7 +61,7 @@ public class AnsmSavedData extends WorldSavedData {
         }
     }
 
-    private void constructRuntimeData() {
+    public void constructRuntimeData() {
         reconstructListControllerTiles(controllerNextChannel - 1);
     }
 

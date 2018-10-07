@@ -20,12 +20,13 @@ public class BlockEnergyController extends TileBlockBase {
 
     public static final BlockEnergyController INSTANCE = new BlockEnergyController("energy_network_controller");
     public static final ItemUpgrade STORAGE_UPGRADE = new ItemUpgrade("energy_network_storage_upgrade");
+    public static final ItemUpgrade IO_UPGRADE = new ItemUpgrade("energy_network_io_upgrade");
 
 
     private BlockEnergyController(String name) {
         super(name, Material.ROCK);
 
-        this.setHardness(2.0f);
+        this.setHardness(4.0f);
         this.setResistance(50.0f);
         setCreativeTab(CreativeTabs.MISC);
     }

@@ -61,9 +61,9 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(BlockEnergyController.INSTANCE);
-        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", 5000, BlockEnergyAccessPort.TYPE_ACCESS_PORT_IN, ModGuiHandler.ENERGY_ACCESS_PORT));
-        registerBlock(new BlockEnergyAccessPort("energy_network_output_port", 5000, BlockEnergyAccessPort.TYPE_ACCESS_PORT_OUT, ModGuiHandler.ENERGY_ACCESS_PORT));
-        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", 80, BlockEnergyAccessPort.TYPE_WIRELESS_EMITTER, ModGuiHandler.ENERGY_WIRELESS_TRANSMITTER));
+        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPort(0, 5000), ModGuiHandler.ENERGY_ACCESS_PORT));
+        registerBlock(new BlockEnergyAccessPort("energy_network_output_port",  () -> new TileENAccessPortOutput(0, 5000), ModGuiHandler.ENERGY_ACCESS_PORT));
+        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter",  () -> new TileENWirelessTransmitter(0, 80), ModGuiHandler.ENERGY_WIRELESS_TRANSMITTER));
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
         registerBlock(new BlockLightCube("light_cube"));
         
@@ -73,19 +73,22 @@ public class CommonProxy {
         TileEntity.register("te.energy_network_wireless_transmitter", TileENWirelessTransmitter.class);
         TileEntity.register("te.cobble_generator", TileCobbleGenerator.class);
 
-        TileENAccessPort.initNetwork();
-        TileENWirelessTransmitter.initNetwork();
 
         registerItem(BlockEnergyController.STORAGE_UPGRADE);
+        registerItem(BlockEnergyController.IO_UPGRADE);
         registerItem(new ItemTransmutationStone("transmutation_orb"));
         registerItem(new ItemExchanger("exchanger", EMachineLevel.BASIC, 1));
         registerItem(new ItemExchanger("exchanger", EMachineLevel.ADVANCED, 4));
         registerItem(new ItemIlluminator("illuminator", EMachineLevel.BASIC));
 
+
         int packetId = 0;
         ANotSturdyMod.genericChannel.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);
         ANotSturdyMod.genericChannel.registerMessage(PacketSRequestWorld.Handler.class, PacketSRequestWorld.class, packetId++, Side.SERVER);
         ANotSturdyMod.genericChannel.registerMessage(PacketClientRequestedData.Handler.class, PacketClientRequestedData.class, packetId++, Side.CLIENT);
+
+        TileENAccessPort.initNetwork();
+        TileENWirelessTransmitter.initNetwork();
     }
 
     public void init(FMLInitializationEvent event) {

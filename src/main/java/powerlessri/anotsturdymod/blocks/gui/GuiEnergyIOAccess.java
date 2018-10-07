@@ -96,12 +96,10 @@ public class GuiEnergyIOAccess extends GuiContainer {
 
         if(button.id >= BUTTON_MINUS_10 && button.id <= BUTTON_ADD_10) {
             ContainerEnergyIOAccess container = getContainer();
-
-            int oldChannel = container.channel;
             container.channel += BUTTON_OPERATION_VALUES[button.id];
 
             if(container.channel < 0) {
-                container.channel = oldChannel;
+                container.channel = 0;
             }
         }
     }

@@ -13,26 +13,21 @@ import net.minecraft.world.World;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
-import powerlessri.anotsturdymod.blocks.tile.TileENAccessPortOutput;
-import powerlessri.anotsturdymod.blocks.tile.TileENWirelessTransmitter;
+import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
+
+import java.util.function.Supplier;
 
 public class BlockEnergyAccessPort extends TileBlockBase {
 
-    public static final int TYPE_ACCESS_PORT_IN = 0;
-    public static final int TYPE_ACCESS_PORT_OUT = 1;
-    public static final int TYPE_WIRELESS_EMITTER = 2;
-
-    private final int ioLimit;
-    private final int type;
+    private final Supplier<TileENComponentBase> tileCreator;
     private final int guiId;
 
 
 
-    public BlockEnergyAccessPort(String name, int ioLimit, int type, int guiId) {
+    public BlockEnergyAccessPort(String name, Supplier<TileENComponentBase> tileCreator, int guiId) {
         super(name, Material.ROCK);
 
-        this.ioLimit = ioLimit;
-        this.type = type;
+        this.tileCreator = tileCreator;
         this.guiId = guiId;
 
         this.setHardness(1.5f);
@@ -55,14 +50,7 @@ public class BlockEnergyAccessPort extends TileBlockBase {
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        switch(type) {
-            case TYPE_ACCESS_PORT_IN: return new TileENAccessPort(0, ioLimit);
-            case TYPE_ACCESS_PORT_OUT: return new TileENAccessPortOutput(0, ioLimit);
-
-            case TYPE_WIRELESS_EMITTER: return new TileENWirelessTransmitter(0, ioLimit);
-        }
-
-        return null;
+        return tileCreator.get();
     }
 
     @Override

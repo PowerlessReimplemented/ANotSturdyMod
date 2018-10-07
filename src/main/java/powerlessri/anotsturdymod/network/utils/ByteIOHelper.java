@@ -65,7 +65,7 @@ public class ByteIOHelper {
     
     
     public static World getWorldFromDimension(NBTTagCompound dimTag) {
-        return getWorldFromDimension(dimTag.getInteger(NBTUtils.DIMENSION));
+        return getWorldFromDimension(NBTUtils.readDimension(dimTag));
     }
     
     public static World getWorldFromDimension(int dim) {
