@@ -51,12 +51,12 @@ public class AnsmSavedData extends WorldSavedData {
 
 
 
-    private void reconstructListControllerTiles(int size) {
+    private void reconstructListControllerTiles(int sizeToAlloc) {
         controllerTiles.clear();
         controllerTiles.add(FAKE_EN_CONTROLLER_TILE);
         // When controllerNextChannel == 1, there's no channels got allocated
         // Which already gave the space for channel 0
-        for(int i = 0; i < size; i++) {
+        for(int i = 0; i < sizeToAlloc; i++) {
             controllerTiles.add(null);
         }
     }

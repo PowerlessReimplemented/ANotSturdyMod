@@ -45,9 +45,9 @@ public abstract class TileEntityBase extends TileEntity {
 
 
     protected void sendUpdates() {
-        world.markBlockRangeForRenderUpdate(pos, pos);
+//        world.markBlockRangeForRenderUpdate(pos, pos);
         world.notifyBlockUpdate(pos, getWorldBlockState(), getWorldBlockState(), 3);
-        world.scheduleBlockUpdate(pos, getWorldBlockType(), 0, 0);
+//        world.scheduleBlockUpdate(pos, getWorldBlockType(), 0, 0);
         markDirty();
     }
 
@@ -68,6 +68,15 @@ public abstract class TileEntityBase extends TileEntity {
         // TODO add server side updates
     }
 
+    @Override
+    public NBTTagCompound getUpdateTag() {
+        // Tile id, coordinates, etc.
+        NBTTagCompound tag = super.getUpdateTag();
+        // Custom data
+        writeToNBT(tag);
+
+        return tag;
+    }
 
     public IBlockState getWorldBlockState() {
         return world.getBlockState(pos);

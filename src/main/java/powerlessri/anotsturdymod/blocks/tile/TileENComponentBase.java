@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.blocks.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 import javax.annotation.Nullable;
@@ -17,6 +18,7 @@ public class TileENComponentBase extends TileEntityBase {
 
     protected int channel;
     protected int ioLimit;
+    protected int ioUpgrades;
 
 
     public TileENComponentBase() {
@@ -43,12 +45,13 @@ public class TileENComponentBase extends TileEntityBase {
     /**
      * @return {@code true} for success. <br /> {@code false} for fail.
      */
-    public boolean setChannel(int channel) {
-        if (channel > 0) {
-            int oldChannel = this.channel;
-            this.channel = channel;
+    public boolean setChannel(int newChannel) {
+        if (newChannel > 0) {
+            int oldChannel = channel;
+            this.channel = newChannel;
 
             if (isControllerValid()) {
+                sendUpdates();
                 return true;
             }
 
@@ -62,10 +65,9 @@ public class TileENComponentBase extends TileEntityBase {
         return channel < data.controllerTiles.size();
     }
 
-    @Nullable
     public TileENController getController() {
         // This channel has been allocated
-        if (channel < data.controllerTiles.size()) {
+        if (isControllerValid()) {
             return data.controllerTiles.get(this.channel);
         }
 
@@ -80,14 +82,27 @@ public class TileENComponentBase extends TileEntityBase {
 
         this.channel = tag.getInteger(TileENController.CHANNEL);
         this.ioLimit = tag.getInteger(IO_LIMIT);
+        this.ioUpgrades = tag.getInteger(IO_UPGRADES);
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         tag.setInteger(TileENController.CHANNEL, channel);
         tag.setInteger(IO_LIMIT, ioLimit);
+        tag.setInteger(IO_UPGRADES, ioUpgrades);
 
         return super.writeToNBT(tag);
+    }
+
+    @Override
+    public NBTTagCompound getUpdateTag() {
+        NBTTagCompound tag = super.getUpdateTag();
+        return tag;
+    }
+
+    @Override
+    public void handleUpdateTag(NBTTagCompound tag) {
+        super.handleUpdateTag(tag);
     }
 
 }

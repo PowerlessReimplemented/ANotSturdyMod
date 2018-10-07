@@ -131,6 +131,8 @@ public class TileENAccessPort extends TileENComponentBase implements ICapability
 
         if (tile != null) {
             tile.setChannel(channelTo);
+        } else {
+            Utils.getLogger().info("The given position " + tilePos.toString() + " does not contain a TileENComponentBase");
         }
     }
 

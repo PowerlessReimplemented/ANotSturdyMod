@@ -21,13 +21,7 @@ public class ContainerEnergyIOAccess extends PlayerContainerBase {
         super(player);
         this.player = player;
         this.tile = tile;
-
-        if(player.world.isRemote) {
-            this.channel = -1; // Display -1 to show it's not synced yet
-            PacketClientRequestedData.requestWorldData(TileENAccessPort.GET_CHANNEL, (msg, ctx) -> {
-                this.channel = msg.data.getInteger(TileENController.CHANNEL);
-            }, player.dimension, tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ());
-        }
+        this.channel = tile.getChannel();
 
         addPlayerInventorySlots(8, 84);
     }

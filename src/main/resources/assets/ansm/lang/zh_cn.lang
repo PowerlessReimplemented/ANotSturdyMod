@@ -20,5 +20,4 @@ gui.ansm:wireless_transmitter.button.scanNearbyTiles=扫描RF机器
 
 # Gui texts
 gui.ansm:wireless_transmitter.text.startedScanning=已开始扫描...
-gui.ansm:wireless_transmitter.text.amountPowerReceivers.1=正在为
-gui.ansm:wireless_transmitter.text.amountPowerReceivers.2=个机器提供RF
+gui.ansm:wireless_transmitter.text.amountPowerReceivers=RF使用者:

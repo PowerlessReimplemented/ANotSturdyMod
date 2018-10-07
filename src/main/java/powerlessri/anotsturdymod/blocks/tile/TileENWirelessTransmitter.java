@@ -103,8 +103,7 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
 
     @Override
     public NBTTagCompound getUpdateTag() {
-        NBTTagCompound tag = new NBTTagCompound();
-        writeToNBT(tag);
+        NBTTagCompound tag = super.getUpdateTag();
 
         tag.setInteger(AMOUNT_POWER_RECEIVERS, amountPowerReceivers);
 
