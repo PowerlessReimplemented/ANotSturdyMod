@@ -83,9 +83,8 @@ public class GuiEnergyIOAccess extends GuiContainer {
     public void onGuiClosed() {
         super.onGuiClosed();
 
-        // Sync channel between sides
+        // Sync channel to server
         NetworkHelper.sendServerCommand(
-                ANotSturdyMod.genericChannel,
                 TileENAccessPort.SET_CHANNEL,
                 TileENAccessPort.makeSetChannelArgs(Minecraft.getMinecraft().player.dimension, tilePos.getX(), tilePos.getY(), tilePos.getZ(), container.channel));
     }
@@ -96,11 +95,7 @@ public class GuiEnergyIOAccess extends GuiContainer {
 
         if(button.id >= BUTTON_MINUS_10 && button.id <= BUTTON_ADD_10) {
             ContainerEnergyIOAccess container = getContainer();
-            container.channel += BUTTON_OPERATION_VALUES[button.id];
-
-            if(container.channel < 0) {
-                container.channel = 0;
-            }
+            container.channel = Math.max(container.channel + BUTTON_OPERATION_VALUES[button.id], 0);
         }
     }
 

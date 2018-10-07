@@ -99,7 +99,7 @@ public class CommonProxy {
     }
 
     public void serverStarting(FMLServerStartingEvent event) {
-        ModCommands.COMMANDS.add(new CommandAnsmUtils());
+        ModCommands.COMMANDS.add(ModCommands.UTILS);
     }
 
 

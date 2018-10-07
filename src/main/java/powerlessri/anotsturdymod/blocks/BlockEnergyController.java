@@ -26,8 +26,9 @@ public class BlockEnergyController extends TileBlockBase {
     private BlockEnergyController(String name) {
         super(name, Material.ROCK);
 
-        this.setHardness(4.0f);
-        this.setResistance(50.0f);
+        setHardness(4.0f);
+        setResistance(50.0f);
+        setHarvestLevel(EHarvestTool.PICKAXE, EHarvestLevel.IRON);
         setCreativeTab(CreativeTabs.MISC);
     }
 
@@ -58,7 +59,7 @@ public class BlockEnergyController extends TileBlockBase {
 
 
         // Also allocate new channel (if hasn't yet) on server side
-        player.sendMessage(new TextComponentString("controller id: " + tile.getOrAllocChannel()));
+        player.sendMessage(new TextComponentString("controller id: " + tile.getOrAllocChannel() + "  energy stored: " + tile.energyStored));
 
         return true;
     }

@@ -30,8 +30,9 @@ public class BlockEnergyAccessPort extends TileBlockBase {
         this.tileCreator = tileCreator;
         this.guiId = guiId;
 
-        this.setHardness(1.5f);
-        this.setResistance(8.0f);
+        setHardness(1.5f);
+        setResistance(8.0f);
+        setHarvestLevel(EHarvestTool.PICKAXE, EHarvestLevel.IRON);
         setCreativeTab(CreativeTabs.MISC);
     }
     

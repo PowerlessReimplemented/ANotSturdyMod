@@ -39,7 +39,6 @@ public class TileCobbleGenerator extends TileEntityBase implements IItemHandler,
         }
         
         return super.getCapability(capability, facing);
-
     }
 
 

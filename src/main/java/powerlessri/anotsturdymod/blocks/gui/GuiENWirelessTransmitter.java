@@ -64,7 +64,6 @@ public class GuiENWirelessTransmitter extends GuiEnergyIOAccess {
         
         if(button.id == BUTTON_SCAN_TILES) {
             NetworkHelper.sendServerCommand(
-                    ANotSturdyMod.genericChannel,
                     TileENWirelessTransmitter.SCAN_NEARBY_TILES,
                     PacketServerCommand.makeWorldPosArgs(Minecraft.getMinecraft().player.dimension, tilePos.getX(), tilePos.getY(), tilePos.getZ()));
 

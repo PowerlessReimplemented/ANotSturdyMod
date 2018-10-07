@@ -16,11 +16,10 @@ public class BlockInfiniteCobbleGenerator extends TileBlockBase {
     public BlockInfiniteCobbleGenerator(String name) {
         super(name, Material.ROCK);
 
-        this.setHardness(2.0f);
-        this.setResistance(10.0f);
-        this.setHarvestLevel(EHarvestTool.PICKAXE, EHarvestLevel.STONE);
-
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
+        setHardness(2.0f);
+        setResistance(10.0f);
+        setHarvestLevel(EHarvestTool.PICKAXE, EHarvestLevel.STONE);
+        setCreativeTab(CreativeTabs.DECORATIONS);
     }
 
 
