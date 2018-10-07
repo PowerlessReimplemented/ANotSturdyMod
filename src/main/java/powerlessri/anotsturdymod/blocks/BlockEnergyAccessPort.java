@@ -8,15 +8,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
 import powerlessri.anotsturdymod.blocks.tile.TileENAccessPortOutput;
-import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
 import powerlessri.anotsturdymod.blocks.tile.TileENWirelessTransmitter;
-
-import java.util.function.Function;
 
 public class BlockEnergyAccessPort extends TileBlockBase {
 
@@ -37,6 +35,8 @@ public class BlockEnergyAccessPort extends TileBlockBase {
         this.type = type;
         this.guiId = guiId;
 
+        this.setHardness(1.5f);
+        this.setResistance(8.0f);
         setCreativeTab(CreativeTabs.MISC);
     }
     
@@ -68,6 +68,17 @@ public class BlockEnergyAccessPort extends TileBlockBase {
     @Override
     public Class<? extends TileEntity> getTileEntityClass() {
         return TileENAccessPort.class;
+    }
+
+
+    @Override
+    public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return false;
     }
 
 }

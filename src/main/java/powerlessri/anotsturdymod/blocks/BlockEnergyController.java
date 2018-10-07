@@ -10,6 +10,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.blocks.tile.TileENController;
@@ -24,6 +25,8 @@ public class BlockEnergyController extends TileBlockBase {
     private BlockEnergyController(String name) {
         super(name, Material.ROCK);
 
+        this.setHardness(2.0f);
+        this.setResistance(50.0f);
         setCreativeTab(CreativeTabs.MISC);
     }
 
@@ -68,6 +71,12 @@ public class BlockEnergyController extends TileBlockBase {
     @Override
     public Class<? extends TileEntity> getTileEntityClass() {
         return TileENController.class;
+    }
+
+
+    @Override
+    public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return false;
     }
 
 }
