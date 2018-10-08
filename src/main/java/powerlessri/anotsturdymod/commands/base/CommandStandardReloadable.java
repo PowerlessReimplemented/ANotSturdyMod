@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.commands;
+package powerlessri.anotsturdymod.commands.base;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -17,9 +17,8 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
     public static final String SUFFIX_KEYWORD = "keyword";
     public static final String SUFFIX_USAGE = "usage";
     public static final String SUFFIX_UNKOWN_SYNTAX = "unkownSyntax";
-    
-    
-    
+
+
     protected final Map<String, BiConsumer<ICommandSender, String[]>> options;
 
     protected final String keyword;
@@ -41,13 +40,13 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
         ANotSturdyMod.proxy.reloadHandler.addLang(this);
     }
 
-    
+
     @Override
     public String getName() {
-        if(this.useModIDPrefix) {
+        if (this.useModIDPrefix) {
             return Reference.MODID + this.prefixSeparator + this.keyword;
         }
-        
+
         return this.keyword;
     }
 
@@ -56,12 +55,14 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
         return this.usage;
     }
 
-    /** Message when option does not exist */
+    /**
+     * Message when option does not exist
+     */
     public String getUnkownSyntax(ICommandSender sender) {
         return this.errorUnkownSyntax;
     }
 
-    
+
     public void sendUnkownSyntax(ICommandSender sender) {
         sender.sendMessage(Utils.createStringRed(this.getUnkownSyntax(sender)));
     }
@@ -71,13 +72,13 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
         sender.sendMessage(Utils.createStringRed(description));
     }
 
-    
+
     @Override
     public void reload() {
         this.setupUsageFromLang();
         this.setupUnkownSyntaxFromLang();
     }
-    
+
     protected void setupUsageFromLang() {
         this.usage = Utils.readCommand(this.keyword, SUFFIX_USAGE);
     }

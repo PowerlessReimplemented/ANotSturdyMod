@@ -13,11 +13,10 @@ import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 import java.io.IOException;
 
 public class GuiENWirelessTransmitter extends GuiEnergyIOAccess {
-    
+
     protected static final int BUTTON_SCAN_TILES = buttonId++;
 
     protected static final int SCAN_TILES_BTN_WIDTH = 38;
-
 
 
     private int buttonScanTilesX;
@@ -29,8 +28,8 @@ public class GuiENWirelessTransmitter extends GuiEnergyIOAccess {
     public GuiENWirelessTransmitter(ContainerEnergyIOAccess container) {
         super(container);
     }
-    
-    
+
+
     @Override
     public void initGui() {
         super.initGui();
@@ -61,8 +60,8 @@ public class GuiENWirelessTransmitter extends GuiEnergyIOAccess {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         super.actionPerformed(button);
-        
-        if(button.id == BUTTON_SCAN_TILES) {
+
+        if (button.id == BUTTON_SCAN_TILES) {
             NetworkHelper.sendServerCommand(
                     TileENWirelessTransmitter.SCAN_NEARBY_TILES,
                     PacketServerCommand.makeWorldPosArgs(Minecraft.getMinecraft().player.dimension, tilePos.getX(), tilePos.getY(), tilePos.getZ()));

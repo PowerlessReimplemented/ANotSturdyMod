@@ -75,7 +75,6 @@ public class TileENComponentBase extends TileEntityBase {
     }
 
 
-
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);

@@ -9,7 +9,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 
-
 @EventBusSubscriber
 public class RegistryHandler {
 
@@ -28,19 +27,20 @@ public class RegistryHandler {
 
     @SubscribeEvent
     public static void onModelRegister(ModelRegistryEvent event) {
-        for(Item item : ModItems.ITEMS) {
-            if(item instanceof SimpleItemBase) {
+        for (Item item : ModItems.ITEMS) {
+            if (item instanceof SimpleItemBase) {
                 ((SimpleItemBase) item).registerModel();
             }
         }
-        
-        for(Block block : ModBlocks.BLOCKS) {
-            if(block instanceof SimpleBlockBase) {
+
+        // Block models doesn't need to be registered manually,
+        // this exists just for oCd reasons
+        for (Block block : ModBlocks.BLOCKS) {
+            if (block instanceof SimpleBlockBase) {
                 ((SimpleBlockBase) block).registerModel();
             }
         }
     }
-
 
 
     public static String makeTileEntityID(String teName) {

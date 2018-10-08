@@ -10,7 +10,6 @@ import powerlessri.anotsturdymod.items.ItemUpgrade;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ModItems {
 
     private ModItems() {
@@ -26,7 +25,7 @@ public class ModItems {
 
     @ObjectHolder("ansm:advanced_exchanger")
     public static final ItemExchanger ADVANCED_EXCHAGNER = null;
-    
+
     @ObjectHolder("ansm:basic_illuminator")
     public static final ItemIlluminator BASIC_ILLUMINATOR = null;
 

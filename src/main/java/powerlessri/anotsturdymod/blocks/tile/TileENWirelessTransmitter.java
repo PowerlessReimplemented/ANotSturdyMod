@@ -28,7 +28,9 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
 
 
     private List<BlockPos> nearbyTiles = new ArrayList<>();
-    /** Equivalent to nearbyTiles.size() */
+    /**
+     * Equivalent to nearbyTiles.size()
+     */
     public int amountPowerReceivers = 0;
 
     public TileENWirelessTransmitter() {
@@ -115,7 +117,6 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
         super.handleUpdateTag(tag);
         amountPowerReceivers = tag.getInteger(AMOUNT_POWER_RECEIVERS);
     }
-
 
 
     // ======== Networking ======== //

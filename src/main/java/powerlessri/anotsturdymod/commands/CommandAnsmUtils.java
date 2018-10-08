@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
+import powerlessri.anotsturdymod.commands.base.CommandStandardReloadable;
 import powerlessri.anotsturdymod.library.utils.Utils;
 
 import java.util.Arrays;
@@ -14,15 +15,15 @@ import java.util.function.BiConsumer;
 
 /**
  * General debug tool for mod/map/modpack development.
- * 
+ *
  * @author root-user
  */
 public class CommandAnsmUtils extends CommandStandardReloadable {
 
     public static final String OUTPUT_DESCRIPTION = ".outputDescription";
 
-    public static final String CMD_HAND  = "hand";
-    public static final String LANG_HAND =  "." + CMD_HAND;
+    public static final String CMD_HAND = "hand";
+    public static final String LANG_HAND = "." + CMD_HAND;
 
     public CommandAnsmUtils() {
         super("utils");
@@ -31,25 +32,25 @@ public class CommandAnsmUtils extends CommandStandardReloadable {
             EntityPlayer player = (EntityPlayer) sender;
             ItemStack mainHand = player.getHeldItemMainhand();
 
-            if(rest.length == 0 || rest[0].equals("id")) {
+            if (rest.length == 0 || rest[0].equals("id")) {
                 sender.sendMessage(new TextComponentString(
                         Utils.readCommand(keyword, LANG_HAND + "id" + OUTPUT_DESCRIPTION) +
-                        mainHand.getItem().getRegistryName()));
+                                mainHand.getItem().getRegistryName()));
             }
 
-            if(rest.length == 0 || rest[0].equals("meta")) {
+            if (rest.length == 0 || rest[0].equals("meta")) {
                 sender.sendMessage(new TextComponentString(
                         Utils.readCommand(keyword, LANG_HAND + "meta" + OUTPUT_DESCRIPTION) +
-                        mainHand.getItemDamage()));
+                                mainHand.getItemDamage()));
             }
 
-            if(rest.length == 0 || rest[0].equals("nbt")) {
+            if (rest.length == 0 || rest[0].equals("nbt")) {
                 sender.sendMessage(new TextComponentString(
-                        Utils.readCommand(keyword, LANG_HAND  + "nbt" + OUTPUT_DESCRIPTION) +
-                        mainHand.getTagCompound()));
+                        Utils.readCommand(keyword, LANG_HAND + "nbt" + OUTPUT_DESCRIPTION) +
+                                mainHand.getTagCompound()));
             }
         });
-        
+
         this.options.put("pointer", (sender, args) -> {
             EntityPlayer player = (EntityPlayer) sender;
         });
@@ -61,7 +62,7 @@ public class CommandAnsmUtils extends CommandStandardReloadable {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if(sender.getCommandSenderEntity() instanceof EntityPlayer) {
+        if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
             matchOptions(sender, args[0], Arrays.copyOfRange(args, 1, args.length));
         }
     }
@@ -69,7 +70,7 @@ public class CommandAnsmUtils extends CommandStandardReloadable {
     private void matchOptions(ICommandSender sender, String option, String[] rest) {
         BiConsumer<ICommandSender, String[]> excution = this.options.get(option);
 
-        if(excution == null) {
+        if (excution == null) {
             this.sendUnkownSyntax(sender);
             return;
         }

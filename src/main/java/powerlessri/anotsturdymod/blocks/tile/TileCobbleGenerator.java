@@ -24,7 +24,7 @@ public class TileCobbleGenerator extends TileEntityBase implements IItemHandler,
     @Nullable
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        if(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability)) {
+        if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability)) {
             return true;
         }
 
@@ -34,13 +34,12 @@ public class TileCobbleGenerator extends TileEntityBase implements IItemHandler,
     @Nullable
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-        if(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability)) {
+        if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability)) {
             return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(this);
         }
-        
+
         return super.getCapability(capability, facing);
     }
-
 
 
     @Override

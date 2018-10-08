@@ -18,7 +18,9 @@ public class PacketSRequestWorld implements IMessage {
     public static final Map<String, BiFunction<PacketSRequestWorld, MessageContext, PacketClientRequestedData>> responses = new HashMap<>();
 
 
-    /** If {@code true}, handler will be run inside server thread. */
+    /**
+     * If {@code true}, handler will be run inside server thread.
+     */
     public boolean isServerThread;
 
     public int requestId;
@@ -66,7 +68,6 @@ public class PacketSRequestWorld implements IMessage {
     }
 
 
-
     public static class Handler implements IMessageHandler<PacketSRequestWorld, PacketClientRequestedData> {
 
         private static final NBTTagCompound errorCannotFindResponse = new NBTTagCompound();
@@ -78,7 +79,7 @@ public class PacketSRequestWorld implements IMessage {
         @Override
         public PacketClientRequestedData onMessage(PacketSRequestWorld message, MessageContext ctx) {
             BiFunction<PacketSRequestWorld, MessageContext, PacketClientRequestedData> handler = responses.get(message.requestName);
-            if(handler != null) {
+            if (handler != null) {
                 // Response gets send inside handler
                 if (message.isServerThread) {
                     FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handler.apply(message, ctx));

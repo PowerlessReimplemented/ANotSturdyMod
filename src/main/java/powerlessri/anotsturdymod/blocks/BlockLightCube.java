@@ -20,11 +20,11 @@ import java.util.Random;
 public class BlockLightCube extends BlockBase {
 
     protected static final AxisAlignedBB LIGHT_CUBE_AABB = new AxisAlignedBB(0.3, 0.3, 0.3, 0.7, 0.7, 0.7);
-    protected static final Random random = new Random();
 
     public BlockLightCube(String name) {
         super(name, Material.CLOTH);
     }
+
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
@@ -66,12 +66,11 @@ public class BlockLightCube extends BlockBase {
     public int getLightValue(IBlockState state) {
         return 15;
     }
-    
+
     @Override
     public int quantityDropped(Random random) {
         return 0;
     }
-
 
 
     @Override
@@ -86,9 +85,9 @@ public class BlockLightCube extends BlockBase {
         if (world.getBlockState(pos).getBlock() == this) {
             particleManager.spawnEffectParticle(
                     EnumParticleTypes.REDSTONE.getParticleID(),
-                    pos.getX() + 0.5D + random.nextGaussian() / 8,
+                    pos.getX() + 0.5D + world.rand.nextGaussian() / 8,
                     pos.getY() + 0.5D,
-                    pos.getZ() + 0.5D + random.nextGaussian() / 8,
+                    pos.getZ() + 0.5D + world.rand.nextGaussian() / 8,
                     0, 0, 0);
         }
 

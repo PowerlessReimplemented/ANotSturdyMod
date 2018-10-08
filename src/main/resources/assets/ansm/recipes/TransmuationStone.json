@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-
   "result": {
     "item": "ansm:transmutation_orb"
   },
@@ -9,7 +8,6 @@
     "LER",
     "GOG"
   ],
-
   "key": {
     "L": {
       "item": "minecraft:dye",
@@ -21,7 +19,6 @@
     "E": {
       "item": "minecraft:emerald"
     },
-
     "G": {
       "item": "minecraft:gold_ingot"
     },

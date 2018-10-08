@@ -43,26 +43,26 @@ public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedI
 
         ItemStack resultStack = player.getHeldItem(hand);
 
-        if(world.isRemote) {
+        if (world.isRemote) {
             return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
         }
 
 
-        if(player.isSneaking()) {
+        if (player.isSneaking()) {
             this.updateItemTag(resultStack);
             this.cycleByteTag(resultStack, EnumTags.CHARGE, (byte) 1);
 
             return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, resultStack);
         }
-        
+
         return new ActionResult<ItemStack>(EnumActionResult.FAIL, resultStack);
     }
 
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing,
-            float hitX, float hitY, float hitZ) {
+                                      float hitX, float hitY, float hitZ) {
 
-        if(world.isRemote) {
+        if (world.isRemote) {
             return EnumActionResult.SUCCESS;
         }
 
@@ -71,13 +71,13 @@ public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedI
                 player.isSneaking() ? -1 : 1);
 
         // Didn't find any matched transmutation
-        if(next == null)
+        if (next == null)
             return EnumActionResult.FAIL;
 
         int charge = (int) this.getByteTag(player.getHeldItem(hand), EnumTags.CHARGE);
-        for(BlockPos changingPos : PosExtractor.posOnPlane(pos, facing, charge)) {
+        for (BlockPos changingPos : PosExtractor.posOnPlane(pos, facing, charge)) {
             // Only the block that is same to the block at player's pointer will get changed
-            if(pointerBlock == world.getBlockState(changingPos)) {
+            if (pointerBlock == world.getBlockState(changingPos)) {
                 world.setBlockState(changingPos, next);
             }
         }
@@ -93,13 +93,12 @@ public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedI
         NBTTagCompound tag = NBTUtils.getTagSafe(stack);
         byte originalVal = getByteTag(stack, targetNbt);
 
-        if(originalVal >= targetNbt.max) {
+        if (originalVal >= targetNbt.max) {
             tag.setByte(targetNbt.key, (byte) 0);
         } else {
             NBTUtils.setTagEnum(tag, targetNbt, (byte) (originalVal + increase));
         }
     }
-
 
 
     private static enum EnumTags implements IEnumNBTTags<Object> {
@@ -110,7 +109,9 @@ public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedI
         final String key;
         final Object defaultValue;
 
-        /** Numbers ONLY */
+        /**
+         * Numbers ONLY
+         */
         int max;
 
         private EnumTags(String key, String defaultVal, EDataType type) {
@@ -121,7 +122,7 @@ public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedI
 
         private EnumTags(String key, int defaultVal, EDataType type, int max) {
             this.key = key;
-            if(type == EDataType.BYTE) {
+            if (type == EDataType.BYTE) {
                 this.defaultValue = (byte) defaultVal;
                 this.max = (byte) max;
             } else {
@@ -157,7 +158,7 @@ public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedI
 
     @Override
     public void updateItemTag(ItemStack stack) {
-        if(stack.getTagCompound() == null) {
+        if (stack.getTagCompound() == null) {
             this.buildDefaultTag(stack);
         }
     }

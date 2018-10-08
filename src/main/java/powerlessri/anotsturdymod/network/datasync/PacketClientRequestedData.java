@@ -39,7 +39,7 @@ public class PacketClientRequestedData implements IMessage {
     private static final Queue<Integer> idleRequestIds = new LinkedList<>();
 
     private static int getRequestId() {
-        if(!idleRequestIds.isEmpty()) {
+        if (!idleRequestIds.isEmpty()) {
             return idleRequestIds.remove();
         }
 
@@ -56,8 +56,9 @@ public class PacketClientRequestedData implements IMessage {
     public static final List<BiConsumer<PacketClientRequestedData, MessageContext>> handlers = new ArrayList<>();
 
 
-
-    /** Assigned at server side when creating response packet, used to invoke onResponse at client side. */
+    /**
+     * Assigned at server side when creating response packet, used to invoke onResponse at client side.
+     */
     public int requestId;
     public NBTTagCompound data;
 
@@ -92,7 +93,7 @@ public class PacketClientRequestedData implements IMessage {
         @Override
         public IMessage onMessage(PacketClientRequestedData message, MessageContext ctx) {
             BiConsumer<PacketClientRequestedData, MessageContext> handler = handlers.get(message.requestId);
-            if(handler != null) {
+            if (handler != null) {
                 Minecraft.getMinecraft().addScheduledTask(() -> handler.accept(message, ctx));
             }
             return null;

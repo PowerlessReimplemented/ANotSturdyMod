@@ -17,7 +17,6 @@ public class ByteIOHelper {
     }
 
 
-
     // ======== ByteBuf IO ======== //
 
     @Nullable
@@ -61,13 +60,12 @@ public class ByteIOHelper {
     public static void writeTag(ByteBuf buf, NBTTagCompound tag) {
         new PacketBuffer(buf).writeCompoundTag(tag);
     }
-    
-    
-    
+
+
     public static World getWorldFromDimension(NBTTagCompound dimTag) {
         return getWorldFromDimension(NBTUtils.readDimension(dimTag));
     }
-    
+
     public static World getWorldFromDimension(int dim) {
         return DimensionManager.getWorld(dim);
     }

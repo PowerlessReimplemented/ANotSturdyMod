@@ -13,7 +13,6 @@ public class TileENAccessPortOutput extends TileENAccessPort implements ITickabl
     public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_output");
 
 
-
     public TileENAccessPortOutput() {
     }
 
@@ -24,7 +23,7 @@ public class TileENAccessPortOutput extends TileENAccessPort implements ITickabl
 
     @Override
     public void update() {
-        if(!world.isRemote) {
+        if (!world.isRemote) {
             for (EnumFacing facing : EnumFacing.VALUES) {
                 BlockPos neighborPos = pos.offset(facing);
                 TileEntity tile = world.getTileEntity(neighborPos);
@@ -46,7 +45,7 @@ public class TileENAccessPortOutput extends TileENAccessPort implements ITickabl
 
     public void sendEnergy(IEnergyStorage targetStorage) {
         TileENController controller = getController();
-        if(controller != null) {
+        if (controller != null) {
             int extractLimit = extractEnergy(ioLimit, true);
             int accepted = targetStorage.receiveEnergy(extractLimit, false);
             controller.energyStored -= accepted;

@@ -68,7 +68,6 @@ public class TileENController extends TileEntityBase {
     }
 
 
-
     // NBT tags
     public static final String CHANNEL = "storageChannel";
     public static final String STORAGE_UPGRADES = "storageUpgrades";
@@ -81,22 +80,29 @@ public class TileENController extends TileEntityBase {
 
     private AnsmSavedData data;
 
-    /** {@code true} when is loaded, {@code false} when is not loaded. */
+    /**
+     * {@code true} when is loaded, {@code false} when is not loaded.
+     */
     public boolean isAlive = false;
 
 
-    /** A unique channel id (in the save). An allocated (non-default) channel is at least {@code 1}. */
+    /**
+     * A unique channel id (in the save). An allocated (non-default) channel is at least {@code 1}.
+     */
     public int channel;
 
-    /** Amount of storage upgrades installed. Used to calculate total capacity. */
+    /**
+     * Amount of storage upgrades installed. Used to calculate total capacity.
+     */
     public long amountStorageUpgrades = 0;
-    /** Energy stored inside controller. */
+    /**
+     * Energy stored inside controller.
+     */
     public long energyStored = 0;
 
 
-
     public int getOrAllocChannel() {
-        if(!isInitialized()) {
+        if (!isInitialized()) {
             channel = data.controllerNextChannel;
             data.controllerNextChannel++;
             data.markDirty();
@@ -132,7 +138,6 @@ public class TileENController extends TileEntityBase {
     }
 
 
-
     public long getCapacity() {
         return DEFAULT_CAPACITY + (amountStorageUpgrades * STORAGE_UPGRADE_INCREMENT);
     }
@@ -142,16 +147,15 @@ public class TileENController extends TileEntityBase {
     }
 
 
-
     @Override
     public void onLoadServer() {
-        if(data == null) {
+        if (data == null) {
             data = AnsmSavedData.fromWorld(world);
         }
 
         // Wait until player activate this block (wait until it has a channel)
-        if(isInitialized()) {
-            if(channel < data.controllerTiles.size()) {
+        if (isInitialized()) {
+            if (channel < data.controllerTiles.size()) {
                 updateReferenceList();
             }
         }
@@ -185,10 +189,6 @@ public class TileENController extends TileEntityBase {
     public void onRemoved() {
         onChunkUnloadServer();
     }
-
-
-
-
 
 
     @Override

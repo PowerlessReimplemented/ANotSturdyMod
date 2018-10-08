@@ -38,47 +38,46 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
     }
 
 
-    
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-        
+
         ItemStack item = player.getHeldItem(hand);
-        
-        if(world.isRemote) {
+
+        if (world.isRemote) {
             return new ActionResult<>(EnumActionResult.SUCCESS, item);
         }
-        
-        
-        if(player.isSneaking()) {
+
+
+        if (player.isSneaking()) {
             this.updateItemTag(item);
             NBTTagCompound tag = item.getTagCompound();
-            
+
             byte radius = tag.getByte(EnumTags.RADIUS.key);
             tag.setByte(EnumTags.RADIUS.key, (byte) (radius == this.maxRadius ? 0 : radius + 1));
-            
+
             return new ActionResult<>(EnumActionResult.SUCCESS, item);
         }
-        
+
         return new ActionResult<>(EnumActionResult.FAIL, item);
     }
 
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing,
-            float hitX, float hitY, float hitZ) {
+                                      float hitX, float hitY, float hitZ) {
 
-        if(world.isRemote) {
-            if(!player.isSneaking()) {
+        if (world.isRemote) {
+            if (!player.isSneaking()) {
                 player.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0f, 1.0f);
             }
 
             return EnumActionResult.SUCCESS;
         }
-        
-        
+
+
         ItemStack exchanger = player.getHeldItem(hand);
         this.updateItemTag(exchanger);
 
-        if(!player.isSneaking()) {
+        if (!player.isSneaking()) {
             return attemptExchange(player, exchanger, world, pos, facing);
         } else {
             return selectTargetBlock(player, exchanger, world.getBlockState(pos));
@@ -86,9 +85,8 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
     }
 
 
-
     private EnumActionResult selectTargetBlock(EntityPlayer player, ItemStack exchanger, IBlockState pointerBlock) {
-        if(this.isBlockValid(pointerBlock)) {
+        if (this.isBlockValid(pointerBlock)) {
             NBTTagCompound tag = exchanger.getTagCompound();
 
             // Record information into nbt data
@@ -103,7 +101,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
     }
 
     private EnumActionResult attemptExchange(EntityPlayer player, ItemStack exchanger, World world, BlockPos posHit,
-            EnumFacing faceHit) {
+                                             EnumFacing faceHit) {
         NBTTagCompound tag = exchanger.getTagCompound();
 
         String replacementName = tag.getString(EnumTags.TARGET_BLOCK.key);
@@ -118,7 +116,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
         IBlockState replacementBlock = Block.getBlockFromName(replacementName).getStateFromMeta(replacementMeta);
         IBlockState exchangeSource = world.getBlockState(posHit);
 
-        if(!this.isBlockValid(exchangeSource)) {
+        if (!this.isBlockValid(exchangeSource)) {
             this.sendTileEntityError(player);
             return EnumActionResult.FAIL;
         }
@@ -135,10 +133,10 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
         // Actual amount of block gets exchanged
         int blockAffected = 0;
 
-        for(BlockPos pos : posList) {
+        for (BlockPos pos : posList) {
             IBlockState state = world.getBlockState(pos);
 
-            if(state != exchangeSource && this.isBlockValid(state)) {
+            if (state != exchangeSource && this.isBlockValid(state)) {
                 quantityDropped += isSilkTouch ? 1 : state.getBlock().quantityDropped(state, fortuneLevel, world.rand);
                 blockAffected++;
             }
@@ -150,15 +148,15 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
         int replacementInInventory = 0;
 
         // Search for available resources & check out if player has transmutation orb
-        for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+        for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             ItemStack slot = player.inventory.getStackInSlot(i);
 
-            if(this.isStackSame(slot, replacementStack, matchTransmutation)) {
+            if (this.isStackSame(slot, replacementStack, matchTransmutation)) {
                 replacementInInventory += slot.getCount();
             }
 
             // If already redo the search, which is indicated by matchTransmutation == true, than don't restart again
-            if(useTransmutationEnabled && !matchTransmutation && slot.getItem() == ModItems.TRANSMUTATION_ORB) {
+            if (useTransmutationEnabled && !matchTransmutation && slot.getItem() == ModItems.TRANSMUTATION_ORB) {
                 matchTransmutation = true;
 
                 // Restart the search
@@ -167,14 +165,14 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
             }
         }
 
-        if(player.isCreative()) {
+        if (player.isCreative()) {
             replaceBlocks(world, posList, exchangeSource, replacementBlock);
             return EnumActionResult.SUCCESS;
         }
 
         // ==== Survival-only ==== //
 
-        if(blockAffected > replacementInInventory) {
+        if (blockAffected > replacementInInventory) {
             return EnumActionResult.FAIL;
         }
 
@@ -182,9 +180,9 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
         // Blocks got exchanged out
         player.inventory
-        .addItemStackToInventory(
-                InventoryUtils.stackOf(
-                        isSilkTouch ? Item.getItemFromBlock(exchBlockInst) : exchBlockInst.getItemDropped(exchangeSource, world.rand, fortuneLevel),
+                .addItemStackToInventory(
+                        InventoryUtils.stackOf(
+                                isSilkTouch ? Item.getItemFromBlock(exchBlockInst) : exchBlockInst.getItemDropped(exchangeSource, world.rand, fortuneLevel),
                                 exchBlockInst.getMetaFromState(exchangeSource), quantityDropped));
 
         replaceBlocks(world, posList, exchangeSource, replacementBlock);
@@ -193,22 +191,22 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
     }
 
 
-
     private void sendTileEntityError(EntityPlayer player) {
         player.sendMessage(
                 new TextComponentString(Utils.readFromLang("item.ansm.exchangers.error.tileEntity"))
-                .setStyle(Reference.STYLE_RED));
+                        .setStyle(Reference.STYLE_RED));
     }
 
 
-
-    /** Is the given blockstate valid for exchange? (not tile entity) */
+    /**
+     * Is the given blockstate valid for exchange? (not tile entity)
+     */
     private boolean isBlockValid(IBlockState state) {
         return !state.getBlock().hasTileEntity(state);
     }
 
     private boolean isStackSame(ItemStack stack1, ItemStack stack2, boolean matchTransmutation) {
-        if(matchTransmutation) {
+        if (matchTransmutation) {
             // TODO match world transmutation
             return stack1.isItemEqual(stack2);
         }
@@ -217,16 +215,15 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
     }
 
     private void replaceBlocks(World world, Iterable<BlockPos> posList, IBlockState from, IBlockState to) {
-        for(BlockPos pos : posList) {
+        for (BlockPos pos : posList) {
             IBlockState state = world.getBlockState(pos);
-            if(state != from) {
+            if (state != from) {
                 continue;
             }
 
             world.setBlockState(pos, to);
         }
     }
-
 
 
     public static enum EnumTags implements IEnumNBTTags<Object> {
@@ -274,7 +271,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
     @Override
     public void updateItemTag(ItemStack stack) {
-        if(!stack.hasTagCompound()) {
+        if (!stack.hasTagCompound()) {
             this.buildDefaultTag(stack);
         }
 

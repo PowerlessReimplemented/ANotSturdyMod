@@ -10,17 +10,16 @@ import powerlessri.anotsturdymod.blocks.BlockLightCube;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ModBlocks {
 
     private ModBlocks() {
     }
 
     public static final List<Block> BLOCKS = new ArrayList<Block>();
-    
+
     @ObjectHolder("ansm:light_cube")
     public static final BlockLightCube LIGHT_CUBE = null;
-    
+
     @ObjectHolder("ansm:infinite_cobble_generator")
     public static final BlockInfiniteCobbleGenerator INFINTE_COBBLE_GENERATOR = null;
 

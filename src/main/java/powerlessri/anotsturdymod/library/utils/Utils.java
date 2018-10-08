@@ -20,12 +20,11 @@ public class Utils {
     private static Logger logger;
 
     public static Logger getLogger() {
-        if(logger == null) {
+        if (logger == null) {
             logger = LogManager.getFormatterLogger(Reference.MODID);
         }
         return logger;
     }
-
 
 
     public static String readFromLang(String key) {
@@ -38,7 +37,6 @@ public class Utils {
     }
 
 
-
     public static ResourceLocation locationOf(String path) {
         return locationOf(Reference.DOMAIN_MINECRAFT, path);
     }
@@ -49,11 +47,9 @@ public class Utils {
 
     public static String formatRegistryId(String id) {
         // I'm not sure why do I chose this way...
-        // Maybe for compability if someday Mojang decided to change resource path
-        // format.
+        // Maybe for compatibility if someday Mojang decided to change resource path format.
         return locationOf(Reference.MODID, id).toString();
     }
-
 
 
     private static TextComponentString textStringWithStyle(String text, Style style) {

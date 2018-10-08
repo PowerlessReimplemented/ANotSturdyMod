@@ -6,7 +6,6 @@ import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ModCommands {
 
     private ModCommands() {

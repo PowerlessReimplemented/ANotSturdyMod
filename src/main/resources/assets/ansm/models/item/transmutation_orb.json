@@ -1,6 +1,6 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "ansm:items/transmutation_orb"
-    }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "ansm:items/transmutation_orb"
+  }
 }

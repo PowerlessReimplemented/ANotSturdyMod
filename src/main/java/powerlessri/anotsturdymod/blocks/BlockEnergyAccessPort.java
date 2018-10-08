@@ -23,7 +23,6 @@ public class BlockEnergyAccessPort extends TileBlockBase {
     private final int guiId;
 
 
-
     public BlockEnergyAccessPort(String name, Supplier<TileENComponentBase> tileCreator, int guiId) {
         super(name, Material.ROCK);
 
@@ -35,12 +34,11 @@ public class BlockEnergyAccessPort extends TileBlockBase {
         setHarvestLevel(EHarvestTool.PICKAXE, EHarvestLevel.IRON);
         setCreativeTab(CreativeTabs.MISC);
     }
-    
 
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if(world.isRemote) {
+        if (world.isRemote) {
             return true;
         }
 
@@ -52,11 +50,6 @@ public class BlockEnergyAccessPort extends TileBlockBase {
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
         return tileCreator.get();
-    }
-
-    @Override
-    public Class<? extends TileEntity> getTileEntityClass() {
-        return TileENAccessPort.class;
     }
 
 

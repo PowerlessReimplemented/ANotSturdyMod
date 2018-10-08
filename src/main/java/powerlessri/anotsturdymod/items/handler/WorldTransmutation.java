@@ -29,7 +29,7 @@ public class WorldTransmutation {
     public static List<WorldTransmutation> transmutations = new ArrayList<WorldTransmutation>();
 
     public IBlockState[] members;
-    private int nextInserstion = 0;
+    private int nextInsertion = 0;
 
     private String id;
 
@@ -43,8 +43,8 @@ public class WorldTransmutation {
     }
 
     public int indexOf(IBlockState b) {
-        for(int i = 0; i < this.members.length; i++) {
-            if(members[i] == b) {
+        for (int i = 0; i < this.members.length; i++) {
+            if (members[i] == b) {
                 return i;
             }
         }
@@ -54,12 +54,12 @@ public class WorldTransmutation {
 
     public void addMember(IBlockState block) {
         // Idiot input protection
-        if(this.nextInserstion == this.members.length) {
+        if (this.nextInsertion == this.members.length) {
             return;
         }
 
-        members[this.nextInserstion] = block;
-        this.nextInserstion++;
+        members[this.nextInsertion] = block;
+        this.nextInsertion++;
     }
 
     public IBlockState at(int i) {
@@ -93,8 +93,8 @@ public class WorldTransmutation {
      */
     @Nullable
     public static WorldTransmutation getTransmutation(IBlockState includes) {
-        for(WorldTransmutation transm : transmutations) {
-            if(transm.indexOf(includes) != -1) {
+        for (WorldTransmutation transm : transmutations) {
+            if (transm.indexOf(includes) != -1) {
                 return transm;
             }
         }
@@ -109,15 +109,15 @@ public class WorldTransmutation {
     @Nullable
     public static IBlockState getTransmutationNext(World world, BlockPos pointer, IBlockState current, int offset) {
         WorldTransmutation targetTransm = getTransmutation(current);
-        if(targetTransm != null) {
+        if (targetTransm != null) {
             int next = targetTransm.indexOf(current) + offset;
 
             // For positive offset
-            if(next >= targetTransm.members.length)
+            if (next >= targetTransm.members.length)
                 return targetTransm.at(0);
 
             // For negative offset
-            if(next < 0)
+            if (next < 0)
                 return targetTransm.at(targetTransm.members.length);
 
             return targetTransm.at(next);

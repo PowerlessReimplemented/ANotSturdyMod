@@ -16,7 +16,7 @@ import powerlessri.anotsturdymod.library.IIntegerSerializable;
 //     + blockstate file should be named <registryName>.json
 //     + item model file should be named <registryName>.json too
 public abstract class SimpleBlockBase extends BlockBase {
-    
+
     public static enum EHarvestTool implements IStringSerializable {
         PICKAXE("pickaxe"),
         AXE("axe"),
@@ -35,12 +35,12 @@ public abstract class SimpleBlockBase extends BlockBase {
         }
 
     }
-    
+
     public static enum EHarvestLevel implements IIntegerSerializable {
-        
-        WOODEN(0), 
-        STONE(1), 
-        IRON(2), 
+
+        WOODEN(0),
+        STONE(1),
+        IRON(2),
         DIAMOND(2);
 
         public final int level;
@@ -55,8 +55,7 @@ public abstract class SimpleBlockBase extends BlockBase {
         }
 
     }
-    
-    
+
 
     protected final ItemBlock itemBlock;
 
@@ -75,7 +74,6 @@ public abstract class SimpleBlockBase extends BlockBase {
     }
 
 
-
     public void setHarvestLevel(EHarvestTool tool, EHarvestLevel level) {
         this.setHarvestLevel(tool.getName(), level.getInt());
     }
@@ -83,7 +81,6 @@ public abstract class SimpleBlockBase extends BlockBase {
     public void setMaxStackSize(int size) {
         this.itemBlock.setMaxStackSize(size);
     }
-
 
 
     public ItemBlock getItemBlock() {

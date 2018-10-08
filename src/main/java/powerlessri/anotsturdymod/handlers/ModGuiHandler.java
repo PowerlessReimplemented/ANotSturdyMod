@@ -33,7 +33,7 @@ public class ModGuiHandler implements IGuiHandler {
             ContainerEnergyIOAccess container = new ContainerEnergyIOAccess(player, tile);
             return container;
         };
-        
+
         addGuiS(containerEnergyIOAccess,
                 (container) -> new GuiEnergyIOAccess((ContainerEnergyIOAccess) container));
         addGuiS(containerEnergyIOAccess,
@@ -55,17 +55,17 @@ public class ModGuiHandler implements IGuiHandler {
     @Nullable
     @Override
     public Container getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-        if(id < containerSupplier.size()) {
+        if (id < containerSupplier.size()) {
             return containerSupplier.get(id).apply(player, new BlockPos(x, y, z));
         }
 
-         return null;
+        return null;
     }
 
     @Nullable
     @Override
     public GuiScreen getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-        if(id < guiSupplier.size()) {
+        if (id < guiSupplier.size()) {
             Container container = getServerGuiElement(id, player, world, x, y, z);
             return guiSupplier.get(id).apply(container);
         }

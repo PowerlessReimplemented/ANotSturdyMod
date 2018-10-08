@@ -11,7 +11,7 @@ public abstract class BlockBase extends Block {
     public BlockBase(String registryName, Material material) {
         this(registryName, registryName, material);
     }
-    
+
     public BlockBase(String registryName, String unlocalizedName, Material material) {
         super(material);
 

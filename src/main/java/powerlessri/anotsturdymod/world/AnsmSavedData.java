@@ -15,7 +15,7 @@ public class AnsmSavedData extends WorldSavedData {
         MapStorage storage = world.getMapStorage();
         AnsmSavedData result = (AnsmSavedData) storage.getOrLoadData(AnsmSavedData.class, DATA_NAME);
 
-        if(result == null) {
+        if (result == null) {
             storage.setData(DATA_NAME, new AnsmSavedData(DATA_NAME));
             result = (AnsmSavedData) storage.getOrLoadData((AnsmSavedData.class), DATA_NAME);
             result.constructRuntimeData();
@@ -25,12 +25,10 @@ public class AnsmSavedData extends WorldSavedData {
     }
 
 
-
     public static final String DATA_NAME = Reference.MODID + "_GeneralData";
 
     // NBT tag keys
     public static final String CONTROLLER_CHANNEL_USAGE = "cntrllrNextChnnl";
-
 
 
     public int controllerNextChannel = 1;
@@ -44,11 +42,12 @@ public class AnsmSavedData extends WorldSavedData {
     // ======== Runtime Data ========//
 
 
-    /** Used for so that Minecraft can correctly instantiate on MapStorage#getOrLoadData */
+    /**
+     * Used for so that Minecraft can correctly instantiate on MapStorage#getOrLoadData
+     */
     public AnsmSavedData(String name) {
         super(name);
     }
-
 
 
     private void reconstructListControllerTiles(int sizeToAlloc) {
@@ -56,7 +55,7 @@ public class AnsmSavedData extends WorldSavedData {
         controllerTiles.add(FAKE_EN_CONTROLLER_TILE);
         // When controllerNextChannel == 1, there's no channels got allocated
         // Which already gave the space for channel 0
-        for(int i = 0; i < sizeToAlloc; i++) {
+        for (int i = 0; i < sizeToAlloc; i++) {
             controllerTiles.add(null);
         }
     }
@@ -64,7 +63,6 @@ public class AnsmSavedData extends WorldSavedData {
     public void constructRuntimeData() {
         reconstructListControllerTiles(controllerNextChannel - 1);
     }
-
 
 
     @Override

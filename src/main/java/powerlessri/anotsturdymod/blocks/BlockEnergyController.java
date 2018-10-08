@@ -70,11 +70,6 @@ public class BlockEnergyController extends TileBlockBase {
         return new TileENController();
     }
 
-    @Override
-    public Class<? extends TileEntity> getTileEntityClass() {
-        return TileENController.class;
-    }
-
 
     @Override
     public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {

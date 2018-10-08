@@ -42,9 +42,9 @@ import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
 import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
 
 public class CommonProxy {
-    
+
     public CommonReloadHandler reloadHandler;
-    
+
 
     // ClientSide-only stuffs
     public void registerItemRenderer(Item item, int meta, String id) {
@@ -54,7 +54,9 @@ public class CommonProxy {
     }
 
 
-    /** Initializing mod stuffs that are side-dependent. */
+    /**
+     * Initializing mod stuffs that are side-dependent.
+     */
     public void modInit() {
         this.reloadHandler = new CommonReloadHandler();
     }
@@ -62,11 +64,11 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(BlockEnergyController.INSTANCE);
         registerBlock(new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPort(0, 5000), ModGuiHandler.ENERGY_ACCESS_PORT));
-        registerBlock(new BlockEnergyAccessPort("energy_network_output_port",  () -> new TileENAccessPortOutput(0, 5000), ModGuiHandler.ENERGY_ACCESS_PORT));
-        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter",  () -> new TileENWirelessTransmitter(0, 80), ModGuiHandler.ENERGY_WIRELESS_TRANSMITTER));
+        registerBlock(new BlockEnergyAccessPort("energy_network_output_port", () -> new TileENAccessPortOutput(0, 5000), ModGuiHandler.ENERGY_ACCESS_PORT));
+        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", () -> new TileENWirelessTransmitter(0, 80), ModGuiHandler.ENERGY_WIRELESS_TRANSMITTER));
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
         registerBlock(new BlockLightCube("light_cube"));
-        
+
         TileEntity.register("te.energy_network_controller", TileENController.class);
         TileEntity.register("te.energy_network_input", TileENAccessPort.class);
         TileEntity.register("te.energy_network_output", TileENAccessPortOutput.class);
@@ -101,7 +103,6 @@ public class CommonProxy {
     public void serverStarting(FMLServerStartingEvent event) {
         ModCommands.COMMANDS.add(ModCommands.UTILS);
     }
-
 
 
     protected void registerBlock(Block block) {

@@ -27,7 +27,6 @@ public class TileENAccessPort extends TileENComponentBase implements ICapability
     public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_access_port");
 
 
-
     public TileENAccessPort() {
     }
 
@@ -104,7 +103,6 @@ public class TileENAccessPort extends TileENComponentBase implements ICapability
     }
 
 
-
     // ======== Networking ======== //
 
     public static final String GET_CHANNEL = TILE_REGISTRY_NAME + ":sync.getChannel";
@@ -148,7 +146,6 @@ public class TileENAccessPort extends TileENComponentBase implements ICapability
         PacketClientRequestedData response = new PacketClientRequestedData(pckt.requestId, data);
         ANotSturdyMod.genericChannel.sendToAll(response);
     }
-
 
 
     public static NBTTagCompound makeSetChannelArgs(int dimension, int x, int y, int z, int channelTo) {

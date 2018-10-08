@@ -48,7 +48,7 @@ public class PacketServerCommand implements IMessage {
         @Override
         public IMessage onMessage(PacketServerCommand message, MessageContext ctx) {
             BiConsumer<PacketServerCommand, MessageContext> handler = handlers.get(message.cmd);
-            if(handler != null) {
+            if (handler != null) {
                 FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handler.accept(message, ctx));
             } else {
                 Utils.getLogger().error("Cannot find server command \"" + message.cmd + "\"!");
@@ -57,7 +57,6 @@ public class PacketServerCommand implements IMessage {
         }
 
     }
-    
 
 
     public static NBTTagCompound makeWorldPosArgs(int dimension, int x, int y, int z) {
