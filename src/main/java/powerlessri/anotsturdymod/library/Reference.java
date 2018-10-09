@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.utils;
+package powerlessri.anotsturdymod.library;
 
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;

@@ -12,8 +12,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import powerlessri.anotsturdymod.handlers.ModGuiHandler;
 import powerlessri.anotsturdymod.handlers.init.ModCommands;
-import powerlessri.anotsturdymod.library.utils.Reference;
-import powerlessri.anotsturdymod.library.utils.Utils;
+import powerlessri.anotsturdymod.library.Reference;
+import powerlessri.anotsturdymod.library.Utils;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class ANotSturdyMod {

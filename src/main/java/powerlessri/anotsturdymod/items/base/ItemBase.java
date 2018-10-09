@@ -2,7 +2,7 @@ package powerlessri.anotsturdymod.items.base;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import powerlessri.anotsturdymod.library.utils.Reference;
+import powerlessri.anotsturdymod.library.Reference;
 
 public abstract class ItemBase extends Item {
 

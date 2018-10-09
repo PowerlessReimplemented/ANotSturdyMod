@@ -2,8 +2,8 @@ package powerlessri.anotsturdymod.handlers.init;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
-import powerlessri.anotsturdymod.blocks.BlockEnergyAccessPort;
-import powerlessri.anotsturdymod.blocks.BlockEnergyController;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.BlockEnergyAccessPort;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.BlockEnergyController;
 import powerlessri.anotsturdymod.blocks.BlockInfiniteCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
 

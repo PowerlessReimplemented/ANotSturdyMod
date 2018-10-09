@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library;
+package powerlessri.anotsturdymod.library.machines;
 
 import net.minecraft.util.IStringSerializable;
 

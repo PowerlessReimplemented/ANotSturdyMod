@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.blocks;
+package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -12,11 +12,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
-import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
-import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENComponentBase;
 
 import java.util.function.Supplier;
 
+// TODO use different classes for different type of components
+// TODO add models & textures for each component
 public class BlockEnergyAccessPort extends TileBlockBase {
 
     private final Supplier<TileENComponentBase> tileCreator;

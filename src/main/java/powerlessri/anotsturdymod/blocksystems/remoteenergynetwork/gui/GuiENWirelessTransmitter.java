@@ -1,12 +1,11 @@
-package powerlessri.anotsturdymod.blocks.gui;
+package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.text.TextComponentString;
-import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.blocks.container.ContainerEnergyIOAccess;
-import powerlessri.anotsturdymod.blocks.tile.TileENWirelessTransmitter;
-import powerlessri.anotsturdymod.library.utils.Utils;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.gui.container.ContainerEnergyIOAccess;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENWirelessTransmitter;
+import powerlessri.anotsturdymod.library.Utils;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 

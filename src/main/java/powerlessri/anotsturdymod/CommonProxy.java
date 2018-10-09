@@ -1,30 +1,27 @@
 package powerlessri.anotsturdymod;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import powerlessri.anotsturdymod.blocks.BlockEnergyAccessPort;
-import powerlessri.anotsturdymod.blocks.BlockEnergyController;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.BlockEnergyAccessPort;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.BlockEnergyController;
 import powerlessri.anotsturdymod.blocks.BlockInfiniteCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
 import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENAccessPort;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENAccessPortOutput;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENController;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENWirelessTransmitter;
 import powerlessri.anotsturdymod.blocks.tile.*;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
-import powerlessri.anotsturdymod.handlers.CommonReloadHandler;
+import powerlessri.anotsturdymod.handlers.reloaders.CommonReloadHandler;
 import powerlessri.anotsturdymod.handlers.ModGuiHandler;
 import powerlessri.anotsturdymod.handlers.init.ModBlocks;
 import powerlessri.anotsturdymod.handlers.init.ModCommands;
@@ -35,8 +32,7 @@ import powerlessri.anotsturdymod.items.ItemTransmutationStone;
 import powerlessri.anotsturdymod.items.base.ItemBase;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
-import powerlessri.anotsturdymod.library.EMachineLevel;
-import powerlessri.anotsturdymod.library.utils.Utils;
+import powerlessri.anotsturdymod.library.machines.EMachineLevel;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
 import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
@@ -101,7 +97,7 @@ public class CommonProxy {
     }
 
     public void serverStarting(FMLServerStartingEvent event) {
-        ModCommands.COMMANDS.add(ModCommands.UTILS);
+        ModCommands.COMMANDS.add(new CommandAnsmUtils());
     }
 
 

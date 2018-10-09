@@ -4,8 +4,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
-import powerlessri.anotsturdymod.blocks.tile.TileENController;
-import powerlessri.anotsturdymod.library.utils.Reference;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENController;
+import powerlessri.anotsturdymod.library.Reference;
 
 import java.util.ArrayList;
 
@@ -28,6 +28,7 @@ public class AnsmSavedData extends WorldSavedData {
     public static final String DATA_NAME = Reference.MODID + "_GeneralData";
 
     // NBT tag keys
+    public static final String COUNTER = "counters";
     public static final String CONTROLLER_CHANNEL_USAGE = "cntrllrNextChnnl";
 
 
@@ -66,17 +67,23 @@ public class AnsmSavedData extends WorldSavedData {
 
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        this.controllerNextChannel = tag.getInteger(CONTROLLER_CHANNEL_USAGE);
+    public void readFromNBT(NBTTagCompound data) {
+        {
+            NBTTagCompound tag = data.getCompoundTag(COUNTER);
+            this.controllerNextChannel = tag.getInteger(CONTROLLER_CHANNEL_USAGE);
+        }
 
         constructRuntimeData();
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag.setInteger(CONTROLLER_CHANNEL_USAGE, controllerNextChannel);
+    public NBTTagCompound writeToNBT(NBTTagCompound data) {
+        {
+            NBTTagCompound tag = data.getCompoundTag(COUNTER);
+            tag.setInteger(CONTROLLER_CHANNEL_USAGE, controllerNextChannel);
+        }
 
-        return tag;
+        return data;
     }
 
 }

@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.blocks.gui;
+package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -6,11 +6,10 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.blocks.container.ContainerEnergyIOAccess;
-import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
-import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
-import powerlessri.anotsturdymod.library.utils.Reference;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.gui.container.ContainerEnergyIOAccess;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENAccessPort;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENComponentBase;
+import powerlessri.anotsturdymod.library.Reference;
 import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 
 import java.io.IOException;

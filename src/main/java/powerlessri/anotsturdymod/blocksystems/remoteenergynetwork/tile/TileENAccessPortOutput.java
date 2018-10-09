@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.blocks.tile;
+package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

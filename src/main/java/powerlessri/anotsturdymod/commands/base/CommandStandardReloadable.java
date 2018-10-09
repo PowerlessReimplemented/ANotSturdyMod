@@ -3,9 +3,9 @@ package powerlessri.anotsturdymod.commands.base;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.library.IResourcesReloadable;
-import powerlessri.anotsturdymod.library.utils.Reference;
-import powerlessri.anotsturdymod.library.utils.Utils;
+import powerlessri.anotsturdymod.handlers.reloaders.IResourcesReloadable;
+import powerlessri.anotsturdymod.library.Reference;
+import powerlessri.anotsturdymod.library.Utils;
 
 import java.util.HashMap;
 import java.util.Map;

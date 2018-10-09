@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import powerlessri.anotsturdymod.commands.base.CommandStandardReloadable;
-import powerlessri.anotsturdymod.library.utils.Utils;
+import powerlessri.anotsturdymod.library.Utils;
 
 import java.util.Arrays;
 import java.util.function.BiConsumer;

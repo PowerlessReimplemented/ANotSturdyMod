@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.utils;
+package powerlessri.anotsturdymod.library.general;
 
 public class MathUtils {
 

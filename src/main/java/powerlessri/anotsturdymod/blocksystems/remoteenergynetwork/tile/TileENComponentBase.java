@@ -1,11 +1,8 @@
-package powerlessri.anotsturdymod.blocks.tile;
+package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
-import powerlessri.anotsturdymod.library.utils.Utils;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
-
-import javax.annotation.Nullable;
 
 public class TileENComponentBase extends TileEntityBase {
 

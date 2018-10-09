@@ -1,6 +1,4 @@
-package powerlessri.anotsturdymod.handlers;
-
-import powerlessri.anotsturdymod.library.IResourcesReloadable;
+package powerlessri.anotsturdymod.handlers.reloaders;
 
 
 public class CommonReloadHandler {

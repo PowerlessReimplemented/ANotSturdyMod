@@ -1,13 +1,10 @@
-package powerlessri.anotsturdymod.blocks.container;
+package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.gui.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import powerlessri.anotsturdymod.blocks.container.base.PlayerContainerBase;
-import powerlessri.anotsturdymod.blocks.tile.TileENAccessPort;
-import powerlessri.anotsturdymod.blocks.tile.TileENComponentBase;
-import powerlessri.anotsturdymod.blocks.tile.TileENController;
-import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENComponentBase;
 
 public class ContainerEnergyIOAccess extends PlayerContainerBase {
 

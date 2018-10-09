@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.utils;
+package powerlessri.anotsturdymod.library.general;
 
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;

@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library;
+package powerlessri.anotsturdymod.handlers.reloaders;
 
 public interface IResourcesReloadable {
 

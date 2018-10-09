@@ -3,7 +3,7 @@ package powerlessri.anotsturdymod.blocks.base;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.ResourceLocation;
-import powerlessri.anotsturdymod.library.utils.Reference;
+import powerlessri.anotsturdymod.library.Reference;
 
 
 public abstract class BlockBase extends Block {

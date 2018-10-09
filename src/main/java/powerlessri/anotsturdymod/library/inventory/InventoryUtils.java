@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.utils;
+package powerlessri.anotsturdymod.library.inventory;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;

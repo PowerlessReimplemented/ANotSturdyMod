@@ -13,7 +13,4 @@ public class ModCommands {
 
     public static final List<CommandBase> COMMANDS = new ArrayList<CommandBase>();
 
-
-    public static final CommandAnsmUtils UTILS = new CommandAnsmUtils();
-
 }

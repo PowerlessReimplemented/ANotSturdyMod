@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.blocks.tile;
+package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile;
 
 import net.minecraft.crash.CrashReport;
 import net.minecraft.nbt.NBTTagCompound;

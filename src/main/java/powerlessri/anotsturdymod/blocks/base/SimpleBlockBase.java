@@ -4,7 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.IStringSerializable;
 import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.library.IIntegerSerializable;
+import powerlessri.anotsturdymod.library.general.IIntegerSerializable;
 
 
 /**
