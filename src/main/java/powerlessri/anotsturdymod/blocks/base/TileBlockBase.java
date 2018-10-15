@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
 
-public abstract class TileBlockBase extends SimpleBlockBase implements ITileIntergratedBlock {
+public abstract class TileBlockBase extends SimpleBlockBase {
 
     public TileBlockBase(String name, Material material) {
         super(name, material);
