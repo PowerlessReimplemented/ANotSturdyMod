@@ -37,7 +37,7 @@ public class AnsmSavedData extends WorldSavedData {
 
     // ======== Runtime Data ======== //
 
-    public final TileENController.TileFakeENController FAKE_EN_CONTROLLER_TILE = new TileENController.TileFakeENController();
+    public final TileENController.FakeTE FAKE_EN_CONTROLLER_TILE = new TileENController.FakeTE();
     public ArrayList<TileENController> controllerTiles = new ArrayList<>();
 
     // ======== Runtime Data ========//

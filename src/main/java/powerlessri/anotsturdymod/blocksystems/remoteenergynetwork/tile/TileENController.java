@@ -12,9 +12,9 @@ import powerlessri.anotsturdymod.world.AnsmSavedData;
  */
 public class TileENController extends TileEntityBase {
 
-    public static class TileFakeENController extends TileENController {
+    public static class FakeTE extends TileENController {
 
-        public TileFakeENController() {
+        public FakeTE() {
             this.isAlive = true;
         }
 

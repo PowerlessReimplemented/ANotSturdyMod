@@ -65,9 +65,11 @@ public class TileENComponentBase extends TileEntityBase {
     public TileENController getController() {
         // This channel has been allocated
         if (isControllerValid()) {
-            return data.controllerTiles.get(this.channel);
+            TileENController controller = data.controllerTiles.get(this.channel);
+            if (controller != null) {
+                return controller;
+            }
         }
-
         return data.FAKE_EN_CONTROLLER_TILE;
     }
 
