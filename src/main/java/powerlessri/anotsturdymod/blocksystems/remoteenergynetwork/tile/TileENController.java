@@ -4,6 +4,7 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ReportedException;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.library.Utils;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 /**
@@ -107,7 +108,7 @@ public class TileENController extends TileEntityBase {
             data.controllerNextChannel++;
             data.markDirty();
 
-            // Increase the capacity, so ArrayList#set won't throw exception
+            // Increase the size, so ArrayList#get/set won't throw out IndexOutOfBoundsException
             data.controllerTiles.add(null);
             // Now it has a channel, put itself into the reference list.
             this.onLoadServer();
@@ -149,6 +150,7 @@ public class TileENController extends TileEntityBase {
 
     @Override
     public void onLoadServer() {
+        Utils.getLogger().info("load");
         if (data == null) {
             data = AnsmSavedData.fromWorld(world);
         }
@@ -156,32 +158,36 @@ public class TileENController extends TileEntityBase {
         // Wait until player activate this block (wait until it has a channel)
         if (isInitialized()) {
             if (channel < data.controllerTiles.size()) {
-                updateReferenceList();
+                updateDataReference();
             }
         }
 
         isAlive = true;
     }
 
-    private void updateReferenceList() {
-        // This step might cause an IndexOutOfBoundsException, if channel is not allocated by #getOrAllocChannel()
+    private void updateDataReference() {
+        // This step might cause an IndexOutOfBoundsException, if channel is NOT set by #getOrAllocChannel()
         // but you're not suppose to do it other than #getOrAllocChannel(), so it's fine.
-        //
-        // Note that when channel == DEFAULT_CHANNEL, #tiles[c] will always be a FakeEnergyNetworkController\
-        if (data.controllerTiles.get(this.channel) == null) {
-            data.controllerTiles.set(this.channel, this);
-        } else {
-            String description = "Unexpected repeating channel from BlockEnergyController";
-            IllegalAccessException e = new IllegalAccessException(description);
-            CrashReport crashReport = CrashReport.makeCrashReport(e, description);
+        if (data.controllerTiles.get(channel) == null) {
+            data.controllerTiles.set(channel, this);
 
-            throw new ReportedException(crashReport);
+        } else {
+            // When channel == DEFAULT_CHANNEL,
+            // data.controllerTiles[channel] will always be a FakeEnergyNetworkController
+            if (data.controllerTiles.get(channel) != data.FAKE_EN_CONTROLLER_TILE) {
+                String description = "Unexpected repeating channel from BlockEnergyController";
+                IllegalAccessException e = new IllegalAccessException(description);
+                CrashReport crashReport = CrashReport.makeCrashReport(e, description);
+
+                throw new ReportedException(crashReport);
+            }
         }
     }
 
     @Override
     public void onChunkUnloadServer() {
-        data.controllerTiles.set(this.channel, null);
+        Utils.getLogger().info("unload");
+        data.controllerTiles.set(channel, null);
         this.isAlive = false;
     }
 
@@ -193,6 +199,7 @@ public class TileENController extends TileEntityBase {
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
+        Utils.getLogger().info("readNBT");
         super.readFromNBT(tag);
 
         this.channel = tag.getInteger(CHANNEL);
@@ -203,6 +210,7 @@ public class TileENController extends TileEntityBase {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        Utils.getLogger().info("writeNBT");
         tag.setInteger(CHANNEL, this.channel);
 
         tag.setLong(STORAGE_UPGRADES, this.amountStorageUpgrades);

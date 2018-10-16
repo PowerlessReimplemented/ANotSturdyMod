@@ -15,11 +15,13 @@ public class AnsmSavedData extends WorldSavedData {
         MapStorage storage = world.getMapStorage();
         AnsmSavedData result = (AnsmSavedData) storage.getOrLoadData(AnsmSavedData.class, DATA_NAME);
 
-        if (result == null) {
-            storage.setData(DATA_NAME, new AnsmSavedData(DATA_NAME));
-            result = (AnsmSavedData) storage.getOrLoadData((AnsmSavedData.class), DATA_NAME);
-            result.constructRuntimeData();
-        }
+        // MapStorage#getOrLoadData will automatically create a object if it hasn't been loaded,
+        // which means it'll never return null
+//        if (result == null) {
+//            storage.setData(DATA_NAME, new AnsmSavedData(DATA_NAME));
+//            result = (AnsmSavedData) storage.getOrLoadData((AnsmSavedData.class), DATA_NAME);
+//            result.constructRuntimeData();
+//        }
 
         return result;
     }
@@ -48,10 +50,12 @@ public class AnsmSavedData extends WorldSavedData {
      */
     public AnsmSavedData(String name) {
         super(name);
+
+        constructRuntimeData();
     }
 
 
-    private void reconstructListControllerTiles(int sizeToAlloc) {
+    private void initListControllerTiles(int sizeToAlloc) {
         controllerTiles.clear();
         controllerTiles.add(FAKE_EN_CONTROLLER_TILE);
         // When controllerNextChannel == 1, there's no channels got allocated
@@ -62,7 +66,7 @@ public class AnsmSavedData extends WorldSavedData {
     }
 
     public void constructRuntimeData() {
-        reconstructListControllerTiles(controllerNextChannel - 1);
+        initListControllerTiles(controllerNextChannel - 1);
     }
 
 
