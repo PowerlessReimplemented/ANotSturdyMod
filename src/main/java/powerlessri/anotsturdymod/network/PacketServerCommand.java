@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import powerlessri.anotsturdymod.library.tags.NBTUtils;
+import powerlessri.anotsturdymod.library.tags.TagUtils;
 import powerlessri.anotsturdymod.library.Utils;
 import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
 
@@ -66,8 +66,8 @@ public class PacketServerCommand implements IMessage {
     }
 
     public static void makeWorldPosArgs(NBTTagCompound tag, int dimension, int x, int y, int z) {
-        NBTUtils.writeDimension(tag, dimension);
-        NBTUtils.writeBlockPos(tag, x, y, z);
+        TagUtils.writeDimension(tag, dimension);
+        TagUtils.writeBlockPos(tag, x, y, z);
     }
 
 }

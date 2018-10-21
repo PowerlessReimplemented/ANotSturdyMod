@@ -15,6 +15,8 @@ import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENController;
 import powerlessri.anotsturdymod.items.ItemUpgrade;
+import powerlessri.anotsturdymod.library.Utils;
+import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 // TODO add model & texture
 public class BlockEnergyController extends TileBlockBase {
@@ -60,7 +62,7 @@ public class BlockEnergyController extends TileBlockBase {
 
 
         // Also allocate new channel (if hasn't yet) on server side
-        player.sendMessage(new TextComponentString("controller id: " + tile.getOrAllocChannel() + "  energy stored: " + tile.energyStored));
+        player.sendStatusMessage(new TextComponentString("controller id: " + tile.getOrAllocChannel() + "  energy stored: " + tile.energyStored), true);
 
         return true;
     }

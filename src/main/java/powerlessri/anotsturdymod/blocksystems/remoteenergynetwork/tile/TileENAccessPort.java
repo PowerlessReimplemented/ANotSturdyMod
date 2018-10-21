@@ -12,7 +12,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
-import powerlessri.anotsturdymod.library.tags.NBTUtils;
+import powerlessri.anotsturdymod.library.tags.TagUtils;
 import powerlessri.anotsturdymod.library.Utils;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
@@ -123,7 +123,7 @@ public class TileENAccessPort extends TileENComponentBase implements ICapability
         int channelTo = pckt.args.getInteger(TileENController.CHANNEL);
 
         World world = ByteIOHelper.getWorldFromDimension(pckt.args);
-        BlockPos tilePos = NBTUtils.readBlockPos(pckt.args);
+        BlockPos tilePos = TagUtils.readBlockPos(pckt.args);
         TileENComponentBase tile = (TileENComponentBase) world.getTileEntity(tilePos);
 
         if (tile != null) {

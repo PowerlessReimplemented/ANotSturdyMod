@@ -24,7 +24,7 @@ import powerlessri.anotsturdymod.library.Utils;
 import powerlessri.anotsturdymod.library.inventory.InventoryUtils;
 import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;
 import powerlessri.anotsturdymod.library.tags.ITagBasedItem;
-import powerlessri.anotsturdymod.library.tags.NBTUtils;
+import powerlessri.anotsturdymod.library.tags.TagUtils;
 import powerlessri.anotsturdymod.library.general.*;
 
 public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
@@ -269,7 +269,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
     @Override
     public NBTTagCompound getDefaultTag() {
         NBTTagCompound tag = new NBTTagCompound();
-        NBTUtils.buildTagWithDefault(tag, EnumTags.values());
+        TagUtils.buildTagWithDefault(tag, EnumTags.values());
         return tag;
     }
 

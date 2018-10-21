@@ -6,6 +6,7 @@ import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENController;
 import powerlessri.anotsturdymod.library.Reference;
+import powerlessri.anotsturdymod.library.Utils;
 
 import java.util.ArrayList;
 
@@ -15,13 +16,11 @@ public class AnsmSavedData extends WorldSavedData {
         MapStorage storage = world.getMapStorage();
         AnsmSavedData result = (AnsmSavedData) storage.getOrLoadData(AnsmSavedData.class, DATA_NAME);
 
-        // MapStorage#getOrLoadData will automatically create a object if it hasn't been loaded,
-        // which means it'll never return null
-//        if (result == null) {
-//            storage.setData(DATA_NAME, new AnsmSavedData(DATA_NAME));
-//            result = (AnsmSavedData) storage.getOrLoadData((AnsmSavedData.class), DATA_NAME);
-//            result.constructRuntimeData();
-//        }
+        if (result == null) {
+            result = new AnsmSavedData(DATA_NAME);
+            result.constructRuntimeData();
+            storage.setData(DATA_NAME, result);
+        }
 
         return result;
     }
@@ -45,13 +44,8 @@ public class AnsmSavedData extends WorldSavedData {
     // ======== Runtime Data ========//
 
 
-    /**
-     * Used for so that Minecraft can correctly instantiate on MapStorage#getOrLoadData
-     */
     public AnsmSavedData(String name) {
         super(name);
-
-        constructRuntimeData();
     }
 
 
@@ -74,7 +68,7 @@ public class AnsmSavedData extends WorldSavedData {
     public void readFromNBT(NBTTagCompound data) {
         {
             NBTTagCompound tag = data.getCompoundTag(COUNTER);
-            this.controllerNextChannel = tag.getInteger(CONTROLLER_CHANNEL_USAGE);
+            controllerNextChannel = tag.getInteger(CONTROLLER_CHANNEL_USAGE);
         }
 
         constructRuntimeData();
@@ -85,6 +79,7 @@ public class AnsmSavedData extends WorldSavedData {
         {
             NBTTagCompound tag = data.getCompoundTag(COUNTER);
             tag.setInteger(CONTROLLER_CHANNEL_USAGE, controllerNextChannel);
+            data.setTag(COUNTER, tag);
         }
 
         return data;

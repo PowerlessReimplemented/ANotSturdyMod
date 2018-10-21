@@ -5,7 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
-import powerlessri.anotsturdymod.library.tags.NBTUtils;
+import powerlessri.anotsturdymod.library.tags.TagUtils;
 import powerlessri.anotsturdymod.library.Utils;
 
 import javax.annotation.Nullable;
@@ -63,7 +63,7 @@ public class ByteIOHelper {
 
 
     public static World getWorldFromDimension(NBTTagCompound dimTag) {
-        return getWorldFromDimension(NBTUtils.readDimension(dimTag));
+        return getWorldFromDimension(TagUtils.readDimension(dimTag));
     }
 
     public static World getWorldFromDimension(int dim) {

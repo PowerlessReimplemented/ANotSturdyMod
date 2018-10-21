@@ -15,7 +15,7 @@ import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;
 import powerlessri.anotsturdymod.library.tags.ITagBasedItem;
-import powerlessri.anotsturdymod.library.tags.NBTUtils;
+import powerlessri.anotsturdymod.library.tags.TagUtils;
 import powerlessri.anotsturdymod.library.general.PosExtractor;
 
 public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedItem {
@@ -90,13 +90,13 @@ public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedI
     }
 
     private void cycleByteTag(ItemStack stack, EnumTags targetNbt, byte increase) {
-        NBTTagCompound tag = NBTUtils.getTagSafe(stack);
+        NBTTagCompound tag = TagUtils.getTagSafe(stack);
         byte originalVal = getByteTag(stack, targetNbt);
 
         if (originalVal >= targetNbt.max) {
             tag.setByte(targetNbt.key, (byte) 0);
         } else {
-            NBTUtils.setTagEnum(tag, targetNbt, (byte) (originalVal + increase));
+            TagUtils.setTagEnum(tag, targetNbt, (byte) (originalVal + increase));
         }
     }
 
@@ -152,7 +152,7 @@ public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedI
     @Override
     public NBTTagCompound getDefaultTag() {
         NBTTagCompound tag = new NBTTagCompound();
-        NBTUtils.buildTagWithDefault(tag, EnumTags.values());
+        TagUtils.buildTagWithDefault(tag, EnumTags.values());
         return tag;
     }
 

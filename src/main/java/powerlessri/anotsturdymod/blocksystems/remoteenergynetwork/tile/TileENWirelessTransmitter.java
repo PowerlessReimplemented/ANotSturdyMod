@@ -9,7 +9,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
-import powerlessri.anotsturdymod.library.tags.NBTUtils;
+import powerlessri.anotsturdymod.library.tags.TagUtils;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
 
@@ -129,7 +129,7 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
 
     public static void onPacketScanNearbyTiles(PacketServerCommand pckt, MessageContext ctx) {
         World world = ByteIOHelper.getWorldFromDimension(pckt.args);
-        BlockPos tilePos = NBTUtils.readBlockPos(pckt.args);
+        BlockPos tilePos = TagUtils.readBlockPos(pckt.args);
         TileENWirelessTransmitter tile = (TileENWirelessTransmitter) world.getTileEntity(tilePos);
 
         tile.scanNearbyTiles(DEFAULT_SCAN_RADIUS);

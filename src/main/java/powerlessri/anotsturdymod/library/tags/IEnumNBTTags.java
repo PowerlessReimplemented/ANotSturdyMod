@@ -70,38 +70,38 @@ public interface IEnumNBTTags<T> {
                     throw new UnexpectedTypeException();
 
                 case BOOLEAN:
-                    NBTUtils.setTagEnum(tag, this, (Boolean) value);
+                    TagUtils.setTagEnum(tag, this, (Boolean) value);
                     break;
                 case BYTE:
-                    NBTUtils.setTagEnum(tag, this, (Byte) value);
+                    TagUtils.setTagEnum(tag, this, (Byte) value);
                     break;
                 case INT:
-                    NBTUtils.setTagEnum(tag, this, (Integer) value);
+                    TagUtils.setTagEnum(tag, this, (Integer) value);
                     break;
                 case BYTE_ARRAY:
-                    NBTUtils.setTagEnum(tag, this, (byte[]) value);
+                    TagUtils.setTagEnum(tag, this, (byte[]) value);
                     break;
                 case INT_ARRAY:
-                    NBTUtils.setTagEnum(tag, this, (int[]) value);
+                    TagUtils.setTagEnum(tag, this, (int[]) value);
                     break;
                 case SHORT:
-                    NBTUtils.setTagEnum(tag, this, (Short) value);
+                    TagUtils.setTagEnum(tag, this, (Short) value);
                     break;
                 case LONG:
-                    NBTUtils.setTagEnum(tag, this, (Long) value);
+                    TagUtils.setTagEnum(tag, this, (Long) value);
                     break;
                 case FLOAT:
-                    NBTUtils.setTagEnum(tag, this, (Float) value);
+                    TagUtils.setTagEnum(tag, this, (Float) value);
                     break;
                 case DOUBLE:
-                    NBTUtils.setTagEnum(tag, this, (Double) value);
+                    TagUtils.setTagEnum(tag, this, (Double) value);
                     break;
                 case STRING:
-                    NBTUtils.setTagEnum(tag, this, (String) value);
+                    TagUtils.setTagEnum(tag, this, (String) value);
                     break;
                 case NBT_LIST:
                 case NBT_TAG:
-                    NBTUtils.setTagEnum(tag, this, (NBTBase) value);
+                    TagUtils.setTagEnum(tag, this, (NBTBase) value);
                     break;
                 case LONG_ARRAY:
 

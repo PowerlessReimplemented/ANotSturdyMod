@@ -8,7 +8,7 @@ import powerlessri.anotsturdymod.library.Utils;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 /**
- * This block does not meant to be a direct part of forge energy system. Use BlockEnergyAccessPort
+ * This block does not meant to be a direct part of forge energy system. Use {@link TileENComponentBase}
  * for any access to the power storage managed by this block.
  */
 public class TileENController extends TileEntityBase {
@@ -74,6 +74,7 @@ public class TileENController extends TileEntityBase {
     public static final String STORAGE_UPGRADES = "storageUpgrades";
     public static final String STORAGE_ENERGY_REMAIN = "energyStored";
 
+    public static final int DEFAULT_CHANNEL = 0;
     public static final long DEFAULT_CAPACITY = 1000000000L;
     public static final long STORAGE_UPGRADE_INCREMENT = 1000000L;
     public static final int MAX_STORAGE_UPGRADES = 64;
@@ -104,14 +105,7 @@ public class TileENController extends TileEntityBase {
 
     public int getOrAllocChannel() {
         if (!isInitialized()) {
-            channel = data.controllerNextChannel;
-            data.controllerNextChannel++;
-            data.markDirty();
-
-            // Increase the size, so ArrayList#get/set won't throw out IndexOutOfBoundsException
-            data.controllerTiles.add(null);
-            // Now it has a channel, put itself into the reference list.
-            this.onLoadServer();
+            allocateChannel();
         }
 
         return this.getChannel();
@@ -123,6 +117,18 @@ public class TileENController extends TileEntityBase {
 
     public boolean isInitialized() {
         return this.channel != 0;
+    }
+
+
+    private void allocateChannel() {
+        channel = data.controllerNextChannel;
+        data.controllerNextChannel++;
+        data.markDirty();
+
+        // Increase the size, so ArrayList#get/set won't throw out IndexOutOfBoundsException
+        data.controllerTiles.add(null);
+        // Now it has a channel, put itself into the reference list.
+        updateDataReference();
     }
 
 
@@ -150,13 +156,13 @@ public class TileENController extends TileEntityBase {
 
     @Override
     public void onLoadServer() {
-        Utils.getLogger().info("load");
         if (data == null) {
             data = AnsmSavedData.fromWorld(world);
         }
 
         // Wait until player activate this block (wait until it has a channel)
         if (isInitialized()) {
+            // #channel actually starts at 1
             if (channel < data.controllerTiles.size()) {
                 updateDataReference();
             }
@@ -170,11 +176,10 @@ public class TileENController extends TileEntityBase {
         // but you're not suppose to do it other than #getOrAllocChannel(), so it's fine.
         if (data.controllerTiles.get(channel) == null) {
             data.controllerTiles.set(channel, this);
-
         } else {
             // When channel == DEFAULT_CHANNEL,
             // data.controllerTiles[channel] will always be a FakeEnergyNetworkController
-            if (data.controllerTiles.get(channel) != data.FAKE_EN_CONTROLLER_TILE) {
+            if (channel != DEFAULT_CHANNEL) {
                 String description = "Unexpected repeating channel from BlockEnergyController";
                 IllegalAccessException e = new IllegalAccessException(description);
                 CrashReport crashReport = CrashReport.makeCrashReport(e, description);
@@ -186,7 +191,6 @@ public class TileENController extends TileEntityBase {
 
     @Override
     public void onChunkUnloadServer() {
-        Utils.getLogger().info("unload");
         data.controllerTiles.set(channel, null);
         this.isAlive = false;
     }
@@ -199,7 +203,6 @@ public class TileENController extends TileEntityBase {
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
-        Utils.getLogger().info("readNBT");
         super.readFromNBT(tag);
 
         this.channel = tag.getInteger(CHANNEL);
@@ -210,11 +213,10 @@ public class TileENController extends TileEntityBase {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        Utils.getLogger().info("writeNBT");
-        tag.setInteger(CHANNEL, this.channel);
+        tag.setInteger(CHANNEL, channel);
 
-        tag.setLong(STORAGE_UPGRADES, this.amountStorageUpgrades);
-        tag.setLong(STORAGE_ENERGY_REMAIN, this.energyStored);
+        tag.setLong(STORAGE_UPGRADES, amountStorageUpgrades);
+        tag.setLong(STORAGE_ENERGY_REMAIN, energyStored);
 
         return super.writeToNBT(tag);
     }
