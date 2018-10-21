@@ -11,6 +11,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import powerlessri.anotsturdymod.ANotSturdyMod;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.IENetworkController;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.library.tags.TagUtils;
 import powerlessri.anotsturdymod.library.Utils;
@@ -54,33 +55,26 @@ public class TileENAccessPort extends TileENComponentBase implements ICapability
 
     @Override
     public int receiveEnergy(int maxReceive, boolean simulate) {
-        TileENController controller = getController();
         if (this.canReceive()) {
-            int accepted = Math.min((int) controller.getCapacityLeft(), maxReceive);
-            if (!simulate)
-                controller.energyStored += accepted;
-
-            return accepted;
+            IENetworkController controller = getController();
+            return (int) controller.receiveEnergy(maxReceive, simulate);
         }
         return 0;
     }
 
     @Override
     public int extractEnergy(int maxExtract, boolean simulate) {
-        TileENController controller = getController();
         if (this.canExtract()) {
-            int removed = Math.min((int) controller.energyStored, maxExtract);
-            if (!simulate)
-                controller.energyStored -= removed;
-
-            return removed;
+            IENetworkController controller = getController();
+            return (int) controller.extractEnergy(maxExtract, simulate);
         }
         return 0;
     }
 
+
     @Override
     public int getEnergyStored() {
-        return (int) this.getController().energyStored;
+        return (int) this.getController().getEnergyStored();
     }
 
     @Override
@@ -96,7 +90,7 @@ public class TileENAccessPort extends TileENComponentBase implements ICapability
 
     @Override
     public boolean canExtract() {
-        return false;
+        return true;
     }
 
 

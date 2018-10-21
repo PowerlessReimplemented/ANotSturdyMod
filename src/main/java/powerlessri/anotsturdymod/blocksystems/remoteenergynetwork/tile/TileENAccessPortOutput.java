@@ -6,6 +6,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.IENetworkController;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 
 public class TileENAccessPortOutput extends TileENAccessPort implements ITickable {
@@ -23,32 +24,25 @@ public class TileENAccessPortOutput extends TileENAccessPort implements ITickabl
 
     @Override
     public void update() {
-        if (!world.isRemote) {
-            for (EnumFacing facing : EnumFacing.VALUES) {
-                BlockPos neighborPos = pos.offset(facing);
-                TileEntity tile = world.getTileEntity(neighborPos);
-                EnumFacing opposite = facing.getOpposite();
+        if (world.isRemote) {
+            return;
+        }
 
-                // Don't insert to another access port, it might cause problems (e.g. loop)
-                if (tile != null && !(tile instanceof TileENAccessPort)) {
-                    if (tile.hasCapability(CapabilityEnergy.ENERGY, opposite)) {
-                        IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, opposite);
+        for (EnumFacing facing : EnumFacing.VALUES) {
+            BlockPos neighborPos = pos.offset(facing);
+            TileEntity tile = world.getTileEntity(neighborPos);
+            EnumFacing opposite = facing.getOpposite();
 
-                        if (storage.canReceive()) {
-                            sendEnergy(storage);
-                        }
+            // Don't insert to another access port, it might cause problems (e.g. loop)
+            if (tile != null && !(tile instanceof TileENAccessPort)) {
+                if (tile.hasCapability(CapabilityEnergy.ENERGY, opposite)) {
+                    IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, opposite);
+
+                    if (storage.canReceive()) {
+                        sendEnergy(storage);
                     }
                 }
             }
-        }
-    }
-
-    public void sendEnergy(IEnergyStorage targetStorage) {
-        TileENController controller = getController();
-        if (controller != null) {
-            int extractLimit = extractEnergy(ioLimit, true);
-            int accepted = targetStorage.receiveEnergy(extractLimit, false);
-            controller.energyStored -= accepted;
         }
     }
 

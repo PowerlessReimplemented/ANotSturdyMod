@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.IENetworkController;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.library.tags.TagUtils;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
@@ -75,25 +76,23 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
             return;
         }
 
-        TileENController controller = getController();
-        if (controller == null || controller.energyStored == 0L) {
+        IENetworkController controller = getController();
+        if (controller == null) {
             return;
         }
 
-        for (BlockPos p : nearbyTiles) {
-            TileEntity tile = world.getTileEntity(p);
+        for (BlockPos pos : nearbyTiles) {
+            TileEntity tile = world.getTileEntity(pos);
 
             // Tile entities might change after scanning
             if (tile != null) {
                 IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, null);
 
                 if (storage != null && storage.canReceive()) {
-                    int accepted = storage.receiveEnergy(Math.min(ioLimit, (int) controller.energyStored), false);
-                    controller.energyStored -= accepted;
-                }
-
-                if (controller.energyStored == 0L) {
-                    return;
+                    sendEnergy(storage);
+                    if (controller.getEnergyStored() == 0L) {
+                        return;
+                    }
                 }
             }
         }

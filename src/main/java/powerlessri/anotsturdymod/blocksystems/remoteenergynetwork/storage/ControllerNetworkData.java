@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.storage;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.storage.WorldSavedData;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.IENetworkController;
 import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENController;
 import powerlessri.anotsturdymod.world.AbstractSubStorage;
 
@@ -12,14 +13,15 @@ public class ControllerNetworkData extends AbstractSubStorage {
     public static final int DEFAULT_CHANNEL = 0;
 
     public static final String NAME = "systemENData";
-    public static final String CONTROLLER_CHANNEL_USAGE = "cntrllrNextChnnl";
+    public static final String CONTROLLER_CHANNEL_USAGE = "cntrlrNxtChnl";
 
 
     // Data which will be saved to disk
     private int lastChannel = DEFAULT_CHANNEL;
 
+    // Runtime data
     public final TileENController.FakeTE FAKE_EN_CONTROLLER_TILE = new TileENController.FakeTE();
-    public ArrayList<TileENController> controllerTiles = new ArrayList<>();
+    public ArrayList<IENetworkController> controllers = new ArrayList<>();
 
     public ControllerNetworkData(WorldSavedData parentData) {
         super(parentData);
@@ -27,19 +29,19 @@ public class ControllerNetworkData extends AbstractSubStorage {
 
 
     public void init() {
-        controllerTiles.clear();
-        controllerTiles.add(FAKE_EN_CONTROLLER_TILE);
+        controllers.clear();
+        controllers.add(FAKE_EN_CONTROLLER_TILE);
         // When controllerNextChannel == 1, there's no channels got allocated
         // Which already gave the space for channel 0
         for (int i = 0; i < lastChannel; i++) {
-            controllerTiles.add(null);
+            controllers.add(null);
         }
     }
 
 
     public int getNextChannel() {
         int allocation = ++lastChannel;
-        controllerTiles.add(null);
+        controllers.add(null);
 
         parentData.markDirty();
         return allocation;
@@ -62,12 +64,12 @@ public class ControllerNetworkData extends AbstractSubStorage {
         return isChanelInitialized(channel) && channel <= lastChannel;
     }
 
-    public boolean isControllerLoaded(TileENController controller) {
-        return isControllerLoaded(controller.channel);
+    public boolean isControllerLoaded(IENetworkController controller) {
+        return isControllerLoaded(controller.getChannel());
     }
 
     public boolean isControllerLoaded(int channel) {
-        return controllerTiles.get(channel) != null;
+        return controllers.get(channel) != null;
     }
 
 
@@ -75,8 +77,8 @@ public class ControllerNetworkData extends AbstractSubStorage {
      * Put given controller tile into reference list <b>if</b> the reference is clear.
      * @see #setControllerReference
      */
-    public void trySetControllerReference(TileENController controller) {
-        if (isChannelAllocated(controller.channel) && !isControllerLoaded(controller)) {
+    public void trySetControllerReference(IENetworkController controller) {
+        if (isChannelAllocated(controller.getChannel()) && !isControllerLoaded(controller)) {
             setControllerReference(controller);
         }
     }
@@ -84,17 +86,17 @@ public class ControllerNetworkData extends AbstractSubStorage {
     /**
      * Put given controller tile into reference list.
      */
-    public void setControllerReference(TileENController controller) {
-        controllerTiles.set(controller.channel, controller);
+    public void setControllerReference(IENetworkController controller) {
+        controllers.set(controller.getChannel(), controller);
     }
 
-    public void deleteControllerReference(TileENController controller) {
-        deleteControllerReference(controller.channel);
+    public void deleteControllerReference(IENetworkController controller) {
+        deleteControllerReference(controller.getChannel());
     }
 
     public void deleteControllerReference(int channel) {
         if (isChannelAllocated(channel)) {
-            controllerTiles.set(channel, null);
+            controllers.set(channel, null);
         }
     }
 

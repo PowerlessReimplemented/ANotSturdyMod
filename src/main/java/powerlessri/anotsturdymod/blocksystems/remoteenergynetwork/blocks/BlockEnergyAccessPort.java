@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork;
+package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.blocks;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;

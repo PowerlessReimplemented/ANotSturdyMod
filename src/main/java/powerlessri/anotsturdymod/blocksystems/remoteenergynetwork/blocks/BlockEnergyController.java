@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork;
+package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.blocks;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -15,8 +15,6 @@ import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
 import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENController;
 import powerlessri.anotsturdymod.items.ItemUpgrade;
-import powerlessri.anotsturdymod.library.Utils;
-import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 // TODO add model & texture
 public class BlockEnergyController extends TileBlockBase {

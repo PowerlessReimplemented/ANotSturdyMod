@@ -8,17 +8,14 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.BlockEnergyAccessPort;
-import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.BlockEnergyController;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.blocks.BlockEnergyAccessPort;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.blocks.BlockEnergyController;
 import powerlessri.anotsturdymod.blocks.BlockInfiniteCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
 import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
-import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENAccessPort;
-import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENAccessPortOutput;
-import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENController;
-import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.TileENWirelessTransmitter;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile.*;
 import powerlessri.anotsturdymod.blocks.tile.*;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
 import powerlessri.anotsturdymod.handlers.reloaders.CommonReloadHandler;
@@ -59,14 +56,15 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(BlockEnergyController.INSTANCE);
-        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPort(0, 5000), ModGuiHandler.ENERGY_ACCESS_PORT));
+        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPortInput(0, Integer.MAX_VALUE), ModGuiHandler.ENERGY_ACCESS_PORT));
         registerBlock(new BlockEnergyAccessPort("energy_network_output_port", () -> new TileENAccessPortOutput(0, 5000), ModGuiHandler.ENERGY_ACCESS_PORT));
-        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", () -> new TileENWirelessTransmitter(0, 80), ModGuiHandler.ENERGY_WIRELESS_TRANSMITTER));
+        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", () -> new TileENWirelessTransmitter(0, 320), ModGuiHandler.ENERGY_WIRELESS_TRANSMITTER));
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
         registerBlock(new BlockLightCube("light_cube"));
 
         TileEntity.register("te.energy_network_controller", TileENController.class);
-        TileEntity.register("te.energy_network_input", TileENAccessPort.class);
+        TileEntity.register("te.energy_network_base", TileENAccessPort.class);
+        TileEntity.register("te.energy_network_input", TileENAccessPortInput.class);
         TileEntity.register("te.energy_network_output", TileENAccessPortOutput.class);
         TileEntity.register("te.energy_network_wireless_transmitter", TileENWirelessTransmitter.class);
         TileEntity.register("te.cobble_generator", TileCobbleGenerator.class);

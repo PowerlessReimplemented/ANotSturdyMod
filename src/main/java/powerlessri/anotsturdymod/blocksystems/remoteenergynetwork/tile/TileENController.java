@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.IENetworkController;
 import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.storage.ControllerNetworkData;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
@@ -9,17 +10,13 @@ import powerlessri.anotsturdymod.world.AnsmSavedData;
  * This block does not meant to be a direct part of forge energy system. Use {@link TileENComponentBase}
  * for any access to the power storage managed by this block.
  */
-public class TileENController extends TileEntityBase {
+public class TileENController extends TileEntityBase implements IENetworkController {
 
     public static class FakeTE extends TileENController {
 
         public FakeTE() {
         }
 
-        @Override
-        public int getOrAllocChannel() {
-            return 0;
-        }
 
         @Override
         public int getChannel() {
@@ -27,14 +24,57 @@ public class TileENController extends TileEntityBase {
         }
 
         @Override
-        public long getCapacity() {
+        public int getOrAllocChannel() {
+            return 0;
+        }
+
+
+        @Override
+        public int getAmountStorageUpgrades() {
             return 0;
         }
 
         @Override
-        public long getCapacityLeft() {
+        public int installStorageUpgrade(int attempt) {
             return 0;
         }
+
+
+        @Override
+        public long getCapacity() {
+            return 0;
+        }
+
+
+        @Override
+        public long getEnergyStored() {
+            return 0;
+        }
+
+        @Override
+        public void setEnergyStored(long energy) {
+        }
+
+
+        @Override
+        public void decreaseEnergy(long increment) {
+        }
+
+        @Override
+        public void increaseEnergy(long decrement) {
+        }
+
+
+        @Override
+        public long extractEnergy(long attempt, boolean simulate) {
+            return 0;
+        }
+
+        @Override
+        public long receiveEnergy(long attempt, boolean simulate) {
+            return 0;
+        }
+
 
         @Override
         public void onLoadServer() {
@@ -46,16 +86,6 @@ public class TileENController extends TileEntityBase {
 
         @Override
         public void onRemoved() {
-        }
-
-        @Override
-        public void readFromNBT(NBTTagCompound tag) {
-            super.readFromNBT(tag);
-        }
-
-        @Override
-        public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-            return super.writeToNBT(tag);
         }
 
     }
@@ -79,16 +109,11 @@ public class TileENController extends TileEntityBase {
      */
     public int channel;
 
-    /**
-     * Amount of storage upgrades installed. Used to calculate total capacity.
-     */
-    public long amountStorageUpgrades = 0;
-    /**
-     * Energy stored inside controller.
-     */
+    public int amountStorageUpgrades;
     public long energyStored = 0;
 
 
+    @Override
     public int getOrAllocChannel() {
         if (!data.isChanelInitialized(channel)) {
             allocateChannel();
@@ -97,6 +122,7 @@ public class TileENController extends TileEntityBase {
         return this.getChannel();
     }
 
+    @Override
     public int getChannel() {
         return channel;
     }
@@ -109,25 +135,64 @@ public class TileENController extends TileEntityBase {
     }
 
 
-    /**
-     * Install storage upgrades with capacity check.
-     *
-     * @return The amount of storage upgrades accepted.
-     */
+    @Override
+    public int getAmountStorageUpgrades() {
+        return amountStorageUpgrades;
+    }
+
+    @Override
     public int installStorageUpgrade(int attempt) {
-        int availableSlots = (int) (MAX_STORAGE_UPGRADES - amountStorageUpgrades);
+        int availableSlots = MAX_STORAGE_UPGRADES - amountStorageUpgrades;
         int actualInsertion = Math.min(availableSlots, attempt);
         amountStorageUpgrades += actualInsertion;
         return actualInsertion;
     }
 
 
-    public long getCapacity() {
-        return DEFAULT_CAPACITY + (amountStorageUpgrades * STORAGE_UPGRADE_INCREMENT);
+    @Override
+    public long getEnergyStored() {
+        return energyStored;
     }
 
-    public long getCapacityLeft() {
-        return getCapacity() - energyStored;
+    @Override
+    public void setEnergyStored(long energy) {
+        energyStored = energy;
+    }
+
+
+    @Override
+    public void decreaseEnergy(long increment) {
+        energyStored -= increment;
+    }
+
+    @Override
+    public long extractEnergy(long attempt, boolean simulate) {
+        long actualExtraction = Math.min(energyStored, attempt);
+        if (!simulate) {
+            decreaseEnergy(actualExtraction);
+        }
+        return actualExtraction;
+    }
+
+
+    @Override
+    public void increaseEnergy(long decrement) {
+        energyStored += decrement;
+    }
+
+    @Override
+    public long receiveEnergy(long attempt, boolean simulate) {
+        long actualInsertion = Math.min(getCapacityLeft(), attempt);
+        if (!simulate) {
+            increaseEnergy(actualInsertion);
+        }
+        return actualInsertion;
+    }
+
+
+    @Override
+    public long getCapacity() {
+        return DEFAULT_CAPACITY + (amountStorageUpgrades * STORAGE_UPGRADE_INCREMENT);
     }
 
 
@@ -159,7 +224,7 @@ public class TileENController extends TileEntityBase {
 
         this.channel = tag.getInteger(CHANNEL);
 
-        this.amountStorageUpgrades = tag.getLong(STORAGE_UPGRADES);
+        this.amountStorageUpgrades = tag.getInteger(STORAGE_UPGRADES);
         this.energyStored = tag.getLong(STORAGE_ENERGY_REMAIN);
     }
 
@@ -167,7 +232,7 @@ public class TileENController extends TileEntityBase {
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         tag.setInteger(CHANNEL, channel);
 
-        tag.setLong(STORAGE_UPGRADES, amountStorageUpgrades);
+        tag.setInteger(STORAGE_UPGRADES, amountStorageUpgrades);
         tag.setLong(STORAGE_ENERGY_REMAIN, energyStored);
 
         return super.writeToNBT(tag);

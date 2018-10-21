@@ -1,7 +1,9 @@
 package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.energy.IEnergyStorage;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.IENetworkController;
 import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.storage.ControllerNetworkData;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
@@ -24,7 +26,7 @@ public class TileENComponentBase extends TileEntityBase {
 
     public TileENComponentBase(int channel, int ioLimit) {
         this.channel = channel;
-        this.ioLimit = ioLimit;
+        this.ioLimit = Math.max(0, ioLimit);
     }
 
 
@@ -60,18 +62,31 @@ public class TileENComponentBase extends TileEntityBase {
 
 
     public boolean isControllerValid() {
-        return channel < data.controllerTiles.size();
+        return channel < data.controllers.size();
     }
 
-    public TileENController getController() {
+    public IENetworkController getController() {
         // This channel has been allocated
         if (isControllerValid()) {
-            TileENController controller = data.controllerTiles.get(this.channel);
+            IENetworkController controller = data.controllers.get(this.channel);
             if (controller != null) {
                 return controller;
             }
         }
         return data.FAKE_EN_CONTROLLER_TILE;
+    }
+
+
+    /**
+     * Send as much energy as possible to the given IEnergyStorage.
+     * Takes energy from the controller.
+     *
+     * @param target The IEnergyStorage that will be receiving energy
+     */
+    protected void sendEnergy(IEnergyStorage target) {
+        IENetworkController controller = getController();
+        int accepted = target.receiveEnergy(Math.min(ioLimit, (int) controller.getEnergyStored()), false);
+        controller.extractEnergy(accepted, false);
     }
 
 
