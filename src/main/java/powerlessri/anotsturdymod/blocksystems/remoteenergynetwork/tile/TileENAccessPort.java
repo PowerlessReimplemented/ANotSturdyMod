@@ -56,7 +56,6 @@ public class TileENAccessPort extends TileENComponentBase implements ICapability
     public int receiveEnergy(int maxReceive, boolean simulate) {
         TileENController controller = getController();
         if (this.canReceive()) {
-
             int accepted = Math.min((int) controller.getCapacityLeft(), maxReceive);
             if (!simulate)
                 controller.energyStored += accepted;
@@ -70,7 +69,6 @@ public class TileENAccessPort extends TileENComponentBase implements ICapability
     public int extractEnergy(int maxExtract, boolean simulate) {
         TileENController controller = getController();
         if (this.canExtract()) {
-
             int removed = Math.min((int) controller.energyStored, maxExtract);
             if (!simulate)
                 controller.energyStored -= removed;

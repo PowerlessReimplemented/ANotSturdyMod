@@ -1,10 +1,8 @@
 package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile;
 
-import net.minecraft.crash.CrashReport;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ReportedException;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
-import powerlessri.anotsturdymod.library.Utils;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.storage.ControllerNetworkData;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 /**
@@ -16,7 +14,6 @@ public class TileENController extends TileEntityBase {
     public static class FakeTE extends TileENController {
 
         public FakeTE() {
-            this.isAlive = true;
         }
 
         @Override
@@ -27,11 +24,6 @@ public class TileENController extends TileEntityBase {
         @Override
         public int getChannel() {
             return 0;
-        }
-
-        @Override
-        public boolean isInitialized() {
-            return true;
         }
 
         @Override
@@ -74,22 +66,16 @@ public class TileENController extends TileEntityBase {
     public static final String STORAGE_UPGRADES = "storageUpgrades";
     public static final String STORAGE_ENERGY_REMAIN = "energyStored";
 
-    public static final int DEFAULT_CHANNEL = 0;
     public static final long DEFAULT_CAPACITY = 1000000000L;
-    public static final long STORAGE_UPGRADE_INCREMENT = 1000000L;
+    public static final long STORAGE_UPGRADE_INCREMENT = 10000000L;
     public static final int MAX_STORAGE_UPGRADES = 64;
 
 
-    private AnsmSavedData data;
-
-    /**
-     * {@code true} when is loaded, {@code false} when is not loaded.
-     */
-    public boolean isAlive = false;
+    private ControllerNetworkData data;
 
 
     /**
-     * A unique channel id (in the save). An allocated (non-default) channel is at least {@code 1}.
+     * A unique channel id (in the save). An allocated (non-default) channel that is at least {@code 1}.
      */
     public int channel;
 
@@ -104,7 +90,7 @@ public class TileENController extends TileEntityBase {
 
 
     public int getOrAllocChannel() {
-        if (!isInitialized()) {
+        if (!data.isChanelInitialized(channel)) {
             allocateChannel();
         }
 
@@ -115,20 +101,11 @@ public class TileENController extends TileEntityBase {
         return channel;
     }
 
-    public boolean isInitialized() {
-        return this.channel != 0;
-    }
-
 
     private void allocateChannel() {
-        channel = data.controllerNextChannel;
-        data.controllerNextChannel++;
-        data.markDirty();
-
-        // Increase the size, so ArrayList#get/set won't throw out IndexOutOfBoundsException
-        data.controllerTiles.add(null);
+        channel = data.getNextChannel();
         // Now it has a channel, put itself into the reference list.
-        updateDataReference();
+        onLoadServer();
     }
 
 
@@ -139,9 +116,9 @@ public class TileENController extends TileEntityBase {
      */
     public int installStorageUpgrade(int attempt) {
         int availableSlots = (int) (MAX_STORAGE_UPGRADES - amountStorageUpgrades);
-        int actualInsert = Math.min(availableSlots, attempt);
-        amountStorageUpgrades += actualInsert;
-        return actualInsert;
+        int actualInsertion = Math.min(availableSlots, attempt);
+        amountStorageUpgrades += actualInsertion;
+        return actualInsertion;
     }
 
 
@@ -150,49 +127,24 @@ public class TileENController extends TileEntityBase {
     }
 
     public long getCapacityLeft() {
-        return this.getCapacity() - this.energyStored;
+        return getCapacity() - energyStored;
     }
 
 
     @Override
     public void onLoadServer() {
         if (data == null) {
-            data = AnsmSavedData.fromWorld(world);
+            data = AnsmSavedData.fromWorld(world).controllerEN;
         }
 
-        // Wait until player activate this block (wait until it has a channel)
-        if (isInitialized()) {
-            // #channel actually starts at 1
-            if (channel < data.controllerTiles.size()) {
-                updateDataReference();
-            }
-        }
-
-        isAlive = true;
-    }
-
-    private void updateDataReference() {
-        // This step might cause an IndexOutOfBoundsException, if channel is NOT set by #getOrAllocChannel()
-        // but you're not suppose to do it other than #getOrAllocChannel(), so it's fine.
-        if (data.controllerTiles.get(channel) == null) {
-            data.controllerTiles.set(channel, this);
-        } else {
-            // When channel == DEFAULT_CHANNEL,
-            // data.controllerTiles[channel] will always be a FakeEnergyNetworkController
-            if (channel != DEFAULT_CHANNEL) {
-                String description = "Unexpected repeating channel from BlockEnergyController";
-                IllegalAccessException e = new IllegalAccessException(description);
-                CrashReport crashReport = CrashReport.makeCrashReport(e, description);
-
-                throw new ReportedException(crashReport);
-            }
+        if (data.isChannelAllocated(channel)) {
+            data.setControllerReference(this);
         }
     }
 
     @Override
     public void onChunkUnloadServer() {
-        data.controllerTiles.set(channel, null);
-        this.isAlive = false;
+        data.deleteControllerReference(channel);
     }
 
     @Override

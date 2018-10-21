@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.blocksystems.remoteenergynetwork.storage.ControllerNetworkData;
 import powerlessri.anotsturdymod.world.AnsmSavedData;
 
 public class TileENComponentBase extends TileEntityBase {
@@ -11,7 +12,7 @@ public class TileENComponentBase extends TileEntityBase {
     public static final String IO_UPGRADES = "ioUpgs";
 
 
-    protected AnsmSavedData data;
+    protected ControllerNetworkData data;
 
     protected int channel;
     protected int ioLimit;
@@ -30,7 +31,7 @@ public class TileENComponentBase extends TileEntityBase {
     @Override
     public void onLoadServer() {
         if (data == null) {
-            data = AnsmSavedData.fromWorld(getWorld());
+            data = AnsmSavedData.fromWorld(world).controllerEN;
         }
     }
 
