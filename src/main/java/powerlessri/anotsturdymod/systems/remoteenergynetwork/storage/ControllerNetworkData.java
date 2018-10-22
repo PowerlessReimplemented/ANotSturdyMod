@@ -53,7 +53,7 @@ public class ControllerNetworkData extends AbstractSubStorage {
      * @return {@code true} when != DEFAULT_CHANNEL
      *         {@code false} when == DEFAULT_CHANNEL
      */
-    public boolean isChanelInitialized(int channel) {
+    public boolean isChannelInitialized(int channel) {
         return channel != DEFAULT_CHANNEL;
     }
 
@@ -61,7 +61,7 @@ public class ControllerNetworkData extends AbstractSubStorage {
      * Test whether channel is in range of allocation or not.
      */
     public boolean isChannelAllocated(int channel) {
-        return isChanelInitialized(channel) && channel <= lastChannel;
+        return isChannelInitialized(channel) && channel <= lastChannel;
     }
 
     public boolean isControllerLoaded(IENetworkController controller) {

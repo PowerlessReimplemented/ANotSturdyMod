@@ -62,13 +62,13 @@ public class TileENComponentBase extends TileEntityBase {
 
 
     public boolean isControllerValid() {
-        return channel < data.controllers.size();
+        return data.isChannelAllocated(channel);
     }
 
     public IENetworkController getController() {
         // This channel has been allocated
         if (isControllerValid()) {
-            IENetworkController controller = data.controllers.get(this.channel);
+            IENetworkController controller = data.controllers.get(channel);
             if (controller != null) {
                 return controller;
             }

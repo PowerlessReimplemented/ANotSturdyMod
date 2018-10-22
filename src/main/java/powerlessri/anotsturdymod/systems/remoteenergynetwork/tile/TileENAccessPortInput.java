@@ -7,6 +7,9 @@ public class TileENAccessPortInput extends TileENAccessPort {
     public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_input");
 
 
+    public TileENAccessPortInput() {
+    }
+    
     public TileENAccessPortInput(int channel, int ioLimit) {
         super(channel, ioLimit);
     }

@@ -26,10 +26,11 @@ public class AnsmSavedData extends WorldSavedData {
     public static final String DATA_NAME = Reference.MODID + "_GeneralData";
 
 
-    public ControllerNetworkData controllerEN = new ControllerNetworkData(this);
+    public ControllerNetworkData controllerEN;
 
     public AnsmSavedData(String name) {
         super(name);
+        controllerEN = new ControllerNetworkData(this);
     }
 
 

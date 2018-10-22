@@ -115,7 +115,7 @@ public class TileENController extends TileEntityBase implements IENetworkControl
 
     @Override
     public int getOrAllocChannel() {
-        if (!data.isChanelInitialized(channel)) {
+        if (!data.isChannelInitialized(channel)) {
             allocateChannel();
         }
 

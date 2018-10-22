@@ -74,8 +74,8 @@ public class CommonProxy {
         registerItem(BlockEnergyController.STORAGE_UPGRADE);
         registerItem(BlockEnergyController.IO_UPGRADE);
         registerItem(new ItemTransmutationStone("transmutation_orb"));
-        registerItem(new ItemExchanger("exchanger", EMachineLevel.BASIC, 1));
-        registerItem(new ItemExchanger("exchanger", EMachineLevel.ADVANCED, 4));
+        registerItem(new ItemExchanger("exchanger", EMachineLevel.BASIC, 3));
+        registerItem(new ItemExchanger("exchanger", EMachineLevel.ADVANCED, 9));
         registerItem(new ItemIlluminator("illuminator", EMachineLevel.BASIC));
 
 
