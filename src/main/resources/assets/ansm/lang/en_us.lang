@@ -7,6 +7,7 @@ item.ansm:basic_exchanger.name=Basic Exchanger
 item.ansm:advanced_exchanger.name=Advanced Exchanger
 item.ansm:basic_illuminator.name=Illuminator (Basic)
 
+item.ansm.exchangers.inform.radius=Current radius:
 item.ansm.exchangers.error.tileEntity=Cannot exchange a tile entity!
 
 # Command usage

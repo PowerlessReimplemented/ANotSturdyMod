@@ -18,14 +18,14 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.handlers.init.ModItems;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
-import powerlessri.anotsturdymod.library.machines.EMachineLevel;
-import powerlessri.anotsturdymod.library.Reference;
-import powerlessri.anotsturdymod.library.Utils;
-import powerlessri.anotsturdymod.library.inventory.InventoryUtils;
-import powerlessri.anotsturdymod.library.tags.IEnumNBTTags;
-import powerlessri.anotsturdymod.library.tags.ITagBasedItem;
-import powerlessri.anotsturdymod.library.tags.TagUtils;
-import powerlessri.anotsturdymod.library.general.*;
+import powerlessri.anotsturdymod.varia.Reference;
+import powerlessri.anotsturdymod.varia.general.Utils;
+import powerlessri.anotsturdymod.varia.inventory.InventoryUtils;
+import powerlessri.anotsturdymod.varia.machines.EMachineLevel;
+import powerlessri.anotsturdymod.varia.tags.EnchantmentUtils;
+import powerlessri.anotsturdymod.varia.tags.IEnumNBTTags;
+import powerlessri.anotsturdymod.varia.tags.ITagBasedItem;
+import powerlessri.anotsturdymod.varia.tags.TagUtils;
 
 public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
