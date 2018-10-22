@@ -29,7 +29,7 @@ public class GuiEnergyIOAccess extends GuiContainer {
 
     protected static final int CHANNEL_BTN_WIDTH = 21;
     protected static final int CHANNEL_BTN_HEIGHT = 14;
-    private static final int[] BUTTON_OPERATION_VALUES = new int[]{-10, -1, 1, 10};
+    private static final int[] BUTTON_OPERATION_VALUES = new int[] {-10, -1, 1, 10};
 
 
     protected int centerX;
@@ -83,8 +83,8 @@ public class GuiEnergyIOAccess extends GuiContainer {
 
         // Sync channel to server
         NetworkHelper.sendServerCommand(
-                TileENAccessPort.SET_CHANNEL,
-                TileENAccessPort.makeSetChannelArgs(Minecraft.getMinecraft().player.dimension, tilePos.getX(), tilePos.getY(), tilePos.getZ(), container.channel));
+                TileENComponentBase.SET_CHANNEL,
+                TileENComponentBase.makeSetChannelArgs(Minecraft.getMinecraft().player.dimension, tilePos.getX(), tilePos.getY(), tilePos.getZ(), container.channel));
     }
 
     @Override

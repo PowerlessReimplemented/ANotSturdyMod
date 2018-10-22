@@ -239,7 +239,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
         }
 
         Block block = state.getBlock();
-        return new ItemStack(block.getItemDropped(state, rand, fortuneLevel), count);
+        return new ItemStack(block.getItemDropped(state, rand, fortuneLevel), count, block.getMetaFromState(state));
     }
 
 

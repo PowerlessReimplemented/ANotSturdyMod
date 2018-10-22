@@ -33,10 +33,6 @@ public class Utils {
         return result == null ? "" : result;
     }
 
-    public static String readCommand(String command, String suffix) {
-        return readFromLang(Reference.COMMAND_RESOURCE_PATH_PREFIX + command + "." + suffix);
-    }
-
 
     public static ResourceLocation locationOf(String path) {
         return locationOf(Reference.DOMAIN_MINECRAFT, path);

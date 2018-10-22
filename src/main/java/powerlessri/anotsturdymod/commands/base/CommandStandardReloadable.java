@@ -14,6 +14,7 @@ import java.util.function.BiConsumer;
 
 public abstract class CommandStandardReloadable extends CommandBase implements IResourcesReloadable {
 
+    public static final String PREFIX_COMMANDS = "command.ansm:";
     public static final String SUFFIX_KEYWORD = "keyword";
     public static final String SUFFIX_USAGE = "usage";
     public static final String SUFFIX_UNKOWN_SYNTAX = "unkownSyntax";
@@ -26,9 +27,9 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
     protected boolean useModIDPrefix;
     protected char prefixSeparator;
 
-    protected String usage;
-    protected String errorUnkownSyntax;
-    protected String errorParsing;
+    protected String usage = "";
+    protected String errorUnkownSyntax = "";
+    protected String errorParsing = "";
 
     public CommandStandardReloadable(String keyword) {
         this.options = new HashMap<String, BiConsumer<ICommandSender, String[]>>();
@@ -43,11 +44,11 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
 
     @Override
     public String getName() {
-        if (this.useModIDPrefix) {
-            return Reference.MODID + this.prefixSeparator + this.keyword;
+        if (useModIDPrefix) {
+            return Reference.MODID + prefixSeparator + keyword;
         }
 
-        return this.keyword;
+        return keyword;
     }
 
     @Override
@@ -59,7 +60,7 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
      * Message when option does not exist
      */
     public String getUnkownSyntax(ICommandSender sender) {
-        return this.errorUnkownSyntax;
+        return errorUnkownSyntax.isEmpty() ? usage : errorUnkownSyntax;
     }
 
 
@@ -75,16 +76,21 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
 
     @Override
     public void reload() {
-        this.setupUsageFromLang();
-        this.setupUnkownSyntaxFromLang();
+        setupUsageFromLang();
+        setupUnknownSyntaxFromLang();
     }
 
     protected void setupUsageFromLang() {
-        this.usage = Utils.readCommand(this.keyword, SUFFIX_USAGE);
+        usage = Utils.readFromLang(PREFIX_COMMANDS + keyword + "." + SUFFIX_USAGE);
     }
 
-    protected void setupUnkownSyntaxFromLang() {
-        this.errorUnkownSyntax = Utils.readCommand(this.keyword, SUFFIX_UNKOWN_SYNTAX);
+    protected void setupUnknownSyntaxFromLang() {
+        String key = PREFIX_COMMANDS + keyword + "." + SUFFIX_UNKOWN_SYNTAX;
+        errorUnkownSyntax = Utils.readFromLang(key);
+        
+        if (key.equals(errorUnkownSyntax)) {
+            errorUnkownSyntax = usage;
+        }
     }
 
 }

@@ -112,7 +112,7 @@ public interface IEnumNBTTags<T> {
             CrashReport crashReport = CrashReport.makeCrashReport(e,
                     e instanceof UnexpectedTypeException ? "Didn't specify tag type"
                             : e instanceof ClassCastException ? "Specified type mismatched with real type"
-                            : "Unkown issue occured on default setTag method");
+                            : "Unknown issue occurred on default setTag method");
 
             throw new ReportedException(crashReport);
         }

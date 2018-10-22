@@ -11,10 +11,10 @@ item.ansm.exchangers.inform.radius=Current radius:
 item.ansm.exchangers.error.tileEntity=Cannot exchange a tile entity!
 
 # Command usage
-command.ansm:debug.usage=Usage: /ansm_debug <option> [appends...]
-command.ansm:debug.hand.id.outputDescription=Item CodeID: 
-command.ansm:debug.hand.meta.outputDescription=Item Meta: 
-command.ansm:debug.hand.nbt.outputDescription=Item NBT: 
+command.ansm:utils.usage=Usage: /ansm_debug <option> [appends...]
+command.ansm:utils.hand.id.outputDescription=Item CodeID: 
+command.ansm:utils.hand.meta.outputDescription=Item Meta: 
+command.ansm:utils.hand.nbt.outputDescription=Item NBT: 
 
 # Gui button names
 gui.ansm:wireless_transmitter.button.scanNearbyTiles=Scan nearby tiles

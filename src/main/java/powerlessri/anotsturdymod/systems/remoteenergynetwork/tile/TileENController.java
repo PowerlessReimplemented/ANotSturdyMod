@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.systems.remoteenergynetwork.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.systems.remoteenergynetwork.IENetworkController;
 import powerlessri.anotsturdymod.systems.remoteenergynetwork.storage.ControllerNetworkData;
 import powerlessri.anotsturdymod.world.data.AnsmSavedData;
@@ -91,6 +92,8 @@ public class TileENController extends TileEntityBase implements IENetworkControl
     }
 
 
+    public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_controller");
+    
     // NBT tags
     public static final String CHANNEL = "storageChannel";
     public static final String STORAGE_UPGRADES = "storageUpgrades";
