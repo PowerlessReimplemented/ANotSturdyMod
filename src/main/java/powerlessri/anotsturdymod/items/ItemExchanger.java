@@ -10,7 +10,10 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -109,14 +112,10 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
         NBTTagCompound tag = exchanger.getTagCompound();
 
         int radius = tag.getByte(EnumTags.RADIUS.key);
-        boolean isSilkTouch = isSilkTouch(exchanger);
-
-        int fortuneLevel = 0;
+        boolean isSilkTouch = EnchantmentUtils.hasEnchantment(exchanger, Enchantments.SILK_TOUCH, -1);
         // Forget about fortune if it's already silk touch
-        if (!isSilkTouch) {
-            fortuneLevel = EnchantmentUtils.getEnchantLevel(exchanger, Enchantments.FORTUNE);
-        }
-        
+        int fortuneLevel = isSilkTouch ? 0 : EnchantmentUtils.getEnchantLevel(exchanger, Enchantments.FORTUNE);
+
         IBlockState replacementBlock = TagUtils.readBlockData(tag);
         IBlockState exchangeSource = world.getBlockState(posHit);
         if (!this.isBlockValid(exchangeSource)) {
@@ -153,9 +152,9 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
             if (quantityAvailable <= blockAffected) {
                 return EnumActionResult.FAIL;
             }
-            
+
             InventoryUtils.forceTakeItems(player.inventory, replacementStack, blockAffected);
-            
+
             int quantityDropped = getQuantityDropped(world, posList, exchangeSource, isSilkTouch, fortuneLevel);
             player.inventory.addItemStackToInventory(createItemStackDropped(exchangeSource, world.rand, isSilkTouch, fortuneLevel, quantityDropped));
 
@@ -173,11 +172,6 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
                 new TextComponentString(Utils.readFromLang("item.ansm.exchangers.error.tileEntity"))
                         .setStyle(Reference.STYLE_RED),
                 true);
-    }
-
-
-    private boolean isSilkTouch(ItemStack exchanger) {
-        return EnchantmentUtils.hasEnchantment(exchanger, Enchantments.SILK_TOUCH, -1);
     }
 
     /**
@@ -252,12 +246,11 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        if (enchantment == Enchantments.SILK_TOUCH) {
+        if (enchantment == Enchantments.SILK_TOUCH || enchantment == Enchantments.FORTUNE) {
             return true;
         }
         return super.canApplyAtEnchantingTable(stack, enchantment);
     }
-
 
     // ================================ //
 

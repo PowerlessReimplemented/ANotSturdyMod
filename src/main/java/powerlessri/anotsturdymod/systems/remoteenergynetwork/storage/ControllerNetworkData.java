@@ -51,7 +51,7 @@ public class ControllerNetworkData extends AbstractSubStorage {
      * Test if the channel given is appropriate or not. Ignores allocation range.
      *
      * @return {@code true} when != DEFAULT_CHANNEL
-     *         {@code false} when == DEFAULT_CHANNEL
+     * {@code false} when == DEFAULT_CHANNEL
      */
     public boolean isChannelInitialized(int channel) {
         return channel != DEFAULT_CHANNEL;
@@ -75,6 +75,7 @@ public class ControllerNetworkData extends AbstractSubStorage {
 
     /**
      * Put given controller tile into reference list <b>if</b> the reference is clear.
+     *
      * @see #setControllerReference
      */
     public void trySetControllerReference(IENetworkController controller) {

@@ -28,7 +28,7 @@ public abstract class AbstractSubStorage implements IStringSerializable, INBTSer
 
     /**
      * Deserialize data from the parent tag. <br /><br />
-     *
+     * <p>
      * Equivalent to get actual tag: {@code tag.getCompoundTag(getName())} <br />
      * and then call AbstractSubStorage#deserializeNBT.
      *

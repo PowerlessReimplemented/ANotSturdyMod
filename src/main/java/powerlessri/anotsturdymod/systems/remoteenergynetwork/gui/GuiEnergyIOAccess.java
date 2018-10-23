@@ -6,11 +6,10 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 import powerlessri.anotsturdymod.systems.remoteenergynetwork.gui.container.ContainerEnergyIOAccess;
-import powerlessri.anotsturdymod.systems.remoteenergynetwork.tile.TileENAccessPort;
 import powerlessri.anotsturdymod.systems.remoteenergynetwork.tile.TileENComponentBase;
 import powerlessri.anotsturdymod.varia.Reference;
-import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 
 import java.io.IOException;
 
@@ -29,7 +28,7 @@ public class GuiEnergyIOAccess extends GuiContainer {
 
     protected static final int CHANNEL_BTN_WIDTH = 21;
     protected static final int CHANNEL_BTN_HEIGHT = 14;
-    private static final int[] BUTTON_OPERATION_VALUES = new int[] {-10, -1, 1, 10};
+    private static final int[] BUTTON_OPERATION_VALUES = new int[]{-10, -1, 1, 10};
 
 
     protected int centerX;

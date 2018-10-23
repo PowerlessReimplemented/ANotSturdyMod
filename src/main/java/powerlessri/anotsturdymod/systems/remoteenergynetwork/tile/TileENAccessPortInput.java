@@ -9,7 +9,7 @@ public class TileENAccessPortInput extends TileENAccessPort {
 
     public TileENAccessPortInput() {
     }
-    
+
     public TileENAccessPortInput(int channel, int ioLimit) {
         super(channel, ioLimit);
     }

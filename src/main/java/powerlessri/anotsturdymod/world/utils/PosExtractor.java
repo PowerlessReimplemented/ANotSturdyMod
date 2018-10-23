@@ -9,7 +9,7 @@ public class PosExtractor {
     /**
      * Get all blocks on a plane with {@code radius} * 2 + 1 side length, parallel
      * with {@code sideHit}. <br />
-     *
+     * <p>
      * {@code sideHit} = <b>UP/DOWN</b>: BlockPos with same y <br />
      * {@code sideHit} = <b>NORTH/SOUTH</b>: BlockPos with same z <br />
      * {@code sideHit} = <b>EAST/WEST</b>: BlockPos with same x <br />
@@ -31,7 +31,6 @@ public class PosExtractor {
 
         return BlockPos.getAllInBox(originalPos, originalPos);
     }
-
 
 
     protected PosExtractor() {

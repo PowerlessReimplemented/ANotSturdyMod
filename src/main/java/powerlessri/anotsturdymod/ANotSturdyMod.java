@@ -10,9 +10,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import powerlessri.anotsturdymod.handlers.proxy.CommonProxy;
 import powerlessri.anotsturdymod.handlers.ModGuiHandler;
 import powerlessri.anotsturdymod.handlers.init.ModCommands;
+import powerlessri.anotsturdymod.handlers.proxy.CommonProxy;
 import powerlessri.anotsturdymod.varia.Reference;
 import powerlessri.anotsturdymod.varia.general.Utils;
 

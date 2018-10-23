@@ -93,7 +93,7 @@ public class TileENController extends TileEntityBase implements IENetworkControl
 
 
     public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_controller");
-    
+
     // NBT tags
     public static final String CHANNEL = "storageChannel";
     public static final String STORAGE_UPGRADES = "storageUpgrades";

@@ -1,5 +1,13 @@
 # Block names
 tile.ansm:infinite_cobble_generator.name=Infinite Cobblestone Generator
+tile.ansm:energy_network_controller.name=Remote ENetwork Controller
+tile.ansm:energy_network_input_port.name=Remote ENetwork Input Port
+tile.ansm:energy_network_output_port.name=Remote ENetwork Output Port
+tile.ansm:energy_network_wireless_transmitter.name=Remote ENetwork Wireless Transmitter
+
+# Block related item names
+item.ansm:energy_network_storage_upgrade.name=Energy Storage Upgrade (Capacity)
+item.ansm:energy_network_io_upgrade.name=Energy Storage Upgrade (IO Limit)
 
 # Item names
 item.ansm:transmutation_orb.name=Orb of Transmutations

@@ -3,11 +3,11 @@ package powerlessri.anotsturdymod.systems.remoteenergynetwork.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.text.TextComponentString;
+import powerlessri.anotsturdymod.network.PacketServerCommand;
+import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 import powerlessri.anotsturdymod.systems.remoteenergynetwork.gui.container.ContainerEnergyIOAccess;
 import powerlessri.anotsturdymod.systems.remoteenergynetwork.tile.TileENWirelessTransmitter;
 import powerlessri.anotsturdymod.varia.general.Utils;
-import powerlessri.anotsturdymod.network.PacketServerCommand;
-import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 
 import java.io.IOException;
 

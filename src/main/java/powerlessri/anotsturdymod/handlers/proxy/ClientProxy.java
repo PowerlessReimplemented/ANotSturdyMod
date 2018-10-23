@@ -8,7 +8,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import powerlessri.anotsturdymod.handlers.reloaders.ClientReloadHandler;
 
 public class ClientProxy extends CommonProxy {
 
@@ -32,7 +31,6 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void modInit() {
-        this.reloadHandler = new ClientReloadHandler();
     }
 
     @Override

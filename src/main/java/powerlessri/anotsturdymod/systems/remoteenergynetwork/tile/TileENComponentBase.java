@@ -20,8 +20,8 @@ import powerlessri.anotsturdymod.varia.tags.TagUtils;
 import powerlessri.anotsturdymod.world.data.AnsmSavedData;
 
 public class TileENComponentBase extends TileEntityBase {
-    
-    public static final String  TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_access_port");
+
+    public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_access_port");
 
     // NBT tag keys
     public static final String IO_LIMIT = "ioLm";

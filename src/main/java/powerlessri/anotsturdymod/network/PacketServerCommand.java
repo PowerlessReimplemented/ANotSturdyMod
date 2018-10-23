@@ -6,9 +6,9 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import powerlessri.anotsturdymod.varia.tags.TagUtils;
-import powerlessri.anotsturdymod.varia.general.Utils;
 import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
+import powerlessri.anotsturdymod.varia.general.Utils;
+import powerlessri.anotsturdymod.varia.tags.TagUtils;
 
 import java.util.HashMap;
 import java.util.function.BiConsumer;

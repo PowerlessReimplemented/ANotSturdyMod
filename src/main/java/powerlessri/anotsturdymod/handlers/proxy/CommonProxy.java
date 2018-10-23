@@ -9,17 +9,13 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.systems.remoteenergynetwork.blocks.BlockEnergyAccessPort;
-import powerlessri.anotsturdymod.systems.remoteenergynetwork.blocks.BlockEnergyController;
 import powerlessri.anotsturdymod.blocks.BlockInfiniteCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
 import powerlessri.anotsturdymod.blocks.base.BlockBase;
 import powerlessri.anotsturdymod.blocks.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
-import powerlessri.anotsturdymod.systems.remoteenergynetwork.tile.*;
-import powerlessri.anotsturdymod.blocks.tile.*;
+import powerlessri.anotsturdymod.blocks.tile.TileCobbleGenerator;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
-import powerlessri.anotsturdymod.handlers.reloaders.CommonReloadHandler;
 import powerlessri.anotsturdymod.handlers.ModGuiHandler;
 import powerlessri.anotsturdymod.handlers.init.ModBlocks;
 import powerlessri.anotsturdymod.handlers.init.ModCommands;
@@ -30,14 +26,15 @@ import powerlessri.anotsturdymod.items.ItemTransmutationStone;
 import powerlessri.anotsturdymod.items.base.ItemBase;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
-import powerlessri.anotsturdymod.varia.machines.EMachineLevel;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
 import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
+import powerlessri.anotsturdymod.systems.remoteenergynetwork.blocks.BlockEnergyAccessPort;
+import powerlessri.anotsturdymod.systems.remoteenergynetwork.blocks.BlockEnergyController;
+import powerlessri.anotsturdymod.systems.remoteenergynetwork.tile.*;
+import powerlessri.anotsturdymod.varia.machines.EMachineLevel;
 
 public class CommonProxy {
-
-    public CommonReloadHandler reloadHandler;
 
 
     // ClientSide-only stuffs
@@ -52,7 +49,6 @@ public class CommonProxy {
      * Initializing mod stuffs that are side-dependent.
      */
     public void modInit() {
-        this.reloadHandler = new CommonReloadHandler();
     }
 
     public void preInit(FMLPreInitializationEvent event) {

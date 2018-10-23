@@ -2,6 +2,6 @@
   "parent": "block/cube_column",
   "textures": {
     "end": "minecraft:blocks/cobblestone",
-    "side": "ansm:blocks/cobblestone_generator_simple_side"
+    "side": "ansm:blocks/cobblestone_generator_side"
   }
 }

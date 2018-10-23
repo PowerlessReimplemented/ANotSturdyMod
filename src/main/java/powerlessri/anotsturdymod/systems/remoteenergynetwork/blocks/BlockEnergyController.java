@@ -13,8 +13,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.base.TileBlockBase;
-import powerlessri.anotsturdymod.systems.remoteenergynetwork.tile.TileENController;
 import powerlessri.anotsturdymod.items.ItemUpgrade;
+import powerlessri.anotsturdymod.systems.remoteenergynetwork.tile.TileENController;
 
 // TODO add model & texture
 public class BlockEnergyController extends TileBlockBase {

@@ -6,9 +6,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-import powerlessri.anotsturdymod.systems.remoteenergynetwork.gui.container.ContainerEnergyIOAccess;
 import powerlessri.anotsturdymod.systems.remoteenergynetwork.gui.GuiENWirelessTransmitter;
 import powerlessri.anotsturdymod.systems.remoteenergynetwork.gui.GuiEnergyIOAccess;
+import powerlessri.anotsturdymod.systems.remoteenergynetwork.gui.container.ContainerEnergyIOAccess;
 import powerlessri.anotsturdymod.systems.remoteenergynetwork.tile.TileENComponentBase;
 
 import javax.annotation.Nullable;

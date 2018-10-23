@@ -19,10 +19,10 @@ import java.util.function.BiConsumer;
  * @author root-user
  */
 public class CommandAnsmUtils extends CommandStandardReloadable {
-    
+
     public static final String CMD_HAND = "hand";
     public static final String OUTPUT_DESCRIPTION = ".outputDescription";
-    
+
     public final String LANG_HAND_ID = PREFIX_COMMANDS + keyword + "." + CMD_HAND + ".id" + OUTPUT_DESCRIPTION;
     public final String LANG_HAND_META = PREFIX_COMMANDS + keyword + "." + CMD_HAND + ".meta" + OUTPUT_DESCRIPTION;
     public final String LANG_HAND_NBT = PREFIX_COMMANDS + keyword + "." + CMD_HAND + ".nbt" + OUTPUT_DESCRIPTION;
@@ -65,7 +65,7 @@ public class CommandAnsmUtils extends CommandStandardReloadable {
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
-            if(args.length > 0) {
+            if (args.length > 0) {
                 matchOptions(sender, args[0], Arrays.copyOfRange(args, 1, args.length));
             } else {
                 sendUnkownSyntax(sender);

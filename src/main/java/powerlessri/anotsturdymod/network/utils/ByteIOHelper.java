@@ -5,8 +5,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
-import powerlessri.anotsturdymod.varia.tags.TagUtils;
 import powerlessri.anotsturdymod.varia.general.Utils;
+import powerlessri.anotsturdymod.varia.tags.TagUtils;
 
 import javax.annotation.Nullable;
 import java.io.IOException;

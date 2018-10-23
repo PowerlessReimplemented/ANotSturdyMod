@@ -1,0 +1,8 @@
+{
+  "forge-marker": 1,
+  "variants": {
+    "normal": {
+      "model": "ansm:en_access_port_input"
+    }
+  }
+}

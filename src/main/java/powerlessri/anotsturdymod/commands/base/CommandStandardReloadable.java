@@ -2,8 +2,6 @@ package powerlessri.anotsturdymod.commands.base;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.handlers.reloaders.IResourcesReloadable;
 import powerlessri.anotsturdymod.varia.Reference;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
@@ -12,7 +10,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 
-public abstract class CommandStandardReloadable extends CommandBase implements IResourcesReloadable {
+public abstract class CommandStandardReloadable extends CommandBase {
 
     public static final String PREFIX_COMMANDS = "command.ansm:";
     public static final String SUFFIX_KEYWORD = "keyword";
@@ -37,8 +35,6 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
 
         this.useModIDPrefix = false;
         this.prefixSeparator = ':';
-
-        ANotSturdyMod.proxy.reloadHandler.addLang(this);
     }
 
 
@@ -74,7 +70,6 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
     }
 
 
-    @Override
     public void reload() {
         setupUsageFromLang();
         setupUnknownSyntaxFromLang();
@@ -87,7 +82,7 @@ public abstract class CommandStandardReloadable extends CommandBase implements I
     protected void setupUnknownSyntaxFromLang() {
         String key = PREFIX_COMMANDS + keyword + "." + SUFFIX_UNKOWN_SYNTAX;
         errorUnkownSyntax = Utils.readFromLang(key);
-        
+
         if (key.equals(errorUnkownSyntax)) {
             errorUnkownSyntax = usage;
         }

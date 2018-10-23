@@ -5,8 +5,8 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ReportedException;
 import net.minecraftforge.common.util.Constants;
-import powerlessri.anotsturdymod.varia.general.IIntegerSerializable;
 import powerlessri.anotsturdymod.varia.exceptions.UnexpectedTypeException;
+import powerlessri.anotsturdymod.varia.general.IIntegerSerializable;
 
 
 /**

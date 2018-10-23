@@ -8,11 +8,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import powerlessri.anotsturdymod.systems.remoteenergynetwork.IENetworkController;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
-import powerlessri.anotsturdymod.varia.tags.TagUtils;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
+import powerlessri.anotsturdymod.systems.remoteenergynetwork.IENetworkController;
+import powerlessri.anotsturdymod.varia.tags.TagUtils;
 
 import java.util.ArrayList;
 import java.util.List;

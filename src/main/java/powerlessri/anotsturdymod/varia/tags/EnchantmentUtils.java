@@ -13,12 +13,8 @@ public class EnchantmentUtils {
 
 
     public static boolean hasEnchantment(ItemStack stack, Enchantment target, int level) {
-        for (Map.Entry<Enchantment, Integer> enchant : EnchantmentHelper.getEnchantments(stack).entrySet()) {
-            if(enchant.getKey() == target && (enchant.getValue() == level || level == -1)) {
-                return true;
-            }
-        }
-        return false;
+        int enchantLevel = getEnchantLevel(stack, target);
+        return enchantLevel == level || (enchantLevel != 0 && level == -1);
     }
 
     public static int getEnchantLevel(ItemStack stack, Enchantment target) {

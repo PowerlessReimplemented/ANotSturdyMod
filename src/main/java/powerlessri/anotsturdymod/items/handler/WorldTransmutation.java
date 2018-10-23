@@ -118,7 +118,7 @@ public class WorldTransmutation {
 
             // For negative offset
             if (next < 0)
-                return targetTransm.at(targetTransm.members.length);
+                return targetTransm.at(targetTransm.members.length - 1);
 
             return targetTransm.at(next);
         }
