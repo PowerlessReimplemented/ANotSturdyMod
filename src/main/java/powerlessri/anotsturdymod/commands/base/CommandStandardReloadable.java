@@ -30,7 +30,7 @@ public abstract class CommandStandardReloadable extends CommandBase {
     protected String errorParsing = "";
 
     public CommandStandardReloadable(String keyword) {
-        this.options = new HashMap<String, BiConsumer<ICommandSender, String[]>>();
+        this.options = new HashMap<>();
         this.keyword = keyword;
 
         this.useModIDPrefix = false;
@@ -55,17 +55,17 @@ public abstract class CommandStandardReloadable extends CommandBase {
     /**
      * Message when option does not exist
      */
-    public String getUnkownSyntax(ICommandSender sender) {
+    public String getUnknownSyntax(ICommandSender sender) {
         return errorUnkownSyntax.isEmpty() ? usage : errorUnkownSyntax;
     }
 
 
-    public void sendUnkownSyntax(ICommandSender sender) {
-        sender.sendMessage(Utils.createStringRed(this.getUnkownSyntax(sender)));
+    public void sendUnknownSyntax(ICommandSender sender) {
+        sender.sendMessage(Utils.createStringRed(this.getUnknownSyntax(sender)));
     }
 
-    public void sendUnkownSyntax(ICommandSender sender, String description) {
-        sendUnkownSyntax(sender);
+    public void sendUnknownSyntax(ICommandSender sender, String description) {
+        sendUnknownSyntax(sender);
         sender.sendMessage(Utils.createStringRed(description));
     }
 

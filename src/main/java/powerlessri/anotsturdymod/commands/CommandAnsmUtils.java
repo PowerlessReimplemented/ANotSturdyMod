@@ -68,7 +68,7 @@ public class CommandAnsmUtils extends CommandStandardReloadable {
             if (args.length > 0) {
                 matchOptions(sender, args[0], Arrays.copyOfRange(args, 1, args.length));
             } else {
-                sendUnkownSyntax(sender);
+                sendUnknownSyntax(sender);
             }
         }
     }
@@ -77,7 +77,7 @@ public class CommandAnsmUtils extends CommandStandardReloadable {
         BiConsumer<ICommandSender, String[]> excution = this.options.get(option);
 
         if (excution == null) {
-            sendUnkownSyntax(sender);
+            sendUnknownSyntax(sender);
             return;
         }
 
