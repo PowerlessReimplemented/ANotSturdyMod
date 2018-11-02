@@ -7,13 +7,12 @@ import javax.annotation.Nullable;
 
 public interface IComponent {
     
-    void initialize(Gui gui, IComponent parent);
-
+    void initialize(GuiScreen gui, IComponent parent);
 
     /**
      * @return The GUI which this component belongs to
      */
-    Gui getGui();
+    GuiScreen getGui();
     
     /**
      * @return Parent component of itself, or {@code null} when it's a root component already
@@ -21,11 +20,15 @@ public interface IComponent {
     @Nullable
     IComponent getParentComponent();
     
-    
     default boolean isRootComponent() {
         return getParentComponent() == null;
     }
+    
+    
+    int getId();
 
+    int setId(int id);
+    
 
     /**
      * Get X position relative to top-left corner of parent component.
@@ -38,18 +41,13 @@ public interface IComponent {
      * If it has no parent component, this represents a absolute X position.
      */
     int getY();
+    
+    
+    int getAbsoluteX();
+    
+    int getAbsoluteY();
 
-    /**
-     * Set X position relative to top-left corner of parent component.
-     * If it has no parent component, this represents a absolute Y position.
-     */
-    void setX(int x);
-
-    /**
-     * Set Y position relative to top-left corner of parent component.
-     * If it has no parent component, this represents a absolute Y position.
-     */
-    void setY(int y);
+    void resetAbsolutePosition(int x, int y);
     
     
     int getZIndex();
@@ -57,21 +55,5 @@ public interface IComponent {
     void setZIndex(int zIndex);
     
     void draw();
-
-    /**
-     * A backup to {@link #draw()} which allows a custom (x, y) value.
-     */
-    default void draw(int x, int y) {
-        int oldX = getX();
-        int oldY = getY();
-        
-        setX(x);
-        setY(y);
-        
-        draw();
-        
-        setX(oldX);
-        setY(oldY);
-    }
     
 }
