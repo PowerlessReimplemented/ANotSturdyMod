@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.blocks.gui.apiimpl;
+package powerlessri.anotsturdymod.blocks.gui.mutable;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
@@ -18,6 +18,10 @@ import java.util.List;
  * <ol>
  *     <li>Ignores component's Z index, drawing order depends on order gets added into panel.</li>
  * </ol>
+ * 
+ * @deprecated Immutable component collector are usually a better choice, as they won't cause NullPointerExceptions. <br />
+ *             This implementation of a mutable component collection also have some performence issues, e.g. search
+ *             through all components every time to sort by z-index.
  */
 public class SimpleComponentCollection implements ICollectorContainer, Iterable<IComponent> {
 

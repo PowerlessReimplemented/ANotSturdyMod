@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.blocks.gui;
+package powerlessri.anotsturdymod.blocks.gui.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -32,7 +32,7 @@ public abstract class ContainerPlayerInventory extends Container {
         this.player = player;
     }
 
-    protected void addPlayerInventorySlots(int x, int y) {
+    public void addPlayerInventorySlots(int x, int y) {
         // The 3*9 storage panel
         // Slot ID: top-left = 9
         for (int i = 0, slotId = 9; i < PLAYER_INVENTORY_HEIGHT; i++) {

@@ -1,33 +1,27 @@
-package powerlessri.anotsturdymod.blocks.gui.apiimpl;
+package powerlessri.anotsturdymod.blocks.gui.immutable;
 
+import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
+import powerlessri.anotsturdymod.blocks.gui.api.EDisplayMode;
 import powerlessri.anotsturdymod.blocks.gui.api.ICollectorContainer;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.IContainer;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ComponentRoot implements ICollectorContainer {
+public class ComponentRoot implements IContainer {
     
-    private List<IComponent> windows;
+    private ImmutableList<IComponent> windows;
     private int lastComponentId = -1;
     
     private GuiScreen gui;
 
-    public ComponentRoot(GuiScreen gui) {
+    public ComponentRoot(GuiScreen gui, ImmutableList<IComponent> windows) {
         this.gui = gui;
+        this.windows = windows;
     }
-
-
-    @Override
-    public void addComponent(IComponent window) {
-        window.setId(++lastComponentId);
-        windows.add(window);
-    }
-
-    @Override
-    public void deleteComponent(int id) {
-    }
+    
 
     @Override
     public List<IComponent> getComponents() {
@@ -41,6 +35,7 @@ public class ComponentRoot implements ICollectorContainer {
 
     @Override
     public void initialize(GuiScreen gui, IComponent parent) {
+        this.gui = gui;
     }
 
     @Override
@@ -97,10 +92,18 @@ public class ComponentRoot implements ICollectorContainer {
     public void setZIndex(int zIndex) {
     }
 
+    
+    @Override
+    public EDisplayMode getDisplay() {
+        return EDisplayMode.CUSTOM;
+    }
+    
     @Override
     public void draw() {
         for (IComponent window : windows) {
-            window.draw();
+            if (window.getDisplay() != EDisplayMode.NONE) {
+                window.draw();
+            }
         }
     }
     
