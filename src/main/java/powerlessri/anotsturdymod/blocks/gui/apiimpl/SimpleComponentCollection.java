@@ -5,7 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.blocks.gui.api.ICollectorContainer;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
 import powerlessri.anotsturdymod.blocks.gui.api.group.IPanel;
-import powerlessri.anotsturdymod.blocks.gui.base.TextureWrapper;
+import powerlessri.anotsturdymod.varia.inventory.TextureWrapper;
 import powerlessri.anotsturdymod.varia.inventory.GuiUtils;
 
 import javax.annotation.Nullable;

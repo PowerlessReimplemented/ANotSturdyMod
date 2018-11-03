@@ -4,7 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
-import powerlessri.anotsturdymod.systems.remoteenergynetwork.storage.ControllerNetworkData;
+import powerlessri.anotsturdymod.mechanisms.remote_enetwork.data.ControllerNetworkData;
 import powerlessri.anotsturdymod.varia.Reference;
 
 public class AnsmSavedData extends WorldSavedData {

@@ -14,6 +14,8 @@ import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.varia.machines.EMachineLevel;
 
 public class ItemIlluminator extends SimpleItemBase {
+    
+    private final IBlockState LIGHT_CUBE = ModBlocks.LIGHT_CUBE.getDefaultState();
 
     public ItemIlluminator(String name, EMachineLevel level) {
         super(level.getName() + "_" + name);
@@ -36,7 +38,7 @@ public class ItemIlluminator extends SimpleItemBase {
         Block placementParent = placementOriginal.getBlock();
 
         if (placementParent.isReplaceable(world, placementPos)) {
-            world.setBlockState(placementPos, ModBlocks.LIGHT_CUBE.getDefaultState());
+            world.setBlockState(placementPos, LIGHT_CUBE);
             return EnumActionResult.SUCCESS;
         }
 

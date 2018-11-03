@@ -97,14 +97,14 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
 
     private EnumActionResult selectTargetBlock(EntityPlayer player, ItemStack exchanger, IBlockState pointerBlock) {
-        if (isBlockValid(pointerBlock)) {
-            NBTTagCompound tag = exchanger.getTagCompound();
-            TagUtils.writeBlockData(tag, pointerBlock);
-            return EnumActionResult.SUCCESS;
+        if (!isBlockValid(pointerBlock)) {
+            sendTileEntityError(player);
+            return EnumActionResult.FAIL;
         }
-
-        this.sendTileEntityError(player);
-        return EnumActionResult.FAIL;
+        
+        NBTTagCompound tag = exchanger.getTagCompound();
+        TagUtils.writeBlockData(tag, pointerBlock);
+        return EnumActionResult.SUCCESS;
     }
 
     private EnumActionResult attemptExchange(EntityPlayer player, ItemStack exchanger, World world, BlockPos posHit,
@@ -159,9 +159,6 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
             player.inventory.addItemStackToInventory(createItemStackDropped(exchangeSource, world.rand, isSilkTouch, fortuneLevel, quantityDropped));
 
             replaceBlocks(world, posList, exchangeSource, replacementBlock);
-            Utils.getLogger().info("blockAffected = " + blockAffected);
-            Utils.getLogger().info("quantityAvailable = " + quantityAvailable);
-            Utils.getLogger().info("quantityDropped = " + quantityDropped);
             return EnumActionResult.SUCCESS;
         }
     }
