@@ -1,9 +1,9 @@
 package powerlessri.anotsturdymod.blocks.gui.immutable;
 
 import net.minecraft.client.gui.GuiScreen;
-import powerlessri.anotsturdymod.blocks.gui.api.EDisplayMode;
+import powerlessri.anotsturdymod.blocks.gui.api.render.EDisplayMode;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
-import powerlessri.anotsturdymod.blocks.gui.api.IRenderedComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.render.IRenderedComponent;
 
 import javax.annotation.Nullable;
 
@@ -54,6 +54,11 @@ public abstract class AbstractComponent implements IRenderedComponent {
     @Override
     public IComponent getParentComponent() {
         return parent;
+    }
+
+    @Override
+    public boolean isRootComponent() {
+        return false;
     }
 
     @Override

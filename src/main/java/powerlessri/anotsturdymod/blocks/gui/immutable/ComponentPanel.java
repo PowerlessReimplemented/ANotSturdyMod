@@ -3,7 +3,7 @@ package powerlessri.anotsturdymod.blocks.gui.immutable;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
-import powerlessri.anotsturdymod.blocks.gui.api.IRenderedComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.render.IRenderedComponent;
 import powerlessri.anotsturdymod.blocks.gui.api.group.IContainer;
 
 public class ComponentPanel extends AbstractComponent implements IContainer<IRenderedComponent> {

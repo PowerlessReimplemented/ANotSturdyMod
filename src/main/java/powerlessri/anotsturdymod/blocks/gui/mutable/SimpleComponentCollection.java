@@ -2,9 +2,9 @@ package powerlessri.anotsturdymod.blocks.gui.mutable;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
-import powerlessri.anotsturdymod.blocks.gui.api.EDisplayMode;
-import powerlessri.anotsturdymod.blocks.gui.api.IDisplayEntry;
-import powerlessri.anotsturdymod.blocks.gui.api.IRenderedComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.render.EDisplayMode;
+import powerlessri.anotsturdymod.blocks.gui.api.render.IDisplayEntry;
+import powerlessri.anotsturdymod.blocks.gui.api.render.IRenderedComponent;
 import powerlessri.anotsturdymod.blocks.gui.api.group.ICollectorContainer;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
 import powerlessri.anotsturdymod.varia.inventory.TextureWrapper;

@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import powerlessri.anotsturdymod.handlers.GuiHandler;
+import powerlessri.anotsturdymod.handlers.VanillaGuiHandler;
 import powerlessri.anotsturdymod.handlers.init.ModCommands;
 import powerlessri.anotsturdymod.handlers.proxy.CommonProxy;
 import powerlessri.anotsturdymod.varia.Reference;
@@ -32,7 +32,7 @@ public class ANotSturdyMod {
     public void preInit(FMLPreInitializationEvent event) {
         Utils.getLogger().info(Reference.MODID + " excuting preInit");
 
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new VanillaGuiHandler());
         genericChannel = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MODID + "main");
 
         proxy.modInit();

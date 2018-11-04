@@ -10,7 +10,6 @@ public class MathUtils {
     }
 
     public static int pow(int base, int exponent) {
-        // TODO own pow() implementation
         return (int) Math.pow(base, exponent);
     }
 

@@ -2,10 +2,10 @@ package powerlessri.anotsturdymod.blocks.gui.immutable;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
-import powerlessri.anotsturdymod.blocks.gui.api.EDisplayMode;
+import powerlessri.anotsturdymod.blocks.gui.api.render.EDisplayMode;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
-import powerlessri.anotsturdymod.blocks.gui.api.IDisplayEntry;
-import powerlessri.anotsturdymod.blocks.gui.api.IRenderedComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.render.IDisplayEntry;
+import powerlessri.anotsturdymod.blocks.gui.api.render.IRenderedComponent;
 import powerlessri.anotsturdymod.blocks.gui.api.group.IContainer;
 
 import javax.annotation.Nullable;
@@ -30,15 +30,13 @@ public class ComponentRoot implements IContainer, IDisplayEntry {
     @Override
     public void draw() {
         for (IRenderedComponent window : windows) {
-            if (window.getDisplay() != EDisplayMode.NONE) {
-                window.draw();
-            }
+            window.tryDraw();
         }
     }
     
 
     @Override
-    public List<IComponent> getComponents() {
+    public List<IRenderedComponent> getComponents() {
         return windows;
     }
 
@@ -62,7 +60,11 @@ public class ComponentRoot implements IContainer, IDisplayEntry {
     public IComponent getParentComponent() {
         return this;
     }
-    
+
+    @Override
+    public boolean isRootComponent() {
+        return true;
+    }
 
     @Override
     public int getId() {

@@ -95,7 +95,6 @@ public abstract class TileEntityBase extends TileEntity {
     }
 
 
-    //TODO complete nbt storage
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);

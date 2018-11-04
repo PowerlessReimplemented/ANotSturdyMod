@@ -18,7 +18,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class GuiHandler implements IGuiHandler {
+public class VanillaGuiHandler implements IGuiHandler {
 
     public static final int ENERGY_ACCESS_PORT = 0;
     public static final int ENERGY_WIRELESS_TRANSMITTER = 1;
@@ -27,26 +27,25 @@ public class GuiHandler implements IGuiHandler {
     private List<BiFunction<EntityPlayer, BlockPos, Container>> containerSupplier = new ArrayList<>();
     private List<Function<Container, GuiScreen>> guiSupplier = new ArrayList<>();
 
-    public GuiHandler() {
+    public VanillaGuiHandler() {
         BiFunction<EntityPlayer, BlockPos, Container> containerEnergyIOAccess = (player, pos) -> {
             TileENComponentBase tile = (TileENComponentBase) player.world.getTileEntity(pos);
             ContainerEnergyIOAccess container = new ContainerEnergyIOAccess(player, tile);
             return container;
         };
 
-        addGuiS(containerEnergyIOAccess,
+        addGuiSupplier(containerEnergyIOAccess,
                 (container) -> new GuiEnergyIOAccess((ContainerEnergyIOAccess) container));
-        addGuiS(containerEnergyIOAccess,
+        addGuiSupplier(containerEnergyIOAccess,
                 (container) -> new GuiENWirelessTransmitter((ContainerEnergyIOAccess) container));
     }
 
 
-    // regGuiS means 'register GUI supplier'
-    private void addGuiS(Supplier<GuiScreen> gui) {
-        addGuiS(null, (container) -> gui.get());
+    private void addGuiSupplier(Supplier<GuiScreen> gui) {
+        addGuiSupplier(null, (container) -> gui.get());
     }
 
-    private void addGuiS(BiFunction<EntityPlayer, BlockPos, Container> container, Function<Container, GuiScreen> gui) {
+    private void addGuiSupplier(BiFunction<EntityPlayer, BlockPos, Container> container, Function<Container, GuiScreen> gui) {
         containerSupplier.add(container);
         guiSupplier.add(gui);
     }

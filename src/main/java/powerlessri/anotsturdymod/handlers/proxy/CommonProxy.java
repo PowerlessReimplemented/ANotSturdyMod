@@ -16,7 +16,7 @@ import powerlessri.anotsturdymod.blocks.block.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.block.base.TileBlockBase;
 import powerlessri.anotsturdymod.mechanisms.cobblegen.tile.TileCobbleGenerator;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
-import powerlessri.anotsturdymod.handlers.GuiHandler;
+import powerlessri.anotsturdymod.handlers.VanillaGuiHandler;
 import powerlessri.anotsturdymod.handlers.init.ModBlocks;
 import powerlessri.anotsturdymod.handlers.init.ModCommands;
 import powerlessri.anotsturdymod.handlers.init.ModItems;
@@ -53,9 +53,9 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(BlockEnergyController.INSTANCE);
-        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPortInput(0, Integer.MAX_VALUE), GuiHandler.ENERGY_ACCESS_PORT));
-        registerBlock(new BlockEnergyAccessPort("energy_network_output_port", () -> new TileENAccessPortOutput(0, 5000), GuiHandler.ENERGY_ACCESS_PORT));
-        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", () -> new TileENWirelessTransmitter(0, 320), GuiHandler.ENERGY_WIRELESS_TRANSMITTER));
+        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPortInput(0, Integer.MAX_VALUE), VanillaGuiHandler.ENERGY_ACCESS_PORT));
+        registerBlock(new BlockEnergyAccessPort("energy_network_output_port", () -> new TileENAccessPortOutput(0, 5000), VanillaGuiHandler.ENERGY_ACCESS_PORT));
+        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", () -> new TileENWirelessTransmitter(0, 320), VanillaGuiHandler.ENERGY_WIRELESS_TRANSMITTER));
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
         registerBlock(new BlockLightCube("light_cube"));
 

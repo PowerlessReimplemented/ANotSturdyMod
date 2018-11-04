@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.blocks.gui.api;
+package powerlessri.anotsturdymod.blocks.gui.api.render;
 
 public enum EDisplayMode {
     

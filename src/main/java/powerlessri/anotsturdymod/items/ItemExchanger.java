@@ -30,7 +30,6 @@ import powerlessri.anotsturdymod.world.utils.PosExtractor;
 
 import java.util.Random;
 
-// TODO logic clean-up
 public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
     // Maximum radius for this type of exchanger
