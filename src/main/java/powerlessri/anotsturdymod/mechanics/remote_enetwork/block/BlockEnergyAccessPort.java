@@ -16,8 +16,6 @@ import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENComponentB
 
 import java.util.function.Supplier;
 
-// TODO use different classes for different type of components
-// TODO add models & textures for each component
 public class BlockEnergyAccessPort extends TileBlockBase {
 
     private final Supplier<TileENComponentBase> tileCreator;

@@ -73,7 +73,6 @@ public abstract class TileEntityBase extends TileEntity {
             handleUpdateTag(pckt.getNbtCompound());
             return;
         }
-        // TODO add server side updates
     }
 
     @Override
