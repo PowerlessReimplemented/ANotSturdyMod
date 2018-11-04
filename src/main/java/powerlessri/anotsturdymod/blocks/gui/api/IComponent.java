@@ -60,9 +60,4 @@ public interface IComponent {
 
     void setZIndex(int zIndex);
     
-    
-    EDisplayMode getDisplay();
-    
-    void draw();
-    
 }

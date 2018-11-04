@@ -3,16 +3,14 @@ package powerlessri.anotsturdymod.blocks.gui.immutable;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
-import powerlessri.anotsturdymod.blocks.gui.api.IContainer;
-import powerlessri.anotsturdymod.blocks.gui.api.group.IPanel;
+import powerlessri.anotsturdymod.blocks.gui.api.IRenderedComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.group.IContainer;
 
-import javax.annotation.Nullable;
-
-public class ComponentPanel extends AbstractComponent implements IContainer {
+public class ComponentPanel extends AbstractComponent implements IContainer<IRenderedComponent> {
     
-    protected ImmutableList<IComponent> components;
+    protected ImmutableList<IRenderedComponent> components;
     
-    public ComponentPanel(int x, int y, ImmutableList<IComponent> components) {
+    public ComponentPanel(int x, int y, ImmutableList<IRenderedComponent> components) {
         super(x, y);
         this.components = components;
     }
@@ -22,7 +20,7 @@ public class ComponentPanel extends AbstractComponent implements IContainer {
      * <b>WARNING!</b> This implementation returns an instance of {@link ImmutableList}
      */
     @Override
-    public ImmutableList<IComponent> getComponents() {
+    public ImmutableList<IRenderedComponent> getComponents() {
         return components;
     }
 
@@ -40,7 +38,7 @@ public class ComponentPanel extends AbstractComponent implements IContainer {
     
     @Override
     public void draw() {
-        for (IComponent component : components) {
+        for (IRenderedComponent component : components) {
             component.draw();
         }
     }

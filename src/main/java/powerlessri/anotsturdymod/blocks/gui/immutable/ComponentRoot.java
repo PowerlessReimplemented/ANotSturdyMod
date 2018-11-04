@@ -3,23 +3,37 @@ package powerlessri.anotsturdymod.blocks.gui.immutable;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.blocks.gui.api.EDisplayMode;
-import powerlessri.anotsturdymod.blocks.gui.api.ICollectorContainer;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
-import powerlessri.anotsturdymod.blocks.gui.api.IContainer;
+import powerlessri.anotsturdymod.blocks.gui.api.IDisplayEntry;
+import powerlessri.anotsturdymod.blocks.gui.api.IRenderedComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.group.IContainer;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ComponentRoot implements IContainer {
+public class ComponentRoot implements IContainer, IDisplayEntry {
     
-    private ImmutableList<IComponent> windows;
-    private int lastComponentId = -1;
-    
+    private ImmutableList<IRenderedComponent> windows;
     private GuiScreen gui;
 
-    public ComponentRoot(GuiScreen gui, ImmutableList<IComponent> windows) {
+    public ComponentRoot(GuiScreen gui, ImmutableList<IRenderedComponent> windows) {
         this.gui = gui;
         this.windows = windows;
+    }
+
+
+    @Override
+    public EDisplayMode getDisplay() {
+        return EDisplayMode.CUSTOM;
+    }
+
+    @Override
+    public void draw() {
+        for (IRenderedComponent window : windows) {
+            if (window.getDisplay() != EDisplayMode.NONE) {
+                window.draw();
+            }
+        }
     }
     
 
@@ -48,6 +62,7 @@ public class ComponentRoot implements IContainer {
     public IComponent getParentComponent() {
         return this;
     }
+    
 
     @Override
     public int getId() {
@@ -90,21 +105,6 @@ public class ComponentRoot implements IContainer {
 
     @Override
     public void setZIndex(int zIndex) {
-    }
-
-    
-    @Override
-    public EDisplayMode getDisplay() {
-        return EDisplayMode.CUSTOM;
-    }
-    
-    @Override
-    public void draw() {
-        for (IComponent window : windows) {
-            if (window.getDisplay() != EDisplayMode.NONE) {
-                window.draw();
-            }
-        }
     }
     
 }

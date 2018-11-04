@@ -2,9 +2,11 @@ package powerlessri.anotsturdymod.blocks.gui.mutable;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
-import powerlessri.anotsturdymod.blocks.gui.api.ICollectorContainer;
+import powerlessri.anotsturdymod.blocks.gui.api.EDisplayMode;
+import powerlessri.anotsturdymod.blocks.gui.api.IDisplayEntry;
+import powerlessri.anotsturdymod.blocks.gui.api.IRenderedComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.group.ICollectorContainer;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
-import powerlessri.anotsturdymod.blocks.gui.api.group.IPanel;
 import powerlessri.anotsturdymod.varia.inventory.TextureWrapper;
 import powerlessri.anotsturdymod.varia.inventory.GuiUtils;
 
@@ -14,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Simple {@link IPanel} implementation that: <br />
+ * Simple {@link ICollectorContainer} implementation that: <br />
  * <ol>
  *     <li>Ignores component's Z index, drawing order depends on order gets added into panel.</li>
  * </ol>
@@ -23,7 +25,7 @@ import java.util.List;
  *             This implementation of a mutable component collection also have some performence issues, e.g. search
  *             through all components every time to sort by z-index.
  */
-public class SimpleComponentCollection implements ICollectorContainer, Iterable<IComponent> {
+public class SimpleComponentCollection implements ICollectorContainer<IRenderedComponent>, IDisplayEntry, Iterable<IRenderedComponent> {
 
     private TextureWrapper background;
     
@@ -39,7 +41,7 @@ public class SimpleComponentCollection implements ICollectorContainer, Iterable<
     private int baseX;
     private int baseY;
     
-    private List<IComponent> components;
+    private List<IRenderedComponent> components;
     private int lastComponentID;
     
     public SimpleComponentCollection(ResourceLocation background, int startX, int startY, int width, int height, int componentX, int componentY) {
@@ -59,7 +61,7 @@ public class SimpleComponentCollection implements ICollectorContainer, Iterable<
 
 
     @Override
-    public void addComponent(IComponent component) {
+    public void addComponent(IRenderedComponent component) {
         reInitializeComponent(component);
         component.setId(++lastComponentID);
         
@@ -89,7 +91,7 @@ public class SimpleComponentCollection implements ICollectorContainer, Iterable<
     }
 
     @Override
-    public List<IComponent> getComponents() {
+    public List<IRenderedComponent> getComponents() {
         return components;
     }
 
@@ -167,6 +169,11 @@ public class SimpleComponentCollection implements ICollectorContainer, Iterable<
 
     
     @Override
+    public EDisplayMode getDisplay() {
+        return EDisplayMode.CUSTOM;
+    }
+    
+    @Override
     public void draw() {
         GuiUtils.resetGuiGlStates();
 
@@ -174,13 +181,13 @@ public class SimpleComponentCollection implements ICollectorContainer, Iterable<
             background.draw(gui, baseX, baseY);
         }
         
-        for (IComponent component : components) {
+        for (IRenderedComponent component : components) {
             component.draw();
         }
     }
 
 
-    private void reInitializeComponent(IComponent component) {
+    private void reInitializeComponent(IRenderedComponent component) {
         component.initialize(gui, this);
         component.resetAbsolutePosition(relativeX + component.getX(), relativeY + component.getY());
     }
@@ -192,7 +199,7 @@ public class SimpleComponentCollection implements ICollectorContainer, Iterable<
     
     
     @Override
-    public Iterator<IComponent> iterator() {
+    public Iterator<IRenderedComponent> iterator() {
         return components.iterator();
     }
     
