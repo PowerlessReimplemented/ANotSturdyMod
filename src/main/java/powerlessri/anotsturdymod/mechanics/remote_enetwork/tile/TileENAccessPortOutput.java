@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.mechanisms.remote_enetwork.tile;
+package powerlessri.anotsturdymod.mechanics.remote_enetwork.tile;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

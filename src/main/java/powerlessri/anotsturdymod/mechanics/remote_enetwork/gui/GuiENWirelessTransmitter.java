@@ -1,11 +1,11 @@
-package powerlessri.anotsturdymod.mechanisms.remote_enetwork.gui;
+package powerlessri.anotsturdymod.mechanics.remote_enetwork.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.text.TextComponentString;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.utils.NetworkHelper;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.tile.TileENWirelessTransmitter;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENWirelessTransmitter;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
 import java.io.IOException;

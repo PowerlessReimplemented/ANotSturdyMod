@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.mechanisms.remote_enetwork.tile;
+package powerlessri.anotsturdymod.mechanics.remote_enetwork.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -13,8 +13,8 @@ import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
 import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
 import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.IENetworkController;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.data.ControllerNetworkData;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.IENetworkController;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.data.ControllerNetworkData;
 import powerlessri.anotsturdymod.varia.general.Utils;
 import powerlessri.anotsturdymod.varia.tags.TagUtils;
 import powerlessri.anotsturdymod.world.data.AnsmSavedData;

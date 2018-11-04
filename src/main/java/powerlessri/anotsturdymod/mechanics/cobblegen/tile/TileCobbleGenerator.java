@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.mechanisms.cobblegen.tile;
+package powerlessri.anotsturdymod.mechanics.cobblegen.tile;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;

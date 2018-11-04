@@ -1,10 +1,10 @@
-package powerlessri.anotsturdymod.mechanisms.remote_enetwork.tile;
+package powerlessri.anotsturdymod.mechanics.remote_enetwork.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import powerlessri.anotsturdymod.blocks.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.IENetworkController;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.data.ControllerNetworkData;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.IENetworkController;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.data.ControllerNetworkData;
 import powerlessri.anotsturdymod.world.data.AnsmSavedData;
 
 /**

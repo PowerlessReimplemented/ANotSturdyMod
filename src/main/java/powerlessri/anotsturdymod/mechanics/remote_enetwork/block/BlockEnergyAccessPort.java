@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.mechanisms.remote_enetwork.block;
+package powerlessri.anotsturdymod.mechanics.remote_enetwork.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -12,7 +12,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.block.base.TileBlockBase;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.tile.TileENComponentBase;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENComponentBase;
 
 import java.util.function.Supplier;
 

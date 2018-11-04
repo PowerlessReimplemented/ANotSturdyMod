@@ -1,10 +1,10 @@
-package powerlessri.anotsturdymod.mechanisms.remote_enetwork.gui;
+package powerlessri.anotsturdymod.mechanics.remote_enetwork.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import powerlessri.anotsturdymod.blocks.gui.container.ContainerPlayerInventory;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.tile.TileENComponentBase;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENComponentBase;
 
 public class ContainerEnergyIOAccess extends ContainerPlayerInventory {
 

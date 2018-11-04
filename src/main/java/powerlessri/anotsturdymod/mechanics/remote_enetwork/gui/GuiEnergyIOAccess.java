@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.mechanisms.remote_enetwork.gui;
+package powerlessri.anotsturdymod.mechanics.remote_enetwork.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import powerlessri.anotsturdymod.network.utils.NetworkHelper;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.tile.TileENComponentBase;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENComponentBase;
 import powerlessri.anotsturdymod.varia.Reference;
 
 import java.io.IOException;

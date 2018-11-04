@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.mechanisms.cobblegen.block;
+package powerlessri.anotsturdymod.mechanics.cobblegen.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.block.base.TileBlockBase;
-import powerlessri.anotsturdymod.mechanisms.cobblegen.tile.TileCobbleGenerator;
+import powerlessri.anotsturdymod.mechanics.cobblegen.tile.TileCobbleGenerator;
 
 // TODO different cobblestone generators
 public class BlockInfiniteCobbleGenerator extends TileBlockBase {

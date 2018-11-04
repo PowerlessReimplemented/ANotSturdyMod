@@ -9,12 +9,12 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.mechanisms.cobblegen.block.BlockInfiniteCobbleGenerator;
-import powerlessri.anotsturdymod.mechanisms.decroative.BlockLightCube;
+import powerlessri.anotsturdymod.mechanics.cobblegen.block.BlockInfiniteCobbleGenerator;
+import powerlessri.anotsturdymod.mechanics.decroative.BlockLightCube;
 import powerlessri.anotsturdymod.blocks.block.base.BlockBase;
 import powerlessri.anotsturdymod.blocks.block.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.block.base.TileBlockBase;
-import powerlessri.anotsturdymod.mechanisms.cobblegen.tile.TileCobbleGenerator;
+import powerlessri.anotsturdymod.mechanics.cobblegen.tile.TileCobbleGenerator;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
 import powerlessri.anotsturdymod.handlers.VanillaGuiHandler;
 import powerlessri.anotsturdymod.handlers.init.ModBlocks;
@@ -29,9 +29,9 @@ import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
 import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.block.BlockEnergyAccessPort;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.block.BlockEnergyController;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.tile.*;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.block.BlockEnergyAccessPort;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.block.BlockEnergyController;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.*;
 import powerlessri.anotsturdymod.varia.machines.EMachineLevel;
 
 public class CommonProxy {

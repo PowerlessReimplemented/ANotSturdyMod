@@ -1,9 +1,9 @@
-package powerlessri.anotsturdymod.mechanisms.remote_enetwork.data;
+package powerlessri.anotsturdymod.mechanics.remote_enetwork.data;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.storage.WorldSavedData;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.IENetworkController;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.tile.TileENController;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.IENetworkController;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENController;
 import powerlessri.anotsturdymod.world.data.AbstractSubStorage;
 
 import java.util.ArrayList;

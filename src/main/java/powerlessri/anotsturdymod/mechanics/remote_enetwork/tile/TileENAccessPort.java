@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.mechanisms.remote_enetwork.tile;
+package powerlessri.anotsturdymod.mechanics.remote_enetwork.tile;
 
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -6,7 +6,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.IENetworkController;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.IENetworkController;
 
 import javax.annotation.Nullable;
 

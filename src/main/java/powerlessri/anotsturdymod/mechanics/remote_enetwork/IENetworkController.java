@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.mechanisms.remote_enetwork;
+package powerlessri.anotsturdymod.mechanics.remote_enetwork;
 
 public interface IENetworkController {
 

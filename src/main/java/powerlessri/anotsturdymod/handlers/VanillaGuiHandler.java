@@ -6,10 +6,10 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.gui.GuiENWirelessTransmitter;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.gui.GuiEnergyIOAccess;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.gui.ContainerEnergyIOAccess;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.tile.TileENComponentBase;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.gui.GuiENWirelessTransmitter;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.gui.GuiEnergyIOAccess;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.gui.ContainerEnergyIOAccess;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENComponentBase;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;

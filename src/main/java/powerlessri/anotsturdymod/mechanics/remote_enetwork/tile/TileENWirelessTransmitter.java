@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.mechanisms.remote_enetwork.tile;
+package powerlessri.anotsturdymod.mechanics.remote_enetwork.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
-import powerlessri.anotsturdymod.mechanisms.remote_enetwork.IENetworkController;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.IENetworkController;
 import powerlessri.anotsturdymod.varia.tags.TagUtils;
 
 import java.util.ArrayList;
