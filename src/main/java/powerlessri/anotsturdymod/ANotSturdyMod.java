@@ -1,6 +1,5 @@
 package powerlessri.anotsturdymod;
 
-import net.minecraft.command.CommandBase;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -10,11 +9,10 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import powerlessri.anotsturdymod.handlers.ComponentizedGuiHandler;
 import powerlessri.anotsturdymod.handlers.VanillaGuiHandler;
-import powerlessri.anotsturdymod.handlers.init.ModCommands;
 import powerlessri.anotsturdymod.handlers.proxy.CommonProxy;
 import powerlessri.anotsturdymod.varia.Reference;
-import powerlessri.anotsturdymod.varia.general.Utils;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class ANotSturdyMod {
@@ -30,9 +28,8 @@ public class ANotSturdyMod {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        Utils.getLogger().info(Reference.MODID + " excuting preInit");
-
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new VanillaGuiHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new ComponentizedGuiHandler()); // Ensuring all linked classes are loaded by FML before start searching for @TemplateProvider's
         genericChannel = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MODID + "main");
 
         proxy.modInit();
@@ -41,27 +38,17 @@ public class ANotSturdyMod {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        Utils.getLogger().info(Reference.MODID + " excuting init");
-
         proxy.init(event);
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        Utils.getLogger().info(Reference.MODID + " excuting postInit");
-
         proxy.postInit(event);
     }
 
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
-        Utils.getLogger().info(Reference.MODID + " excuting serverStarting");
-
         proxy.serverStarting(event);
-
-        for (CommandBase c : ModCommands.COMMANDS) {
-            event.registerServerCommand(c);
-        }
     }
 
 }

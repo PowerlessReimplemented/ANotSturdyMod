@@ -1,5 +1,7 @@
 package powerlessri.anotsturdymod.varia.general;
 
+import net.minecraft.crash.CrashReport;
+import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
@@ -25,6 +27,15 @@ public class Utils {
             logger = LogManager.getFormatterLogger(Reference.MODID);
         }
         return logger;
+    }
+
+    public static void report(Throwable cause) {
+        report(cause.getMessage(), cause);
+    }
+    
+    public static void report(String message, Throwable cause) {
+        CrashReport crashReport = CrashReport.makeCrashReport(cause, message);
+        throw new ReportedException(crashReport);
     }
 
 
