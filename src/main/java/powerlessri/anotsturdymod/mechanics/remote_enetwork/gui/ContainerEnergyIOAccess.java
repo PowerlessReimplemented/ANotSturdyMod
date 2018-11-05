@@ -11,26 +11,6 @@ import powerlessri.anotsturdymod.blocks.gui.container.ContainerPlayerInventory;
 import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENComponentBase;
 
 public class ContainerEnergyIOAccess extends ContainerPlayerInventory {
-
-    @TemplateProvider(id = "testGui")
-    public static ITemplate getGuiTemplate() {
-        return new ITemplate() {
-            @Override
-            public void applyParameters(EntityPlayer player, World world, int x, int y, int z) {
-                
-            }
-
-            @Override
-            public ContainerPlayerInventory getContainer() {
-                return null;
-            }
-
-            @Override
-            public ComponentizedGui getGui() {
-                return null;
-            }
-        };
-    }
     
     public EntityPlayer player;
     public TileENComponentBase tile;

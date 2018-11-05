@@ -13,7 +13,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.block.base.TileBlockBase;
-import powerlessri.anotsturdymod.items.ItemUpgrade;
+import powerlessri.anotsturdymod.mechanics.miscs.ItemUpgrade;
 import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENController;
 
 // TODO add model & texture

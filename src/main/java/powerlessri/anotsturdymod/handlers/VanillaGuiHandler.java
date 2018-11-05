@@ -6,10 +6,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-import powerlessri.anotsturdymod.mechanics.remote_enetwork.gui.GuiENWirelessTransmitter;
-import powerlessri.anotsturdymod.mechanics.remote_enetwork.gui.GuiEnergyIOAccess;
-import powerlessri.anotsturdymod.mechanics.remote_enetwork.gui.ContainerEnergyIOAccess;
-import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENComponentBase;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -18,6 +14,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@Deprecated
 public class VanillaGuiHandler implements IGuiHandler {
 
     public static final int ENERGY_ACCESS_PORT = 0;
@@ -28,16 +25,6 @@ public class VanillaGuiHandler implements IGuiHandler {
     private List<Function<Container, GuiScreen>> guiSupplier = new ArrayList<>();
 
     public VanillaGuiHandler() {
-        BiFunction<EntityPlayer, BlockPos, Container> containerEnergyIOAccess = (player, pos) -> {
-            TileENComponentBase tile = (TileENComponentBase) player.world.getTileEntity(pos);
-            ContainerEnergyIOAccess container = new ContainerEnergyIOAccess(player, tile);
-            return container;
-        };
-
-        addGuiSupplier(containerEnergyIOAccess,
-                (container) -> new GuiEnergyIOAccess((ContainerEnergyIOAccess) container));
-        addGuiSupplier(containerEnergyIOAccess,
-                (container) -> new GuiENWirelessTransmitter((ContainerEnergyIOAccess) container));
     }
 
 

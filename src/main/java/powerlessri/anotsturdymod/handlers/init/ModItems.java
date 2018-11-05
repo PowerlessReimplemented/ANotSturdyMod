@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import powerlessri.anotsturdymod.items.ItemExchanger;
 import powerlessri.anotsturdymod.items.ItemIlluminator;
 import powerlessri.anotsturdymod.items.ItemTransmutationStone;
-import powerlessri.anotsturdymod.items.ItemUpgrade;
+import powerlessri.anotsturdymod.mechanics.miscs.ItemUpgrade;
 
 import java.util.ArrayList;
 import java.util.List;

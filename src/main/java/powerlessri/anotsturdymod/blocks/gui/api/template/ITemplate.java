@@ -8,7 +8,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import powerlessri.anotsturdymod.blocks.gui.base.ComponentizedGui;
 import powerlessri.anotsturdymod.blocks.gui.container.ContainerPlayerInventory;
 
-public interface ITemplate extends IStringSerializable {
+public interface ITemplate {
 
     /**
      * Set parameters used to create GUI related objects.

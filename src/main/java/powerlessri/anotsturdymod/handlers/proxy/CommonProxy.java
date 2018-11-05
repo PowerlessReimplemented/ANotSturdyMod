@@ -6,14 +6,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.relauncher.Side;
 import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.mechanics.cobblegen.block.BlockInfiniteCobbleGenerator;
-import powerlessri.anotsturdymod.mechanics.decroative.BlockLightCube;
 import powerlessri.anotsturdymod.blocks.block.base.BlockBase;
 import powerlessri.anotsturdymod.blocks.block.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.blocks.block.base.TileBlockBase;
-import powerlessri.anotsturdymod.mechanics.cobblegen.tile.TileCobbleGenerator;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
-import powerlessri.anotsturdymod.handlers.VanillaGuiHandler;
 import powerlessri.anotsturdymod.handlers.init.ModBlocks;
 import powerlessri.anotsturdymod.handlers.init.ModCommands;
 import powerlessri.anotsturdymod.handlers.init.ModItems;
@@ -23,12 +19,15 @@ import powerlessri.anotsturdymod.items.ItemTransmutationStone;
 import powerlessri.anotsturdymod.items.base.ItemBase;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;
 import powerlessri.anotsturdymod.items.handler.WorldTransmutation;
-import powerlessri.anotsturdymod.network.PacketServerCommand;
-import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
-import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
+import powerlessri.anotsturdymod.mechanics.cobblegen.block.BlockInfiniteCobbleGenerator;
+import powerlessri.anotsturdymod.mechanics.cobblegen.tile.TileCobbleGenerator;
+import powerlessri.anotsturdymod.mechanics.miscs.BlockLightCube;
 import powerlessri.anotsturdymod.mechanics.remote_enetwork.block.BlockEnergyAccessPort;
 import powerlessri.anotsturdymod.mechanics.remote_enetwork.block.BlockEnergyController;
 import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.*;
+import powerlessri.anotsturdymod.network.PacketServerCommand;
+import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
+import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
 import powerlessri.anotsturdymod.varia.machines.EMachineLevel;
 
 public class CommonProxy {
@@ -54,9 +53,9 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(BlockEnergyController.INSTANCE);
-        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPortInput(0, Integer.MAX_VALUE), VanillaGuiHandler.ENERGY_ACCESS_PORT));
-        registerBlock(new BlockEnergyAccessPort("energy_network_output_port", () -> new TileENAccessPortOutput(0, 5000), VanillaGuiHandler.ENERGY_ACCESS_PORT));
-        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", () -> new TileENWirelessTransmitter(0, 320), VanillaGuiHandler.ENERGY_WIRELESS_TRANSMITTER));
+        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPortInput(0, Integer.MAX_VALUE), ANotSturdyMod.gui.keys.get("energy_io_access")));
+        registerBlock(new BlockEnergyAccessPort("energy_network_output_port", () -> new TileENAccessPortOutput(0, 5000), ANotSturdyMod.gui.keys.get("energy_io_access")));
+        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", () -> new TileENWirelessTransmitter(0, 320), ANotSturdyMod.gui.keys.get("energy_wireless_transmitter")));
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
         registerBlock(new BlockLightCube("light_cube"));
 

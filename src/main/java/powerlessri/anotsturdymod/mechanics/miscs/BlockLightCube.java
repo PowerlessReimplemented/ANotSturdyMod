@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.mechanics.decroative;
+package powerlessri.anotsturdymod.mechanics.miscs;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;

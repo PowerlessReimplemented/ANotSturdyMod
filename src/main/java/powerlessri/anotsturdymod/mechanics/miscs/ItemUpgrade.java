@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.items;
+package powerlessri.anotsturdymod.mechanics.miscs;
 
 import net.minecraft.creativetab.CreativeTabs;
 import powerlessri.anotsturdymod.items.base.SimpleItemBase;

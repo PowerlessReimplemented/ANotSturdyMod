@@ -22,8 +22,7 @@ public class ANotSturdyMod {
 
     public static SimpleNetworkWrapper network;
 
-    public static ComponentizedGuiHandler componentizationGui;
-    public static VanillaGuiHandler vanillaGui;
+    public static ComponentizedGuiHandler gui;
     
     
     @EventHandler
@@ -34,13 +33,11 @@ public class ANotSturdyMod {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MODID + "main");
-        componentizationGui = new ComponentizedGuiHandler(this);
-        vanillaGui = new VanillaGuiHandler();
+        gui = new ComponentizedGuiHandler(this);
         
-        componentizationGui.init(event.getAsmData());
+        gui.init(event.getAsmData());
         
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, componentizationGui);
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, vanillaGui);
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, gui);
         
         proxy.modInit();
         proxy.preInit(event);

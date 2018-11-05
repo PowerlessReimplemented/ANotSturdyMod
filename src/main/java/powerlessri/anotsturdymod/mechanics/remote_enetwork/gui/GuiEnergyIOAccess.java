@@ -2,17 +2,55 @@ package powerlessri.anotsturdymod.mechanics.remote_enetwork.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import powerlessri.anotsturdymod.network.utils.NetworkHelper;
+import net.minecraft.world.World;
+import powerlessri.anotsturdymod.blocks.gui.api.template.ITemplate;
+import powerlessri.anotsturdymod.blocks.gui.api.template.TemplateProvider;
+import powerlessri.anotsturdymod.blocks.gui.base.ComponentizedGui;
+import powerlessri.anotsturdymod.blocks.gui.template.AbstractTemplate;
 import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENComponentBase;
+import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 import powerlessri.anotsturdymod.varia.Reference;
 
 import java.io.IOException;
+import java.util.function.Function;
 
-public class GuiEnergyIOAccess extends GuiContainer {
+// TODO move to component gui system
+public class GuiEnergyIOAccess extends ComponentizedGui {
+
+    public static abstract class Template implements ITemplate {
+        private EntityPlayer player;
+        private World world;
+        private BlockPos pos;
+
+        @Override
+        public void applyParameters(EntityPlayer player, World world, int x, int y, int z) {
+            this.player = player;
+            this.world = world;
+            this.pos = new BlockPos(x, y, z);
+        }
+
+        @Override
+        public ContainerEnergyIOAccess getContainer() {
+            TileENComponentBase tile = (TileENComponentBase) world.getTileEntity(pos);
+            ContainerEnergyIOAccess container = new ContainerEnergyIOAccess(player, tile);
+            return container;
+        }
+    }
+    
+    @TemplateProvider(id = "energy_io_access")
+    public static ITemplate getGuiTemplate() {
+        return new Template() {
+            @Override
+            public ComponentizedGui getGui() {
+                return new GuiEnergyIOAccess(getContainer());
+            }
+        };
+    }
+    
 
     private static final ResourceLocation BACKGROUND_LOC = new ResourceLocation(Reference.MODID, "textures/gui/access_port.png");
 

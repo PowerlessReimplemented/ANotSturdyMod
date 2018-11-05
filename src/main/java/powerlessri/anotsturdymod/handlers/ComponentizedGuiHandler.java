@@ -2,32 +2,22 @@ package powerlessri.anotsturdymod.handlers;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-import com.google.common.reflect.ClassPath;
-import com.sun.xml.internal.fastinfoset.util.StringIntMap;
-import jdk.nashorn.internal.ir.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.ModClassLoader;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import powerlessri.anotsturdymod.blocks.gui.api.template.ITemplate;
 import powerlessri.anotsturdymod.blocks.gui.api.template.TemplateProvider;
 import powerlessri.anotsturdymod.blocks.gui.base.ComponentizedGui;
-import powerlessri.anotsturdymod.varia.Reference;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
 import javax.annotation.Nullable;
-import javax.rmi.CORBA.Util;
-import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Set;
 
 public class ComponentizedGuiHandler implements IGuiHandler {
     
@@ -44,6 +34,8 @@ public class ComponentizedGuiHandler implements IGuiHandler {
      * Load templates by invoking methods annotated by {@link TemplateProvider}.
      */
     public void init(ASMDataTable table) {
+        Utils.getLogger().info("Loading template providers");
+        
         Set<ASMDataTable.ASMData> dataSet = table.getAll(TemplateProvider.class.getName());
         
         ImmutableList.Builder<ITemplate> templatesBuilder = ImmutableList.builder();
@@ -81,7 +73,7 @@ public class ComponentizedGuiHandler implements IGuiHandler {
                         continue;
                     }
 
-                    // Existence check
+                    // Existence check, filter situations where the getter magically returns null
                     if (template != null) {
                         templatesBuilder.add(template);
                         keysBuilder.put(id, ++lastID);
