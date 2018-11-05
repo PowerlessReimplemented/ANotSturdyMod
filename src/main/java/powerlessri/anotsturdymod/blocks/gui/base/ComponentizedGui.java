@@ -1,10 +1,8 @@
 package powerlessri.anotsturdymod.blocks.gui.base;
 
-import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
-import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
 import powerlessri.anotsturdymod.blocks.gui.api.render.IRenderedComponent;
 import powerlessri.anotsturdymod.blocks.gui.immutable.ComponentRoot;
 import powerlessri.anotsturdymod.varia.inventory.GuiUtils;
@@ -14,7 +12,7 @@ import java.util.List;
 
 public class ComponentizedGui extends GuiContainer {
 
-    private List<WindowConstructor> bufWindows = new ArrayList<>();
+    private List<WindowConstructor> constructors = new ArrayList<>();
     
     protected ComponentRoot root;
     
@@ -26,14 +24,11 @@ public class ComponentizedGui extends GuiContainer {
     public void initGui() {
         super.initGui();
 
-        // Convert WindowConstructor's to IComponent's
-        IRenderedComponent[] windows = new IRenderedComponent[bufWindows.size()];
-        for (int i = 0; i < windows.length; i++) {
-            WindowConstructor windowConstructor = bufWindows.get(i);
-            windows[i] = windowConstructor.create();
+        ImmutableList.Builder<IRenderedComponent> builder = ImmutableList.builder();
+        for (WindowConstructor constructor : constructors) {
+            builder.add(constructor.create());
         }
-        
-        root = new ComponentRoot(this, ImmutableList.copyOf(windows));
+        root = new ComponentRoot(this, builder.build());
     }
 
     @Override
@@ -46,14 +41,14 @@ public class ComponentizedGui extends GuiContainer {
     
     
     public WindowConstructor forWindow(int id) {
-        while (id >= bufWindows.size()) {
-            bufWindows.add(null);
+        while (id >= constructors.size()) {
+            constructors.add(null);
         }
 
-        WindowConstructor window = bufWindows.get(id);
+        WindowConstructor window = constructors.get(id);
         if (window == null) {
             window = new WindowConstructor();
-            bufWindows.set(id, window);
+            constructors.set(id, window);
         }
 
         return window;

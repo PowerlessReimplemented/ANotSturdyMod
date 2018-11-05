@@ -34,8 +34,10 @@ public class ANotSturdyMod {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MODID + "main");
-        componentizationGui = new ComponentizedGuiHandler();
+        componentizationGui = new ComponentizedGuiHandler(this);
         vanillaGui = new VanillaGuiHandler();
+        
+        componentizationGui.init(event.getAsmData());
         
         NetworkRegistry.INSTANCE.registerGuiHandler(this, componentizationGui);
         NetworkRegistry.INSTANCE.registerGuiHandler(this, vanillaGui);
