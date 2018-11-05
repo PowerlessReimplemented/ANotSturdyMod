@@ -32,7 +32,7 @@ public class ControllerNetworkData extends AbstractSubStorage {
         controllers.clear();
         controllers.add(FAKE_EN_CONTROLLER_TILE);
         // When controllerNextChannel == 1, there's no channels got allocated
-        // Which already gave the space for channel 0
+        // Which already gave the space for network 0
         for (int i = 0; i < lastChannel; i++) {
             controllers.add(null);
         }
@@ -48,7 +48,7 @@ public class ControllerNetworkData extends AbstractSubStorage {
     }
 
     /**
-     * Test if the channel given is appropriate or not. Ignores allocation range.
+     * Test if the network given is appropriate or not. Ignores allocation range.
      *
      * @return {@code true} when != DEFAULT_CHANNEL
      * {@code false} when == DEFAULT_CHANNEL
@@ -58,7 +58,7 @@ public class ControllerNetworkData extends AbstractSubStorage {
     }
 
     /**
-     * Test whether channel is in range of allocation or not.
+     * Test whether network is in range of allocation or not.
      */
     public boolean isChannelAllocated(int channel) {
         return isChannelInitialized(channel) && channel <= lastChannel;

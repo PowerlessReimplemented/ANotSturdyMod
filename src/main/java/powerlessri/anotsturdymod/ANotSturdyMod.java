@@ -3,10 +3,7 @@ package powerlessri.anotsturdymod;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import powerlessri.anotsturdymod.handlers.ComponentizedGuiHandler;
@@ -23,15 +20,26 @@ public class ANotSturdyMod {
     @SidedProxy(serverSide = Reference.SERVER_PROXY_CLASS, clientSide = Reference.CLIENT_PROXY_CLASS)
     public static CommonProxy proxy;
 
-    public static SimpleNetworkWrapper genericChannel;
+    public static SimpleNetworkWrapper network;
 
+    public static ComponentizedGuiHandler componentizationGui;
+    public static VanillaGuiHandler vanillaGui;
+    
+    
+    @EventHandler
+    public void construct(FMLConstructionEvent event) {
+        proxy.construct(event);
+    }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new VanillaGuiHandler());
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new ComponentizedGuiHandler()); // Ensuring all linked classes are loaded by FML before start searching for @TemplateProvider's
-        genericChannel = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MODID + "main");
-
+        network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MODID + "main");
+        componentizationGui = new ComponentizedGuiHandler();
+        vanillaGui = new VanillaGuiHandler();
+        
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, componentizationGui);
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, vanillaGui);
+        
         proxy.modInit();
         proxy.preInit(event);
     }

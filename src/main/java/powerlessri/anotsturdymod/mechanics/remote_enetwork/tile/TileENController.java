@@ -108,7 +108,7 @@ public class TileENController extends TileEntityBase implements IENetworkControl
 
 
     /**
-     * A unique channel id (in the save). An allocated (non-default) channel that is at least {@code 1}.
+     * A unique network id (in the save). An allocated (non-default) network that is at least {@code 1}.
      */
     public int channel;
 
@@ -133,7 +133,7 @@ public class TileENController extends TileEntityBase implements IENetworkControl
 
     private void allocateChannel() {
         channel = data.getNextChannel();
-        // Now it has a channel, put itself into the reference list.
+        // Now it has a network, put itself into the reference list.
         onLoadServer();
     }
 

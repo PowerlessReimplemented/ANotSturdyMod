@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.render.IRenderedComponent;
 import powerlessri.anotsturdymod.blocks.gui.immutable.ComponentRoot;
 import powerlessri.anotsturdymod.varia.inventory.GuiUtils;
 
@@ -26,7 +27,7 @@ public class ComponentizedGui extends GuiContainer {
         super.initGui();
 
         // Convert WindowConstructor's to IComponent's
-        IComponent[] windows = new IComponent[bufWindows.size()];
+        IRenderedComponent[] windows = new IRenderedComponent[bufWindows.size()];
         for (int i = 0; i < windows.length; i++) {
             WindowConstructor windowConstructor = bufWindows.get(i);
             windows[i] = windowConstructor.create();

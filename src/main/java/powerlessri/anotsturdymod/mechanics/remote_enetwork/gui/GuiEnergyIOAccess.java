@@ -79,7 +79,7 @@ public class GuiEnergyIOAccess extends GuiContainer {
     public void onGuiClosed() {
         super.onGuiClosed();
 
-        // Sync channel to server
+        // Sync network to server
         NetworkHelper.sendServerCommand(
                 TileENComponentBase.SET_CHANNEL,
                 TileENComponentBase.makeSetChannelArgs(Minecraft.getMinecraft().player.dimension, tilePos.getX(), tilePos.getY(), tilePos.getZ(), container.channel));

@@ -44,7 +44,7 @@ public class BlockEnergyController extends TileBlockBase {
         TileENController tile = (TileENController) world.getTileEntity(pos);
         ItemStack heldItem = player.getHeldItem(hand);
 
-        // TODO make a gui for upgrades & storage display & channel
+        // TODO make a gui for upgrades & storage display & network
         if (player.isSneaking()) {
             // TODO add pop upgrades
             // Pop upgrades
@@ -59,7 +59,7 @@ public class BlockEnergyController extends TileBlockBase {
         }
 
 
-        // Also allocate new channel (if hasn't yet) on server side
+        // Also allocate new network (if hasn't yet) on server side
         player.sendStatusMessage(new TextComponentString("controller id: " + tile.getOrAllocChannel() + "  energy stored: " + tile.energyStored), true);
 
         return true;

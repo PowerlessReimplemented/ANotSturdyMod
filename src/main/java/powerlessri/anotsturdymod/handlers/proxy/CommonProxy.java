@@ -3,10 +3,7 @@ package powerlessri.anotsturdymod.handlers.proxy;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.relauncher.Side;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.mechanics.cobblegen.block.BlockInfiniteCobbleGenerator;
@@ -51,6 +48,10 @@ public class CommonProxy {
     public void modInit() {
     }
 
+    public void construct(FMLConstructionEvent event) {
+        
+    }
+
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(BlockEnergyController.INSTANCE);
         registerBlock(new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPortInput(0, Integer.MAX_VALUE), VanillaGuiHandler.ENERGY_ACCESS_PORT));
@@ -76,9 +77,9 @@ public class CommonProxy {
 
 
         int packetId = 0;
-        ANotSturdyMod.genericChannel.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);
-        ANotSturdyMod.genericChannel.registerMessage(PacketSRequestWorld.Handler.class, PacketSRequestWorld.class, packetId++, Side.SERVER);
-        ANotSturdyMod.genericChannel.registerMessage(PacketClientRequestedData.Handler.class, PacketClientRequestedData.class, packetId++, Side.CLIENT);
+        ANotSturdyMod.network.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);
+        ANotSturdyMod.network.registerMessage(PacketSRequestWorld.Handler.class, PacketSRequestWorld.class, packetId++, Side.SERVER);
+        ANotSturdyMod.network.registerMessage(PacketClientRequestedData.Handler.class, PacketClientRequestedData.class, packetId++, Side.CLIENT);
 
         TileENAccessPort.initNetwork();
         TileENWirelessTransmitter.initNetwork();
@@ -127,5 +128,5 @@ public class CommonProxy {
     protected void registerItem(SimpleItemBase item) {
         this.registerItem((ItemBase) item);
     }
-
+    
 }

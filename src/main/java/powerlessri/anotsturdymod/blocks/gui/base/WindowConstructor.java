@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.blocks.gui.base;
 
 import com.google.common.collect.ImmutableList;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.render.IRenderedComponent;
 import powerlessri.anotsturdymod.blocks.gui.immutable.ComponentPanel;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class WindowConstructor {
         return this;
     }
     
-    public IComponent create() {
+    public IRenderedComponent create() {
         return new ComponentPanel(0, 0, ImmutableList.of());
     }
     

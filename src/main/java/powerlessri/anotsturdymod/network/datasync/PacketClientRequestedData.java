@@ -31,7 +31,7 @@ public class PacketClientRequestedData implements IMessage {
         request.x = x;
         request.y = y;
         request.z = z;
-        ANotSturdyMod.genericChannel.sendToServer(request);
+        ANotSturdyMod.network.sendToServer(request);
     }
 
 

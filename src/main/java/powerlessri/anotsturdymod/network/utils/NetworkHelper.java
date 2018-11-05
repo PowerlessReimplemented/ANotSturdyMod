@@ -12,7 +12,7 @@ public class NetworkHelper {
 
 
     public static void sendServerCommand(String cmd, NBTTagCompound args) {
-        sendServerCommand(ANotSturdyMod.genericChannel, cmd, args);
+        sendServerCommand(ANotSturdyMod.network, cmd, args);
     }
 
     public static void sendServerCommand(SimpleNetworkWrapper network, String cmd, NBTTagCompound args) {

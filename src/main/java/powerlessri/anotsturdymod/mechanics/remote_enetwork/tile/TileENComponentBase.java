@@ -80,7 +80,7 @@ public class TileENComponentBase extends TileEntityBase {
     }
 
     public IENetworkController getController() {
-        // This channel has been allocated
+        // This network has been allocated
         if (isControllerValid()) {
             IENetworkController controller = data.controllers.get(channel);
             if (controller != null) {
@@ -175,7 +175,7 @@ public class TileENComponentBase extends TileEntityBase {
         data.setInteger(TileENController.CHANNEL, tile.getChannel());
 
         PacketClientRequestedData response = new PacketClientRequestedData(pckt.requestId, data);
-        ANotSturdyMod.genericChannel.sendToAll(response);
+        ANotSturdyMod.network.sendToAll(response);
     }
 
 

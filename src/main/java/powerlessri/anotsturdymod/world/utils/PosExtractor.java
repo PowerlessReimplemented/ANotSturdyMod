@@ -33,6 +33,7 @@ public class PosExtractor {
     }
 
 
+    // TODO make modular extractor object
     protected PosExtractor() {
 
     }
