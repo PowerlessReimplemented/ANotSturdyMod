@@ -2,18 +2,13 @@ package powerlessri.anotsturdymod.mechanics.remote_enetwork.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.gui.api.template.ITemplate;
 import powerlessri.anotsturdymod.blocks.gui.api.template.TemplateProvider;
 import powerlessri.anotsturdymod.blocks.gui.base.ComponentizedGui;
-import powerlessri.anotsturdymod.blocks.gui.template.AbstractTemplate;
-import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENComponentBase;
+import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENWirelessTransmitter;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.utils.NetworkHelper;
-import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENWirelessTransmitter;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
 import java.io.IOException;

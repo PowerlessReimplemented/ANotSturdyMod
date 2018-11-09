@@ -39,6 +39,11 @@ public class ComponentSlotGroup extends AbstractComponent {
 
 
     @Override
+    public boolean isLeafComponent() {
+        return true;
+    }
+
+    @Override
     public int getZIndex() {
         return 0;
     }

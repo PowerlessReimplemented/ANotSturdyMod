@@ -10,13 +10,11 @@ import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.gui.api.template.ITemplate;
 import powerlessri.anotsturdymod.blocks.gui.api.template.TemplateProvider;
 import powerlessri.anotsturdymod.blocks.gui.base.ComponentizedGui;
-import powerlessri.anotsturdymod.blocks.gui.template.AbstractTemplate;
 import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.TileENComponentBase;
 import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 import powerlessri.anotsturdymod.varia.Reference;
 
 import java.io.IOException;
-import java.util.function.Function;
 
 // TODO move to component gui system
 public class GuiEnergyIOAccess extends ComponentizedGui {

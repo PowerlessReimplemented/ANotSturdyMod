@@ -1,10 +1,12 @@
 package powerlessri.anotsturdymod.blocks.gui.api;
 
 import net.minecraft.client.gui.GuiScreen;
+import powerlessri.anotsturdymod.blocks.gui.api.group.IContainer;
+import powerlessri.anotsturdymod.blocks.gui.api.render.IDisplayEntry;
 
 import javax.annotation.Nullable;
 
-public interface IComponent {
+public interface IComponent extends IDisplayEntry {
     
     /* Implementation Note:
      *     The purpose of this method is that so any can component can be moved around to different places.
@@ -21,10 +23,17 @@ public interface IComponent {
      */
     @Nullable
     IComponent getParentComponent();
-    
-    default boolean isRootComponent() {
-        return getParentComponent() == null;
-    }
+
+    /**
+     * If the component is NOT an instance of {@link IContainer} but IComponent, then it is a leaf component.
+     * In other words, it has no sub-components.
+     */
+    boolean isLeafComponent();
+
+    /**
+     * If the component has a parent, then {@code false}, otherwise {@code true}.
+     */
+    boolean isRootComponent();
     
     
     int getId();

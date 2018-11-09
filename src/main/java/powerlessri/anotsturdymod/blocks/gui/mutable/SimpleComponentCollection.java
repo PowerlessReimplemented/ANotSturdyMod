@@ -156,7 +156,17 @@ public class SimpleComponentCollection implements ICollectorContainer<IRenderedC
         return parent;
     }
 
-    
+    @Override
+    public boolean isLeafComponent() {
+        return false;
+    }
+
+    @Override
+    public boolean isRootComponent() {
+        return false;
+    }
+
+
     @Override
     public int getZIndex() {
         return z;

@@ -1,24 +1,50 @@
 package powerlessri.anotsturdymod.blocks.gui.immutable;
 
 import com.google.common.collect.ImmutableList;
+import javafx.scene.input.MouseButton;
 import net.minecraft.client.gui.GuiScreen;
-import powerlessri.anotsturdymod.blocks.gui.api.render.EDisplayMode;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.group.IContainer;
+import powerlessri.anotsturdymod.blocks.gui.api.render.EDisplayMode;
 import powerlessri.anotsturdymod.blocks.gui.api.render.IDisplayEntry;
 import powerlessri.anotsturdymod.blocks.gui.api.render.IRenderedComponent;
-import powerlessri.anotsturdymod.blocks.gui.api.group.IContainer;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class ComponentRoot implements IContainer, IDisplayEntry {
-    
-    private ImmutableList<IRenderedComponent> windows;
+
+    private ImmutableList<IContainer<IRenderedComponent>> windows;
+    private ImmutableList<IRenderedComponent> leaves;
     private GuiScreen gui;
 
-    public ComponentRoot(GuiScreen gui, ImmutableList<IRenderedComponent> windows) {
+    public ComponentRoot(GuiScreen gui, ImmutableList<IContainer<IRenderedComponent>> windows) {
         this.gui = gui;
         this.windows = windows;
+        this.leaves = searchForLeaves(windows);
+    }
+
+    private ImmutableList<IRenderedComponent> searchForLeaves(ImmutableList<IContainer<IRenderedComponent>> subComponents) {
+        ImmutableList.Builder<IRenderedComponent> leaves = ImmutableList.builder();
+        for (IContainer<IRenderedComponent> window : windows) {
+            searchForLeavesRecursive(window, leaves);
+        }
+        return leaves.build();
+    }
+
+    private void searchForLeavesRecursive(IContainer<IRenderedComponent> parent, ImmutableList.Builder<IRenderedComponent> leaves) {
+        for (IRenderedComponent component : parent.getComponents()) {
+            if (component.isLeafComponent()) {
+                leaves.add(component);
+                continue;
+            }
+
+            if (component instanceof IContainer) {
+                @SuppressWarnings("unchecked")
+                IContainer<IRenderedComponent> subContainer  = (IContainer<IRenderedComponent>) component;
+                searchForLeavesRecursive(subContainer, leaves);
+            }
+        }
     }
 
 
@@ -29,11 +55,11 @@ public class ComponentRoot implements IContainer, IDisplayEntry {
 
     @Override
     public void draw() {
-        for (IRenderedComponent window : windows) {
+        for (IContainer<IRenderedComponent> window : windows) {
             window.tryDraw();
         }
     }
-    
+
 
     @Override
     public List<IRenderedComponent> getComponents() {
@@ -59,6 +85,11 @@ public class ComponentRoot implements IContainer, IDisplayEntry {
     @Override
     public IComponent getParentComponent() {
         return this;
+    }
+
+    @Override
+    public boolean isLeafComponent() {
+        return false;
     }
 
     @Override
@@ -108,5 +139,26 @@ public class ComponentRoot implements IContainer, IDisplayEntry {
     @Override
     public void setZIndex(int zIndex) {
     }
-    
+
+
+    public void onMouseClicked(int mouseX, int mouseY, int flag) {
+        MouseButton button = getMouseButton(flag);
+    }
+
+    public void onMouseReleased(int mouseX, int mouseY, int state) {
+
+    }
+
+    private MouseButton getMouseButton(int flag) {
+        switch (flag) {
+            case 0:
+                return MouseButton.PRIMARY;
+            case 1:
+                return MouseButton.SECONDARY;
+
+            default:
+                return MouseButton.NONE;
+        }
+    }
+
 }

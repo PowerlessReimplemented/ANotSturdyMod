@@ -42,5 +42,11 @@ public class ComponentPanel extends AbstractComponent implements IContainer<IRen
             component.draw();
         }
     }
+
+
+    @Override
+    public boolean isLeafComponent() {
+        return true;
+    }
     
 }

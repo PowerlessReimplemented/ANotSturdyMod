@@ -3,6 +3,7 @@ package powerlessri.anotsturdymod.blocks.gui.immutable;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.blocks.gui.api.render.EDisplayMode;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.render.EEventType;
 import powerlessri.anotsturdymod.blocks.gui.api.render.IRenderedComponent;
 
 import javax.annotation.Nullable;
@@ -10,6 +11,7 @@ import javax.annotation.Nullable;
 public abstract class AbstractComponent implements IRenderedComponent {
 
     protected GuiScreen gui;
+    protected IComponent root;
     protected IComponent parent;
 
     protected final int x;
@@ -39,6 +41,9 @@ public abstract class AbstractComponent implements IRenderedComponent {
         
         this.gui = gui;
         this.parent = parent;
+        if (parent.isRootComponent()) {
+            this.root = parent;
+        }
         recalculatePosition();
         
         // Events
@@ -127,7 +132,7 @@ public abstract class AbstractComponent implements IRenderedComponent {
     }
 
 
-    private void onBasePositionChanged(int oldX, int oldY, int newX, int newY) {
+    public void onBasePositionChanged(int oldX, int oldY, int newX, int newY) {
     }
     
 }
