@@ -3,12 +3,10 @@ package powerlessri.anotsturdymod.blocks.gui.immutable;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.blocks.gui.api.render.EDisplayMode;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
-import powerlessri.anotsturdymod.blocks.gui.api.render.EEventType;
-import powerlessri.anotsturdymod.blocks.gui.api.render.IRenderedComponent;
 
 import javax.annotation.Nullable;
 
-public abstract class AbstractComponent implements IRenderedComponent {
+public abstract class AbstractComponent implements IComponent {
 
     protected GuiScreen gui;
     protected IComponent root;

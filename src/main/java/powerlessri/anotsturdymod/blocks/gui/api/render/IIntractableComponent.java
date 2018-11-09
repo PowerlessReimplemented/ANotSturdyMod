@@ -5,7 +5,7 @@ import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
 /**
  * Pre-made type, combination of {@link IComponent} and {@link IDisplayEntry}
  */
-public interface IRenderedComponent extends IComponent, IDisplayEntry {
+public interface IIntractableComponent extends IComponent, IDisplayEntry {
 
     void onClicked(int mouseX, int mouseY, EEventType type);
 
