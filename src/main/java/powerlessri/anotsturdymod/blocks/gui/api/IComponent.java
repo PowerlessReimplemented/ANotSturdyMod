@@ -53,10 +53,16 @@ public interface IComponent extends IDisplayEntry {
      */
     int getY();
     
+    int getWidth();
+    
+    int getHeight();
+    
     
     int getAbsoluteX();
     
     int getAbsoluteY();
+
+    boolean isPointInBound(int x, int y);
 
     /**
      * Used to force-set position. 

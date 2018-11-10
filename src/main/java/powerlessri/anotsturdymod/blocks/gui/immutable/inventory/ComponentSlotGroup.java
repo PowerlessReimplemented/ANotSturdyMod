@@ -15,12 +15,17 @@ public class ComponentSlotGroup extends AbstractComponent {
 
     private int slotsHorizontal;
     private int slotsVertical;
+    
+    private int width;
+    private int height;
 
     public ComponentSlotGroup(int relativeX, int relativeY, int slotsHorizontal, int slotsVertical) {
         super(relativeX, relativeY);
         
         this.slotsHorizontal = slotsHorizontal;
         this.slotsVertical = slotsVertical;
+        this.width = slotsHorizontal * SLOT_IMAGE_WIDTH;
+        this.height = slotsVertical * SLOT_IMAGE_HEIGHT;
     }
 
     @Override
@@ -41,6 +46,16 @@ public class ComponentSlotGroup extends AbstractComponent {
     @Override
     public boolean isLeafComponent() {
         return true;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
     }
 
     @Override

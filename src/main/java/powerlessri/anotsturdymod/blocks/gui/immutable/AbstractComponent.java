@@ -96,6 +96,12 @@ public abstract class AbstractComponent implements IComponent {
         return absY;
     }
 
+    @Override
+    public boolean isPointInBound(int x, int y) {
+        return x >= getAbsoluteX() && x <= getAbsoluteX() + getWidth() &&
+                y >= getAbsoluteY() && y <= getAbsoluteY() + getHeight();
+    }
+
     
     /**
      * Recalculate absolute position of the component.

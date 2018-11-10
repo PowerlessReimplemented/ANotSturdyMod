@@ -3,15 +3,20 @@ package powerlessri.anotsturdymod.blocks.gui.immutable;
 import com.google.common.collect.ImmutableList;
 import javafx.scene.input.MouseButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.world.IInteractionObject;
+import org.lwjgl.input.Mouse;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
 import powerlessri.anotsturdymod.blocks.gui.api.group.IContainer;
 import powerlessri.anotsturdymod.blocks.gui.api.render.EDisplayMode;
+import powerlessri.anotsturdymod.blocks.gui.api.render.EEventType;
 import powerlessri.anotsturdymod.blocks.gui.api.render.IDisplayEntry;
+import powerlessri.anotsturdymod.blocks.gui.api.render.IInteractionComponent;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ComponentRoot implements IContainer, IDisplayEntry {
+public class ComponentRoot implements IContainer {
 
     private ImmutableList<IContainer<IComponent>> windows;
     private ImmutableList<IComponent> leaves;
@@ -116,6 +121,16 @@ public class ComponentRoot implements IContainer, IDisplayEntry {
     }
 
     @Override
+    public int getWidth() {
+        return -1;
+    }
+
+    @Override
+    public int getHeight() {
+        return -1;
+    }
+
+    @Override
     public int getAbsoluteX() {
         return 0;
     }
@@ -123,6 +138,11 @@ public class ComponentRoot implements IContainer, IDisplayEntry {
     @Override
     public int getAbsoluteY() {
         return 0;
+    }
+
+    @Override
+    public boolean isPointInBound(int x, int y) {
+        return true;
     }
 
     @Override
@@ -140,12 +160,30 @@ public class ComponentRoot implements IContainer, IDisplayEntry {
 
 
     public void onMouseClicked(int mouseX, int mouseY, MouseButton button) {
+        for (IComponent component : leaves) {
+            if (component instanceof IInteractionComponent) {
+                IInteractionComponent interactableComp = ((IInteractionComponent) component);
+                if (!interactableComp.isPointInBound(mouseX, mouseY)) {
+                    continue;
+                }
+
+                // Original event
+                interactableComp.onClicked(mouseX, mouseY, button, EEventType.ORIGINAL);
+
+                // Bubbling events
+                IComponent target = interactableComp;
+                while (!target.isRootComponent()) {
+                    if (target instanceof IInteractionComponent) {
+                        ((IInteractionComponent) target).onClicked(mouseX, mouseY, button, EEventType.BUBBLE);
+                    }
+
+                    target = target.getParentComponent();
+                }
+            }
+        }
     }
 
-    public void onMouseReleased(int mouseX, int mouseY, int state) {
-
+    public void onMouseReleased(int mouseX, int mouseY, MouseButton button) {
     }
-
-    
 
 }

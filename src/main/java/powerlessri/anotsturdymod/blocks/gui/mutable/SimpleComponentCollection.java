@@ -4,7 +4,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.blocks.gui.api.render.EDisplayMode;
 import powerlessri.anotsturdymod.blocks.gui.api.render.IDisplayEntry;
-import powerlessri.anotsturdymod.blocks.gui.api.render.IIntractableComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.render.IInteractionComponent;
 import powerlessri.anotsturdymod.blocks.gui.api.group.ICollectorContainer;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
 import powerlessri.anotsturdymod.varia.inventory.TextureWrapper;
@@ -25,7 +25,7 @@ import java.util.List;
  *             This implementation of a mutable component collection also have some performence issues, e.g. search
  *             through all components every time to sort by z-index.
  */
-public class SimpleComponentCollection implements ICollectorContainer<IIntractableComponent>, IDisplayEntry, Iterable<IIntractableComponent> {
+public class SimpleComponentCollection implements ICollectorContainer<IInteractionComponent>, IDisplayEntry, Iterable<IInteractionComponent> {
 
     private TextureWrapper background;
     
@@ -41,7 +41,7 @@ public class SimpleComponentCollection implements ICollectorContainer<IIntractab
     private int baseX;
     private int baseY;
     
-    private List<IIntractableComponent> components;
+    private List<IInteractionComponent> components;
     private int lastComponentID;
     
     public SimpleComponentCollection(ResourceLocation background, int startX, int startY, int width, int height, int componentX, int componentY) {
@@ -61,7 +61,7 @@ public class SimpleComponentCollection implements ICollectorContainer<IIntractab
 
 
     @Override
-    public void addComponent(IIntractableComponent component) {
+    public void addComponent(IInteractionComponent component) {
         reInitializeComponent(component);
         component.setId(++lastComponentID);
         
@@ -91,7 +91,7 @@ public class SimpleComponentCollection implements ICollectorContainer<IIntractab
     }
 
     @Override
-    public List<IIntractableComponent> getComponents() {
+    public List<IInteractionComponent> getComponents() {
         return components;
     }
 
@@ -191,13 +191,13 @@ public class SimpleComponentCollection implements ICollectorContainer<IIntractab
             background.draw(gui, baseX, baseY);
         }
         
-        for (IIntractableComponent component : components) {
+        for (IInteractionComponent component : components) {
             component.draw();
         }
     }
 
 
-    private void reInitializeComponent(IIntractableComponent component) {
+    private void reInitializeComponent(IInteractionComponent component) {
         component.initialize(gui, this);
         component.resetAbsolutePosition(relativeX + component.getX(), relativeY + component.getY());
     }
@@ -209,7 +209,7 @@ public class SimpleComponentCollection implements ICollectorContainer<IIntractab
     
     
     @Override
-    public Iterator<IIntractableComponent> iterator() {
+    public Iterator<IInteractionComponent> iterator() {
         return components.iterator();
     }
     

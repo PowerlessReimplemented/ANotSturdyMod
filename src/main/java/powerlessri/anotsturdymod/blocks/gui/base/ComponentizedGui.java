@@ -36,15 +36,15 @@ public class ComponentizedGui extends GuiContainer {
     
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int flag) throws IOException {
-        super.mouseClicked(mouseX, mouseY, flag);
-        root.onMouseClicked(mouseX, mouseY, getMouseButton(flag));
+    protected void mouseClicked(int mouseX, int mouseY, int buttonId) throws IOException {
+        super.mouseClicked(mouseX, mouseY, buttonId);
+        root.onMouseClicked(mouseX, mouseY, getMouseButton(buttonId));
     }
 
     @Override
-    protected void mouseReleased(int mouseX, int mouseY, int state) {
-        super.mouseReleased(mouseX, mouseY, state);
-        root.onMouseReleased(mouseX, mouseY, state);
+    protected void mouseReleased(int mouseX, int mouseY, int buttonId) {
+        super.mouseReleased(mouseX, mouseY, buttonId);
+        root.onMouseReleased(mouseX, mouseY, getMouseButton(buttonId));
     }
 
 
