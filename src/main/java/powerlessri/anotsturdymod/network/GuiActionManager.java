@@ -1,7 +1,7 @@
 package powerlessri.anotsturdymod.network;
 
 import io.netty.buffer.ByteBuf;
-import powerlessri.anotsturdymod.blocks.gui.api.IActionHandler;
+import powerlessri.anotsturdymod.library.gui.api.IActionHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;

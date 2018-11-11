@@ -6,8 +6,8 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import powerlessri.anotsturdymod.blocks.gui.api.IWorldAssociatedAction;
-import powerlessri.anotsturdymod.blocks.gui.api.IActionHandler;
+import powerlessri.anotsturdymod.library.gui.api.IActionWorldAssociated;
+import powerlessri.anotsturdymod.library.gui.api.IActionHandler;
 
 /**
  * Sender: CLIENT  Receiver: Server
@@ -71,7 +71,7 @@ public class PacketLocationalGuiAction implements IMessage {
         
         @Override
         public IMessage onMessage(PacketLocationalGuiAction msg, MessageContext ctx) {
-            IWorldAssociatedAction action = (IWorldAssociatedAction) GuiActionManager.findAction(msg.actionId);
+            IActionWorldAssociated action = (IActionWorldAssociated) GuiActionManager.findAction(msg.actionId);
             World world = DimensionManager.getWorld(msg.dimension);
             
             action.handleWorld(world, msg.x, msg.y, msg.z, msg.data);

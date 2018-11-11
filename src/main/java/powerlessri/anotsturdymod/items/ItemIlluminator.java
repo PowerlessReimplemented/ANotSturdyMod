@@ -10,7 +10,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.handlers.init.ModBlocks;
-import powerlessri.anotsturdymod.items.base.SimpleItemBase;
+import powerlessri.anotsturdymod.library.item.base.SimpleItemBase;
 import powerlessri.anotsturdymod.varia.machines.EMachineLevel;
 
 public class ItemIlluminator extends SimpleItemBase {

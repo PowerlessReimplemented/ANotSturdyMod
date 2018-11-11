@@ -4,14 +4,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-import powerlessri.anotsturdymod.blocks.gui.api.template.ITemplate;
-import powerlessri.anotsturdymod.blocks.gui.api.template.TemplateProvider;
-import powerlessri.anotsturdymod.blocks.gui.base.ComponentizedGui;
+import powerlessri.anotsturdymod.library.gui.api.ITemplate;
+import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
+import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
 import javax.annotation.Nullable;

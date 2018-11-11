@@ -6,8 +6,8 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import powerlessri.anotsturdymod.blocks.block.base.SimpleBlockBase;
-import powerlessri.anotsturdymod.items.base.SimpleItemBase;
+import powerlessri.anotsturdymod.library.block.base.SimpleBlockBase;
+import powerlessri.anotsturdymod.library.item.base.SimpleItemBase;
 
 @EventBusSubscriber
 public class RegistryHandler {
