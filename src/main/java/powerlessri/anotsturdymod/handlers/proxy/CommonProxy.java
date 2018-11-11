@@ -25,6 +25,7 @@ import powerlessri.anotsturdymod.mechanics.miscs.BlockLightCube;
 import powerlessri.anotsturdymod.mechanics.remote_enetwork.block.BlockEnergyAccessPort;
 import powerlessri.anotsturdymod.mechanics.remote_enetwork.block.BlockEnergyController;
 import powerlessri.anotsturdymod.mechanics.remote_enetwork.tile.*;
+import powerlessri.anotsturdymod.network.PacketLocationalGuiAction;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
 import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
@@ -77,6 +78,7 @@ public class CommonProxy {
 
         int packetId = 0;
         ANotSturdyMod.network.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);
+        ANotSturdyMod.network.registerMessage(PacketLocationalGuiAction.Handler.class, PacketLocationalGuiAction.class, packetId++, Side.SERVER);
         ANotSturdyMod.network.registerMessage(PacketSRequestWorld.Handler.class, PacketSRequestWorld.class, packetId++, Side.SERVER);
         ANotSturdyMod.network.registerMessage(PacketClientRequestedData.Handler.class, PacketClientRequestedData.class, packetId++, Side.CLIENT);
 

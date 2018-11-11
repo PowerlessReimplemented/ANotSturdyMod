@@ -97,7 +97,7 @@ public abstract class AbstractComponent implements IComponent {
     }
 
     @Override
-    public boolean isPointInBound(int x, int y) {
+    public boolean isPointInside(int x, int y) {
         return x >= getAbsoluteX() && x <= getAbsoluteX() + getWidth() &&
                 y >= getAbsoluteY() && y <= getAbsoluteY() + getHeight();
     }

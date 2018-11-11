@@ -13,6 +13,9 @@ import powerlessri.anotsturdymod.varia.tags.TagUtils;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 
+/**
+ * Sender: CLIENT  Receiver: SERVER
+ */
 public class PacketServerCommand implements IMessage {
 
     public static final HashMap<String, BiConsumer<PacketServerCommand, MessageContext>> handlers = new HashMap<>();
@@ -51,7 +54,7 @@ public class PacketServerCommand implements IMessage {
             if (handler != null) {
                 FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handler.accept(message, ctx));
             } else {
-                Utils.getLogger().error("Cannot find server command \"" + message.cmd + "\"!");
+                Utils.getLogger().error("wCannot find server command \"" + message.cmd + "\"!");
             }
             return null;
         }

@@ -3,15 +3,11 @@ package powerlessri.anotsturdymod.blocks.gui.immutable;
 import com.google.common.collect.ImmutableList;
 import javafx.scene.input.MouseButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.world.IInteractionObject;
-import org.lwjgl.input.Mouse;
 import powerlessri.anotsturdymod.blocks.gui.api.IComponent;
 import powerlessri.anotsturdymod.blocks.gui.api.group.IContainer;
 import powerlessri.anotsturdymod.blocks.gui.api.render.EDisplayMode;
 import powerlessri.anotsturdymod.blocks.gui.api.render.EEventType;
-import powerlessri.anotsturdymod.blocks.gui.api.render.IDisplayEntry;
-import powerlessri.anotsturdymod.blocks.gui.api.render.IInteractionComponent;
+import powerlessri.anotsturdymod.blocks.gui.api.render.IInteractionHandler;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -141,7 +137,7 @@ public class ComponentRoot implements IContainer {
     }
 
     @Override
-    public boolean isPointInBound(int x, int y) {
+    public boolean isPointInside(int x, int y) {
         return true;
     }
 
@@ -161,20 +157,20 @@ public class ComponentRoot implements IContainer {
 
     public void onMouseClicked(int mouseX, int mouseY, MouseButton button) {
         for (IComponent component : leaves) {
-            if (component instanceof IInteractionComponent) {
-                IInteractionComponent interactableComp = ((IInteractionComponent) component);
-                if (!interactableComp.isPointInBound(mouseX, mouseY)) {
+            if (component instanceof IInteractionHandler) {
+                IInteractionHandler handler = ((IInteractionHandler) component);
+                if (!handler.isPointInside(mouseX, mouseY)) {
                     continue;
                 }
 
                 // Original event
-                interactableComp.onClicked(mouseX, mouseY, button, EEventType.ORIGINAL);
+                handler.onClicked(mouseX, mouseY, button, EEventType.ORIGINAL);
 
                 // Bubbling events
-                IComponent target = interactableComp;
+                IComponent target = handler;
                 while (!target.isRootComponent()) {
-                    if (target instanceof IInteractionComponent) {
-                        ((IInteractionComponent) target).onClicked(mouseX, mouseY, button, EEventType.BUBBLE);
+                    if (target instanceof IInteractionHandler) {
+                        ((IInteractionHandler) target).onClicked(mouseX, mouseY, button, EEventType.BUBBLE);
                     }
 
                     target = target.getParentComponent();
