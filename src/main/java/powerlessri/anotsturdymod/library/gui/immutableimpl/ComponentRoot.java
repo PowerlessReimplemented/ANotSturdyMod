@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.library.gui.immutableimpl;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.*;
 
 import javax.annotation.Nullable;
@@ -162,16 +163,25 @@ public class ComponentRoot implements IContainer {
             if (component instanceof IInteractionHandler && component.isPointInside(mouseX, mouseY)) {
                 IInteractionHandler handler = ((IInteractionHandler) component);
 
-                handler.onClicked(mouseX, mouseY, button, EEventType.ORIGINAL);
+                EnumActionResult result = handler.onClicked(mouseX, mouseY, button, EEventType.ORIGINAL);
                 lastClicked = handler;
+
+                if (result == EnumActionResult.FAIL) {
+                    return;
+                }
                 
                 bubbleUpEvent(handler.getParentComponent(), (target) -> target.onClicked(mouseX, mouseY, button, EEventType.BUBBLE));
+                break;
             }
         }
     }
 
     public void onMouseReleased(int mouseX, int mouseY, EMouseButton button) {
-        lastClicked.onReleased(mouseX, mouseY, button, EEventType.ORIGINAL);
+        EnumActionResult result = lastClicked.onReleased(mouseX, mouseY, button, EEventType.ORIGINAL);
+        if (result == EnumActionResult.FAIL) {
+            return;
+        }
+        
         bubbleUpEvent(lastClicked.getParentComponent(), (target) -> target.onReleased(mouseX, mouseY, button, EEventType.BUBBLE));
     }
 
