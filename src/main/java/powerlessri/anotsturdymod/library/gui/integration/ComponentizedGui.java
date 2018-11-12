@@ -59,7 +59,9 @@ public class ComponentizedGui extends GuiContainer {
         switch (flag) {
             case 0:
                 return EMouseButton.PRIMARY;
-            case 1:
+            case 1: 
+                return EMouseButton.MIDDLE;
+            case 2:
                 return EMouseButton.SECONDARY;
 
             default:

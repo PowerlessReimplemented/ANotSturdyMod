@@ -6,7 +6,7 @@ import powerlessri.anotsturdymod.library.gui.api.EDisplayMode;
 import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
 import powerlessri.anotsturdymod.library.gui.api.ICollectorContainer;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.immutableimpl.TextureWrapper;
+import powerlessri.anotsturdymod.library.gui.TextureWrapper;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 import javax.annotation.Nullable;

@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.gui.immutableimpl;
+package powerlessri.anotsturdymod.library.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;

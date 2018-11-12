@@ -6,6 +6,7 @@ import powerlessri.anotsturdymod.library.gui.api.*;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ComponentRoot implements IContainer {
 
@@ -31,7 +32,7 @@ public class ComponentRoot implements IContainer {
         return leaves.build();
     }
 
-    private void searchForLeavesRecursive(IContainer<IComponent> parent, ImmutableList.Builder<IComponent> leaves) {
+    private void searchForLeavesRecursive(IContainer<? extends IComponent> parent, ImmutableList.Builder<IComponent> leaves) {
         for (IComponent component : parent.getComponents()) {
             if (component.isLeafComponent()) {
                 leaves.add(component);
@@ -39,8 +40,7 @@ public class ComponentRoot implements IContainer {
             }
 
             if (component instanceof IContainer) {
-                @SuppressWarnings("unchecked")
-                IContainer<IComponent> subContainer  = (IContainer<IComponent>) component;
+                IContainer<? extends IComponent> subContainer  = (IContainer<? extends IComponent>) component;
                 searchForLeavesRecursive(subContainer, leaves);
             }
         }
@@ -155,31 +155,35 @@ public class ComponentRoot implements IContainer {
     }
 
 
+    private IInteractionHandler lastClicked;
+    
     public void onMouseClicked(int mouseX, int mouseY, EMouseButton button) {
         for (IComponent component : leaves) {
-            if (component instanceof IInteractionHandler) {
+            if (component instanceof IInteractionHandler && component.isPointInside(mouseX, mouseY)) {
                 IInteractionHandler handler = ((IInteractionHandler) component);
-                if (!handler.isPointInside(mouseX, mouseY)) {
-                    continue;
-                }
 
-                // Original event
                 handler.onClicked(mouseX, mouseY, button, EEventType.ORIGINAL);
-
-                // Bubbling events
-                IComponent target = handler;
-                while (!target.isRootComponent()) {
-                    if (target instanceof IInteractionHandler) {
-                        ((IInteractionHandler) target).onClicked(mouseX, mouseY, button, EEventType.BUBBLE);
-                    }
-
-                    target = target.getParentComponent();
-                }
+                lastClicked = handler;
+                
+                bubbleUpEvent(handler.getParentComponent(), (target) -> target.onClicked(mouseX, mouseY, button, EEventType.BUBBLE));
             }
         }
     }
 
     public void onMouseReleased(int mouseX, int mouseY, EMouseButton button) {
+        lastClicked.onReleased(mouseX, mouseY, button, EEventType.ORIGINAL);
+        bubbleUpEvent(lastClicked.getParentComponent(), (target) -> target.onReleased(mouseX, mouseY, button, EEventType.BUBBLE));
+    }
+
+
+    private void bubbleUpEvent(@Nullable IComponent target, Consumer<IInteractionHandler> event) {
+        while (target != null && !target.isRootComponent()) {
+            if (target instanceof IInteractionHandler) {
+                event.accept((IInteractionHandler) target);
+            }
+
+            target = target.getParentComponent();
+        }
     }
 
 }

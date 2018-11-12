@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.library.gui.immutableimpl;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
+import powerlessri.anotsturdymod.library.gui.TextureWrapper;
 import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
