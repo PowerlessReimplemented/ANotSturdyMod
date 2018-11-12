@@ -96,10 +96,18 @@ public abstract class AbstractComponent implements IComponent {
         return absY;
     }
 
+    public int getAbsoluteX2() {
+        return absX + getWidth();
+    }
+
+    public int getAbsoluteY2() {
+        return absY + getHeight();
+    }
+
     @Override
     public boolean isPointInside(int x, int y) {
-        return x >= getAbsoluteX() && x <= getAbsoluteX() + getWidth() &&
-                y >= getAbsoluteY() && y <= getAbsoluteY() + getHeight();
+        return x >= getAbsoluteX() && x <= getAbsoluteX2() &&
+                y >= getAbsoluteY() && y <= getAbsoluteY2();
     }
 
     
@@ -123,10 +131,8 @@ public abstract class AbstractComponent implements IComponent {
     }
 
     @Override
-    public void setZIndex(int zIndex) {
-        if (useZ) {
-            z = zIndex;
-        }
+    public void setZIndex(int z) {
+        this.z = z;
     }
     
     

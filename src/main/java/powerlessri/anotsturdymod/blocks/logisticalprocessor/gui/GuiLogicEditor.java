@@ -6,6 +6,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
+import powerlessri.anotsturdymod.library.gui.immutableimpl.ComponentPanel;
+import powerlessri.anotsturdymod.library.gui.immutableimpl.button.ButtonGradient;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventory;
 import powerlessri.anotsturdymod.library.gui.template.AbstractTemplate;
@@ -59,7 +61,7 @@ public class GuiLogicEditor extends ComponentizedGui {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        drawDefaultBackground();
+        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
         
         GuiUtils.resetGuiGlStates();
         mc.renderEngine.bindTexture(BACKGROUND);
