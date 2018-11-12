@@ -47,7 +47,11 @@ public class GuiLogicEditor extends ComponentizedGui {
     public int centerY;
 
     public GuiLogicEditor(Container container) {
-        super(container, ImmutableList.of());
+        super(container, ImmutableList.of(
+                new ComponentPanel(10, 10, ImmutableList.of(
+                        new ButtonGradient(0, 0, 40, 20)
+                ))
+        ));
     }
 
 

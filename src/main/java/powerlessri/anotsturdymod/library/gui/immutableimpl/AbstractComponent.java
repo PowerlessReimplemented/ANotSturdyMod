@@ -3,6 +3,7 @@ package powerlessri.anotsturdymod.library.gui.immutableimpl;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.EDisplayMode;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
+import powerlessri.anotsturdymod.varia.general.Utils;
 
 import javax.annotation.Nullable;
 
@@ -122,6 +123,7 @@ public abstract class AbstractComponent implements IComponent {
     private void recalculatePosition() {
         absX = parent.getAbsoluteX() + x;
         absY = parent.getAbsoluteY() + y;
+        Utils.getLogger().info("recal x=" + absX + " y=" + absY);
     }
 
 
@@ -141,6 +143,8 @@ public abstract class AbstractComponent implements IComponent {
         return EDisplayMode.CUSTOM;
     }
 
+    
+    // Event handlers
 
     public void onBasePositionChanged(int oldX, int oldY, int newX, int newY) {
     }

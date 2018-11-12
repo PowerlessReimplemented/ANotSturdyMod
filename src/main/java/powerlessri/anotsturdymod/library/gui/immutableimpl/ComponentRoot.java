@@ -17,6 +17,10 @@ public class ComponentRoot implements IContainer {
         this.gui = gui;
         this.windows = windows;
         this.leaves = searchForLeaves(windows);
+
+        for (IComponent component : windows) {
+            component.initialize(gui, this);
+        }
     }
 
     private ImmutableList<IComponent> searchForLeaves(ImmutableList<IContainer<IComponent>> subComponents) {

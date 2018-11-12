@@ -30,8 +30,10 @@ public class ComponentPanel extends AbstractComponent implements IContainer<ICom
 
     @Override
     public void initialize(GuiScreen gui, IComponent parent) {
-        this.gui = gui;
-        this.parent = parent;
+        super.initialize(gui, parent);
+        for (IComponent component : components) {
+            component.initialize(gui, this);
+        }
     }
     
     

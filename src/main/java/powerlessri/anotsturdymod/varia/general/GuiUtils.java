@@ -15,8 +15,10 @@ public class GuiUtils {
     
     
     public static void resetGuiGlStates() {
-        GlStateManager.color(1, 1, 1);
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableAlpha();
         GlStateManager.disableBlend();
+        GlStateManager.color(1, 1, 1);
     }
     
 }
