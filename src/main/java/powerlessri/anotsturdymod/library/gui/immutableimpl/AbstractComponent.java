@@ -35,18 +35,12 @@ public abstract class AbstractComponent implements IComponent {
 
     @Override
     public void initialize(GuiScreen gui, IComponent parent) {
-        int oldX = getActualX();
-        int oldY = getActualY();
-        
         this.gui = gui;
         this.parent = parent;
         if (parent.isRootComponent()) {
             this.root = parent;
         }
         recalculatePosition();
-        
-        // Events
-        onBasePositionChanged(oldX, oldY, getActualX(), getActualY());
     }
 
     @Override
@@ -149,10 +143,4 @@ public abstract class AbstractComponent implements IComponent {
         return EDisplayMode.CUSTOM;
     }
 
-    
-    // Event handlers
-
-    public void onBasePositionChanged(int oldX, int oldY, int newX, int newY) {
-    }
-    
 }

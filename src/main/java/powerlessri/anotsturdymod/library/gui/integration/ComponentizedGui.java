@@ -15,6 +15,11 @@ public class ComponentizedGui extends GuiContainer {
 
     protected ComponentRoot root;
     protected ImmutableList<IContainer<IComponent>> windows;
+
+
+    public ComponentizedGui(Container container) {
+        this(container, null);
+    }
     
     public ComponentizedGui(Container container, ImmutableList<IContainer<IComponent>> windows) {
         super(container);

@@ -47,16 +47,18 @@ public class GuiLogicEditor extends ComponentizedGui {
     public int centerY;
 
     public GuiLogicEditor(Container container) {
-        super(container, ImmutableList.of(
-                new ComponentPanel(10, 10, ImmutableList.of(
-                        new ButtonGradient(0, 0, 40, 20)
-                ))
-        ));
+        super(container);
     }
 
 
     @Override
     public void initGui() {
+        windows = ImmutableList.of(
+                new ComponentPanel(10, 10, ImmutableList.of(
+                        new ButtonGradient(0, 0, 40, 20)
+                ))
+        );
+        
         super.initGui();
 
         centerX = (width / 2) - (BKG_WIDTH / 2);
