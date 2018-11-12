@@ -10,11 +10,9 @@ import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.library.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
-import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
-import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
-import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.IENetworkController;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.data.ControllerNetworkData;
+import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
 import powerlessri.anotsturdymod.varia.general.Utils;
 import powerlessri.anotsturdymod.varia.tags.TagUtils;
 import powerlessri.anotsturdymod.world.data.AnsmSavedData;
@@ -136,21 +134,9 @@ public class TileENComponentBase extends TileEntityBase {
 
     // ======== Networking ======== //
 
-    public static final String GET_CHANNEL = TILE_REGISTRY_NAME + ":sync.getChannel";
     public static final String SET_CHANNEL = TILE_REGISTRY_NAME + ":setChannel";
-
-    public static void initNetwork() {
-        PacketServerCommand.handlers.put(SET_CHANNEL, (msg, ctx) -> {
-            onPacketSetChannel(msg, ctx);
-        });
-
-        PacketSRequestWorld.responses.put(GET_CHANNEL, (msg, ctx) -> {
-            onPacketCGetChannel(msg, ctx);
-            return null;
-        });
-    }
-
-
+    
+    
     public static void onPacketSetChannel(PacketServerCommand pckt, MessageContext ctx) {
         int channelTo = pckt.args.getInteger(TileENController.CHANNEL);
 
@@ -163,19 +149,6 @@ public class TileENComponentBase extends TileEntityBase {
         } else {
             Utils.getLogger().info("The given position " + tilePos.toString() + " does not contain a TileENComponentBase");
         }
-    }
-
-    public static void onPacketCGetChannel(PacketSRequestWorld pckt, MessageContext ctx) {
-        World world = DimensionManager.getWorld(pckt.dimension);
-        BlockPos tilePos = new BlockPos(pckt.x, pckt.y, pckt.z);
-        TileENComponentBase tile = (TileENComponentBase) world.getTileEntity(tilePos);
-
-        NBTTagCompound data = new NBTTagCompound();
-
-        data.setInteger(TileENController.CHANNEL, tile.getChannel());
-
-        PacketClientRequestedData response = new PacketClientRequestedData(pckt.requestId, data);
-        ANotSturdyMod.network.sendToAll(response);
     }
 
 

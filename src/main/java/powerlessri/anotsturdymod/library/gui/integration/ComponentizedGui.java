@@ -1,9 +1,9 @@
 package powerlessri.anotsturdymod.library.gui.integration;
 
 import com.google.common.collect.ImmutableList;
-import javafx.scene.input.MouseButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
+import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.immutableimpl.ComponentRoot;
@@ -24,6 +24,8 @@ public class ComponentizedGui extends GuiContainer {
     @Override
     public void initGui() {
         super.initGui();
+
+        root = new ComponentRoot(this, windows);
     }
 
     @Override
@@ -48,15 +50,15 @@ public class ComponentizedGui extends GuiContainer {
     }
 
 
-    private MouseButton getMouseButton(int flag) {
+    private EMouseButton getMouseButton(int flag) {
         switch (flag) {
             case 0:
-                return MouseButton.PRIMARY;
+                return EMouseButton.PRIMARY;
             case 1:
-                return MouseButton.SECONDARY;
+                return EMouseButton.SECONDARY;
 
             default:
-                return MouseButton.NONE;
+                return EMouseButton.NONE;
         }
     }
     

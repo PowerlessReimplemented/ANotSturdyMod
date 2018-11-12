@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.network.IGuiHandler;
+import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
@@ -117,21 +118,21 @@ public class ComponentizedGuiHandler implements IGuiHandler {
     }
 
 
-    public void openGui(String name, EntityPlayer player, BlockPos pos) {
+    public static void openGui(String name, EntityPlayer player, BlockPos pos) {
         openGui(name, player, pos.getX(), pos.getY(), pos.getZ());
     }
 
-    public void openGui(String name, EntityPlayer player, World world, BlockPos pos) {
+    public static void openGui(String name, EntityPlayer player, World world, BlockPos pos) {
         openGui(name, player, world, pos.getX(), pos.getY(), pos.getZ());
     }
 
-    public void openGui(String name, EntityPlayer player, int x, int y, int z) {
+    public static void openGui(String name, EntityPlayer player, int x, int y, int z) {
         openGui(name, player, player.world, x, y, z);
     }
 
-    public void openGui(String name, EntityPlayer player, World world, int x, int y, int z) {
-        int id = keys.get(name);
-        player.openGui(mod, id, world, x, y, z);
+    public static void openGui(String name, EntityPlayer player, World world, int x, int y, int z) {
+        int id = ANotSturdyMod.gui.keys.get(name);
+        player.openGui(ANotSturdyMod.instance, id, world, x, y, z);
     }
 
 }

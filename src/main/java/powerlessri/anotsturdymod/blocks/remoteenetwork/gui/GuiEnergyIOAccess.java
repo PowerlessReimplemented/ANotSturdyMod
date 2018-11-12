@@ -1,5 +1,6 @@
 package powerlessri.anotsturdymod.blocks.remoteenetwork.gui;
 
+import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
@@ -76,7 +77,7 @@ public class GuiEnergyIOAccess extends ComponentizedGui {
     protected final BlockPos tilePos;
 
     public GuiEnergyIOAccess(ContainerEnergyIOAccess container) {
-        super(container);
+        super(container, ImmutableList.of());
 
         this.container = container;
         this.tile = container.tile;

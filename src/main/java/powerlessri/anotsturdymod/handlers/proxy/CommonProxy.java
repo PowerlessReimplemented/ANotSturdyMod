@@ -6,29 +6,28 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.relauncher.Side;
 import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.library.block.base.BlockBase;
-import powerlessri.anotsturdymod.library.block.base.SimpleBlockBase;
-import powerlessri.anotsturdymod.library.block.base.TileBlockBase;
+import powerlessri.anotsturdymod.blocks.BlockLightCube;
+import powerlessri.anotsturdymod.blocks.cobblegen.block.BlockInfiniteCobbleGenerator;
+import powerlessri.anotsturdymod.blocks.cobblegen.tile.TileCobbleGenerator;
+import powerlessri.anotsturdymod.blocks.logisticalprocessor.block.BlockLogisticsController;
+import powerlessri.anotsturdymod.blocks.remoteenetwork.block.BlockEnergyAccessPort;
+import powerlessri.anotsturdymod.blocks.remoteenetwork.block.BlockEnergyController;
+import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.*;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
 import powerlessri.anotsturdymod.handlers.init.ModBlocks;
 import powerlessri.anotsturdymod.handlers.init.ModCommands;
 import powerlessri.anotsturdymod.handlers.init.ModItems;
-import powerlessri.anotsturdymod.items.exchangers.ItemExchanger;
 import powerlessri.anotsturdymod.items.ItemIlluminator;
+import powerlessri.anotsturdymod.items.exchangers.ItemExchanger;
 import powerlessri.anotsturdymod.items.transmutations.ItemTransmutationStone;
+import powerlessri.anotsturdymod.items.transmutations.WorldTransmutation;
+import powerlessri.anotsturdymod.library.block.base.BlockBase;
+import powerlessri.anotsturdymod.library.block.base.SimpleBlockBase;
+import powerlessri.anotsturdymod.library.block.base.TileBlockBase;
 import powerlessri.anotsturdymod.library.item.base.ItemBase;
 import powerlessri.anotsturdymod.library.item.base.SimpleItemBase;
-import powerlessri.anotsturdymod.items.transmutations.WorldTransmutation;
-import powerlessri.anotsturdymod.blocks.cobblegen.block.BlockInfiniteCobbleGenerator;
-import powerlessri.anotsturdymod.blocks.cobblegen.tile.TileCobbleGenerator;
-import powerlessri.anotsturdymod.blocks.BlockLightCube;
-import powerlessri.anotsturdymod.blocks.remoteenetwork.block.BlockEnergyAccessPort;
-import powerlessri.anotsturdymod.blocks.remoteenetwork.block.BlockEnergyController;
-import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.*;
 import powerlessri.anotsturdymod.network.PacketLocationalGuiAction;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
-import powerlessri.anotsturdymod.network.datasync.PacketClientRequestedData;
-import powerlessri.anotsturdymod.network.datasync.PacketSRequestWorld;
 import powerlessri.anotsturdymod.varia.machines.EMachineLevel;
 
 public class CommonProxy {
@@ -59,6 +58,7 @@ public class CommonProxy {
         registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", () -> new TileENWirelessTransmitter(0, 320), ANotSturdyMod.gui.keys.get("energy_wireless_transmitter")));
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
         registerBlock(new BlockLightCube("light_cube"));
+        registerBlock(new BlockLogisticsController("logistics_controller"));
 
         TileEntity.register("te.energy_network_controller", TileENController.class);
         TileEntity.register("te.energy_network_base", TileENAccessPort.class);
@@ -79,10 +79,7 @@ public class CommonProxy {
         int packetId = 0;
         ANotSturdyMod.network.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);
         ANotSturdyMod.network.registerMessage(PacketLocationalGuiAction.Handler.class, PacketLocationalGuiAction.class, packetId++, Side.SERVER);
-        ANotSturdyMod.network.registerMessage(PacketSRequestWorld.Handler.class, PacketSRequestWorld.class, packetId++, Side.SERVER);
-        ANotSturdyMod.network.registerMessage(PacketClientRequestedData.Handler.class, PacketClientRequestedData.class, packetId++, Side.CLIENT);
 
-        TileENAccessPort.initNetwork();
         TileENWirelessTransmitter.initNetwork();
     }
 

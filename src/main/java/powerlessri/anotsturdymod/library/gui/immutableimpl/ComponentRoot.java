@@ -1,13 +1,8 @@
 package powerlessri.anotsturdymod.library.gui.immutableimpl;
 
 import com.google.common.collect.ImmutableList;
-import javafx.scene.input.MouseButton;
 import net.minecraft.client.gui.GuiScreen;
-import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.api.IContainer;
-import powerlessri.anotsturdymod.library.gui.api.EDisplayMode;
-import powerlessri.anotsturdymod.library.gui.api.EEventType;
-import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
+import powerlessri.anotsturdymod.library.gui.api.*;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -40,6 +35,7 @@ public class ComponentRoot implements IContainer {
             }
 
             if (component instanceof IContainer) {
+                @SuppressWarnings("unchecked")
                 IContainer<IComponent> subContainer  = (IContainer<IComponent>) component;
                 searchForLeavesRecursive(subContainer, leaves);
             }
@@ -155,7 +151,7 @@ public class ComponentRoot implements IContainer {
     }
 
 
-    public void onMouseClicked(int mouseX, int mouseY, MouseButton button) {
+    public void onMouseClicked(int mouseX, int mouseY, EMouseButton button) {
         for (IComponent component : leaves) {
             if (component instanceof IInteractionHandler) {
                 IInteractionHandler handler = ((IInteractionHandler) component);
@@ -179,7 +175,7 @@ public class ComponentRoot implements IContainer {
         }
     }
 
-    public void onMouseReleased(int mouseX, int mouseY, MouseButton button) {
+    public void onMouseReleased(int mouseX, int mouseY, EMouseButton button) {
     }
 
 }
