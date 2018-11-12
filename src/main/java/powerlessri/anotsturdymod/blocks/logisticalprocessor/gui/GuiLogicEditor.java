@@ -67,7 +67,7 @@ public class GuiLogicEditor extends ComponentizedGui {
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
         
-        GuiUtils.resetGuiGlStates();
+        GuiUtils.useTextureGLStates();
         mc.renderEngine.bindTexture(BACKGROUND);
         drawTexturedModalRect(centerX, centerY, BKG_START_X, BKG_START_Y, BKG_WIDTH, BKG_HEIGHT);
     }

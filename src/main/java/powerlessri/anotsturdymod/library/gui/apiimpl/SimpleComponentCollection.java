@@ -142,7 +142,7 @@ public class SimpleComponentCollection implements ICollectorContainer<IInteracti
      * X position of top-left corner.
      */
     @Override
-    public int getAbsoluteX() {
+    public int getActualX() {
         return baseX;
     }
 
@@ -150,7 +150,7 @@ public class SimpleComponentCollection implements ICollectorContainer<IInteracti
      * Y postition of top-left corner.
      */
     @Override
-    public int getAbsoluteY() {
+    public int getActualY() {
         return baseY;
     }
 
@@ -158,24 +158,24 @@ public class SimpleComponentCollection implements ICollectorContainer<IInteracti
      * X position of bottom-right corner.
      */
     public int getAbsoluteX2() {
-        return getAbsoluteX() + getWidth();
+        return getActualX() + getWidth();
     }
 
     /**
      * Y position of bottom-right corner.
      */
     public int getAbsoluteY2() {
-        return getAbsoluteY() + getHeight();
+        return getActualY() + getHeight();
     }
 
     @Override
     public boolean isPointInside(int x, int y) {
-        return x >= getAbsoluteX() && x <= getAbsoluteX2() &&
-                y >= getAbsoluteY() && y <= getAbsoluteY2();
+        return x >= getActualX() && x <= getAbsoluteX2() &&
+                y >= getActualY() && y <= getAbsoluteY2();
     }
 
     @Override
-    public void resetAbsolutePosition(int x, int y) {
+    public void forceActualPosition(int x, int y) {
         baseX = x;
         baseY = y;
     }
@@ -220,7 +220,7 @@ public class SimpleComponentCollection implements ICollectorContainer<IInteracti
     
     @Override
     public void draw() {
-        GuiUtils.resetGuiGlStates();
+        GuiUtils.useTextureGLStates();
 
         if (background != null) {
             background.draw(gui, baseX, baseY);
@@ -234,7 +234,7 @@ public class SimpleComponentCollection implements ICollectorContainer<IInteracti
 
     private void reInitializeComponent(IInteractionHandler component) {
         component.initialize(gui, this);
-        component.resetAbsolutePosition(relativeX + component.getX(), relativeY + component.getY());
+        component.forceActualPosition(relativeX + component.getX(), relativeY + component.getY());
     }
     
     protected void recalculateBasePosition() {

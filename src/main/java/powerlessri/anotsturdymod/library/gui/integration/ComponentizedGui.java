@@ -32,7 +32,7 @@ public class ComponentizedGui extends GuiContainer {
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         drawDefaultBackground();
 
-        GuiUtils.resetGuiGlStates();
+        GuiUtils.useTextureGLStates();
         root.draw();
     }
     

@@ -33,9 +33,9 @@ public class ComponentSlotGroup extends AbstractComponent {
         gui.mc.renderEngine.bindTexture(WIDGETS_1);
         
         for (int i = 0; i < slotsVertical; i++) {
-            int currentY = getAbsoluteY() + i * SLOT_IMAGE_HEIGHT;
+            int currentY = getActualY() + i * SLOT_IMAGE_HEIGHT;
             for (int j = 0; j < slotsHorizontal; j++) {
-                int currentX = getAbsoluteX() + j * SLOT_IMAGE_WIDTH;
+                int currentX = getActualX() + j * SLOT_IMAGE_WIDTH;
                 
                 gui.drawTexturedModalRect(currentX, currentY, SLOT_POS_X, SLOT_POS_Y, SLOT_IMAGE_WIDTH, SLOT_IMAGE_HEIGHT);
             }

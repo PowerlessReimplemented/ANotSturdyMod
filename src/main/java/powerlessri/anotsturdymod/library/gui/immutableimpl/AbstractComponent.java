@@ -35,8 +35,8 @@ public abstract class AbstractComponent implements IComponent {
 
     @Override
     public void initialize(GuiScreen gui, IComponent parent) {
-        int oldX = getAbsoluteX();
-        int oldY = getAbsoluteY();
+        int oldX = getActualX();
+        int oldY = getActualY();
         
         this.gui = gui;
         this.parent = parent;
@@ -46,7 +46,7 @@ public abstract class AbstractComponent implements IComponent {
         recalculatePosition();
         
         // Events
-        onBasePositionChanged(oldX, oldY, getAbsoluteX(), getAbsoluteY());
+        onBasePositionChanged(oldX, oldY, getActualX(), getActualY());
     }
 
     @Override
@@ -88,27 +88,33 @@ public abstract class AbstractComponent implements IComponent {
     }
 
     @Override
-    public int getAbsoluteX() {
+    public int getActualX() {
         return absX;
     }
 
     @Override
-    public int getAbsoluteY() {
+    public int getActualY() {
         return absY;
     }
 
-    public int getAbsoluteX2() {
+    /**
+     * X position of the bottom right corner.
+     */
+    public int getActualXBR() {
         return absX + getWidth();
     }
 
-    public int getAbsoluteY2() {
+    /**
+     * Y position of the bottom right corner.
+     */
+    public int getActualYBR() {
         return absY + getHeight();
     }
 
     @Override
     public boolean isPointInside(int x, int y) {
-        return x >= getAbsoluteX() && x <= getAbsoluteX2() &&
-                y >= getAbsoluteY() && y <= getAbsoluteY2();
+        return x >= getActualX() && x <= getActualXBR() &&
+                y >= getActualY() && y <= getActualYBR();
     }
 
     
@@ -116,14 +122,14 @@ public abstract class AbstractComponent implements IComponent {
      * Recalculate absolute position of the component.
      */
     @Override
-    public void resetAbsolutePosition(int x, int y) {
+    @Deprecated
+    public void forceActualPosition(int x, int y) {
         recalculatePosition();
     }
     
     private void recalculatePosition() {
-        absX = parent.getAbsoluteX() + x;
-        absY = parent.getAbsoluteY() + y;
-        Utils.getLogger().info("recal x=" + absX + " y=" + absY);
+        absX = parent.getActualX() + x;
+        absY = parent.getActualY() + y;
     }
 
 

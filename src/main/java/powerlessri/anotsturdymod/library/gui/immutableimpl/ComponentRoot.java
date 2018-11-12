@@ -127,12 +127,12 @@ public class ComponentRoot implements IContainer {
     }
 
     @Override
-    public int getAbsoluteX() {
+    public int getActualX() {
         return 0;
     }
 
     @Override
-    public int getAbsoluteY() {
+    public int getActualY() {
         return 0;
     }
 
@@ -142,7 +142,7 @@ public class ComponentRoot implements IContainer {
     }
 
     @Override
-    public void resetAbsolutePosition(int x, int y) {
+    public void forceActualPosition(int x, int y) {
     }
 
     @Override

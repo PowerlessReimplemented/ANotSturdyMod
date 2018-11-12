@@ -56,9 +56,9 @@ public interface IComponent {
     int getHeight();
     
     
-    int getAbsoluteX();
+    int getActualX();
     
-    int getAbsoluteY();
+    int getActualY();
 
     boolean isPointInside(int x, int y);
 
@@ -66,7 +66,7 @@ public interface IComponent {
      * Used to force-set position. 
      * @deprecated Reason: <br /> Component implementations should automatically calculate absolute position based on it's parent's position.
      */
-    void resetAbsolutePosition(int x, int y);
+    void forceActualPosition(int x, int y);
     
     
     int getZIndex();
