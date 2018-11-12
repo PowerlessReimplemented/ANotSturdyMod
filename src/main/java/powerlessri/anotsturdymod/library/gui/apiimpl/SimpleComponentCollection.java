@@ -6,7 +6,7 @@ import powerlessri.anotsturdymod.library.gui.api.EDisplayMode;
 import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
 import powerlessri.anotsturdymod.library.gui.api.ICollectorContainer;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.varia.general.TextureWrapper;
+import powerlessri.anotsturdymod.library.gui.immutableimpl.TextureWrapper;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 import javax.annotation.Nullable;
@@ -130,12 +130,12 @@ public class SimpleComponentCollection implements ICollectorContainer<IInteracti
 
     @Override
     public int getWidth() {
-        return background.getWidth();
+        return background.width;
     }
 
     @Override
     public int getHeight() {
-        return background.getHeight();
+        return background.height;
     }
 
     /**
