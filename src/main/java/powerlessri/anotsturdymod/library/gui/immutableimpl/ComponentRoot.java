@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.*;
+import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -54,9 +55,9 @@ public class ComponentRoot implements IContainer {
     }
 
     @Override
-    public void draw() {
+    public void draw(GuiDrawBackgroundEvent event) {
         for (IContainer<IComponent> window : windows) {
-            window.tryDraw();
+            window.tryDraw(event);
         }
     }
 
@@ -177,6 +178,10 @@ public class ComponentRoot implements IContainer {
     }
 
     public void onMouseReleased(int mouseX, int mouseY, EMouseButton button) {
+        if (lastClicked == null) {
+            return;
+        }
+        
         EnumActionResult result = lastClicked.onReleased(mouseX, mouseY, button, EEventType.ORIGINAL);
         if (result == EnumActionResult.FAIL) {
             return;

@@ -7,6 +7,7 @@ import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
 import powerlessri.anotsturdymod.library.gui.api.ICollectorContainer;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.TextureWrapper;
+import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 import javax.annotation.Nullable;
@@ -22,7 +23,7 @@ import java.util.List;
  * 
  * @deprecated Immutable component collector are usually a better choice, as they won't cause NullPointerExceptions. <br />
  *             This implementation of a mutable component collection also have some performence issues, e.g. search
- *             through all components every time to sort by z-index.
+ *             through all components every updates to sort by z-index.
  */
 public class SimpleComponentCollection implements ICollectorContainer<IInteractionHandler>, Iterable<IInteractionHandler> {
 
@@ -217,9 +218,10 @@ public class SimpleComponentCollection implements ICollectorContainer<IInteracti
     public EDisplayMode getDisplay() {
         return EDisplayMode.CUSTOM;
     }
-    
+
+
     @Override
-    public void draw() {
+    public void draw(GuiDrawBackgroundEvent event) {
         GuiUtils.useTextureGLStates();
 
         if (background != null) {
@@ -227,7 +229,7 @@ public class SimpleComponentCollection implements ICollectorContainer<IInteracti
         }
         
         for (IInteractionHandler component : components) {
-            component.draw();
+            component.draw(event);
         }
     }
 

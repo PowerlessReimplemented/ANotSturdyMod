@@ -21,7 +21,7 @@ public abstract class TileBlockBase extends SimpleBlockBase {
      * Mojang have an official tile entity api, ITileEntityProvider, which uses meta value,
      * but Forge actually uses Block#hasTileEntity & Block#createTileEntity as the actual api.
      *
-     * This field #hasTileEntity hasn't been used for a long time since BlockContainer doesn't gets used.
+     * This field #hasTileEntity hasn't been used for a long updates since BlockContainer doesn't gets used.
      */
     @Override
     public boolean hasTileEntity(IBlockState state) {

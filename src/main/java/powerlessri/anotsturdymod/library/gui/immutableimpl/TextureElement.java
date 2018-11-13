@@ -1,12 +1,14 @@
 package powerlessri.anotsturdymod.library.gui.immutableimpl;
 
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.library.gui.TextureWrapper;
 import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
+import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 /**
@@ -48,13 +50,13 @@ public class TextureElement extends AbstractComponent implements IInteractionHan
     }
 
     @Override
-    public void onClicked(int mouseX, int mouseY, EMouseButton button, EEventType type) {
-        parent.onClicked(mouseX, mouseY, button, type);
+    public EnumActionResult onClicked(int mouseX, int mouseY, EMouseButton button, EEventType type) {
+        return parent.onClicked(mouseX, mouseY, button, type);
     }
 
     @Override
-    public void onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
-        parent.onReleased(mouseX, mouseY, button, type);
+    public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
+        return parent.onReleased(mouseX, mouseY, button, type);
     }
 
     @Override
@@ -73,7 +75,7 @@ public class TextureElement extends AbstractComponent implements IInteractionHan
     }
 
     @Override
-    public void draw() {
+    public void draw(GuiDrawBackgroundEvent event) {
         GuiUtils.useTextureGLStates();
         gui.mc.renderEngine.bindTexture(texture);
         gui.drawTexturedModalRect(getActualX(), getActualY(), textureX, textureY, width, height);

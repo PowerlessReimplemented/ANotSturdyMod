@@ -4,12 +4,13 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
+import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
-public class ComponentPanel extends AbstractComponent implements IContainer<IComponent> {
+public class BasicPanel extends AbstractComponent implements IContainer<IComponent> {
     
     protected ImmutableList<IComponent> components;
     
-    public ComponentPanel(int x, int y, ImmutableList<IComponent> components) {
+    public BasicPanel(int x, int y, ImmutableList<IComponent> components) {
         super(x, y);
         this.components = components;
     }
@@ -38,9 +39,9 @@ public class ComponentPanel extends AbstractComponent implements IContainer<ICom
     
     
     @Override
-    public void draw() {
+    public void draw(GuiDrawBackgroundEvent event) {
         for (IComponent component : components) {
-            component.tryDraw();
+            component.tryDraw(event);
         }
     }
 

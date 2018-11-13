@@ -13,6 +13,18 @@ import java.io.IOException;
 
 public class ComponentizedGui extends GuiContainer {
 
+    /**
+     * Number of updates since this GUI was created.
+     */
+    public long updates;
+
+    /**
+     * System time when this GUI was initialized.
+     */
+    public long timeStarted;
+    
+    private GuiDrawBackgroundEvent redrawEvent;
+    
     protected ComponentRoot root;
     protected ImmutableList<IContainer<IComponent>> windows;
 
@@ -23,13 +35,16 @@ public class ComponentizedGui extends GuiContainer {
     
     public ComponentizedGui(Container container, ImmutableList<IContainer<IComponent>> windows) {
         super(container);
+        
         this.windows = windows;
+        this.redrawEvent = new GuiDrawBackgroundEvent();
     }
 
     @Override
     public void initGui() {
         super.initGui();
-
+        
+        timeStarted = System.currentTimeMillis();
         root = new ComponentRoot(this, windows);
     }
 
@@ -37,26 +52,36 @@ public class ComponentizedGui extends GuiContainer {
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         drawDefaultBackground();
 
+        redrawEvent.guiTime = System.currentTimeMillis() - timeStarted;
+        redrawEvent.particleTicks = partialTicks;
+        redrawEvent.mouseX = mouseX;
+        redrawEvent.mouseY = mouseY;
+        
         GuiUtils.useTextureGLStates();
-        root.draw();
-    }
-    
-
-    @Override
-    protected void mouseClicked(int mouseX, int mouseY, int buttonId) throws IOException {
-        super.mouseClicked(mouseX, mouseY, buttonId);
-        root.onMouseClicked(mouseX, mouseY, getMouseButton(buttonId));
+        root.draw(redrawEvent);
     }
 
     @Override
-    protected void mouseReleased(int mouseX, int mouseY, int buttonId) {
-        super.mouseReleased(mouseX, mouseY, buttonId);
-        root.onMouseReleased(mouseX, mouseY, getMouseButton(buttonId));
+    public void updateScreen() {
+        super.updateScreen();
+        updates++;
+    }
+
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+        root.onMouseClicked(mouseX, mouseY, getMouseButton(mouseButton));
+    }
+
+    @Override
+    protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+        super.mouseReleased(mouseX, mouseY, mouseButton);
+        root.onMouseReleased(mouseX, mouseY, getMouseButton(mouseButton));
     }
 
 
-    private EMouseButton getMouseButton(int flag) {
-        switch (flag) {
+    private EMouseButton getMouseButton(int mouseButton) {
+        switch (mouseButton) {
             case 0:
                 return EMouseButton.PRIMARY;
             case 1: 

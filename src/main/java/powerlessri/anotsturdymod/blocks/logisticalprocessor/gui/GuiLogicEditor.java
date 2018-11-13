@@ -6,8 +6,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
-import powerlessri.anotsturdymod.library.gui.immutableimpl.ComponentPanel;
-import powerlessri.anotsturdymod.library.gui.immutableimpl.button.ButtonGradient;
+import powerlessri.anotsturdymod.library.gui.immutableimpl.BasicPanel;
+import powerlessri.anotsturdymod.library.gui.immutableimpl.widget.ButtonGradient;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventory;
 import powerlessri.anotsturdymod.library.gui.template.AbstractTemplate;
@@ -54,7 +54,7 @@ public class GuiLogicEditor extends ComponentizedGui {
     @Override
     public void initGui() {
         windows = ImmutableList.of(
-                new ComponentPanel(10, 10, ImmutableList.of(
+                new BasicPanel(10, 10, ImmutableList.of(
                         new ButtonGradient(0, 0, 40, 20)
                 ))
         );
