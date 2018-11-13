@@ -36,6 +36,7 @@ public class ButtonGradient extends AbstractButton {
         return height;
     }
 
+    // TODO add states
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
         GuiUtils.useGradientGLStates();
@@ -57,8 +58,7 @@ public class ButtonGradient extends AbstractButton {
     }
 
     @Override
-    public void drawClicked(GuiDrawBackgroundEvent event) {
-
+    public void drawPressed(GuiDrawBackgroundEvent event) {
     }
 
     @Override

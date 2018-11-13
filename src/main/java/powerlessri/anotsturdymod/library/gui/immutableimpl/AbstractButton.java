@@ -39,7 +39,7 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
     public void draw(GuiDrawBackgroundEvent event) {
         if (isPressed) {
             timePressed++;
-            drawClicked(event);
+            drawPressed(event);
         } else {
             timePressed = 0;
             if (this.isDisabled) {
@@ -56,7 +56,7 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
     
     public abstract void drawHovering(GuiDrawBackgroundEvent event);
     
-    public abstract void drawClicked(GuiDrawBackgroundEvent event);
+    public abstract void drawPressed(GuiDrawBackgroundEvent event);
     
     public abstract void drawDisabled(GuiDrawBackgroundEvent event);
 
