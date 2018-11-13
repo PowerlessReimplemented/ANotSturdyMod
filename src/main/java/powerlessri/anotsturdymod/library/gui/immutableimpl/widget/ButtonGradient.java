@@ -3,10 +3,7 @@ package powerlessri.anotsturdymod.library.gui.immutableimpl.widget;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.EnumActionResult;
 import org.lwjgl.opengl.GL11;
-import powerlessri.anotsturdymod.library.gui.api.EEventType;
-import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.immutableimpl.AbstractButton;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
@@ -57,7 +54,6 @@ public class ButtonGradient extends AbstractButton {
 
     @Override
     public void drawHovering(GuiDrawBackgroundEvent event) {
-        gui.mc.fontRenderer.drawString("hover", 0, 0, 0x000000);
     }
 
     @Override

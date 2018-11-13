@@ -3,7 +3,6 @@ package powerlessri.anotsturdymod.library.gui.immutableimpl;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.EDisplayMode;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.varia.general.Utils;
 
 import javax.annotation.Nullable;
 

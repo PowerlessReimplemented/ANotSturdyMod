@@ -1,9 +1,10 @@
-package powerlessri.anotsturdymod.library.gui.immutableimpl;
+package powerlessri.anotsturdymod.library.gui.immutableimpl.section;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
+import powerlessri.anotsturdymod.library.gui.immutableimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
 public class BasicPanel extends AbstractComponent implements IContainer<IComponent> {

@@ -58,15 +58,6 @@ public class ComponentSlotGroup extends AbstractComponent {
     public int getHeight() {
         return height;
     }
-
-    @Override
-    public int getZIndex() {
-        return 0;
-    }
-
-    @Override
-    public void setZIndex(int zIndex) {
-    }
     
 }
 

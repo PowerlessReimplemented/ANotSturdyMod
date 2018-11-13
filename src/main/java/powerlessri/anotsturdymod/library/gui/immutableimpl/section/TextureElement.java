@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.gui.immutableimpl;
+package powerlessri.anotsturdymod.library.gui.immutableimpl.section;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumActionResult;
@@ -8,6 +8,7 @@ import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
+import powerlessri.anotsturdymod.library.gui.immutableimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
 

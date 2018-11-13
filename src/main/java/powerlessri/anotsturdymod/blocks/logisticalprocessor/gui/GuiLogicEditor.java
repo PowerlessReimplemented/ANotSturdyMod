@@ -6,7 +6,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
-import powerlessri.anotsturdymod.library.gui.immutableimpl.BasicPanel;
+import powerlessri.anotsturdymod.library.gui.immutableimpl.section.BasicPanel;
 import powerlessri.anotsturdymod.library.gui.immutableimpl.widget.ButtonGradient;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventory;

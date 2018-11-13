@@ -8,6 +8,7 @@ import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.immutableimpl.ComponentRoot;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
+import powerlessri.anotsturdymod.varia.general.Utils;
 
 import java.io.IOException;
 
@@ -77,6 +78,7 @@ public class ComponentizedGui extends GuiContainer {
     protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
         super.mouseReleased(mouseX, mouseY, mouseButton);
         root.onMouseReleased(mouseX, mouseY, getMouseButton(mouseButton));
+        Utils.getLogger().info("realease");
     }
 
 
