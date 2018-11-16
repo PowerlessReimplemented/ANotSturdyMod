@@ -47,5 +47,15 @@ public class ComponentPanel extends AbstractComponent implements IContainer<ICom
     public boolean isLeafComponent() {
         return true;
     }
-    
+
+    @Override
+    public int getWidth() {
+        return 0;
+    }
+
+    @Override
+    public int getHeight() {
+        return 0;
+    }
+
 }
