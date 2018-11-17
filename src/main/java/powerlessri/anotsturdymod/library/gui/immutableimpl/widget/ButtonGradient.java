@@ -4,11 +4,20 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
+import powerlessri.anotsturdymod.config.ClientConfig;
 import powerlessri.anotsturdymod.library.gui.immutableimpl.AbstractButton;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
+import powerlessri.anotsturdymod.varia.general.Utils;
 
 public class ButtonGradient extends AbstractButton {
+    
+    private float redStart;
+    private float greenStart;
+    private float blueStart;
+    private float redEnd;
+    private float greenEnd;
+    private float blueEnd;
     
     private int width;
     private int height;
@@ -18,6 +27,13 @@ public class ButtonGradient extends AbstractButton {
         
         this.width = width;
         this.height = height;
+        
+        this.redStart = (ClientConfig.gradientBtnStart >> 16 & 255) / 255.0f;
+        this.greenStart = (ClientConfig.gradientBtnStart >> 8 & 255) / 255.0f;
+        this.blueStart = (ClientConfig.gradientBtnStart & 255) / 255.0f;
+        this.redEnd = (ClientConfig.gradientBtnEnd >> 16 & 255) / 255.0f;
+        this.greenEnd = (ClientConfig.gradientBtnEnd >> 8 & 255) / 255.0f;
+        this.blueEnd = (ClientConfig.gradientBtnEnd & 255) / 255.0f;
     }
     
 
@@ -45,10 +61,10 @@ public class ButtonGradient extends AbstractButton {
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
 
         // Bottom Left -> Top Left -> Top Right -> Bottom Right
-        buffer.pos(getActualXBR(), getActualY(), z).color(255, 255, 255, 255).endVertex();
-        buffer.pos(getActualX(), getActualY(), z).color(255, 255, 255, 255).endVertex();
-        buffer.pos(getActualX(), getActualYBR(), z).color(37, 37, 37, 255).endVertex();
-        buffer.pos(getActualXBR(), getActualYBR(), z).color(37, 37, 37, 255).endVertex();
+        buffer.pos(getActualXBR(), getActualY(), z).color(redStart, greenStart, blueStart, 1.0f).endVertex();
+        buffer.pos(getActualX(), getActualY(), z).color(redStart, greenStart, blueStart, 1.0f).endVertex();
+        buffer.pos(getActualX(), getActualYBR(), z).color(redEnd, greenEnd, blueEnd, 1.0f).endVertex();
+        buffer.pos(getActualXBR(), getActualYBR(), z).color(redEnd, greenEnd, blueEnd, 1.0f).endVertex();
 
         tessellator.draw();
     }
