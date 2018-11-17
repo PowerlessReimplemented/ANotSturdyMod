@@ -4,7 +4,6 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL45;
 import powerlessri.anotsturdymod.config.ClientConfig;
 import powerlessri.anotsturdymod.library.gui.immutableimpl.AbstractButton;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
@@ -20,6 +19,20 @@ public class ButtonGradient extends AbstractButton {
     private int redNormalE;
     private int greenNormalE;
     private int blueNormalE;
+
+    private int redHoverS;
+    private int greenHoverS;
+    private int blueHoverS;
+    private int redHoverE;
+    private int greenHoverE;
+    private int blueHoverE;
+
+    private int redPressedS;
+    private int greenPressedS;
+    private int bluePressedS;
+    private int redPressedE;
+    private int greenPressedE;
+    private int bluePressedE;
     
     private int width;
     private int height;
@@ -29,13 +42,30 @@ public class ButtonGradient extends AbstractButton {
         
         this.width = width;
         this.height = height;
-        
-        this.redNormalS = ClientConfig.gradientBtnStart >> 16 & 255;
-        this.greenNormalS = ClientConfig.gradientBtnStart >> 8 & 255;
-        this.blueNormalS = ClientConfig.gradientBtnStart & 255;
-        this.redNormalE = ClientConfig.gradientBtnEnd >> 16 & 255;
-        this.greenNormalE = ClientConfig.gradientBtnEnd >> 8 & 255;
-        this.blueNormalE = ClientConfig.gradientBtnEnd & 255;
+        this.initializeColors();
+    }
+    
+    private void initializeColors() {
+        redNormalS = ClientConfig.gradientBtnSNormal >> 16 & 255;
+        greenNormalS = ClientConfig.gradientBtnSNormal >> 8 & 255;
+        blueNormalS = ClientConfig.gradientBtnSNormal & 255;
+        redNormalE = ClientConfig.gradientBtnENormal >> 16 & 255;
+        greenNormalE = ClientConfig.gradientBtnENormal >> 8 & 255;
+        blueNormalE = ClientConfig.gradientBtnENormal & 255;
+
+        redHoverS = ClientConfig.gradientBtnSHover >> 16 & 255;
+        greenHoverS = ClientConfig.gradientBtnSHover >> 8 & 255;
+        blueHoverS = ClientConfig.gradientBtnSHover & 255;
+        redHoverE = ClientConfig.gradientBtnEHover >> 16 & 255;
+        greenHoverE = ClientConfig.gradientBtnEHover >> 8 & 255;
+        blueHoverE = ClientConfig.gradientBtnEHover & 255;
+
+        redPressedS = ClientConfig.gradientBtnSPressed >> 16 & 255;
+        greenPressedS = ClientConfig.gradientBtnSPressed >> 8 & 255;
+        bluePressedS = ClientConfig.gradientBtnSPressed & 255;
+        redPressedE = ClientConfig.gradientBtnEPressed >> 16 & 255;
+        greenPressedE = ClientConfig.gradientBtnEPressed >> 8 & 255;
+        bluePressedE = ClientConfig.gradientBtnEPressed & 255;
     }
     
 
@@ -57,12 +87,12 @@ public class ButtonGradient extends AbstractButton {
 
     @Override
     public void drawHovering(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(0, 178, 200, 255, 107, 149, 255, ALPHA_SOLID);
+        drawGradientRectangleBox(0, redHoverS, greenHoverS, blueHoverS, redHoverE, greenHoverE, blueHoverE, ALPHA_SOLID);
     }
 
     @Override
     public void drawPressed(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(0, 109, 150, 255, 0, 72, 255, ALPHA_SOLID);
+        drawGradientRectangleBox(0, redPressedS, greenPressedS, bluePressedS, redPressedE, greenPressedE, bluePressedE, ALPHA_SOLID);
     }
 
     @Override
