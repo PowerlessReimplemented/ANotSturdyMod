@@ -14,6 +14,7 @@ import powerlessri.anotsturdymod.blocks.remoteenetwork.block.BlockEnergyAccessPo
 import powerlessri.anotsturdymod.blocks.remoteenetwork.block.BlockEnergyController;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.*;
 import powerlessri.anotsturdymod.commands.CommandAnsmUtils;
+import powerlessri.anotsturdymod.config.MainConfig;
 import powerlessri.anotsturdymod.handlers.init.ModBlocks;
 import powerlessri.anotsturdymod.handlers.init.ModCommands;
 import powerlessri.anotsturdymod.handlers.init.ModItems;
@@ -53,8 +54,8 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         registerBlock(BlockEnergyController.INSTANCE);
-        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPortInput(0, Integer.MAX_VALUE), ANotSturdyMod.gui.keys.get("energy_io_access")));
-        registerBlock(new BlockEnergyAccessPort("energy_network_output_port", () -> new TileENAccessPortOutput(0, 5000), ANotSturdyMod.gui.keys.get("energy_io_access")));
+        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPortInput(0, MainConfig.accessPortReceiveLimit), ANotSturdyMod.gui.keys.get("energy_io_access")));
+        registerBlock(new BlockEnergyAccessPort("energy_network_output_port", () -> new TileENAccessPortOutput(0, MainConfig.accessPortExtractLimit), ANotSturdyMod.gui.keys.get("energy_io_access")));
         registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", () -> new TileENWirelessTransmitter(0, 320), ANotSturdyMod.gui.keys.get("energy_wireless_transmitter")));
         registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
         registerBlock(new BlockLightCube("light_cube"));
@@ -71,8 +72,8 @@ public class CommonProxy {
         registerItem(BlockEnergyController.STORAGE_UPGRADE);
         registerItem(BlockEnergyController.IO_UPGRADE);
         registerItem(new ItemTransmutationStone("transmutation_orb"));
-        registerItem(new ItemExchanger("exchanger", EMachineLevel.BASIC, 3));
-        registerItem(new ItemExchanger("exchanger", EMachineLevel.ADVANCED, 9));
+        registerItem(new ItemExchanger("exchanger", EMachineLevel.BASIC, MainConfig.basicExchangerRadius));
+        registerItem(new ItemExchanger("exchanger", EMachineLevel.ADVANCED, MainConfig.advancedExchangerRadius));
         registerItem(new ItemIlluminator("illuminator", EMachineLevel.BASIC));
 
 
@@ -80,6 +81,7 @@ public class CommonProxy {
         ANotSturdyMod.network.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);
         ANotSturdyMod.network.registerMessage(PacketLocationalGuiAction.Handler.class, PacketLocationalGuiAction.class, packetId++, Side.SERVER);
 
+        TileENComponentBase.initNetwork();
         TileENWirelessTransmitter.initNetwork();
     }
 

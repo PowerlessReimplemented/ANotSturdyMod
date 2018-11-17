@@ -10,6 +10,7 @@ import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.library.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
+import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.IENetworkController;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.data.ControllerNetworkData;
 import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
@@ -135,8 +136,14 @@ public class TileENComponentBase extends TileEntityBase {
     // ======== Networking ======== //
 
     public static final String SET_CHANNEL = TILE_REGISTRY_NAME + ":setChannel";
-    
-    
+
+    public static void initNetwork() {
+        PacketServerCommand.handlers.put(SET_CHANNEL, (msg, ctx) -> {
+            onPacketSetChannel(msg, ctx);
+        });
+    }
+
+
     public static void onPacketSetChannel(PacketServerCommand pckt, MessageContext ctx) {
         int channelTo = pckt.args.getInteger(TileENController.CHANNEL);
 
