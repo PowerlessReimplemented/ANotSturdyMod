@@ -22,6 +22,10 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
         return true;
     }
     
+    public boolean isPressed() {
+        return isPressed;
+    }
+    
     public boolean isDisabled() {
         return isDisabled;
     }

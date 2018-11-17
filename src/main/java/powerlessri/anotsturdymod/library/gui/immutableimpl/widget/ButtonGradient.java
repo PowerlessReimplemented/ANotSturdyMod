@@ -50,7 +50,6 @@ public class ButtonGradient extends AbstractButton {
     }
     
 
-    // TODO add states
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
         drawGradientRectangleBox(0, redNormalS, greenNormalS, blueNormalS, redNormalE, greenNormalE, blueNormalE, ALPHA_SOLID);
@@ -58,14 +57,17 @@ public class ButtonGradient extends AbstractButton {
 
     @Override
     public void drawHovering(GuiDrawBackgroundEvent event) {
+        drawGradientRectangleBox(0, 178, 200, 255, 107, 149, 255, ALPHA_SOLID);
     }
 
     @Override
     public void drawPressed(GuiDrawBackgroundEvent event) {
+        drawGradientRectangleBox(0, 109, 150, 255, 0, 72, 255, ALPHA_SOLID);
     }
 
     @Override
     public void drawDisabled(GuiDrawBackgroundEvent event) {
+        drawNormal(event);
     }
 
 

@@ -55,7 +55,7 @@ public class GuiLogicEditor extends ComponentizedGui {
     public void initGui() {
         windows = ImmutableList.of(
                 new BasicPanel(10, 10, ImmutableList.of(
-                        new ButtonGradient(0, 0, 40, 20)
+                        new ButtonGradient(0, 0, 16, 10)
                 ))
         );
         
