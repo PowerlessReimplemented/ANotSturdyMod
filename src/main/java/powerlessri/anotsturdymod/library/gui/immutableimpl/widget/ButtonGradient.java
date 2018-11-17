@@ -4,20 +4,22 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL45;
 import powerlessri.anotsturdymod.config.ClientConfig;
 import powerlessri.anotsturdymod.library.gui.immutableimpl.AbstractButton;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
-import powerlessri.anotsturdymod.varia.general.Utils;
 
 public class ButtonGradient extends AbstractButton {
     
-    private float redStart;
-    private float greenStart;
-    private float blueStart;
-    private float redEnd;
-    private float greenEnd;
-    private float blueEnd;
+    public static final int ALPHA_SOLID = 255;
+    
+    private int redNormalS;
+    private int greenNormalS;
+    private int blueNormalS;
+    private int redNormalE;
+    private int greenNormalE;
+    private int blueNormalE;
     
     private int width;
     private int height;
@@ -28,19 +30,14 @@ public class ButtonGradient extends AbstractButton {
         this.width = width;
         this.height = height;
         
-        this.redStart = (ClientConfig.gradientBtnStart >> 16 & 255) / 255.0f;
-        this.greenStart = (ClientConfig.gradientBtnStart >> 8 & 255) / 255.0f;
-        this.blueStart = (ClientConfig.gradientBtnStart & 255) / 255.0f;
-        this.redEnd = (ClientConfig.gradientBtnEnd >> 16 & 255) / 255.0f;
-        this.greenEnd = (ClientConfig.gradientBtnEnd >> 8 & 255) / 255.0f;
-        this.blueEnd = (ClientConfig.gradientBtnEnd & 255) / 255.0f;
+        this.redNormalS = ClientConfig.gradientBtnStart >> 16 & 255;
+        this.greenNormalS = ClientConfig.gradientBtnStart >> 8 & 255;
+        this.blueNormalS = ClientConfig.gradientBtnStart & 255;
+        this.redNormalE = ClientConfig.gradientBtnEnd >> 16 & 255;
+        this.greenNormalE = ClientConfig.gradientBtnEnd >> 8 & 255;
+        this.blueNormalE = ClientConfig.gradientBtnEnd & 255;
     }
     
-
-    @Override
-    public boolean isLeafComponent() {
-        return true;
-    }
 
     @Override
     public int getWidth() {
@@ -51,22 +48,12 @@ public class ButtonGradient extends AbstractButton {
     public int getHeight() {
         return height;
     }
+    
 
     // TODO add states
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
-        GuiUtils.useGradientGLStates();
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder buffer = tessellator.getBuffer();
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
-
-        // Bottom Left -> Top Left -> Top Right -> Bottom Right
-        buffer.pos(getActualXBR(), getActualY(), z).color(redStart, greenStart, blueStart, 1.0f).endVertex();
-        buffer.pos(getActualX(), getActualY(), z).color(redStart, greenStart, blueStart, 1.0f).endVertex();
-        buffer.pos(getActualX(), getActualYBR(), z).color(redEnd, greenEnd, blueEnd, 1.0f).endVertex();
-        buffer.pos(getActualXBR(), getActualYBR(), z).color(redEnd, greenEnd, blueEnd, 1.0f).endVertex();
-
-        tessellator.draw();
+        drawGradientRectangleBox(0, redNormalS, greenNormalS, blueNormalS, redNormalE, greenNormalE, blueNormalE, ALPHA_SOLID);
     }
 
     @Override
@@ -79,6 +66,35 @@ public class ButtonGradient extends AbstractButton {
 
     @Override
     public void drawDisabled(GuiDrawBackgroundEvent event) {
+    }
+
+
+    public void drawGradientRectangleBox(int shrink, int red1, int green1, int blue1, int red2, int green2, int blue2, int alpha) {
+        GuiUtils.useGradientGLStates();
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder buffer = tessellator.getBuffer();
+        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
+
+        // Move the vertexes inwards
+        // *----------------*
+        // | *------------* |
+        // | |            | |
+        // | |            | |
+        // | *------------* |
+        // *----------------*
+        // ^^^ shrink
+        int x = getActualX() + shrink;
+        int y = getActualY() + shrink;
+        int xBR = getActualXBR() - shrink;
+        int yBR = getActualYBR() - shrink;
+        
+        // Top Right -> Top Left -> Bottom Left -> Bottom Right
+        buffer.pos(xBR, y, z).color(red1, green1, blue1, alpha).endVertex();
+        buffer.pos(x, y, z).color(red1, green1, blue1, alpha).endVertex();
+        buffer.pos(x, yBR, z).color(red2, green2, blue2, alpha).endVertex();
+        buffer.pos(xBR, yBR, z).color(red2, green2, blue2, alpha).endVertex();
+
+        tessellator.draw();
     }
     
 }
