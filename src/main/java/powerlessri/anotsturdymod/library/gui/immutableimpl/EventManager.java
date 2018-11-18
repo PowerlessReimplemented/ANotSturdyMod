@@ -47,6 +47,22 @@ public class EventManager {
         }
     }
 
+    public void emitClickedDrag(int mouseX, int mouseY, EMouseButton button) {
+        if (lastClicked == null) {
+            return;
+        }
+        
+        lastClicked.onClickedDragging(mouseX, mouseY, button);
+    }
+
+    public void emitHoveringDrag(int mouseX, int mouseY, EMouseButton button) {
+        for (IInteractionHandler handler : handlers) {
+            if (handler != lastClicked && handler.isPointInside(mouseX, mouseY)) {
+                handler.onHoveredDragging(mouseX, mouseY, button);
+            }
+        }
+    }
+
     public void emitMouseReleased(int mouseX, int mouseY, EMouseButton button) {
         if (lastClicked == null || !lastClicked.doesReceiveEvents()) {
             return;

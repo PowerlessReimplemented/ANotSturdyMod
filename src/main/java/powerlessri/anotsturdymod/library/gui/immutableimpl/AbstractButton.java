@@ -108,7 +108,15 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
         isPressed = true;
         return EnumActionResult.FAIL;
     }
-    
+
+    @Override
+    public void onClickedDragging(int mouseX, int mouseY, EMouseButton button) {
+    }
+
+    @Override
+    public void onHoveredDragging(int mouseX, int mouseY, EMouseButton button) {
+    }
+
     @Override
     public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
         isPressed = false;

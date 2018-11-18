@@ -22,6 +22,22 @@ public interface IInteractionHandler extends IComponent {
     EnumActionResult onClicked(int mouseX, int mouseY, EMouseButton button, EEventType type);
 
     /**
+     * When player clicked the component, triggers every time the GUI updates as long as player hold his mouse button.
+     * 
+     * <p>Note that if this event was triggered, {@link #onHoveredDragging(int, int, EMouseButton)} will not trigger.</p>
+     * <p>This event will not bubble up.</p>
+     */
+    void onClickedDragging(int mouseX, int mouseY, EMouseButton button);
+
+    /**
+     * Triggers when player's mouse is hovering above the component and the mouse is pressed.
+     * 
+     * <p>Only triggers when {@link #onClickedDragging(int, int, EMouseButton)} didn't.</p>
+     * <p>This event will not bubble up.</p>
+     */
+    void onHoveredDragging(int mouseX, int mouseY, EMouseButton button);
+    
+    /**
      * Triggers when player released the mouse button. Called on last clicked component.
      *
      * <p>See {@link #onClicked(int, int, EMouseButton, EEventType)} for more information.</p>
@@ -34,6 +50,10 @@ public interface IInteractionHandler extends IComponent {
     EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type);
 
 
+    /**
+     * If returns {@code false}, events will be ignored.
+     * Otherwise all events will be emitted.
+     */
     default boolean doesReceiveEvents() {
         return getDisplay() != EDisplayMode.DISABLED;
     }

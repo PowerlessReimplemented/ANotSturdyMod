@@ -74,6 +74,12 @@ public class ComponentizedGui extends GuiContainer {
     }
 
     @Override
+    protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+        super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
+//        root.getEventManager();
+    }
+
+    @Override
     protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
         super.mouseReleased(mouseX, mouseY, mouseButton);
         root.getEventManager().emitMouseReleased(mouseX, mouseY, getMouseButton(mouseButton));

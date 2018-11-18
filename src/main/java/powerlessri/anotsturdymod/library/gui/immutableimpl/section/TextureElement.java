@@ -57,10 +57,19 @@ public class TextureElement extends AbstractComponent implements IInteractionHan
     }
 
     @Override
+    public void onClickedDragging(int mouseX, int mouseY, EMouseButton button) {
+    }
+
+    @Override
+    public void onHoveredDragging(int mouseX, int mouseY, EMouseButton button) {
+    }
+
+    @Override
     public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
         return parent.onReleased(mouseX, mouseY, button, type);
     }
 
+    
     @Override
     public boolean isLeafComponent() {
         return true;
