@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.world.utils;
+package powerlessri.anotsturdymod.varia.general;
 
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;

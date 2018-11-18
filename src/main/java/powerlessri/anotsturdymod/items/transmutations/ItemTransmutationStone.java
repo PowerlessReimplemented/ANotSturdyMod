@@ -15,7 +15,7 @@ import powerlessri.anotsturdymod.library.item.base.SimpleItemBase;
 import powerlessri.anotsturdymod.varia.tags.IEnumNBTTags;
 import powerlessri.anotsturdymod.varia.tags.ITagBasedItem;
 import powerlessri.anotsturdymod.varia.tags.TagUtils;
-import powerlessri.anotsturdymod.world.utils.PosExtractor;
+import powerlessri.anotsturdymod.varia.general.PosExtractor;
 
 public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedItem {
 

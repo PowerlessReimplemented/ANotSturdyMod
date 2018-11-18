@@ -48,11 +48,9 @@ public class EventManager {
     }
 
     public void emitClickedDrag(int mouseX, int mouseY, EMouseButton button, long timePressed) {
-        if (lastClicked == null) {
-            return;
+        if (lastClicked != null) {
+            lastClicked.onClickedDragging(mouseX, mouseY, button, timePressed);
         }
-        
-        lastClicked.onClickedDragging(mouseX, mouseY, button, timePressed);
     }
 
     public void emitHoveringDrag(int mouseX, int mouseY, EMouseButton button, long timePressed) {
@@ -64,16 +62,14 @@ public class EventManager {
     }
 
     public void emitMouseReleased(int mouseX, int mouseY, EMouseButton button) {
-        if (lastClicked == null || !lastClicked.doesReceiveEvents()) {
-            return;
-        }
+        if (lastClicked != null && lastClicked.doesReceiveEvents()) {
+            EnumActionResult result = lastClicked.onReleased(mouseX, mouseY, button, EEventType.ORIGINAL);
+            if (result == EnumActionResult.FAIL) {
+                return;
+            }
 
-        EnumActionResult result = lastClicked.onReleased(mouseX, mouseY, button, EEventType.ORIGINAL);
-        if (result == EnumActionResult.FAIL) {
-            return;
+            bubbleUpEvent(lastClicked.getParentComponent(), (target) -> target.onReleased(mouseX, mouseY, button, EEventType.BUBBLE));
         }
-
-        bubbleUpEvent(lastClicked.getParentComponent(), (target) -> target.onReleased(mouseX, mouseY, button, EEventType.BUBBLE));
     }
 
 

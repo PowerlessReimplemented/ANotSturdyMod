@@ -26,7 +26,7 @@ import powerlessri.anotsturdymod.varia.tags.EnchantmentUtils;
 import powerlessri.anotsturdymod.varia.tags.IEnumNBTTags;
 import powerlessri.anotsturdymod.varia.tags.ITagBasedItem;
 import powerlessri.anotsturdymod.varia.tags.TagUtils;
-import powerlessri.anotsturdymod.world.utils.PosExtractor;
+import powerlessri.anotsturdymod.varia.general.PosExtractor;
 
 import java.util.Random;
 
