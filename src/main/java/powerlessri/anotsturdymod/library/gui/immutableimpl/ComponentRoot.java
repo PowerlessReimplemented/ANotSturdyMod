@@ -19,7 +19,7 @@ public class ComponentRoot implements IContainer {
     public ComponentRoot(GuiScreen gui, ImmutableList<IContainer<IComponent>> windows) {
         this.gui = gui;
         this.windows = windows;
-        this.leaves = searchForLeaves(windows);
+        this.leaves = StructureProjectingUtils.searchForLeaves(windows);
         
         this.eventManager = EventManager.forLeaves(leaves);
 
@@ -31,34 +31,7 @@ public class ComponentRoot implements IContainer {
             component.initialize(gui, this);
         }
     }
-
-    private ImmutableList<IComponent> searchForLeaves(ImmutableList<IContainer<IComponent>> subComponents) {
-        ImmutableList.Builder<IComponent> leaves = ImmutableList.builder();
-        for (IContainer<IComponent> window : windows) {
-            searchForLeavesRecursive(window, leaves);
-        }
-        return leaves.build();
-    }
-
-    private void searchForLeavesRecursive(IContainer<? extends IComponent> parent, ImmutableList.Builder<IComponent> leaves) {
-        for (IComponent component : parent.getComponents()) {
-            if (component.isLeafComponent()) {
-                leaves.add(component);
-                continue;
-            }
-
-            if (component instanceof IContainer) {
-                IContainer<? extends IComponent> subContainer  = (IContainer<? extends IComponent>) component;
-                searchForLeavesRecursive(subContainer, leaves);
-            }
-        }
-    }
-
-
-    @Override
-    public EDisplayMode getDisplay() {
-        return EDisplayMode.ALL;
-    }
+    
 
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
@@ -66,18 +39,23 @@ public class ComponentRoot implements IContainer {
             window.tryDraw(event);
         }
     }
+
     
-    
+    @Override
+    public EDisplayMode getDisplay() {
+        return EDisplayMode.ALL;
+    }
+
     public EventManager getEventManager() {
         return eventManager;
     }
-
-
+    
     @Override
     public List<IContainer<IComponent>> getComponents() {
         return windows;
     }
 
+    
     @Override
     public boolean acceptsZIndex() {
         return false;
