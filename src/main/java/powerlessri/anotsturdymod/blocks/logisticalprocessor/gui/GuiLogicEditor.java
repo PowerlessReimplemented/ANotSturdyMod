@@ -15,7 +15,6 @@ import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventory;
 import powerlessri.anotsturdymod.library.gui.template.AbstractTemplate;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
-import powerlessri.anotsturdymod.varia.general.Utils;
 
 public class GuiLogicEditor extends ComponentizedGui {
 
@@ -45,8 +44,8 @@ public class GuiLogicEditor extends ComponentizedGui {
     public static final int BKG_START_Y = 0;
     public static final int BKG_WIDTH = 256;
     public static final int BKG_HEIGHT = 224;
-    
-    
+
+
     public int centerX;
     public int centerY;
 
@@ -68,13 +67,13 @@ public class GuiLogicEditor extends ComponentizedGui {
                                     displayBtn.enable();
                                 } else {
                                     displayBtn.disable();
-                                } 
+                                }
                                 return super.onClicked(mouseX, mouseY, button, type);
                             }
                         }
                 ))
         );
-        
+
         super.initGui();
 
         centerX = (width / 2) - (BKG_WIDTH / 2);
@@ -84,7 +83,7 @@ public class GuiLogicEditor extends ComponentizedGui {
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
-        
+
         GuiUtils.useTextureGLStates();
         mc.renderEngine.bindTexture(BACKGROUND);
         drawTexturedModalRect(centerX, centerY, BKG_START_X, BKG_START_Y, BKG_WIDTH, BKG_HEIGHT);

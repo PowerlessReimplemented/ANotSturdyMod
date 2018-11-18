@@ -8,9 +8,7 @@ import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.immutableimpl.ComponentRoot;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
-import powerlessri.anotsturdymod.varia.general.Utils;
 
-import javax.rmi.CORBA.Util;
 import java.io.IOException;
 
 public class ComponentizedGui extends GuiContainer {

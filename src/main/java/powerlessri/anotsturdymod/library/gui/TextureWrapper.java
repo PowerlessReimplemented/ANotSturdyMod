@@ -65,7 +65,7 @@ public class TextureWrapper {
 
     public void draw(GuiScreen gui, int baseX, int baseY) {
         GuiUtils.useTextureGLStates();
-        gui.mc.renderEngine.bindTexture(texture);
+        Minecraft.getMinecraft().renderEngine.bindTexture(texture);
         gui.drawTexturedModalRect(baseX, baseY, x1, y1, width, height);
     }
 

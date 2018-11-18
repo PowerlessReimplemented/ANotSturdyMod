@@ -1,18 +1,21 @@
 package powerlessri.anotsturdymod.library.gui.immutableimpl;
 
-import com.google.common.base.Utf8;
 import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.EDisplayMode;
 import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
-import powerlessri.anotsturdymod.varia.general.Utils;
 
 public abstract class AbstractButton extends AbstractComponent implements IInteractionHandler {
     
     private boolean isDisabled;
     private boolean isPressed;
+
+    /**
+     * Number of frames passes since play pressed down.
+     * <b>DO NOT modify this field</b> on your own.
+     */
     protected int timePressed;
 
     private int width;
@@ -69,6 +72,7 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
         }
         return super.getDisplay();
     }
+    
 
     @Override
     public void draw(GuiDrawBackgroundEvent event) {

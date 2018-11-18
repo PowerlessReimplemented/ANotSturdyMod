@@ -1,5 +1,6 @@
 package powerlessri.anotsturdymod.library.gui.immutableimpl.section;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.ResourceLocation;
@@ -78,7 +79,7 @@ public class TextureElement extends AbstractComponent implements IInteractionHan
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
         GuiUtils.useTextureGLStates();
-        gui.mc.renderEngine.bindTexture(texture);
+        Minecraft.getMinecraft().renderEngine.bindTexture(texture);
         gui.drawTexturedModalRect(getActualX(), getActualY(), textureX, textureY, width, height);
     }
 }

@@ -1,7 +1,6 @@
 package powerlessri.anotsturdymod.library.gui.immutableimpl.widget;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -75,11 +74,11 @@ public class ButtonGradient extends AbstractButton {
     }
     
     
-    public int getTextX() {
+    private int getTextX() {
         return getActualX() + textXOffset;
     }
     
-    public int getTextY() {
+    private int getTextY() {
         return getActualY() + textYOffset;
     }
 

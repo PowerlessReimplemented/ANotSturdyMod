@@ -1,5 +1,6 @@
 package powerlessri.anotsturdymod.library.gui.immutableimpl.widget;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.library.gui.immutableimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
@@ -31,7 +32,7 @@ public class ComponentSlotGroup extends AbstractComponent {
 
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
-        gui.mc.renderEngine.bindTexture(WIDGETS_1);
+        Minecraft.getMinecraft().renderEngine.bindTexture(WIDGETS_1);
         
         for (int i = 0; i < slotsVertical; i++) {
             int currentY = getActualY() + i * SLOT_IMAGE_HEIGHT;
