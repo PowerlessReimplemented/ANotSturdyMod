@@ -5,31 +5,41 @@ import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
 
 public class StructureProjectingUtils {
-    
+
     private StructureProjectingUtils() {
     }
 
 
-    public static ImmutableList<IComponent> searchForLeaves(ImmutableList<IContainer<IComponent>> subComponents) {
+    public static ImmutableList<IComponent> flatten(ImmutableList<IContainer<IComponent>> windows) {
+        ImmutableList.Builder<IComponent> flattened = ImmutableList.builder();
+        for (IContainer<IComponent> window : windows) {
+            flattened.add(window);
+            flattenRecursive(window, flattened);
+        }
+        return flattened.build();
+    }
+
+    private static void flattenRecursive(IContainer<? extends IComponent> parent, ImmutableList.Builder<IComponent> flattened) {
+        for (IComponent component : parent.getComponents()) {
+            flattened.add(component);
+
+            if (component instanceof IContainer) {
+                flattened.add(component);
+                flattenRecursive((IContainer<? extends IComponent>) component, flattened);
+            }
+        }
+    }
+
+
+    public static ImmutableList<IComponent> leaves(ImmutableList<IComponent> components) {
         ImmutableList.Builder<IComponent> leaves = ImmutableList.builder();
-        for (IContainer<IComponent> window : subComponents) {
-            searchForLeavesRecursive(window, leaves);
+        for (IComponent component : components) {
+            if (component.isLeafComponent()) {
+                leaves.add(component);
+            }
         }
         return leaves.build();
     }
 
-    private static void searchForLeavesRecursive(IContainer<? extends IComponent> parent, ImmutableList.Builder<IComponent> leaves) {
-        for (IComponent component : parent.getComponents()) {
-            if (component.isLeafComponent()) {
-                leaves.add(component);
-                continue;
-            }
 
-            if (component instanceof IContainer) {
-                IContainer<? extends IComponent> subContainer  = (IContainer<? extends IComponent>) component;
-                searchForLeavesRecursive(subContainer, leaves);
-            }
-        }
-    }
-    
 }

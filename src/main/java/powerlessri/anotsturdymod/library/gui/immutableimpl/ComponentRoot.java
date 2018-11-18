@@ -11,6 +11,7 @@ import java.util.List;
 public class ComponentRoot implements IContainer {
 
     private ImmutableList<IContainer<IComponent>> windows;
+    private ImmutableList<IComponent> flattened;
     private ImmutableList<IComponent> leaves;
     private GuiScreen gui;
 
@@ -19,7 +20,8 @@ public class ComponentRoot implements IContainer {
     public ComponentRoot(GuiScreen gui, ImmutableList<IContainer<IComponent>> windows) {
         this.gui = gui;
         this.windows = windows;
-        this.leaves = StructureProjectingUtils.searchForLeaves(windows);
+        this.flattened = StructureProjectingUtils.flatten(windows);
+        this.leaves = StructureProjectingUtils.leaves(flattened);
         
         this.eventManager = EventManager.forLeaves(leaves);
 
