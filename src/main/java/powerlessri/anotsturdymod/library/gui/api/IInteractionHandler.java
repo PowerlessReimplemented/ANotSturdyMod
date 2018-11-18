@@ -3,7 +3,7 @@ package powerlessri.anotsturdymod.library.gui.api;
 import net.minecraft.util.EnumActionResult;
 
 /**
- * Pre-made type, combination of {@link IComponent}
+ * Defines an event receiver component.
  */
 public interface IInteractionHandler extends IComponent {
 
@@ -27,12 +27,12 @@ public interface IInteractionHandler extends IComponent {
      * <p>Note that if this event was triggered, {@link #onHoveredDragging(int, int, EMouseButton)} will not trigger.</p>
      * <p>This event will not bubble up.</p>
      */
-    void onClickedDragging(int mouseX, int mouseY, EMouseButton button);
+    void onClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed);
 
     /**
      * Triggers when player's mouse is hovering above the component and the mouse is pressed.
      * 
-     * <p>Only triggers when {@link #onClickedDragging(int, int, EMouseButton)} didn't.</p>
+     * <p>Only triggers when {@link #onClickedDragging(int, int, EMouseButton, long)} didn't.</p>
      * <p>This event will not bubble up.</p>
      */
     void onHoveredDragging(int mouseX, int mouseY, EMouseButton button);

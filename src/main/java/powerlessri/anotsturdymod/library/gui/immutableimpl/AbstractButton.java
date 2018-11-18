@@ -110,7 +110,7 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
     }
 
     @Override
-    public void onClickedDragging(int mouseX, int mouseY, EMouseButton button) {
+    public void onClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
     }
 
     @Override

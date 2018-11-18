@@ -7,6 +7,7 @@ import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.immutableimpl.ComponentRoot;
+import powerlessri.anotsturdymod.library.gui.immutableimpl.EventManager;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 import java.io.IOException;
@@ -74,9 +75,11 @@ public class ComponentizedGui extends GuiContainer {
     }
 
     @Override
-    protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-        super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
-//        root.getEventManager();
+    protected void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timePressed) {
+        super.mouseClickMove(mouseX, mouseY, mouseButton, timePressed);
+        EventManager eventManager = root.getEventManager();
+        eventManager.emitClickedDrag(mouseX, mouseY, getMouseButton(mouseButton), timePressed);
+        eventManager.emitHoveringDrag(mouseX, mouseY, getMouseButton(mouseButton), timePressed);
     }
 
     @Override

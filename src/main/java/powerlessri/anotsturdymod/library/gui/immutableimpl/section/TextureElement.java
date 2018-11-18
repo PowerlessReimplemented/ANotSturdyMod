@@ -53,11 +53,11 @@ public class TextureElement extends AbstractComponent implements IInteractionHan
 
     @Override
     public EnumActionResult onClicked(int mouseX, int mouseY, EMouseButton button, EEventType type) {
-        return parent.onClicked(mouseX, mouseY, button, type);
+        return EnumActionResult.PASS;
     }
 
     @Override
-    public void onClickedDragging(int mouseX, int mouseY, EMouseButton button) {
+    public void onClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
     }
 
     @Override
@@ -66,7 +66,7 @@ public class TextureElement extends AbstractComponent implements IInteractionHan
 
     @Override
     public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
-        return parent.onReleased(mouseX, mouseY, button, type);
+        return EnumActionResult.FAIL;
     }
 
     
