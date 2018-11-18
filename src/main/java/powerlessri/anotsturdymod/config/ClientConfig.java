@@ -22,4 +22,8 @@ public class ClientConfig {
     
     public static int gradientBtnEPressed = 0x0048ff;
     
+    public static int gradientBtnTextNormal = 0x000000;
+    
+    public static int gradientBtnTextDisabled = 0xbababa;
+    
 }

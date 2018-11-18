@@ -1,6 +1,9 @@
 package powerlessri.anotsturdymod.library.gui.immutableimpl.widget;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
@@ -12,6 +15,8 @@ import powerlessri.anotsturdymod.varia.general.GuiUtils;
 public class ButtonGradient extends AbstractButton {
     
     public static final int ALPHA_SOLID = 255;
+    public static final int VANILLA_CHAR_HEIGHT = 8;
+    
     
     private int redNormalS;
     private int greenNormalS;
@@ -34,15 +39,21 @@ public class ButtonGradient extends AbstractButton {
     private int greenPressedE;
     private int bluePressedE;
     
+    
     private int width;
     private int height;
+    
+    private String text;
+    private int textXOffset;
+    private int textYOffset;
 
-    public ButtonGradient(int relativeX, int relativeY, int width, int height) {
+    public ButtonGradient(int relativeX, int relativeY, int width, int height, String text) {
         super(relativeX, relativeY);
         
         this.width = width;
         this.height = height;
         this.initializeColors();
+        this.setText(text);
     }
     
     private void initializeColors() {
@@ -79,25 +90,50 @@ public class ButtonGradient extends AbstractButton {
         return height;
     }
     
+    public int getTextX() {
+        return getActualX() + textXOffset;
+    }
+    
+    public int getTextY() {
+        return getActualY() + textYOffset;
+    }
+
+
+    public void setText(String text) {
+        this.text = text;
+        
+        int textWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(text);
+        textXOffset = (width / 2) - (textWidth / 2);
+        textYOffset = (height / 2) - (VANILLA_CHAR_HEIGHT / 2); 
+    }
+    
 
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(0, redNormalS, greenNormalS, blueNormalS, redNormalE, greenNormalE, blueNormalE, ALPHA_SOLID);
+        drawGradientRectangleBox(1, redNormalS, greenNormalS, blueNormalS, redNormalE, greenNormalE, blueNormalE, ALPHA_SOLID);
+        drawText(ClientConfig.gradientBtnTextNormal);
     }
 
     @Override
     public void drawHovering(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(0, redHoverS, greenHoverS, blueHoverS, redHoverE, greenHoverE, blueHoverE, ALPHA_SOLID);
+        drawGradientRectangleBox(1, redHoverS, greenHoverS, blueHoverS, redHoverE, greenHoverE, blueHoverE, ALPHA_SOLID);
+        drawText(ClientConfig.gradientBtnTextNormal);
     }
 
     @Override
     public void drawPressed(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(0, redPressedS, greenPressedS, bluePressedS, redPressedE, greenPressedE, bluePressedE, ALPHA_SOLID);
+        drawGradientRectangleBox(1, redPressedS, greenPressedS, bluePressedS, redPressedE, greenPressedE, bluePressedE, ALPHA_SOLID);
+        drawText(ClientConfig.gradientBtnTextNormal);
     }
 
     @Override
     public void drawDisabled(GuiDrawBackgroundEvent event) {
         drawNormal(event);
+        drawText(ClientConfig.gradientBtnTextDisabled);
+    }
+
+    public void drawText(int color) {
+        Minecraft.getMinecraft().fontRenderer.drawString(text, getTextX(), getTextY(), color);
     }
 
 
@@ -127,6 +163,7 @@ public class ButtonGradient extends AbstractButton {
         buffer.pos(xBR, yBR, z).color(red2, green2, blue2, alpha).endVertex();
 
         tessellator.draw();
+        GlStateManager.enableTexture2D();
     }
     
 }
