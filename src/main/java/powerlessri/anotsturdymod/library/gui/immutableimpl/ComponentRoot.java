@@ -2,13 +2,11 @@ package powerlessri.anotsturdymod.library.gui.immutableimpl;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.*;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class ComponentRoot implements IContainer {
 
@@ -16,11 +14,19 @@ public class ComponentRoot implements IContainer {
     private ImmutableList<IComponent> leaves;
     private GuiScreen gui;
 
+    private EventManager eventManager;
+
     public ComponentRoot(GuiScreen gui, ImmutableList<IContainer<IComponent>> windows) {
         this.gui = gui;
         this.windows = windows;
         this.leaves = searchForLeaves(windows);
+        
+        this.eventManager = EventManager.forLeaves(leaves);
 
+        this.initializeAllComponents();
+    }
+    
+    private void initializeAllComponents() {
         for (IComponent component : windows) {
             component.initialize(gui, this);
         }
@@ -59,6 +65,11 @@ public class ComponentRoot implements IContainer {
         for (IContainer<IComponent> window : windows) {
             window.tryDraw(event);
         }
+    }
+    
+    
+    public EventManager getEventManager() {
+        return eventManager;
     }
 
 
@@ -154,53 +165,6 @@ public class ComponentRoot implements IContainer {
 
     @Override
     public void setZIndex(int zIndex) {
-    }
-
-
-    private IInteractionHandler lastClicked;
-    
-    public void onMouseClicked(int mouseX, int mouseY, EMouseButton button) {
-        for (IComponent component : leaves) {
-            if (component instanceof IInteractionHandler && component.isPointInside(mouseX, mouseY)) {
-                IInteractionHandler handler = ((IInteractionHandler) component);
-                lastClicked = handler;
-                if (!handler.doesReceiveEvents()) {
-                    return;
-                }
-                
-                EnumActionResult result = handler.onClicked(mouseX, mouseY, button, EEventType.ORIGINAL);
-                if (result == EnumActionResult.FAIL) {
-                    return;
-                }
-                
-                bubbleUpEvent(handler.getParentComponent(), (target) -> target.onClicked(mouseX, mouseY, button, EEventType.BUBBLE));
-                break;
-            }
-        }
-    }
-
-    public void onMouseReleased(int mouseX, int mouseY, EMouseButton button) {
-        if (lastClicked == null || !lastClicked.doesReceiveEvents()) {
-            return;
-        }
-        
-        EnumActionResult result = lastClicked.onReleased(mouseX, mouseY, button, EEventType.ORIGINAL);
-        if (result == EnumActionResult.FAIL) {
-            return;
-        }
-        
-        bubbleUpEvent(lastClicked.getParentComponent(), (target) -> target.onReleased(mouseX, mouseY, button, EEventType.BUBBLE));
-    }
-
-
-    private void bubbleUpEvent(@Nullable IComponent target, Consumer<IInteractionHandler> event) {
-        while (target != null && !target.isRootComponent()) {
-            if (target instanceof IInteractionHandler) {
-                event.accept((IInteractionHandler) target);
-            }
-
-            target = target.getParentComponent();
-        }
     }
 
 }
