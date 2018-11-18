@@ -15,6 +15,7 @@ import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventory;
 import powerlessri.anotsturdymod.library.gui.template.AbstractTemplate;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
+import powerlessri.anotsturdymod.varia.general.Utils;
 
 public class GuiLogicEditor extends ComponentizedGui {
 

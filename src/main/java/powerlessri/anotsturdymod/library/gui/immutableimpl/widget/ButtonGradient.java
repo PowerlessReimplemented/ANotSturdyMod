@@ -47,8 +47,6 @@ public class ButtonGradient extends AbstractButton {
     public ButtonGradient(int relativeX, int relativeY, int width, int height, String text) {
         super(relativeX, relativeY, width, height);
         
-        this.width = width;
-        this.height = height;
         this.initializeColors();
         this.setText(text);
     }
@@ -90,8 +88,8 @@ public class ButtonGradient extends AbstractButton {
         this.text = text;
         
         int textWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(text);
-        textXOffset = (width / 2) - (textWidth / 2);
-        textYOffset = (height / 2) - (VANILLA_CHAR_HEIGHT / 2); 
+        textXOffset = (getWidth() / 2) - (textWidth / 2);
+        textYOffset = (getHeight() / 2) - (VANILLA_CHAR_HEIGHT / 2); 
     }
     
 

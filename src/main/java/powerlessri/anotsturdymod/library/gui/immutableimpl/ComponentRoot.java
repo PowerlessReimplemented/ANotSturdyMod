@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.*;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.varia.general.Utils;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -51,7 +52,7 @@ public class ComponentRoot implements IContainer {
 
     @Override
     public EDisplayMode getDisplay() {
-        return EDisplayMode.CUSTOM;
+        return EDisplayMode.ALL;
     }
 
     @Override
@@ -163,10 +164,12 @@ public class ComponentRoot implements IContainer {
         for (IComponent component : leaves) {
             if (component instanceof IInteractionHandler && component.isPointInside(mouseX, mouseY)) {
                 IInteractionHandler handler = ((IInteractionHandler) component);
-
-                EnumActionResult result = handler.onClicked(mouseX, mouseY, button, EEventType.ORIGINAL);
                 lastClicked = handler;
-
+                if (!handler.doesReceiveEvents()) {
+                    return;
+                }
+                
+                EnumActionResult result = handler.onClicked(mouseX, mouseY, button, EEventType.ORIGINAL);
                 if (result == EnumActionResult.FAIL) {
                     return;
                 }
@@ -178,7 +181,7 @@ public class ComponentRoot implements IContainer {
     }
 
     public void onMouseReleased(int mouseX, int mouseY, EMouseButton button) {
-        if (lastClicked == null) {
+        if (lastClicked == null || !lastClicked.doesReceiveEvents()) {
             return;
         }
         

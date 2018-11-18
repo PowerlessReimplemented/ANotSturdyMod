@@ -1,10 +1,13 @@
 package powerlessri.anotsturdymod.library.gui.immutableimpl;
 
+import com.google.common.base.Utf8;
 import net.minecraft.util.EnumActionResult;
+import powerlessri.anotsturdymod.library.gui.api.EDisplayMode;
 import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.varia.general.Utils;
 
 public abstract class AbstractButton extends AbstractComponent implements IInteractionHandler {
     
@@ -53,20 +56,37 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
         return height;
     }
 
+
+    @Override
+    public boolean doesReceiveEvents() {
+        return !isDisabled;
+    }
+
+    @Override
+    public EDisplayMode getDisplay() {
+        if (isDisabled) {
+            return EDisplayMode.DISABLED;
+        }
+        return super.getDisplay();
+    }
+
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
+        if (isDisabled) {
+            drawDisabled(event);
+            return;
+        }
+
         if (isPressed) {
-            timePressed++;
             drawPressed(event);
+            timePressed++;
         } else {
             timePressed = 0;
-            if (this.isDisabled) {
-                drawDisabled(event);
-            } else if (isHovering(event)) {
+            if (isHovering(event)) {
                 drawHovering(event);
             } else {
                 drawNormal(event);
-            }
+            } 
         }
     }
     
@@ -82,13 +102,13 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
     @Override
     public EnumActionResult onClicked(int mouseX, int mouseY, EMouseButton button, EEventType type) {
         isPressed = true;
-        return EnumActionResult.PASS;
+        return EnumActionResult.FAIL;
     }
     
     @Override
     public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
         isPressed = false;
-        return EnumActionResult.PASS;
+        return EnumActionResult.FAIL;
     }
 
     

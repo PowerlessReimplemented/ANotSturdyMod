@@ -112,6 +112,7 @@ public abstract class AbstractComponent implements IComponent {
 
     
     /**
+     * <b>WARNING: </b> This method does not do what its name says.
      * Recalculate absolute position of the component.
      */
     @Override
@@ -139,7 +140,7 @@ public abstract class AbstractComponent implements IComponent {
     
     @Override
     public EDisplayMode getDisplay() {
-        return EDisplayMode.CUSTOM;
+        return EDisplayMode.ALL;
     }
 
 }

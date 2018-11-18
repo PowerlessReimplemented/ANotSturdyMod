@@ -216,7 +216,7 @@ public class SimpleComponentCollection implements ICollectorContainer<IInteracti
     
     @Override
     public EDisplayMode getDisplay() {
-        return EDisplayMode.CUSTOM;
+        return EDisplayMode.ALL;
     }
 
 
