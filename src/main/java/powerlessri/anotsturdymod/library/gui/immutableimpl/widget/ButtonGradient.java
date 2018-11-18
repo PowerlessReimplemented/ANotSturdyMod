@@ -40,15 +40,12 @@ public class ButtonGradient extends AbstractButton {
     private int bluePressedE;
     
     
-    private int width;
-    private int height;
-    
     private String text;
     private int textXOffset;
     private int textYOffset;
 
     public ButtonGradient(int relativeX, int relativeY, int width, int height, String text) {
-        super(relativeX, relativeY);
+        super(relativeX, relativeY, width, height);
         
         this.width = width;
         this.height = height;
@@ -79,16 +76,6 @@ public class ButtonGradient extends AbstractButton {
         bluePressedE = ClientConfig.gradientBtnEPressed & 255;
     }
     
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
     
     public int getTextX() {
         return getActualX() + textXOffset;

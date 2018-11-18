@@ -11,9 +11,14 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
     private boolean isDisabled;
     private boolean isPressed;
     protected int timePressed;
-    
-    public AbstractButton(int relativeX, int relativeY) {
+
+    private int width;
+    private int height;
+
+    public AbstractButton(int relativeX, int relativeY, int width, int height) {
         super(relativeX, relativeY);
+        this.width = width;
+        this.height = height;
     }
 
 
@@ -38,7 +43,16 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
         isDisabled = false;
     }
 
-    
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
         if (isPressed) {
