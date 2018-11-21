@@ -1,8 +1,8 @@
-package powerlessri.anotsturdymod.library.gui.immutableimpl.scrolling;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling;
 
 import com.google.common.collect.ImmutableList;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.immutableimpl.AbstractComponent;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
 public class ScrollingPanel extends AbstractComponent {

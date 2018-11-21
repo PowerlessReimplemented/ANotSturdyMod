@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.gui.immutableimpl;
+package powerlessri.anotsturdymod.library.gui.simpleimpl;
 
 import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.EDisplayMode;

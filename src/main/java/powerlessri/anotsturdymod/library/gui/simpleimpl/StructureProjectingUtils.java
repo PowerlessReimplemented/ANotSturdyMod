@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.gui.immutableimpl;
+package powerlessri.anotsturdymod.library.gui.simpleimpl;
 
 import com.google.common.collect.ImmutableList;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;

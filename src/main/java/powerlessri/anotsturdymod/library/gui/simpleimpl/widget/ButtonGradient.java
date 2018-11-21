@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.gui.immutableimpl.widget;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -7,8 +7,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
 import powerlessri.anotsturdymod.config.ClientConfig;
-import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
-import powerlessri.anotsturdymod.library.gui.immutableimpl.AbstractButton;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
 

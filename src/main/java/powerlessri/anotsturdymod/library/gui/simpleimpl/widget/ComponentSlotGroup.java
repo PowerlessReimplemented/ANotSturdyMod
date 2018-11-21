@@ -1,8 +1,8 @@
-package powerlessri.anotsturdymod.library.gui.immutableimpl.widget;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import powerlessri.anotsturdymod.library.gui.immutableimpl.AbstractComponent;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.varia.Reference;
 
