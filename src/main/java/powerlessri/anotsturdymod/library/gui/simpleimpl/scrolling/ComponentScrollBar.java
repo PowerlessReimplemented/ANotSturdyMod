@@ -10,11 +10,11 @@ import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
 import javax.annotation.Nullable;
 
-public class ComponentScroller extends AbstractComponent implements IScrollBar {
+public class ComponentScrollBar extends AbstractComponent implements IScrollBar {
     
     private ScrollingPanel parent;
     
-    public ComponentScroller(int relativeX, int relativeY) {
+    public ComponentScrollBar(int relativeX, int relativeY) {
         super(relativeX, relativeY);
     }
 
