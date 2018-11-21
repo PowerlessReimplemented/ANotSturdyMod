@@ -1,13 +1,16 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling;
 
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.EnumActionResult;
+import powerlessri.anotsturdymod.library.gui.api.EEventType;
+import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
 import javax.annotation.Nullable;
 
-public class ComponentScroller extends AbstractComponent {
+public class ComponentScroller extends AbstractComponent implements IScrollBar {
     
     private ScrollingPanel parent;
     
@@ -43,9 +46,35 @@ public class ComponentScroller extends AbstractComponent {
         this.parent = (ScrollingPanel) parent;
     }
 
+    @Override
+    public void initalize(GuiScreen gui, IScrollingPanel parent) {
+        
+    }
+
     @Nullable
     @Override
     public IComponent getParentComponent() {
         return parent;
     }
+
+    @Override
+    public EnumActionResult onClicked(int mouseX, int mouseY, EMouseButton button, EEventType type) {
+        return null;
+    }
+
+    @Override
+    public void onClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
+
+    }
+
+    @Override
+    public void onHoveredDragging(int mouseX, int mouseY, EMouseButton button) {
+
+    }
+
+    @Override
+    public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
+        return null;
+    }
+    
 }
