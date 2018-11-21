@@ -42,7 +42,7 @@ public class ComponentScrollBar extends AbstractComponent implements IScrollBar 
     
     @Override
     public void initialize(GuiScreen gui, IScrollingPanel parent) {
-        
+        super.initialize(gui, parent);
     }
 
     

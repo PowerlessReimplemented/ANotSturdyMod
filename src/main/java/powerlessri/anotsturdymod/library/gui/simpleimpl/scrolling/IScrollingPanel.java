@@ -1,6 +1,8 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling;
 
-public interface IScrollingPanel {
+import powerlessri.anotsturdymod.library.gui.api.IContainer;
+
+public interface IScrollingPanel extends IContainer<IScrollingComponent> {
 
     /**
      * Number of rows of components that are available.
