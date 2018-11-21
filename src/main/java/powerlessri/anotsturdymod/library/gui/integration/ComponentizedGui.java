@@ -6,8 +6,8 @@ import net.minecraft.inventory.Container;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
-import powerlessri.anotsturdymod.library.gui.immutableimpl.ComponentRoot;
-import powerlessri.anotsturdymod.library.gui.immutableimpl.EventManager;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.ComponentRoot;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.EventManager;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 import java.io.IOException;
@@ -60,6 +60,8 @@ public class ComponentizedGui extends GuiContainer {
         
         GuiUtils.useTextureGLStates();
         root.draw(redrawEvent);
+        
+        renderHoveredToolTip(mouseX, mouseY);
     }
 
     @Override

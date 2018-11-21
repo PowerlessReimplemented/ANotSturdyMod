@@ -109,6 +109,8 @@ public class GuiEnergyIOAccess extends ComponentizedGui {
         drawTexturedModalRect(centerX, centerY, 0, 0, guiWidth, guiHeight);
 
         fontRenderer.drawString(String.valueOf(getContainer().channel), centerX + (guiWidth / 2) - 7, channelButtonsY + 3, 0x000000);
+        
+        renderHoveredToolTip(mouseX, mouseY);
     }
 
 
