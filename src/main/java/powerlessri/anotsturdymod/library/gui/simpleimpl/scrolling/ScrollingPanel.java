@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableList;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
+import java.util.List;
+
 public class ScrollingPanel extends AbstractComponent implements IScrollingPanel {
 
     /**
@@ -101,6 +103,16 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     @Override
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public List<IScrollingComponent> getComponents() {
+        return content;
+    }
+
+    @Override
+    public boolean acceptsZIndex() {
+        return false;
     }
     
 }

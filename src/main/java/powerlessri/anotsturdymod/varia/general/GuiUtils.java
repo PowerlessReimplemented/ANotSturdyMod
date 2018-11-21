@@ -20,6 +20,11 @@ public class GuiUtils {
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
     }
+
+    public static void usePlainColorGLStates() {
+        GlStateManager.disableTexture2D();
+        GlStateManager.disableBlend();
+    }
     
     public static void useTextureGLStates() {
         GlStateManager.enableTexture2D();
