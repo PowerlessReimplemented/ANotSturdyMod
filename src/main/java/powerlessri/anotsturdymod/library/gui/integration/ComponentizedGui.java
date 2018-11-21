@@ -1,6 +1,7 @@
 package powerlessri.anotsturdymod.library.gui.integration;
 
 import com.google.common.collect.ImmutableList;
+import javafx.scene.input.MouseButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
@@ -12,23 +13,28 @@ import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 import java.io.IOException;
 
+// This is purposely spelled wrong, people should get what it means.
+// In case somebody doesn't get it:
+/**
+ * An bridge between the component-tree based GUI system and vanilla's GUI system.
+ */
 public class ComponentizedGui extends GuiContainer {
 
     /**
      * Number of updates since this GUI was created.
+     * Increases every time {@link #updateScreen()} is called.
      */
     public long updates;
-
+    
     /**
      * System time when this GUI was initialized.
      */
-    public long timeStarted;
-    
-    private GuiDrawBackgroundEvent redrawEvent;
+    public long timeCreated;
     
     protected ComponentRoot root;
     protected ImmutableList<IContainer<IComponent>> windows;
-
+    
+    private GuiDrawBackgroundEvent redrawEvent;
 
     public ComponentizedGui(Container container) {
         this(container, null);
@@ -45,7 +51,7 @@ public class ComponentizedGui extends GuiContainer {
     public void initGui() {
         super.initGui();
         
-        timeStarted = System.currentTimeMillis();
+        timeCreated = System.currentTimeMillis();
         root = new ComponentRoot(this, windows);
     }
 
@@ -53,7 +59,7 @@ public class ComponentizedGui extends GuiContainer {
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         drawDefaultBackground();
 
-        redrawEvent.guiTime = System.currentTimeMillis() - timeStarted;
+        redrawEvent.guiTime = System.currentTimeMillis() - timeCreated;
         redrawEvent.particleTicks = partialTicks;
         redrawEvent.mouseX = mouseX;
         redrawEvent.mouseY = mouseY;
@@ -73,20 +79,25 @@ public class ComponentizedGui extends GuiContainer {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
+        
         root.getEventManager().emitMouseClicked(mouseX, mouseY, getMouseButton(mouseButton));
     }
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timePressed) {
         super.mouseClickMove(mouseX, mouseY, mouseButton, timePressed);
+        
         EventManager eventManager = root.getEventManager();
-        eventManager.emitClickedDrag(mouseX, mouseY, getMouseButton(mouseButton), timePressed);
-        eventManager.emitHoveringDrag(mouseX, mouseY, getMouseButton(mouseButton), timePressed);
+        EMouseButton button = getMouseButton(mouseButton);
+        
+        eventManager.emitClickedDragging(mouseX, mouseY, button, timePressed);
+        eventManager.emitHoveringDragging(mouseX, mouseY, button, timePressed);
     }
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
         super.mouseReleased(mouseX, mouseY, mouseButton);
+        
         root.getEventManager().emitMouseReleased(mouseX, mouseY, getMouseButton(mouseButton));
     }
 
