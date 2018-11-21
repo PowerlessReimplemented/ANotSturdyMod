@@ -57,6 +57,37 @@ public class ComponentRoot implements IContainer {
         return windows;
     }
 
+
+    public void markVisible(IContainer<? extends IComponent> container) {
+        for (IComponent component : container.getComponents()) {
+            if (component instanceof IInteractionHandler) {
+                markVisible((IInteractionHandler) component);
+            }
+        }
+    }
+
+    public void markVisible(IInteractionHandler component) {
+        if (component.isLeafComponent()) {
+            eventManager.markVisible(component);
+        } else {
+            markVisible(component);
+        }
+    }
+    
+    public void markInvisible(IContainer<? extends IComponent> container) {
+        for (IComponent component : container.getComponents()) {
+            if (component instanceof IInteractionHandler) {
+                markInvisible((IInteractionHandler) component);
+            }
+        }
+    }
+    
+    public void markInvisible(IInteractionHandler component) {
+        if (component.isLeafComponent()) {
+            eventManager.markInvisible(component);
+        }
+    }
+    
     
     @Override
     public boolean acceptsZIndex() {
