@@ -142,12 +142,12 @@ public class ComponentRoot implements IContainer {
 
     @Override
     public int getWidth() {
-        return -1;
+        return gui.width;
     }
 
     @Override
     public int getHeight() {
-        return -1;
+        return gui.height;
     }
 
     @Override
