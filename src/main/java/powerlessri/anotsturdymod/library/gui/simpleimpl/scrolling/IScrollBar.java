@@ -13,7 +13,7 @@ import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
 public interface IScrollBar extends IInteractionHandler {
 
     /**
-     * Implementations should <b>NOT</b> override this method, but instead {@link #initalize(GuiScreen, IScrollingPanel)}.
+     * Implementations should <b>NOT</b> override this method, but instead {@link #initialize(GuiScreen, IScrollingPanel)}.
      */
     @Override
     @Deprecated
@@ -27,6 +27,6 @@ public interface IScrollBar extends IInteractionHandler {
      * <p>Implementations only needs to overrides this method.</p>
      * <p>See {@link IComponent#initialize(GuiScreen, IComponent)} for more information. </p>
      */
-    void initalize(GuiScreen gui, IScrollingPanel parent);
+    void initialize(GuiScreen gui, IScrollingPanel parent);
 
 }
