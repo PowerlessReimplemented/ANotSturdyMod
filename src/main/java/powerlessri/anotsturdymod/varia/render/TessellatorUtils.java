@@ -16,6 +16,7 @@ public class TessellatorUtils {
     private static BufferBuilder buffer = tessellator.getBuffer();
 
     public static BufferBuilder getColorVBuffer() {
+        GlStateManager.disableTexture2D();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
         return buffer;
     }

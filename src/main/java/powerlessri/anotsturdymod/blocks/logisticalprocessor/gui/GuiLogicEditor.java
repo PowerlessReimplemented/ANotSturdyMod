@@ -9,6 +9,7 @@ import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling.ComponentScrollBar;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ButtonGradient;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
@@ -71,6 +72,7 @@ public class GuiLogicEditor extends ComponentizedGui {
                                 return super.onClicked(mouseX, mouseY, button, type);
                             }
                         }
+
                 ))
         );
 

@@ -2,38 +2,86 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumActionResult;
-import org.lwjgl.opengl.GL11;
 import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
-import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
-import powerlessri.anotsturdymod.varia.general.GuiUtils;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
+import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
+import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
 import javax.annotation.Nullable;
 
-public class ComponentScrollBar extends AbstractComponent implements IScrollBar {
+public class ComponentScrollBar extends AbstractButton implements IScrollBar {
     
-    public static final int BORDER_DARK = 56;
-    public static final int BORDER_LIGHT = 255;
-    public static final int BACKGROUND = 138;
+    private int offset;
+    private int actualHeight;
     
-    private ScrollingPanel parent;
+    private IScrollingPanel parent;
     
-    public ComponentScrollBar(int relativeX, int relativeY) {
-        super(relativeX, relativeY);
+    public ComponentScrollBar(int relativeX, int relativeY, int height) {
+        super(relativeX, relativeY, 7, height);
     }
 
-    
+
     @Override
-    public boolean isLeafComponent() {
-        return true;
+    public void onClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
+        super.onClickedDragging(mouseX, mouseY, button, timePressed);
+        offset = limitToRange(mouseY - getBaseY());
     }
 
+    /**
+     * Limit the input between the body height.
+     */
+    private int limitToRange(int n) {
+        if (n < 0) {
+            return 0;
+        }
+        int maxHeight = getMaximumHeight(); 
+        if(n > maxHeight) {
+            return maxHeight;
+        }
+        return n;
+    }
+
+    @Override
+    public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
+        super.onReleased(mouseX, mouseY, button, type);
+        
+        int stepHeight = parent.getTotalSteps() / getMaximumHeight();
+        int step = offset / stepHeight;
+        parent.setContentStep(step);
+        
+        return EnumActionResult.FAIL;
+    }
+    
+
+    @Override
+    public void drawNormal(GuiDrawBackgroundEvent event) {
+        BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
+        GLGrayScale.vanillaConvexBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR());
+        TessellatorUtils.draw();
+    }
+
+    @Override
+    public void drawHovering(GuiDrawBackgroundEvent event) {
+        // TODO add hovering blue-ish texture
+        drawNormal(event);
+    }
+
+    @Override
+    public void drawPressed(GuiDrawBackgroundEvent event) {
+        BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
+        GLGrayScale.vanillaConcaveBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR());
+        TessellatorUtils.draw();
+    }
+
+    @Override
+    public void drawDisabled(GuiDrawBackgroundEvent event) {
+        drawNormal(event);
+    }
+    
+    
     @Override
     public int getWidth() {
         return 7;
@@ -41,80 +89,46 @@ public class ComponentScrollBar extends AbstractComponent implements IScrollBar 
 
     @Override
     public int getHeight() {
-        return 0;
+        return actualHeight;
+    }
+
+    public int getMaximumHeight() {
+        return super.getHeight();
     }
 
     @Override
-    public void draw(GuiDrawBackgroundEvent event) {
-        GuiUtils.usePlainColorGLStates();
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder buffer = tessellator.getBuffer();
-
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
-        addBorderLine(buffer);
-
-        tessellator.draw();
-        GlStateManager.enableTexture2D();
+    public int getActualY() {
+        return super.getActualY() + offset;
     }
-
-    private void addBorderLine(BufferBuilder buffer) {
-        int x = getActualX();
-        int y = getActualY();
-        int x2 = getActualXBR();
-        int y2 = getActualYBR();
-
-        int l1X2 = getActualX() + 1;
-        buffer.pos(l1X2, y, z).color(109, 109, 109, 255).endVertex();
-        buffer.pos(x, y, z).color(109, 109, 109, 255).endVertex();
-        buffer.pos(x, y2, z).color(109, 109, 109, 255).endVertex();
-        buffer.pos(l1X2, y2, z).color(109, 109, 109, 255).endVertex();
-
-        int l2Y2 = getActualY() + 1;
-        buffer.pos(x2, y, z).color(109, 109, 109, 255).endVertex();
-        buffer.pos(x, y, z).color(109, 109, 109, 255).endVertex();
-        buffer.pos(x, l2Y2, z).color(109, 109, 109, 255).endVertex();
-        buffer.pos(x2, l2Y2, z).color(109, 109, 109, 255).endVertex();
-    }
-
-    private void addBody(BufferBuilder buffer) {
-        
-    }
-
-    private void addCenteredIcon(BufferBuilder buffer) {
-        
-    }
-
     
+    public int getBaseY() {
+        return super.getActualY();
+    }
+    
+
     @Override
     public void initialize(GuiScreen gui, IScrollingPanel parent) {
         super.initialize(gui, parent);
+        this.parent = parent;
     }
 
-    
     @Nullable
     @Override
-    public IComponent getParentComponent() {
+    public IScrollingPanel getParentComponent() {
         return parent;
     }
 
     @Override
-    public EnumActionResult onClicked(int mouseX, int mouseY, EMouseButton button, EEventType type) {
-        return null;
+    public boolean isLeafComponent() {
+        return true;
     }
 
     @Override
-    public void onClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
-
+    public void disable() {
     }
 
     @Override
-    public void onHoveredDragging(int mouseX, int mouseY, EMouseButton button) {
-
-    }
-
-    @Override
-    public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
-        return null;
+    public void enable() {
     }
     
 }
