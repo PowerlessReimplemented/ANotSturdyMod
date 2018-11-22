@@ -7,7 +7,7 @@ import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
 import powerlessri.anotsturdymod.library.gui.ColorApplier;
 import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
-import powerlessri.anotsturdymod.varia.render.VertexSequenceUtils;
+import powerlessri.anotsturdymod.varia.render.VertexSequencer;
 
 public class ButtonGradient extends AbstractButton {
     
@@ -97,7 +97,7 @@ public class ButtonGradient extends AbstractButton {
         int yBR = getActualYBR() - shrink;
 
         BufferBuilder buffer = TessellatorUtils.getGradientVBuffer();
-        VertexSequenceUtils.verticalGradientBox(buffer, x, y, xBR, yBR, 0, top, bottom);
+        VertexSequencer.verticalGradientBox(buffer, x, y, xBR, yBR, 0, top, bottom);
         TessellatorUtils.finish();
     }
     

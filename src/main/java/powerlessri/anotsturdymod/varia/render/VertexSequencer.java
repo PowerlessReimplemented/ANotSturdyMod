@@ -3,7 +3,7 @@ package powerlessri.anotsturdymod.varia.render;
 import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.library.gui.ColorApplier;
 
-public class VertexSequenceUtils {
+public class VertexSequencer {
 
     public static void plainBox(BufferBuilder buffer, int x1, int y1, int x2, int y2, int z, ColorApplier color) {
         // Bottom Left -> Top Left -> Top Right -> Bottom Right
