@@ -1,6 +1,7 @@
 package powerlessri.anotsturdymod.varia.render;
 
 import net.minecraft.client.renderer.BufferBuilder;
+import powerlessri.anotsturdymod.library.gui.ColorApplier;
 
 public class BoxUtils {
     
@@ -9,11 +10,11 @@ public class BoxUtils {
         addBodyVertexes(buffer, x1, y1, x2, y2, borderWidth, background);
     }
     
-    private static void addBodyVertexes(BufferBuilder buffer, int x1, int y1, int x2, int y2, int borderWidth, ColorApplier color) {
+    public static void addBodyVertexes(BufferBuilder buffer, int x1, int y1, int x2, int y2, int borderWidth, ColorApplier color) {
         VertexSequenceUtils.plainBox(buffer, x1 + borderWidth, y1 + borderWidth, x2 - borderWidth, y2 - borderWidth, 0, color);
     }
     
-    private static void addBorderVertexes(BufferBuilder buffer, int x1, int y1, int x2, int y2, int borderWidth, ColorApplier colorFirst, ColorApplier colorSecond) {
+    public static void addBorderVertexes(BufferBuilder buffer, int x1, int y1, int x2, int y2, int borderWidth, ColorApplier colorFirst, ColorApplier colorSecond) {
         int innerX1 = x1 + borderWidth;
         int innerY1 = y1 + borderWidth;
         int innerX2 = x2 - borderWidth;

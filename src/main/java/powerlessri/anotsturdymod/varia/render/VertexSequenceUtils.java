@@ -1,6 +1,7 @@
 package powerlessri.anotsturdymod.varia.render;
 
 import net.minecraft.client.renderer.BufferBuilder;
+import powerlessri.anotsturdymod.library.gui.ColorApplier;
 
 public class VertexSequenceUtils {
 

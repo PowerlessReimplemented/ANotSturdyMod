@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.varia.render;
+package powerlessri.anotsturdymod.library.gui;
 
 import net.minecraft.client.renderer.BufferBuilder;
 

@@ -7,6 +7,9 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
+/**
+ * Automatically controls start and end of every drawing (using BufferBuilder).
+ */
 public class TessellatorUtils {
     
     private static Tessellator tessellator = Tessellator.getInstance();

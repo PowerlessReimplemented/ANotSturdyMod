@@ -5,8 +5,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.config.ClientConfig;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
-import powerlessri.anotsturdymod.varia.general.GuiUtils;
-import powerlessri.anotsturdymod.varia.render.ColorApplier;
+import powerlessri.anotsturdymod.library.gui.ColorApplier;
 import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
 import powerlessri.anotsturdymod.varia.render.VertexSequenceUtils;
 
