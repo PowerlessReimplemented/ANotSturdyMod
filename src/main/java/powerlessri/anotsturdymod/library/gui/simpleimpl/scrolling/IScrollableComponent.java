@@ -3,7 +3,7 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
-public interface IScrollingComponent extends IComponent {
+public interface IScrollableComponent extends IComponent {
     
     /**
      * Equivalent to {@code draw(GuiDrawBackgroundEvent event, this.getActualY())}.
