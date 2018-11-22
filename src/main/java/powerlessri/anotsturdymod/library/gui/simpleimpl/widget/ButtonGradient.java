@@ -2,75 +2,37 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import org.lwjgl.opengl.GL11;
 import powerlessri.anotsturdymod.config.ClientConfig;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
+import powerlessri.anotsturdymod.varia.render.ColorApplier;
+import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
+import powerlessri.anotsturdymod.varia.render.VertexSequenceUtils;
 
 public class ButtonGradient extends AbstractButton {
     
-    public static final int ALPHA_SOLID = 255;
     public static final int VANILLA_CHAR_HEIGHT = 8;
-    
-    
-    private int redNormalS;
-    private int greenNormalS;
-    private int blueNormalS;
-    private int redNormalE;
-    private int greenNormalE;
-    private int blueNormalE;
 
-    private int redHoverS;
-    private int greenHoverS;
-    private int blueHoverS;
-    private int redHoverE;
-    private int greenHoverE;
-    private int blueHoverE;
 
-    private int redPressedS;
-    private int greenPressedS;
-    private int bluePressedS;
-    private int redPressedE;
-    private int greenPressedE;
-    private int bluePressedE;
+    private ColorApplier colorSNormal = ColorApplier.hexSolid(ClientConfig.gradientBtnSNormal);
+    private ColorApplier colorENormal = ColorApplier.hexSolid(ClientConfig.gradientBtnENormal);
+
+    private ColorApplier colorSHovering = ColorApplier.hexSolid(ClientConfig.gradientBtnSHover);
+    private ColorApplier colorEHovering = ColorApplier.hexSolid(ClientConfig.gradientBtnEHover);
     
-    
+    private ColorApplier colorSPressed = ColorApplier.hexSolid(ClientConfig.gradientBtnSPressed);
+    private ColorApplier colorEPressed = ColorApplier.hexSolid(ClientConfig.gradientBtnEPressed);
+
+
+
     private String text;
     private int textXOffset;
     private int textYOffset;
 
     public ButtonGradient(int relativeX, int relativeY, int width, int height, String text) {
         super(relativeX, relativeY, width, height);
-        
-        this.initializeColors();
         this.setText(text);
-    }
-    
-    private void initializeColors() {
-        redNormalS = ClientConfig.gradientBtnSNormal >> 16 & 255;
-        greenNormalS = ClientConfig.gradientBtnSNormal >> 8 & 255;
-        blueNormalS = ClientConfig.gradientBtnSNormal & 255;
-        redNormalE = ClientConfig.gradientBtnENormal >> 16 & 255;
-        greenNormalE = ClientConfig.gradientBtnENormal >> 8 & 255;
-        blueNormalE = ClientConfig.gradientBtnENormal & 255;
-
-        redHoverS = ClientConfig.gradientBtnSHover >> 16 & 255;
-        greenHoverS = ClientConfig.gradientBtnSHover >> 8 & 255;
-        blueHoverS = ClientConfig.gradientBtnSHover & 255;
-        redHoverE = ClientConfig.gradientBtnEHover >> 16 & 255;
-        greenHoverE = ClientConfig.gradientBtnEHover >> 8 & 255;
-        blueHoverE = ClientConfig.gradientBtnEHover & 255;
-
-        redPressedS = ClientConfig.gradientBtnSPressed >> 16 & 255;
-        greenPressedS = ClientConfig.gradientBtnSPressed >> 8 & 255;
-        bluePressedS = ClientConfig.gradientBtnSPressed & 255;
-        redPressedE = ClientConfig.gradientBtnEPressed >> 16 & 255;
-        greenPressedE = ClientConfig.gradientBtnEPressed >> 8 & 255;
-        bluePressedE = ClientConfig.gradientBtnEPressed & 255;
     }
     
     
@@ -94,19 +56,19 @@ public class ButtonGradient extends AbstractButton {
 
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(1, redNormalS, greenNormalS, blueNormalS, redNormalE, greenNormalE, blueNormalE, ALPHA_SOLID);
+        drawGradientRectangleBox(1, colorSNormal, colorENormal);
         drawText(ClientConfig.gradientBtnTextNormal);
     }
 
     @Override
     public void drawHovering(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(1, redHoverS, greenHoverS, blueHoverS, redHoverE, greenHoverE, blueHoverE, ALPHA_SOLID);
+        drawGradientRectangleBox(1, colorSHovering, colorEHovering);
         drawText(ClientConfig.gradientBtnTextNormal);
     }
 
     @Override
     public void drawPressed(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(1, redPressedS, greenPressedS, bluePressedS, redPressedE, greenPressedE, bluePressedE, ALPHA_SOLID);
+        drawGradientRectangleBox(1, colorSPressed, colorEPressed);
         drawText(ClientConfig.gradientBtnTextNormal);
     }
 
@@ -121,12 +83,7 @@ public class ButtonGradient extends AbstractButton {
     }
 
 
-    public void drawGradientRectangleBox(int shrink, int red1, int green1, int blue1, int red2, int green2, int blue2, int alpha) {
-        GuiUtils.useGradientGLStates();
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder buffer = tessellator.getBuffer();
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
-
+    public void drawGradientRectangleBox(int shrink, ColorApplier top, ColorApplier bottom) {
         // Move the vertexes inwards
         // *----------------*
         // | *------------* |
@@ -139,15 +96,10 @@ public class ButtonGradient extends AbstractButton {
         int y = getActualY() + shrink;
         int xBR = getActualXBR() - shrink;
         int yBR = getActualYBR() - shrink;
-        
-        // Top Right -> Top Left -> Bottom Left -> Bottom Right
-        buffer.pos(xBR, y, z).color(red1, green1, blue1, alpha).endVertex();
-        buffer.pos(x, y, z).color(red1, green1, blue1, alpha).endVertex();
-        buffer.pos(x, yBR, z).color(red2, green2, blue2, alpha).endVertex();
-        buffer.pos(xBR, yBR, z).color(red2, green2, blue2, alpha).endVertex();
 
-        tessellator.draw();
-        GlStateManager.enableTexture2D();
+        BufferBuilder buffer = TessellatorUtils.getGradientVBuffer();
+        VertexSequenceUtils.verticalGradientBox(buffer, x, y, xBR, yBR, 0, top, bottom);
+        TessellatorUtils.finish();
     }
     
 }
