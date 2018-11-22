@@ -86,12 +86,8 @@ public class ButtonGradient extends AbstractButton {
 
     public void drawGradientRectangleBox(int shrink, ColorApplier top, ColorApplier bottom, boolean invert) {
         BufferBuilder buffer = TessellatorUtils.getGradientVBuffer();
-        BoxUtils.gradientOutlinedBox(
-                buffer,
-                getActualX(), getActualY(), getActualXBR(), getActualYBR(), shrink,
-                top, bottom,
-                invert ? GLGrayScale.BORDER_COLOR_DARK : GLGrayScale.BORDER_COLOR_LIGHT,
-                invert ? GLGrayScale.BORDER_COLOR_LIGHT : GLGrayScale.BORDER_COLOR_DARK);
+        GLGrayScale.vanillaBorder(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR(), invert);
+        VertexSequencer.verticalGradientBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR(), 0, top, bottom);
         TessellatorUtils.finish();
     }
     
