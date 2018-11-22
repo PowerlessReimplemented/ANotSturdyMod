@@ -12,11 +12,11 @@ public class GLGrayScale {
     public static final ColorApplier BORDER_COLOR_LIGHT = ColorApplier.hexSolid(0xffffff);
 
     public static void vanillaConvexBox(BufferBuilder buffer, int x1, int y1, int x2, int y2) {
-        BoxUtils.addOutlinedBox(buffer, x1, y1, x2, y2, BORDER_WIDTH, BACKGROUND_COLOR, BORDER_COLOR_LIGHT, BORDER_COLOR_DARK);
+        BoxUtils.outlinedBox(buffer, x1, y1, x2, y2, BORDER_WIDTH, BACKGROUND_COLOR, BORDER_COLOR_LIGHT, BORDER_COLOR_DARK);
     }
 
     public static void vanillaConcaveBox(BufferBuilder buffer, int x1, int y1, int x2, int y2) {
-        BoxUtils.addOutlinedBox(buffer, x1, y1, x2, y2, BORDER_WIDTH, BACKGROUND_COLOR, BORDER_COLOR_DARK, BORDER_COLOR_LIGHT);
+        BoxUtils.outlinedBox(buffer, x1, y1, x2, y2, BORDER_WIDTH, BACKGROUND_COLOR, BORDER_COLOR_DARK, BORDER_COLOR_LIGHT);
     }
 
 }

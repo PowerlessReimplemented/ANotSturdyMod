@@ -4,15 +4,17 @@ import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.library.gui.ColorApplier;
 
 public class BoxUtils {
+
+    public static void gradientOutlinedBox(BufferBuilder buffer, int x1, int y1, int x2, int y2, int borderWidth, ColorApplier top, ColorApplier bottom, ColorApplier colorFirst, ColorApplier colorSecond) {
+        addBorderVertexes(buffer, x1, y1, x2, y2, borderWidth, colorFirst, colorSecond); 
+        VertexSequencer.verticalGradientBox(buffer, x1 + borderWidth, y1 + borderWidth, x2 - borderWidth, y2 - borderWidth, 0, top, bottom);
+    }
     
-    public static void addOutlinedBox(BufferBuilder buffer, int x1, int y1, int x2, int y2, int borderWidth, ColorApplier background, ColorApplier colorFirst, ColorApplier colorSecond) {
+    public static void outlinedBox(BufferBuilder buffer, int x1, int y1, int x2, int y2, int borderWidth, ColorApplier background, ColorApplier colorFirst, ColorApplier colorSecond) {
         addBorderVertexes(buffer, x1, y1, x2, y2, borderWidth, colorFirst, colorSecond);
-        addBodyVertexes(buffer, x1, y1, x2, y2, borderWidth, background);
+        VertexSequencer.plainBox(buffer, x1 + borderWidth, y1 + borderWidth, x2 - borderWidth, y2 - borderWidth, 0, background);
     }
     
-    public static void addBodyVertexes(BufferBuilder buffer, int x1, int y1, int x2, int y2, int borderWidth, ColorApplier color) {
-        VertexSequencer.plainBox(buffer, x1 + borderWidth, y1 + borderWidth, x2 - borderWidth, y2 - borderWidth, 0, color);
-    }
     
     public static void addBorderVertexes(BufferBuilder buffer, int x1, int y1, int x2, int y2, int borderWidth, ColorApplier colorFirst, ColorApplier colorSecond) {
         int innerX1 = x1 + borderWidth;
