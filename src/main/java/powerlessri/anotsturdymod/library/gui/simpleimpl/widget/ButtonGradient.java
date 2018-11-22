@@ -57,19 +57,19 @@ public class ButtonGradient extends AbstractButton {
 
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(1, colorSNormal, colorENormal);
+        drawGradientRectangleBox(1, colorSNormal, colorENormal, false);
         drawText(ClientConfig.gradientBtnTextNormal);
     }
 
     @Override
     public void drawHovering(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(1, colorSHovering, colorEHovering);
+        drawGradientRectangleBox(1, colorSHovering, colorEHovering, false);
         drawText(ClientConfig.gradientBtnTextNormal);
     }
 
     @Override
     public void drawPressed(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(1, colorSPressed, colorEPressed);
+        drawGradientRectangleBox(1, colorSPressed, colorEPressed, true);
         drawText(ClientConfig.gradientBtnTextNormal);
     }
 
@@ -84,9 +84,14 @@ public class ButtonGradient extends AbstractButton {
     }
 
 
-    public void drawGradientRectangleBox(int shrink, ColorApplier top, ColorApplier bottom) {
+    public void drawGradientRectangleBox(int shrink, ColorApplier top, ColorApplier bottom, boolean invert) {
         BufferBuilder buffer = TessellatorUtils.getGradientVBuffer();
-        BoxUtils.gradientOutlinedBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR(), shrink, top, bottom, GLGrayScale.BORDER_COLOR_LIGHT, GLGrayScale.BORDER_COLOR_DARK);
+        BoxUtils.gradientOutlinedBox(
+                buffer,
+                getActualX(), getActualY(), getActualXBR(), getActualYBR(), shrink,
+                top, bottom,
+                invert ? GLGrayScale.BORDER_COLOR_DARK : GLGrayScale.BORDER_COLOR_LIGHT,
+                invert ? GLGrayScale.BORDER_COLOR_LIGHT : GLGrayScale.BORDER_COLOR_DARK);
         TessellatorUtils.finish();
     }
     
