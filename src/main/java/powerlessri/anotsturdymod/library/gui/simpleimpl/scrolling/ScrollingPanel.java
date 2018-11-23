@@ -3,8 +3,8 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 
 import java.util.List;
 
@@ -14,18 +14,18 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
      * Gap between every component drawn on the panel.
      */
     private int verticalGap = 2;
-    
+
     private int width;
     private int height;
-    
-    
+
+
     private IScrollBar scrollBar;
 
     /**
      * List of components that will get scrolled. Does not include {@link #scrollBar}.
      */
     private ImmutableList<IScrollableComponent> components;
-    
+
     /**
      * A shared height for every allRelated component. Equivalent to {@code components.get(0).getHeight()}.
      */
@@ -40,12 +40,12 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
      * (i.e. from {@link #contentHeight} to {@link #height})
      */
     private float contentKFactor;
-    
+
     /**
      * Maximum number of components that will be drawn at a time.
      */
     private int visibleComponents;
-    
+
     /**
      * Index of the first component that gets drawn.
      */
@@ -53,16 +53,33 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
 
     public ScrollingPanel(int relativeX, int relativeY, int width, int height, ImmutableList<IScrollableComponent> content, ChunkyScrollBar bar) {
         super(relativeX, relativeY);
-        
-        this.components = content;
-        this.checkComponentHeight();
 
+        this.components = content;
         this.width = width;
         this.setHeight(height);
 
         this.scrollBar = bar;
     }
-    
+
+
+    @Override
+    public void initialize(GuiScreen gui, IComponent parent) {
+        super.initialize(gui, parent);
+        for (IScrollableComponent component : components) {
+            component.initialize(gui, this);
+        }
+        scrollBar.initialize(gui, this);
+
+        checkScrollBarHeight();
+        checkComponentHeight();
+    }
+
+    private void checkScrollBarHeight() {
+        if (getHeight() != scrollBar.getHeight()) {
+            throw new IllegalArgumentException("Scroll bar must have the same height as the panel it belongs to.");
+        }
+    }
+
     private void checkComponentHeight() {
         int commonHeight = components.get(0).getHeight();
         for (IScrollableComponent component : components) {
@@ -70,13 +87,13 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
                 throw new IllegalArgumentException("All components passed to ScrollingPanel must have equal amount of height!");
             }
         }
-        
+
         this.commonHeight = commonHeight;
         this.contentHeight = components.size() * (commonHeight + verticalGap);
         this.contentKFactor = (float) getHeight() / getContentHeight();
     }
 
-    
+
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
         int displayHeight = commonHeight + verticalGap;
@@ -87,7 +104,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
             nextPenDownY += displayHeight;
             components.get(i).draw(event, nextPenDownY);
         }
-        
+
         scrollBar.draw(event);
     }
 
@@ -96,7 +113,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     public void setHeight(int height) {
         int componentHeight = commonHeight + verticalGap;
         int usableHeight = height - (verticalGap * 2);
-        int visibleComponents = Math.min(components.size(), usableHeight / componentHeight); 
+        int visibleComponents = Math.min(components.size(), usableHeight / componentHeight);
 
         // TODO add size check
 //        int hiddenComponents = components.size() - visibleComponents;
@@ -107,7 +124,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
         this.height = height;
         this.visibleComponents = visibleComponents;
     }
-    
+
     @Override
     public int getTotalSteps() {
         return components.size() - visibleComponents + 1;
@@ -123,28 +140,14 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
         entryIndex = Math.min(0, step);
     }
 
-    
+
     public int getContentHeight() {
         return contentHeight;
     }
-    
+
     @Override
     public float getContentKFactor() {
         return contentKFactor;
-    }
-
-    
-    @Override
-    public void initialize(GuiScreen gui, IComponent parent) {
-        super.initialize(gui, parent);
-        for (IScrollableComponent component : components) {
-            component.initialize(gui, this);
-        }
-        scrollBar.initialize(gui, this);
-
-        if (getHeight() != scrollBar.getHeight()) {
-            throw new IllegalArgumentException("Scroll bar must have the same height as the panel it belongs to.");
-        }
     }
 
     @Override
@@ -161,7 +164,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     public int getHeight() {
         return height;
     }
-    
+
     /**
      * Collection containing {@link #components} and {@link #scrollBar}
      */
@@ -169,6 +172,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
 
     @Override
     public List<IComponent> getComponents() {
+        // This operation is pretty costly, lazy evaluation to ensure there will not be huge amount of (unnecessary) iterations going on when player open the GUI
         if (allRelated == null) {
             ImmutableList.Builder<IComponent> builder = ImmutableList.builder();
             builder.addAll(components);
@@ -177,7 +181,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
         }
         return allRelated;
     }
-    
+
     public List<IScrollableComponent> getScrollableComponents() {
         return components;
     }
@@ -186,5 +190,5 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     public boolean acceptsZIndex() {
         return false;
     }
-    
+
 }

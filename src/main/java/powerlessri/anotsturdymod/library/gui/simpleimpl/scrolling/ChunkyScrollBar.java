@@ -17,17 +17,17 @@ import javax.annotation.Nullable;
  * Scroll bar implementation that locks its position at every meaningful level for itself.
  * <p>This means the scroll bar will not provide a smooth feeling like when you operate the vanilla scroll bar.  </p>
  * <p>
- *     TODO add another implementation that is not as chunky 
- *     See {@link } for implementation with a smoother user experience.
+ * TODO add another implementation that is not as chunky
+ * See {@link } for implementation with a smoother user experience.
  * </p>
  */
 public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
-    
+
     private int offset;
     private int actualHeight;
-    
+
     private IScrollingPanel parent;
-    
+
     public ChunkyScrollBar(int relativeX, int relativeY, int height) {
         super(relativeX, relativeY, 7, height);
     }
@@ -44,8 +44,8 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
         if (n < 0) {
             return 0;
         }
-        int bottom = getMaximumHeight() - getHeight(); 
-        if(n > bottom) {
+        int bottom = getMaximumHeight() - getHeight();
+        if (n > bottom) {
             return bottom;
         }
         return n;
@@ -54,7 +54,7 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
     @Override
     public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
         super.onReleased(mouseX, mouseY, button, type);
-        
+
         float stepHeight = (float) parent.getTotalSteps() / getMaximumHeight();
         Utils.getLogger().info("stepHeight: " + stepHeight);
         int step = (int) (offset / stepHeight);
@@ -63,7 +63,7 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
         
         return EnumActionResult.FAIL;
     }
-    
+
 
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
@@ -89,8 +89,8 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
     public void drawDisabled(GuiDrawBackgroundEvent event) {
         drawNormal(event);
     }
-    
-    
+
+
     @Override
     public int getWidth() {
         return 7;
@@ -110,12 +110,12 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
     public int getActualY() {
         return super.getActualY() + offset;
     }
-    
+
     @Override
     public int getBaseY() {
         return super.getActualY();
     }
-    
+
 
     @Override
     public void initialize(GuiScreen gui, IScrollingPanel parent) {
@@ -143,5 +143,5 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
     @Override
     public void enable() {
     }
-    
+
 }
