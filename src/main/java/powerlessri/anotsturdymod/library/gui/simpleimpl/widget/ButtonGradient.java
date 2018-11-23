@@ -6,12 +6,13 @@ import powerlessri.anotsturdymod.config.ClientConfig;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
 import powerlessri.anotsturdymod.library.gui.ColorApplier;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling.IScrollableComponent;
 import powerlessri.anotsturdymod.varia.render.BoxUtils;
 import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
 import powerlessri.anotsturdymod.varia.render.VertexSequencer;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
-public class ButtonGradient extends AbstractButton {
+public class ButtonGradient extends AbstractButton implements IScrollableComponent {
     
     public static final int VANILLA_CHAR_HEIGHT = 8;
 
@@ -86,9 +87,13 @@ public class ButtonGradient extends AbstractButton {
 
     public void drawGradientRectangleBox(int shrink, ColorApplier top, ColorApplier bottom, boolean invert) {
         BufferBuilder buffer = TessellatorUtils.getGradientVBuffer();
+        VertexSequencer.verticalGradientBox(buffer, getActualX() + shrink, getActualY() + shrink, getActualXBR() - shrink, getActualYBR() - shrink, 0, top, bottom);
         GLGrayScale.vanillaBorder(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR(), invert);
-        VertexSequencer.verticalGradientBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR(), 0, top, bottom);
         TessellatorUtils.finish();
     }
-    
+
+    @Override
+    public void draw(GuiDrawBackgroundEvent event, int y) {
+        draw(event);
+    }
 }

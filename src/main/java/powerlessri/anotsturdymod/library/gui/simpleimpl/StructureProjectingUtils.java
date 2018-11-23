@@ -13,18 +13,17 @@ public class StructureProjectingUtils {
     public static ImmutableList<IComponent> flatten(ImmutableList<IContainer<IComponent>> windows) {
         ImmutableList.Builder<IComponent> flattened = ImmutableList.builder();
         for (IContainer<IComponent> window : windows) {
-            flattened.add(window);
             flattenRecursive(window, flattened);
         }
         return flattened.build();
     }
 
     private static void flattenRecursive(IContainer<? extends IComponent> parent, ImmutableList.Builder<IComponent> flattened) {
+        flattened.add(parent);
         for (IComponent component : parent.getComponents()) {
             flattened.add(component);
 
-            if (component instanceof IContainer) {
-                flattened.add(component);
+            if (component instanceof IContainer) { 
                 flattenRecursive((IContainer<? extends IComponent>) component, flattened);
             }
         }

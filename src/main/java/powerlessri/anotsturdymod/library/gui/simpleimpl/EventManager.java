@@ -2,7 +2,9 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.Util;
 import powerlessri.anotsturdymod.library.gui.api.*;
+import powerlessri.anotsturdymod.varia.general.Utils;
 
 import javax.annotation.Nullable;
 import java.util.HashSet;

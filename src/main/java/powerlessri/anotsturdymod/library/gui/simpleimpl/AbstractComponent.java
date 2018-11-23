@@ -94,14 +94,14 @@ public abstract class AbstractComponent implements IComponent {
      * X position of the bottom right corner.
      */
     public int getActualXBR() {
-        return absX + getWidth();
+        return getActualX() + getWidth();
     }
 
     /**
      * Y position of the bottom right corner.
      */
     public int getActualYBR() {
-        return absY + getHeight();
+        return getActualY() + getHeight();
     }
 
     @Override

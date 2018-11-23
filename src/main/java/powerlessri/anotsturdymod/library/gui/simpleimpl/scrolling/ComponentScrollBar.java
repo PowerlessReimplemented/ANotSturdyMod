@@ -3,10 +3,12 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.Util;
 import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
+import powerlessri.anotsturdymod.varia.general.Utils;
 import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
@@ -30,16 +32,14 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
         offset = limitToRange(mouseY - getBaseY());
     }
 
-    /**
-     * Limit the input between the body height.
-     */
+
     private int limitToRange(int n) {
         if (n < 0) {
             return 0;
         }
-        int maxHeight = getMaximumHeight(); 
-        if(n > maxHeight) {
-            return maxHeight;
+        int bottom = getMaximumHeight() - getHeight(); 
+        if(n > bottom) {
+            return bottom;
         }
         return n;
     }
@@ -48,8 +48,10 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
     public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
         super.onReleased(mouseX, mouseY, button, type);
         
-        int stepHeight = parent.getTotalSteps() / getMaximumHeight();
-        int step = offset / stepHeight;
+        float stepHeight = (float) parent.getTotalSteps() / getMaximumHeight();
+        Utils.getLogger().info("stepHeight: " + stepHeight);
+        int step = (int) (offset / stepHeight);
+        Utils.getLogger().info("step: " + step);
         parent.setContentStep(step);
         
         return EnumActionResult.FAIL;

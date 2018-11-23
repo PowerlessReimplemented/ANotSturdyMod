@@ -23,8 +23,11 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
 
     public AbstractButton(int relativeX, int relativeY, int width, int height) {
         super(relativeX, relativeY);
+        
         this.width = width;
         this.height = height;
+        this.isPressed = false;
+        this.isDisabled = false;
     }
 
 

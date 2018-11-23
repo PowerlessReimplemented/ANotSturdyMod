@@ -10,6 +10,7 @@ import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling.ComponentScrollBar;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling.ScrollingPanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ButtonGradient;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
@@ -73,7 +74,15 @@ public class GuiLogicEditor extends ComponentizedGui {
                             }
                         },
 
-                        new ComponentScrollBar(60, 10, 80)
+                        new ScrollingPanel(
+                                50, 0, 40, 40, 
+                                ImmutableList.of(
+                                        new ButtonGradient(0, 0, 16, 10, "1"),
+                                        new ButtonGradient(0, 20, 16, 10, "2"),
+                                        new ButtonGradient(0, 40, 16, 10, "3"),
+                                        new ButtonGradient(0, 60, 16, 10, "4")
+                                        ),
+                                new ComponentScrollBar(40, 0, 40))
                 ))
         );
 
@@ -87,8 +96,17 @@ public class GuiLogicEditor extends ComponentizedGui {
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 
-        GuiUtils.useTextureGLStates();
-        mc.renderEngine.bindTexture(BACKGROUND);
-        drawTexturedModalRect(centerX, centerY, BKG_START_X, BKG_START_Y, BKG_WIDTH, BKG_HEIGHT);
+//        GuiUtils.useTextureGLStates();
+//        mc.renderEngine.bindTexture(BACKGROUND);
+//        drawTexturedModalRect(centerX, centerY, BKG_START_X, BKG_START_Y, BKG_WIDTH, BKG_HEIGHT);
+    }
+
+
+    @Override
+    public String toString() {
+        return "GuiLogicEditor{" +
+                "centerX=" + centerX +
+                ", centerY=" + centerY +
+                '}';
     }
 }
