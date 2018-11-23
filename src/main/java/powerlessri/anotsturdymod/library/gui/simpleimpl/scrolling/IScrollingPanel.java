@@ -22,5 +22,10 @@ public interface IScrollingPanel extends IContainer<IComponent> {
      * @param step Target index, starts at 0
      */
     void setContentStep(int step);
+
+    /**
+     * Scale factor of the height of all contents, to the display height of the panel.
+     */
+    float getContentKFactor();
     
 }

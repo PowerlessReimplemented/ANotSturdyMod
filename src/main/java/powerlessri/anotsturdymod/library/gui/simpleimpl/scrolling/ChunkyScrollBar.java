@@ -123,9 +123,7 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
         super.initialize(gui, parent);
         this.parent = parent;
 
-        int maxHeight = getMaximumHeight();
-        float scaleFactor = (float) maxHeight / parent.getHeight();
-        actualHeight = (int) (maxHeight * scaleFactor);
+        actualHeight = (int) (getMaximumHeight() * parent.getContentKFactor());
     }
 
     @Nullable

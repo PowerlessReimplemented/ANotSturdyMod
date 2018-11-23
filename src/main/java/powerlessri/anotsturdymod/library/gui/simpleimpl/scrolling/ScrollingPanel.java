@@ -18,11 +18,30 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     private int width;
     private int height;
 
-    private int commonHeight;
-    private int amountVisibleComponents;
+    /**
+     * The total height of all components that is required if not using scroll panel.
+     * Formula: components.size() * (commonHeight + verticalGap). Does not include whitespace on the top and bottom.
+     */
+    private int contentHeight;
 
     private IScrollBar scrollBar;
+
+    /**
+     * List of components that will get scrolled. Does not include {@link #scrollBar}.
+     */
     private ImmutableList<IScrollableComponent> components;
+    
+    /**
+     * A shared height for every content component. Equivalent to {@code components.get(0).getHeight()}.
+     */
+    private int commonHeight;
+    /**
+     * Maximum number of components that will be drawn at a time.
+     */
+    private int amountVisibleComponents;
+    /**
+     * Index of the first component that gets drawn.
+     */
     private int entryIndex;
 
     public ScrollingPanel(int relativeX, int relativeY, int width, int height, ImmutableList<IScrollableComponent> content, ChunkyScrollBar bar) {
@@ -47,6 +66,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
         }
         
         this.commonHeight = commonHeight;
+        this.contentHeight = components.size() * (commonHeight + verticalGap);
     }
 
     
@@ -69,17 +89,17 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     public void setHeight(int height) {
         int componentHeight = commonHeight + verticalGap;
         int usableHeight = height - (verticalGap * 2);
-        int visibleComponents = Math.min(components.size(), usableHeight / componentHeight);
+        int visibleComponents = Math.min(components.size(), usableHeight / componentHeight); 
 
-        int hiddenComponents = components.size() - visibleComponents;
-        if (hiddenComponents > height) {
-            throw new IllegalArgumentException("Unable to fit all components with the given height " + height + "!");
-        }
-        
+//        int hiddenComponents = components.size() - visibleComponents;
+//        if (hiddenComponents > height) {
+//            throw new IllegalArgumentException("Unable to fit all components with the given height " + height + "!");
+//        }
+
         this.height = height;
         this.amountVisibleComponents = visibleComponents;
     }
-
+    
     @Override
     public int getTotalSteps() {
         return components.size() - amountVisibleComponents + 1;
@@ -95,7 +115,22 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
         entryIndex = step;
     }
 
+    
+    public int getContentHeight() {
+        return contentHeight;
+    }
+    
+    private float contentKFactor;
+    
+    @Override
+    public float getContentKFactor() {
+        if (contentKFactor == 0.0f) {
+            contentKFactor = (float) getHeight() / getContentHeight();
+        }
+        return contentKFactor;
+    }
 
+    
     @Override
     public void initialize(GuiScreen gui, IComponent parent) {
         super.initialize(gui, parent);
@@ -138,6 +173,10 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
             content = builder.build();
         }
         return content;
+    }
+    
+    public List<IScrollableComponent> getScrollableComponents() {
+        return components;
     }
 
     @Override
