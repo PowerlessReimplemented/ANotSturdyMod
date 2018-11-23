@@ -14,14 +14,22 @@ import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
 import javax.annotation.Nullable;
 
-public class ComponentScrollBar extends AbstractButton implements IScrollBar {
+/**
+ * Scroll bar implementation that locks its position at every meaningful level for itself.
+ * <p>This means the scroll bar will not provide a smooth feeling like when you operate the vanilla scroll bar.  </p>
+ * <p>
+ *     TODO add another implementation that is not as chunky 
+ *     See {@link } for implementation with a smoother user experience.
+ * </p>
+ */
+public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
     
     private int offset;
     private int actualHeight;
     
     private IScrollingPanel parent;
     
-    public ComponentScrollBar(int relativeX, int relativeY, int height) {
+    public ChunkyScrollBar(int relativeX, int relativeY, int height) {
         super(relativeX, relativeY, 7, height);
     }
 

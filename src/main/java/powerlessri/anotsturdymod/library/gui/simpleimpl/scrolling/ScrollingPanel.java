@@ -25,7 +25,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     private ImmutableList<IScrollableComponent> components;
     private int entryIndex;
 
-    public ScrollingPanel(int relativeX, int relativeY, int width, int height, ImmutableList<IScrollableComponent> content, ComponentScrollBar bar) {
+    public ScrollingPanel(int relativeX, int relativeY, int width, int height, ImmutableList<IScrollableComponent> content, ChunkyScrollBar bar) {
         super(relativeX, relativeY);
         
         this.components = content;
@@ -45,6 +45,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
                 throw new IllegalArgumentException("All components passed to ScrollingPanel must have equal amount of height!");
             }
         }
+        
         this.commonHeight = commonHeight;
     }
 
@@ -64,6 +65,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     }
 
 
+    // TODO decide private or public
     public void setHeight(int height) {
         int componentHeight = commonHeight + verticalGap;
         int usableHeight = height - (verticalGap * 2);
@@ -80,7 +82,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
 
     @Override
     public int getTotalSteps() {
-        return amountVisibleComponents;
+        return components.size() - amountVisibleComponents + 1;
     }
 
     @Override
@@ -101,6 +103,10 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
             component.initialize(gui, this);
         }
         scrollBar.initialize(gui, this);
+
+        if (getHeight() != scrollBar.getHeight()) {
+            throw new IllegalArgumentException("Scroll bar must have the same height as the panel it belongs to.");
+        }
     }
 
     @Override

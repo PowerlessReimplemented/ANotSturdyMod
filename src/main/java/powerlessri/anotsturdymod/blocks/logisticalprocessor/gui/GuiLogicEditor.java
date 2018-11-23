@@ -9,14 +9,13 @@ import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling.ComponentScrollBar;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling.ChunkyScrollBar;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling.ScrollingPanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ButtonGradient;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventory;
 import powerlessri.anotsturdymod.library.gui.template.AbstractTemplate;
-import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 public class GuiLogicEditor extends ComponentizedGui {
 
@@ -82,7 +81,7 @@ public class GuiLogicEditor extends ComponentizedGui {
                                         new ButtonGradient(0, 40, 16, 10, "3"),
                                         new ButtonGradient(0, 60, 16, 10, "4")
                                         ),
-                                new ComponentScrollBar(40, 0, 40))
+                                new ChunkyScrollBar(40, 0, 40))
                 ))
         );
 
