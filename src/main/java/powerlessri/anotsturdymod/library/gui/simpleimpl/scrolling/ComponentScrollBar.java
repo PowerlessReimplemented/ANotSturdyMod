@@ -110,6 +110,10 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
     public void initialize(GuiScreen gui, IScrollingPanel parent) {
         super.initialize(gui, parent);
         this.parent = parent;
+
+        int maxHeight = getMaximumHeight();
+        float scaleFactor = (float) maxHeight / parent.getHeight();
+        actualHeight = (int) (maxHeight * scaleFactor);
     }
 
     @Nullable

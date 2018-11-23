@@ -71,8 +71,9 @@ public class GuiLogicEditor extends ComponentizedGui {
                                 }
                                 return super.onClicked(mouseX, mouseY, button, type);
                             }
-                        }
+                        },
 
+                        new ComponentScrollBar(60, 10, 80)
                 ))
         );
 
