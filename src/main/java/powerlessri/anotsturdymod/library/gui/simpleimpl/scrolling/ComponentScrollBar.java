@@ -94,6 +94,7 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
         return actualHeight;
     }
 
+    @Override
     public int getMaximumHeight() {
         return super.getHeight();
     }
@@ -103,6 +104,7 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
         return super.getActualY() + offset;
     }
     
+    @Override
     public int getBaseY() {
         return super.getActualY();
     }

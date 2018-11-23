@@ -28,5 +28,18 @@ public interface IScrollBar extends IInteractionHandler {
      * <p>See {@link IComponent#initialize(GuiScreen, IComponent)} for more information. </p>
      */
     void initialize(GuiScreen gui, IScrollingPanel parent);
+    
+    
+    // TODO add javadoc
+    
+    int getMaximumHeight();
+    
+    @Override
+    int getHeight();
+    
+    int getBaseY();
+    
+    @Override
+    int getActualY();
 
 }
