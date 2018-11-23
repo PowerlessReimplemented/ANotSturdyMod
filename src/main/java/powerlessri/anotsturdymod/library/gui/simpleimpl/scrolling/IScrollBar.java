@@ -7,7 +7,7 @@ import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
 /**
  * <p>
  * Whenever the scroll bar changed its step, which means content inside the scrolling panel should move,
- * it must manually call {@link IScrollingPanel#setContentStep(int)}.
+ * it must manually call {@link IScrollingPanel#setCurrentStep(int)}.
  * </p>
  */
 public interface IScrollBar extends IInteractionHandler {

@@ -3,7 +3,6 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.Util;
 import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
@@ -60,7 +59,7 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
         Utils.getLogger().info("stepHeight: " + stepHeight);
         int step = (int) (offset / stepHeight);
         Utils.getLogger().info("step: " + step);
-        parent.setContentStep(step);
+        parent.setCurrentStep(step);
         
         return EnumActionResult.FAIL;
     }
@@ -69,7 +68,7 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
         BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
-        GLGrayScale.vanillaConvexBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR());
+        GLGrayScale.addConvexBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR());
         TessellatorUtils.draw();
     }
 
@@ -82,7 +81,7 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
     @Override
     public void drawPressed(GuiDrawBackgroundEvent event) {
         BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
-        GLGrayScale.vanillaConcaveBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR());
+        GLGrayScale.addConcaveBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR());
         TessellatorUtils.draw();
     }
 

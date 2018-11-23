@@ -21,7 +21,7 @@ public interface IScrollingPanel extends IContainer<IComponent> {
      * <p>In other words, shift the viewport to the given index.</p>
      * @param step Target index, starts at 0
      */
-    void setContentStep(int step);
+    void setCurrentStep(int step);
 
     /**
      * Scale factor of the height of all contents, to the display height of the panel.

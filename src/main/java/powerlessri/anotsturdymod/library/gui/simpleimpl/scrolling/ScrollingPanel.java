@@ -17,13 +17,8 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     
     private int width;
     private int height;
-
-    /**
-     * The total height of all components that is required if not using scroll panel.
-     * Formula: components.size() * (commonHeight + verticalGap). Does not include whitespace on the top and bottom.
-     */
-    private int contentHeight;
-
+    
+    
     private IScrollBar scrollBar;
 
     /**
@@ -32,13 +27,25 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     private ImmutableList<IScrollableComponent> components;
     
     /**
-     * A shared height for every content component. Equivalent to {@code components.get(0).getHeight()}.
+     * A shared height for every allRelated component. Equivalent to {@code components.get(0).getHeight()}.
      */
     private int commonHeight;
     /**
+     * The height of expanded components. (The total height of all components that is required to display them all if not using scroll panel)
+     * Formula: components.size() * (commonHeight + verticalGap). Does not include whitespace on the top and bottom.
+     */
+    private int contentHeight;
+    /**
+     * Scale factor from height of expanded height to to current available height for displaying.
+     * (i.e. from {@link #contentHeight} to {@link #height})
+     */
+    private float contentKFactor;
+    
+    /**
      * Maximum number of components that will be drawn at a time.
      */
-    private int amountVisibleComponents;
+    private int visibleComponents;
+    
     /**
      * Index of the first component that gets drawn.
      */
@@ -53,7 +60,6 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
         this.width = width;
         this.setHeight(height);
 
-        // TODO scroll bar details
         this.scrollBar = bar;
     }
     
@@ -67,13 +73,14 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
         
         this.commonHeight = commonHeight;
         this.contentHeight = components.size() * (commonHeight + verticalGap);
+        this.contentKFactor = (float) getHeight() / getContentHeight();
     }
 
     
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
         int displayHeight = commonHeight + verticalGap;
-        int endIndex = entryIndex + amountVisibleComponents;
+        int endIndex = entryIndex + visibleComponents;
 
         int nextPenDownY = getActualY() + verticalGap;
         for (int i = entryIndex; i < endIndex; i++) {
@@ -91,18 +98,19 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
         int usableHeight = height - (verticalGap * 2);
         int visibleComponents = Math.min(components.size(), usableHeight / componentHeight); 
 
+        // TODO add size check
 //        int hiddenComponents = components.size() - visibleComponents;
 //        if (hiddenComponents > height) {
 //            throw new IllegalArgumentException("Unable to fit all components with the given height " + height + "!");
 //        }
 
         this.height = height;
-        this.amountVisibleComponents = visibleComponents;
+        this.visibleComponents = visibleComponents;
     }
     
     @Override
     public int getTotalSteps() {
-        return components.size() - amountVisibleComponents + 1;
+        return components.size() - visibleComponents + 1;
     }
 
     @Override
@@ -111,8 +119,8 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     }
 
     @Override
-    public void setContentStep(int step) {
-        entryIndex = step;
+    public void setCurrentStep(int step) {
+        entryIndex = Math.min(0, step);
     }
 
     
@@ -120,13 +128,8 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
         return contentHeight;
     }
     
-    private float contentKFactor;
-    
     @Override
     public float getContentKFactor() {
-        if (contentKFactor == 0.0f) {
-            contentKFactor = (float) getHeight() / getContentHeight();
-        }
         return contentKFactor;
     }
 
@@ -162,17 +165,17 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     /**
      * Collection containing {@link #components} and {@link #scrollBar}
      */
-    private ImmutableList<IComponent> content;
+    private ImmutableList<IComponent> allRelated;
 
     @Override
     public List<IComponent> getComponents() {
-        if (content == null) {
+        if (allRelated == null) {
             ImmutableList.Builder<IComponent> builder = ImmutableList.builder();
             builder.addAll(components);
             builder.add(scrollBar);
-            content = builder.build();
+            allRelated = builder.build();
         }
-        return content;
+        return allRelated;
     }
     
     public List<IScrollableComponent> getScrollableComponents() {
