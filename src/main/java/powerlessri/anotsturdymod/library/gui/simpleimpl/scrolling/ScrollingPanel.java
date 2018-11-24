@@ -52,7 +52,18 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
      * Index of the first component that gets drawn.
      */
     private int entryIndex;
-    
+
+    /**
+     * Construct a scrollable panel with a completely custom height.
+     * <p>
+     *     It should be noted that in some cases, using an incomplete height (all display desires cannot fill the given height)
+     *     and a special number of components, the last component might be excluded to display.
+     *     One (hack) solution to this problem is to ensure the panel height is always a multiple of components' display height.
+     * </p>
+     * <p>Example of an  case: {@code height = 80, componentHeight = 10, numberOComponents = 32}</p>
+     * 
+     * @param height The custom height value
+     */
     public ScrollingPanel(int relativeX, int relativeY, int width, int height, ImmutableList<IScrollableComponent> content, ChunkyScrollBar bar) {
         super(relativeX, relativeY);
 
