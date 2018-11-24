@@ -25,14 +25,14 @@ public class ButtonGradient extends AbstractButton {
     public static Color colorEPressed;
 
     private static void reloadColors() {
-        colorSNormal = Color.hexSolid(ClientConfig.gradientBtnSNormal);
-        colorENormal = Color.hexSolid(ClientConfig.gradientBtnENormal);
+        colorSNormal = Color.hex(ClientConfig.gradientBtnSNormal);
+        colorENormal = Color.hex(ClientConfig.gradientBtnENormal);
 
-        colorSHovering = Color.hexSolid(ClientConfig.gradientBtnSHover);
-        colorEHovering = Color.hexSolid(ClientConfig.gradientBtnEHover);
+        colorSHovering = Color.hex(ClientConfig.gradientBtnSHover);
+        colorEHovering = Color.hex(ClientConfig.gradientBtnEHover);
 
-        colorSPressed = Color.hexSolid(ClientConfig.gradientBtnSPressed);
-        colorEPressed = Color.hexSolid(ClientConfig.gradientBtnEPressed);
+        colorSPressed = Color.hex(ClientConfig.gradientBtnSPressed);
+        colorEPressed = Color.hex(ClientConfig.gradientBtnEPressed);
     }
     
 

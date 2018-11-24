@@ -9,18 +9,8 @@ public class Color {
      */
     private static Color[] colors = new Color[0xffffff + 1];
     
-
-    public static Color hexSolid(int hex) {
-        return hex(hex, 255);
-    }
     
     public static Color hex(int hex) {
-        int alpha = hex & 255;
-        // Remove alpha value at the end of color
-        return hex(hex >> 8, alpha);
-    }
-    
-    public static Color hex(int hex, int alpha) {
         if (colors[hex] != null) {
             return colors[hex];
         }
@@ -29,14 +19,10 @@ public class Color {
         int green = hex >> 8 & 255;
         int blue = hex & 255;
         // Caching is done in the method already
-        return rgb(red, green, blue, alpha);
+        return rgb(red, green, blue);
     }
     
     public static Color rgb(int red, int green, int blue) {
-        return rgb(red, green, blue, 255);
-    }
-
-    public static Color rgb(int red, int green, int blue, int alpha) {
         int hex = getHex(red, green, blue);
         if (colors[hex] != null) {
             return colors[hex];
@@ -46,7 +32,6 @@ public class Color {
         color.red = red;
         color.green = green;
         color.blue = blue;
-        color.alpha = alpha;
         
         colors[hex] = color;
         return color;
@@ -60,13 +45,12 @@ public class Color {
     }
     
 
-    private int red;
-    private int green;
-    private int blue;
-    private int alpha;
+    protected int red;
+    protected int green;
+    protected int blue;
     
     public void applyToVertex(BufferBuilder buffer) {
-        buffer.color(red, green, blue, alpha);
+        buffer.color(red, green, blue, 255);
     }
     
 }
