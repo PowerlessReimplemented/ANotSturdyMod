@@ -55,8 +55,8 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
     public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
         super.onReleased(mouseX, mouseY, button, type);
 
-        float stepHeight = (float) getMaximumHeight() / parent.getTotalSteps();
-        Utils.getLogger().info("stepHeight: " + stepHeight);
+        float stepHeight = (float) getEmptyLength() / parent.getTotalSteps();
+        Utils.getLogger().info("offset: " + offset + "stepHeight: " + stepHeight);
         int step = (int) (offset / stepHeight);
         Utils.getLogger().info("step: " + step);
         parent.setCurrentStep(step);
@@ -115,6 +115,10 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
     @Override
     public int getBaseY() {
         return super.getActualY();
+    }
+    
+    public int getEmptyLength() {
+        return getMaximumHeight() - getHeight();
     }
 
 

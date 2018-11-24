@@ -10,6 +10,7 @@ import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling.ChunkyScrollBar;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling.IScrollableComponent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling.ScrollingPanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ButtonGradient;
@@ -58,6 +59,12 @@ public class GuiLogicEditor extends ComponentizedGui {
     @Override
     public void initGui() {
         ButtonGradient displayBtn = new ButtonGradient(0, 0, 40, 30, "hello!");
+        ImmutableList.Builder<IScrollableComponent> builder = ImmutableList.builder();
+        for (int i = 0; i < 16; i++) {
+            IScrollableComponent button = new ButtonGradient(0, i * 20, 16, 10, String.valueOf(i));
+            builder.add(button);
+        }
+        
         windows = ImmutableList.of(
                 new BasicPanel(10, 10, ImmutableList.of(
                         displayBtn,
@@ -75,12 +82,7 @@ public class GuiLogicEditor extends ComponentizedGui {
 
                         new ScrollingPanel(
                                 50, 0, 40, 40, 
-                                ImmutableList.of(
-                                        new ButtonGradient(0, 0, 16, 10, "1"),
-                                        new ButtonGradient(0, 20, 16, 10, "2"),
-                                        new ButtonGradient(0, 40, 16, 10, "3"),
-                                        new ButtonGradient(0, 60, 16, 10, "4")
-                                        ),
+                                builder.build(),
                                 new ChunkyScrollBar(40, 0, 40))
                 ))
         );

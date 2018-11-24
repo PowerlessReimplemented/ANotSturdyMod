@@ -116,8 +116,8 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
         int componentHeight = commonHeight + verticalGap;
-        int endIndex = entryIndex + visibleComponents;
-//        Utils.getLogger().info("vis " + visibleComponents);
+        int endIndex = entryIndex + visibleComponents - 1;
+//        Utils.getLogger().info("entry: " + entryIndex + " end: " + endIndex);
 
         int nextPenDownY = getActualY() + verticalGap;
         for (int i = entryIndex; i < endIndex; i++) {
