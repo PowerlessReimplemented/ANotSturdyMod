@@ -16,6 +16,7 @@ import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ButtonGradient;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventory;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ScrollableButtonGradient;
 import powerlessri.anotsturdymod.library.gui.template.AbstractTemplate;
 
 public class GuiLogicEditor extends ComponentizedGui {
@@ -60,8 +61,8 @@ public class GuiLogicEditor extends ComponentizedGui {
     public void initGui() {
         ButtonGradient displayBtn = new ButtonGradient(0, 0, 40, 30, "hello!");
         ImmutableList.Builder<IScrollableComponent> builder = ImmutableList.builder();
-        for (int i = 0; i < 16; i++) {
-            IScrollableComponent button = new ButtonGradient(0, i * 20, 16, 10, String.valueOf(i));
+        for (int i = 0; i < 32; i++) {
+            IScrollableComponent button = new ScrollableButtonGradient(0, i * 20, 16, 10, String.valueOf(i));
             builder.add(button);
         }
         
@@ -81,9 +82,9 @@ public class GuiLogicEditor extends ComponentizedGui {
                         },
 
                         new ScrollingPanel(
-                                50, 0, 40, 40, 
+                                50, 0, 40, 80, 
                                 builder.build(),
-                                new ChunkyScrollBar(40, 0, 40))
+                                new ChunkyScrollBar(40, 0, 80))
                 ))
         );
 

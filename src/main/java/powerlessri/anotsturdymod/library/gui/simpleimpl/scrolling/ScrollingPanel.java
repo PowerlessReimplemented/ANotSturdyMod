@@ -7,6 +7,7 @@ import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
+import javax.rmi.CORBA.Util;
 import java.util.List;
 
 public class ScrollingPanel extends AbstractComponent implements IScrollingPanel {
@@ -51,7 +52,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
      * Index of the first component that gets drawn.
      */
     private int entryIndex;
-
+    
     public ScrollingPanel(int relativeX, int relativeY, int width, int height, ImmutableList<IScrollableComponent> content, ChunkyScrollBar bar) {
         super(relativeX, relativeY);
 
@@ -116,13 +117,12 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
         int componentHeight = commonHeight + verticalGap;
-        int endIndex = entryIndex + visibleComponents - 1;
-//        Utils.getLogger().info("entry: " + entryIndex + " end: " + endIndex);
+        int endIndex = entryIndex + visibleComponents;
 
         int nextPenDownY = getActualY() + verticalGap;
         for (int i = entryIndex; i < endIndex; i++) {
-            nextPenDownY += componentHeight;
             components.get(i).draw(event, nextPenDownY);
+            nextPenDownY += componentHeight;
         }
 
         scrollBar.draw(event);
@@ -131,7 +131,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
 
     @Override
     public int getTotalSteps() {
-        return components.size() - visibleComponents + 1;
+        return components.size() - visibleComponents;
     }
 
     @Override
@@ -141,7 +141,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
 
     @Override
     public void setCurrentStep(int step) {
-        entryIndex = Math.min(0, step);
+        entryIndex = Math.max(0, step);
     }
 
 
