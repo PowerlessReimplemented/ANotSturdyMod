@@ -28,6 +28,7 @@ public class Color {
         int red = hex >> 16 & 255;
         int green = hex >> 8 & 255;
         int blue = hex & 255;
+        // Caching is done in the method already
         return rgb(red, green, blue, alpha);
     }
     
@@ -41,12 +42,14 @@ public class Color {
             return colors[hex];
         }
         
-        Color applier = new Color();
-        applier.red = red;
-        applier.green = green;
-        applier.blue = blue;
-        applier.alpha = alpha;
-        return applier;
+        Color color = new Color();
+        color.red = red;
+        color.green = green;
+        color.blue = blue;
+        color.alpha = alpha;
+        
+        colors[hex] = color;
+        return color;
     }
     
     
