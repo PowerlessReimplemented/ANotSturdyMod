@@ -37,6 +37,7 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
     public void onClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
         super.onClickedDragging(mouseX, mouseY, button, timePressed);
         offset = limitToRange(mouseY - getBaseY());
+        Utils.getLogger().info(offset);
     }
 
 
@@ -55,18 +56,20 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
     public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
         super.onReleased(mouseX, mouseY, button, type);
 
-        float stepHeight = (float) parent.getTotalSteps() / getMaximumHeight();
+        float stepHeight = (float) getMaximumHeight() / parent.getTotalSteps();
         Utils.getLogger().info("stepHeight: " + stepHeight);
         int step = (int) (offset / stepHeight);
         Utils.getLogger().info("step: " + step);
         parent.setCurrentStep(step);
-        
+        Utils.getLogger().info("ay: " + getActualY() + ", by: " + getBaseY() + ", aybr:" + getActualYBR());
+
         return EnumActionResult.FAIL;
     }
 
 
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
+        // TODO draw lines in the center
         BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
         GLGrayScale.addConvexBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR());
         TessellatorUtils.draw();
@@ -123,6 +126,7 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
         this.parent = parent;
 
         actualHeight = (int) (getMaximumHeight() * parent.getContentKFactor());
+        Utils.getLogger().info("mh" + getMaximumHeight() + ", k: " + parent.getContentKFactor());
     }
 
     @Nullable

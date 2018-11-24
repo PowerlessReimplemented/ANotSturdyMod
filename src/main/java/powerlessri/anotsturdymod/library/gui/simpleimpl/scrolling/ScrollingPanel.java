@@ -5,7 +5,9 @@ import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
+import powerlessri.anotsturdymod.varia.general.Utils;
 
+import javax.rmi.CORBA.Util;
 import java.util.List;
 
 public class ScrollingPanel extends AbstractComponent implements IScrollingPanel {
@@ -65,17 +67,18 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     @Override
     public void initialize(GuiScreen gui, IComponent parent) {
         super.initialize(gui, parent);
+
+        checkScrollBarHeight();
+        checkComponentHeight();
+
         for (IScrollableComponent component : components) {
             component.initialize(gui, this);
         }
         scrollBar.initialize(gui, this);
-
-        checkScrollBarHeight();
-        checkComponentHeight();
     }
 
     private void checkScrollBarHeight() {
-        if (getHeight() != scrollBar.getHeight()) {
+        if (getHeight() != scrollBar.getMaximumHeight()) {
             throw new IllegalArgumentException("Scroll bar must have the same height as the panel it belongs to.");
         }
     }
@@ -91,6 +94,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
         this.commonHeight = commonHeight;
         this.contentHeight = components.size() * (commonHeight + verticalGap);
         this.contentKFactor = (float) getHeight() / getContentHeight();
+        Utils.getLogger().info("ch " + contentHeight + "ckf " + contentKFactor);
     }
 
 
