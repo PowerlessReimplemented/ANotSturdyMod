@@ -12,21 +12,31 @@ import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
 import powerlessri.anotsturdymod.varia.render.VertexSequencer;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
-public class ButtonGradient extends AbstractButton implements IScrollableComponent {
+public class ButtonGradient extends AbstractButton {
     
     public static final int VANILLA_CHAR_HEIGHT = 8;
 
 
-    private ColorApplier colorSNormal = ColorApplier.hexSolid(ClientConfig.gradientBtnSNormal);
-    private ColorApplier colorENormal = ColorApplier.hexSolid(ClientConfig.gradientBtnENormal);
+    public static ColorApplier colorSNormal;
+    public static ColorApplier colorENormal;
 
-    private ColorApplier colorSHovering = ColorApplier.hexSolid(ClientConfig.gradientBtnSHover);
-    private ColorApplier colorEHovering = ColorApplier.hexSolid(ClientConfig.gradientBtnEHover);
+    public static ColorApplier colorSHovering;
+    public static ColorApplier colorEHovering;
     
-    private ColorApplier colorSPressed = ColorApplier.hexSolid(ClientConfig.gradientBtnSPressed);
-    private ColorApplier colorEPressed = ColorApplier.hexSolid(ClientConfig.gradientBtnEPressed);
+    public static ColorApplier colorSPressed;
+    public static ColorApplier colorEPressed;
 
+    private static void reloadColors() {
+        colorSNormal = ColorApplier.hexSolid(ClientConfig.gradientBtnSNormal);
+        colorENormal = ColorApplier.hexSolid(ClientConfig.gradientBtnENormal);
 
+        colorSHovering = ColorApplier.hexSolid(ClientConfig.gradientBtnSHover);
+        colorEHovering = ColorApplier.hexSolid(ClientConfig.gradientBtnEHover);
+
+        colorSPressed = ColorApplier.hexSolid(ClientConfig.gradientBtnSPressed);
+        colorEPressed = ColorApplier.hexSolid(ClientConfig.gradientBtnEPressed);
+    }
+    
 
     private String text;
     private int textXOffset;
@@ -34,7 +44,9 @@ public class ButtonGradient extends AbstractButton implements IScrollableCompone
 
     public ButtonGradient(int relativeX, int relativeY, int width, int height, String text) {
         super(relativeX, relativeY, width, height);
+        
         this.setText(text);
+        reloadColors();
     }
     
     
@@ -92,8 +104,4 @@ public class ButtonGradient extends AbstractButton implements IScrollableCompone
         TessellatorUtils.finish();
     }
 
-    @Override
-    public void draw(GuiDrawBackgroundEvent event, int y) {
-        draw(event);
-    }
 }
