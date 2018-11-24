@@ -9,9 +9,8 @@ import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling.ChunkyScrollBar;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling.IScrollableComponent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling.ScrollingPanel;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.IScrollableComponent;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.ScrollablePanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ButtonGradient;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
@@ -80,7 +79,7 @@ public class GuiLogicEditor extends ComponentizedGui {
                                 return super.onClicked(mouseX, mouseY, button, type);
                             }
                         },
-                        ScrollingPanel.simpleLayout(50, 0, 40, 6, builder.build(), 6)
+                        ScrollablePanel.simpleLayout(50, 0, 40, 6, builder.build(), 6)
                 ))
         );
         

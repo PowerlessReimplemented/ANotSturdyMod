@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
@@ -9,21 +9,21 @@ import powerlessri.anotsturdymod.varia.general.Utils;
 
 import java.util.List;
 
-public class ScrollingPanel extends AbstractComponent implements IScrollingPanel {
+public class ScrollablePanel extends AbstractComponent implements IScrollingPanel {
     
     public static final int DEFAULT_GAP = 2;
 
-    public static ScrollingPanel simpleLayout(int x, int y, int width, int amountVisibleComponents, ImmutableList<IScrollableComponent> components) {
+    public static ScrollablePanel simpleLayout(int x, int y, int width, int amountVisibleComponents, ImmutableList<IScrollableComponent> components) {
         return simpleLayout(x, y, width, amountVisibleComponents, components, DEFAULT_GAP);
     }
     
-    public static ScrollingPanel simpleLayout(int x, int y, int width, int amountVisibleComponents, ImmutableList<IScrollableComponent> components, int scrollBarDistance) {
+    public static ScrollablePanel simpleLayout(int x, int y, int width, int amountVisibleComponents, ImmutableList<IScrollableComponent> components, int scrollBarDistance) {
         int componentHeight = components.get(0).getHeight() + DEFAULT_GAP;
         // Top gap only. Bottom gap is included in last component's height
         int panelHeight = (amountVisibleComponents * componentHeight) + DEFAULT_GAP;
 
-        ChunkyScrollBar scrollBar = new ChunkyScrollBar(x + width + scrollBarDistance, y, panelHeight);
-        ScrollingPanel panel = new ScrollingPanel(x, y, width, panelHeight, components, scrollBar);
+        ComponentScrollBar scrollBar = new ComponentScrollBar(x + width + scrollBarDistance, y, panelHeight);
+        ScrollablePanel panel = new ScrollablePanel(x, y, width, panelHeight, components, scrollBar);
         return panel;
     }
     
@@ -80,7 +80,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
      *
      * @param height The custom height value
      */
-    public ScrollingPanel(int relativeX, int relativeY, int width, int height, ImmutableList<IScrollableComponent> content, ChunkyScrollBar bar) {
+    public ScrollablePanel(int relativeX, int relativeY, int width, int height, ImmutableList<IScrollableComponent> content, ComponentScrollBar bar) {
         super(relativeX, relativeY);
 
         this.components = content;
@@ -134,7 +134,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
         Utils.getLogger().info(commonHeight);
         for (IScrollableComponent component : components) {
             if (component.getHeight() != commonHeight) {
-                throw new IllegalArgumentException("All components passed to ScrollingPanel must have equal amount of height!");
+                throw new IllegalArgumentException("All components passed to ScrollablePanel must have equal amount of height!");
             }
         }
 

@@ -1,34 +1,23 @@
-package powerlessri.anotsturdymod.library.gui.simpleimpl.scrolling;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.util.EnumActionResult;
-import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
-import powerlessri.anotsturdymod.varia.general.Utils;
 import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
 import javax.annotation.Nullable;
 
-/**
- * Scroll bar implementation that locks its position at every meaningful level for itself.
- * <p>This means the scroll bar will not provide a smooth feeling like when you operate the vanilla scroll bar.  </p>
- * <p>
- * TODO add another implementation that is not as chunky
- * See {@link } for implementation with a smoother user experience.
- * </p>
- */
-public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
+public class ComponentScrollBar extends AbstractButton implements IScrollBar {
 
     private int offset;
     private int actualHeight;
 
     private IScrollingPanel parent;
 
-    public ChunkyScrollBar(int relativeX, int relativeY, int height) {
+    public ComponentScrollBar(int relativeX, int relativeY, int height) {
         super(relativeX, relativeY, 7, height);
     }
 
