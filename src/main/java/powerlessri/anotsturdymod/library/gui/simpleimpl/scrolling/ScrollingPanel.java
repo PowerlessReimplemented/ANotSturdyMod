@@ -7,7 +7,6 @@ import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
-import javax.rmi.CORBA.Util;
 import java.util.List;
 
 public class ScrollingPanel extends AbstractComponent implements IScrollingPanel {
@@ -58,7 +57,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
 
         this.components = content;
         this.width = width;
-        this.setHeight(height);
+        this.height = height;
 
         this.scrollBar = bar;
     }
@@ -68,13 +67,31 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     public void initialize(GuiScreen gui, IComponent parent) {
         super.initialize(gui, parent);
 
-        checkScrollBarHeight();
         checkComponentHeight();
+        checkScrollBarHeight();
+        updateHeight();
 
         for (IScrollableComponent component : components) {
             component.initialize(gui, this);
         }
         scrollBar.initialize(gui, this);
+    }
+
+    private void updateHeight() {
+        int componentHeight = commonHeight + verticalGap;
+        int usableHeight = height - (verticalGap * 2);
+        visibleComponents = Math.min(components.size(), usableHeight / componentHeight);
+
+        contentHeight = components.size() * (commonHeight + verticalGap);
+        contentKFactor = (float) getHeight() / getContentHeight();
+        
+        Utils.getLogger().info("ch: " + componentHeight + ", uh" + usableHeight);
+
+        // TODO add size check
+//        int hiddenComponents = components.size() - visibleComponents;
+//        if (hiddenComponents > height) {
+//            throw new IllegalArgumentException("Unable to fit all components with the given height " + height + "!");
+//        }
     }
 
     private void checkScrollBarHeight() {
@@ -85,6 +102,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
 
     private void checkComponentHeight() {
         int commonHeight = components.get(0).getHeight();
+        Utils.getLogger().info(commonHeight);
         for (IScrollableComponent component : components) {
             if (component.getHeight() != commonHeight) {
                 throw new IllegalArgumentException("All components passed to ScrollingPanel must have equal amount of height!");
@@ -92,42 +110,24 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
         }
 
         this.commonHeight = commonHeight;
-        this.contentHeight = components.size() * (commonHeight + verticalGap);
-        this.contentKFactor = (float) getHeight() / getContentHeight();
-        Utils.getLogger().info("ch " + contentHeight + "ckf " + contentKFactor);
     }
-
-
+    
+    
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
-        int displayHeight = commonHeight + verticalGap;
+        int componentHeight = commonHeight + verticalGap;
         int endIndex = entryIndex + visibleComponents;
+//        Utils.getLogger().info("vis " + visibleComponents);
 
         int nextPenDownY = getActualY() + verticalGap;
         for (int i = entryIndex; i < endIndex; i++) {
-            nextPenDownY += displayHeight;
+            nextPenDownY += componentHeight;
             components.get(i).draw(event, nextPenDownY);
         }
 
         scrollBar.draw(event);
     }
-
-
-    // TODO decide private or public
-    public void setHeight(int height) {
-        int componentHeight = commonHeight + verticalGap;
-        int usableHeight = height - (verticalGap * 2);
-        int visibleComponents = Math.min(components.size(), usableHeight / componentHeight);
-
-        // TODO add size check
-//        int hiddenComponents = components.size() - visibleComponents;
-//        if (hiddenComponents > height) {
-//            throw new IllegalArgumentException("Unable to fit all components with the given height " + height + "!");
-//        }
-
-        this.height = height;
-        this.visibleComponents = visibleComponents;
-    }
+    
 
     @Override
     public int getTotalSteps() {

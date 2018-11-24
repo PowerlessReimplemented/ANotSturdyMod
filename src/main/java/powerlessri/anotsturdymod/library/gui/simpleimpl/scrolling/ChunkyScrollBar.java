@@ -37,7 +37,6 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
     public void onClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
         super.onClickedDragging(mouseX, mouseY, button, timePressed);
         offset = limitToRange(mouseY - getBaseY());
-        Utils.getLogger().info(offset);
     }
 
 
@@ -61,7 +60,6 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
         int step = (int) (offset / stepHeight);
         Utils.getLogger().info("step: " + step);
         parent.setCurrentStep(step);
-        Utils.getLogger().info("ay: " + getActualY() + ", by: " + getBaseY() + ", aybr:" + getActualYBR());
 
         return EnumActionResult.FAIL;
     }
@@ -126,7 +124,6 @@ public class ChunkyScrollBar extends AbstractButton implements IScrollBar {
         this.parent = parent;
 
         actualHeight = (int) (getMaximumHeight() * parent.getContentKFactor());
-        Utils.getLogger().info("mh" + getMaximumHeight() + ", k: " + parent.getContentKFactor());
     }
 
     @Nullable
