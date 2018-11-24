@@ -19,7 +19,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     
     public static ScrollingPanel simpleLayout(int x, int y, int width, int amountVisibleComponents, ImmutableList<IScrollableComponent> components, int scrollBarDistance) {
         int componentHeight = components.get(0).getHeight() + DEFAULT_GAP;
-        // DEFAULT_GAP is only the top part. The bottom gap is included in last component's height
+        // Top gap only. Bottom gap is included in last component's height
         int panelHeight = (amountVisibleComponents * componentHeight) + DEFAULT_GAP;
 
         ChunkyScrollBar scrollBar = new ChunkyScrollBar(x + width + scrollBarDistance, y, panelHeight);
@@ -107,7 +107,8 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
 
     private void updateHeight() {
         int componentHeight = commonHeight + verticalGap;
-        int usableHeight = height - (verticalGap * 2);
+        // We only need to count to top gap, the bottom gap is included in the height of last component that gets displayed.
+        int usableHeight = height - verticalGap;
         visibleComponents = Math.min(components.size(), usableHeight / componentHeight);
 
         contentHeight = components.size() * (commonHeight + verticalGap);
