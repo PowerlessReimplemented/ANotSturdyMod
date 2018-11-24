@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.config.ClientConfig;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
-import powerlessri.anotsturdymod.library.gui.ColorApplier;
+import powerlessri.anotsturdymod.library.gui.Color;
 import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
 import powerlessri.anotsturdymod.varia.render.VertexSequencer;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
@@ -15,24 +15,24 @@ public class ButtonGradient extends AbstractButton {
     public static final int VANILLA_CHAR_HEIGHT = 8;
 
 
-    public static ColorApplier colorSNormal;
-    public static ColorApplier colorENormal;
+    public static Color colorSNormal;
+    public static Color colorENormal;
 
-    public static ColorApplier colorSHovering;
-    public static ColorApplier colorEHovering;
+    public static Color colorSHovering;
+    public static Color colorEHovering;
     
-    public static ColorApplier colorSPressed;
-    public static ColorApplier colorEPressed;
+    public static Color colorSPressed;
+    public static Color colorEPressed;
 
     private static void reloadColors() {
-        colorSNormal = ColorApplier.hexSolid(ClientConfig.gradientBtnSNormal);
-        colorENormal = ColorApplier.hexSolid(ClientConfig.gradientBtnENormal);
+        colorSNormal = Color.hexSolid(ClientConfig.gradientBtnSNormal);
+        colorENormal = Color.hexSolid(ClientConfig.gradientBtnENormal);
 
-        colorSHovering = ColorApplier.hexSolid(ClientConfig.gradientBtnSHover);
-        colorEHovering = ColorApplier.hexSolid(ClientConfig.gradientBtnEHover);
+        colorSHovering = Color.hexSolid(ClientConfig.gradientBtnSHover);
+        colorEHovering = Color.hexSolid(ClientConfig.gradientBtnEHover);
 
-        colorSPressed = ColorApplier.hexSolid(ClientConfig.gradientBtnSPressed);
-        colorEPressed = ColorApplier.hexSolid(ClientConfig.gradientBtnEPressed);
+        colorSPressed = Color.hexSolid(ClientConfig.gradientBtnSPressed);
+        colorEPressed = Color.hexSolid(ClientConfig.gradientBtnEPressed);
     }
     
 
@@ -95,7 +95,7 @@ public class ButtonGradient extends AbstractButton {
     }
 
 
-    public void drawGradientRectangleBox(int shrink, ColorApplier top, ColorApplier bottom, boolean invert) {
+    public void drawGradientRectangleBox(int shrink, Color top, Color bottom, boolean invert) {
         BufferBuilder buffer = TessellatorUtils.getGradientVBuffer();
         VertexSequencer.verticalGradientBox(buffer, getActualX() + shrink, getActualY() + shrink, getActualXBR() - shrink, getActualYBR() - shrink, 0, top, bottom);
         GLGrayScale.vanillaBorder(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR(), invert);
