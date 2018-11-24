@@ -52,5 +52,18 @@ public class Color {
     public void applyToVertex(BufferBuilder buffer) {
         buffer.color(red, green, blue, 255);
     }
+
+
+    public int getRed() {
+        return red;
+    }
+
+    public int getGreen() {
+        return green;
+    }
+
+    public int getBlue() {
+        return blue;
+    }
     
 }

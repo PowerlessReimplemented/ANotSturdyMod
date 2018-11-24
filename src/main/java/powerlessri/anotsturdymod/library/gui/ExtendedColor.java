@@ -34,5 +34,10 @@ public class ExtendedColor extends Color {
     public void applyToVertex(BufferBuilder buffer) {
         buffer.color(red, green, blue, alpha);
     }
+
+
+    public int getAlpha() {
+        return alpha;
+    }
     
 }
