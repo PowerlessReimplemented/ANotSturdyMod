@@ -7,15 +7,31 @@ import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
-import javax.rmi.CORBA.Util;
 import java.util.List;
 
 public class ScrollingPanel extends AbstractComponent implements IScrollingPanel {
+    
+    public static final int DEFAULT_GAP = 2;
+
+    public static ScrollingPanel simpleLayout(int x, int y, int width, int amountVisibleComponents, ImmutableList<IScrollableComponent> components) {
+        return simpleLayout(x, y, width, amountVisibleComponents, components, DEFAULT_GAP);
+    }
+    
+    public static ScrollingPanel simpleLayout(int x, int y, int width, int amountVisibleComponents, ImmutableList<IScrollableComponent> components, int scrollBarDistance) {
+        int componentHeight = components.get(0).getHeight() + DEFAULT_GAP;
+        // DEFAULT_GAP is only the top part. The bottom gap is included in last component's height
+        int panelHeight = (amountVisibleComponents * componentHeight) + DEFAULT_GAP;
+
+        ChunkyScrollBar scrollBar = new ChunkyScrollBar(x + width + scrollBarDistance, y, panelHeight);
+        ScrollingPanel panel = new ScrollingPanel(x, y, width, panelHeight, components, scrollBar);
+        return panel;
+    }
+    
 
     /**
      * Gap between every component drawn on the panel.
      */
-    private int verticalGap = 2;
+    private int verticalGap = DEFAULT_GAP;
 
     private int width;
     private int height;
@@ -56,12 +72,12 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
     /**
      * Construct a scrollable panel with a completely custom height.
      * <p>
-     *     It should be noted that in some cases, using an incomplete height (all display desires cannot fill the given height)
-     *     and a special number of components, the last component might be excluded to display.
-     *     One (hack) solution to this problem is to ensure the panel height is always a multiple of components' display height.
+     * It should be noted that in some cases, using an incomplete height (all display desires cannot fill the given height)
+     * and a special number of components, the last component might be excluded to display.
+     * One (hack) solution to this problem is to ensure the panel height is always a multiple of components' display height.
      * </p>
      * <p>Example of an  case: {@code height = 80, componentHeight = 10, numberOComponents = 32}</p>
-     * 
+     *
      * @param height The custom height value
      */
     public ScrollingPanel(int relativeX, int relativeY, int width, int height, ImmutableList<IScrollableComponent> content, ChunkyScrollBar bar) {
@@ -96,7 +112,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
 
         contentHeight = components.size() * (commonHeight + verticalGap);
         contentKFactor = (float) getHeight() / getContentHeight();
-        
+
         Utils.getLogger().info("ch: " + componentHeight + ", uh" + usableHeight);
 
         // TODO add size check
@@ -123,8 +139,8 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
 
         this.commonHeight = commonHeight;
     }
-    
-    
+
+
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
         int componentHeight = commonHeight + verticalGap;
@@ -138,7 +154,7 @@ public class ScrollingPanel extends AbstractComponent implements IScrollingPanel
 
         scrollBar.draw(event);
     }
-    
+
 
     @Override
     public int getTotalSteps() {

@@ -65,7 +65,7 @@ public class GuiLogicEditor extends ComponentizedGui {
             IScrollableComponent button = new ScrollableButtonGradient(0, i * 20, 16, 10, String.valueOf(i));
             builder.add(button);
         }
-        
+
         windows = ImmutableList.of(
                 new BasicPanel(10, 10, ImmutableList.of(
                         displayBtn,
@@ -80,14 +80,10 @@ public class GuiLogicEditor extends ComponentizedGui {
                                 return super.onClicked(mouseX, mouseY, button, type);
                             }
                         },
-
-                        new ScrollingPanel(
-                                50, 0, 40, 80, 
-                                builder.build(),
-                                new ChunkyScrollBar(40, 0, 80))
+                        ScrollingPanel.simpleLayout(50, 0, 40, 6, builder.build(), 6)
                 ))
         );
-
+        
         super.initGui();
 
         centerX = (width / 2) - (BKG_WIDTH / 2);
