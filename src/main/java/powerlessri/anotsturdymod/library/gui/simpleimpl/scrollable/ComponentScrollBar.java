@@ -5,12 +5,16 @@ import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
+import powerlessri.anotsturdymod.varia.render.LineUtils;
 import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
 import javax.annotation.Nullable;
 
 public class ComponentScrollBar extends AbstractButton implements IScrollBar {
+    
+    public static final int LINE_LABEL_OFFSET = 2;
+    
 
     private int offset;
     private int actualHeight;
@@ -54,6 +58,7 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
         // TODO draw lines in the center
         BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
         GLGrayScale.addConvexBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR());
+        drawLabel(buffer);
         TessellatorUtils.draw();
     }
 
@@ -67,6 +72,7 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
     public void drawPressed(GuiDrawBackgroundEvent event) {
         BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
         GLGrayScale.addConcaveBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR());
+        drawLabel(buffer);
         TessellatorUtils.draw();
     }
 
@@ -74,6 +80,17 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
     public void drawDisabled(GuiDrawBackgroundEvent event) {
         drawNormal(event);
     }
+
+    private void drawLabel(BufferBuilder buffer) {
+        int centerY = getActualY() + (getHeight() / 2);
+        
+        int lineX = getActualX() + LINE_LABEL_OFFSET;
+        int lineY = centerY - LINE_LABEL_OFFSET;
+        for (int i = 0; i < 3; i++) {
+            LineUtils.horizontalLine(buffer, lineX, 3, lineY, GLGrayScale.BORDER_COLOR_DARK);
+            lineY += LINE_LABEL_OFFSET;
+        }
+    } 
 
 
     @Override
