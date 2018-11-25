@@ -4,6 +4,10 @@ import net.minecraft.client.renderer.BufferBuilder;
 
 public class ExtendedColor extends Color {
 
+    public static ExtendedColor hexSolid(int hex) {
+        return hex(hex, 255);
+    }
+
     public static ExtendedColor hex(int hex) {
         int alpha = hex & 255;
         // Remove alpha at the lower end
@@ -18,21 +22,21 @@ public class ExtendedColor extends Color {
     }
 
     public static ExtendedColor rgb(int red, int green, int blue, int alpha) {
-        ExtendedColor color = new ExtendedColor();
-        color.red = red;
-        color.green = green;
-        color.blue = blue;
-        color.alpha = alpha;
-        return color;
+        return new ExtendedColor(red, green, blue, alpha);
     }
     
     
-    protected int alpha;
+    private int alpha;
 
+    public ExtendedColor(int red, int green, int blue, int alpha) {
+        super(red, green, blue);
+        this.alpha = alpha;
+    }
+    
 
     @Override
     public void applyToVertex(BufferBuilder buffer) {
-        buffer.color(red, green, blue, alpha);
+        buffer.color(getRed(), getGreen(), getBlue(), getAlpha());
     }
 
 
