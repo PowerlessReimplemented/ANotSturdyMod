@@ -13,16 +13,16 @@ import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.varia.general.Utils;
+import powerlessri.anotsturdymod.varia.reflection.AnnotationRetentionUtils;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Set;
 
 public class ComponentizedGuiHandler implements IGuiHandler {
-    
+
     private final Object mod;
-    
+
     public ImmutableList<ITemplate> templates;
     public ImmutableMap<String, Integer> keys;
 
@@ -35,53 +35,35 @@ public class ComponentizedGuiHandler implements IGuiHandler {
      */
     public void init(ASMDataTable table) {
         Utils.getLogger().info("Loading template providers");
-        
-        Set<ASMDataTable.ASMData> dataSet = table.getAll(TemplateProvider.class.getName());
-        
+
         ImmutableList.Builder<ITemplate> templatesBuilder = ImmutableList.builder();
         ImmutableMap.Builder<String, Integer> keysBuilder = ImmutableMap.builder();
         int lastID = -1;
-        
-        for (ASMDataTable.ASMData data : dataSet) {
-            String className = data.getClassName();
-            Class<?> clazz;
+
+        for (Method method : AnnotationRetentionUtils.getAllAnnotatedMethods(table, TemplateProvider.class)) {
+            TemplateProvider annotation = method.getAnnotation(TemplateProvider.class);
+            String id = annotation.id();
+
+            // Make it null so that the compiler is happy when we check its existence later.
+            ITemplate template = null;
             try {
-                clazz = Class.forName(className);
-            } catch (ClassNotFoundException e) {
-                // This should never happen
-                Utils.report("The class " + className + " was found when FML building mods, but can't be found anymore during ANotSturdyMod template system's start up.", e);
+                template = (ITemplate) method.invoke(null);
+            } catch (ClassCastException e) {
+                Utils.getLogger().error("Method specified as a TemplateProvider, but returns a different type. ", e);
+                continue;
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                Utils.getLogger().error(e);
                 continue;
             }
-            
-            Method[] methods = clazz.getDeclaredMethods();
-            for (Method method : methods) {
-                method.setAccessible(true);
 
-                if (method.isAnnotationPresent(TemplateProvider.class)) {
-                    TemplateProvider annotation = method.getAnnotation(TemplateProvider.class);
-                    String id = annotation.id();
-                    
-                    // Make it null so that the compiler is happy when we check its existence later.
-                    ITemplate template = null;
-                    try {
-                        template = (ITemplate) method.invoke(null);
-                    } catch (ClassCastException e) {
-                        Utils.getLogger().error("Method specified as a TemplateProvider, but returns a different type. ", e);
-                        continue;
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        Utils.getLogger().error(e);
-                        continue;
-                    }
-
-                    // Existence check, filter situations where the getter magically returns null
-                    if (template != null) {
-                        templatesBuilder.add(template);
-                        keysBuilder.put(id, ++lastID);
-                    }
-                }
+            // Existence check, filter situations where the getter magically returns null
+            if (template != null) {
+                templatesBuilder.add(template);
+                keysBuilder.put(id, ++lastID);
             }
         }
-        
+
+
         templates = templatesBuilder.build();
         keys = keysBuilder.build();
     }
