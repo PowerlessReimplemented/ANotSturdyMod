@@ -43,7 +43,7 @@ public class RegistryHandler {
 
 
     public static String makeTileEntityID(String teName) {
-        return "te." + teName;
+        return "tile." + teName;
     }
 
 }

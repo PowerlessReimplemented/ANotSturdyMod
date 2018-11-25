@@ -1,6 +1,7 @@
 package powerlessri.anotsturdymod.blocks.remoteenetwork.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
+import powerlessri.anotsturdymod.handlers.init.RegistryTileEntity;
 import powerlessri.anotsturdymod.library.tile.base.TileEntityBase;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.IENetworkController;
@@ -11,6 +12,7 @@ import powerlessri.anotsturdymod.world.data.AnsmSavedData;
  * This block does not meant to be a direct part of forge energy system. Use {@link TileENComponentBase}
  * for any access to the power storage managed by this block.
  */
+@RegistryTileEntity("energy_network_controller")
 public class TileENController extends TileEntityBase implements IENetworkController {
 
     public static class FakeTE extends TileENController {

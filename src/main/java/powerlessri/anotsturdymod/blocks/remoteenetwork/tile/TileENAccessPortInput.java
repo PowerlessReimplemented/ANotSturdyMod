@@ -1,7 +1,10 @@
 package powerlessri.anotsturdymod.blocks.remoteenetwork.tile;
 
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
+import powerlessri.anotsturdymod.handlers.init.RegistryTileEntity;
 
+@RegistryTileEntity("energy_network_input")
 public class TileENAccessPortInput extends TileENAccessPort {
 
     public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_input");

@@ -18,6 +18,7 @@ import powerlessri.anotsturdymod.config.MainConfig;
 import powerlessri.anotsturdymod.handlers.init.ModBlocks;
 import powerlessri.anotsturdymod.handlers.init.ModCommands;
 import powerlessri.anotsturdymod.handlers.init.ModItems;
+import powerlessri.anotsturdymod.handlers.init.ModTileEntities;
 import powerlessri.anotsturdymod.items.ItemIlluminator;
 import powerlessri.anotsturdymod.items.exchangers.ItemExchanger;
 import powerlessri.anotsturdymod.items.transmutations.ItemTransmutationStone;
@@ -54,14 +55,8 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         ModBlocks.preInit(event);
+        ModTileEntities.preInit(event);
         ModItems.preInit(event);
-        
-        TileEntity.register("te.energy_network_controller", TileENController.class);
-        TileEntity.register("te.energy_network_base", TileENAccessPort.class);
-        TileEntity.register("te.energy_network_input", TileENAccessPortInput.class);
-        TileEntity.register("te.energy_network_output", TileENAccessPortOutput.class);
-        TileEntity.register("te.energy_network_wireless_transmitter", TileENWirelessTransmitter.class);
-        TileEntity.register("te.cobble_generator", TileCobbleGenerator.class);
 
         int packetId = 0;
         ANotSturdyMod.network.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);

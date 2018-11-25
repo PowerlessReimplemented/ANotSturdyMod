@@ -7,7 +7,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
+import powerlessri.anotsturdymod.handlers.init.RegistryTileEntity;
 
+@RegistryTileEntity("energy_network_output")
 public class TileENAccessPortOutput extends TileENAccessPort implements ITickable {
 
     public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_output");
