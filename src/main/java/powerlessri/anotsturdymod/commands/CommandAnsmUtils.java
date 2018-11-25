@@ -1,5 +1,6 @@
 package powerlessri.anotsturdymod.commands;
 
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import powerlessri.anotsturdymod.commands.base.CommandStandardReloadable;
+import powerlessri.anotsturdymod.handlers.init.RegistryCommandBase;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
 import java.util.Arrays;
@@ -20,9 +22,13 @@ import java.util.function.BiConsumer;
  */
 public class CommandAnsmUtils extends CommandStandardReloadable {
 
+    @RegistryCommandBase
+    public static final CommandAnsmUtils INSTANCE = new CommandAnsmUtils();
+
     public static final String CMD_HAND = "hand";
     public static final String OUTPUT_DESCRIPTION = ".outputDescription";
 
+    
     public final String LANG_HAND_ID = PREFIX_COMMANDS + keyword + "." + CMD_HAND + ".id" + OUTPUT_DESCRIPTION;
     public final String LANG_HAND_META = PREFIX_COMMANDS + keyword + "." + CMD_HAND + ".meta" + OUTPUT_DESCRIPTION;
     public final String LANG_HAND_NBT = PREFIX_COMMANDS + keyword + "." + CMD_HAND + ".nbt" + OUTPUT_DESCRIPTION;

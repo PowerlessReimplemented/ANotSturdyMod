@@ -50,13 +50,13 @@ public class CommonProxy {
     }
 
     public void construct(FMLConstructionEvent event) {
-        
     }
 
     public void preInit(FMLPreInitializationEvent event) {
         ModBlocks.preInit(event);
         ModTileEntities.preInit(event);
         ModItems.preInit(event);
+        ModCommands.preInit(event);
 
         int packetId = 0;
         ANotSturdyMod.network.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);
@@ -74,8 +74,6 @@ public class CommonProxy {
     }
 
     public void serverStarting(FMLServerStartingEvent event) {
-        ModCommands.COMMANDS.add(new CommandAnsmUtils());
-
         ModCommands.registerCommands(event);
     }
 
