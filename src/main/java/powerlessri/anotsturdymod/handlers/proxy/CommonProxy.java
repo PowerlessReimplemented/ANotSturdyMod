@@ -109,6 +109,7 @@ public class CommonProxy {
 
     protected void registerBlock(SimpleBlockBase block) {
         this.registerBlock((BlockBase) block);
+        // This will not register its model, as it's only an ItemBlock
         this.registerItem(block.getItemBlock());
     }
 

@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.handlers.init;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -33,8 +34,6 @@ public class RegistryHandler {
             }
         }
 
-        // Block models doesn't need to be registered manually,
-        // this exists just for oCd reasons
         for (Block block : ModBlocks.BLOCKS) {
             if (block instanceof SimpleBlockBase) {
                 ((SimpleBlockBase) block).registerModel();
