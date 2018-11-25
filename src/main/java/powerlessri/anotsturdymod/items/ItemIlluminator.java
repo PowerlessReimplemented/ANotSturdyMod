@@ -9,12 +9,18 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import powerlessri.anotsturdymod.handlers.init.ModBlocks;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+import powerlessri.anotsturdymod.blocks.BlockLightCube;
+import powerlessri.anotsturdymod.handlers.init.RegistryItem;
 import powerlessri.anotsturdymod.library.item.base.SimpleItemBase;
 import powerlessri.anotsturdymod.varia.machines.EMachineLevel;
 
 public class ItemIlluminator extends SimpleItemBase {
 
+    @RegistryItem
+    public static final ItemIlluminator BASIC_ILLUMINATOR = new ItemIlluminator("illuminator", EMachineLevel.BASIC);
+
+    
     public ItemIlluminator(String name, EMachineLevel level) {
         super(level.getName() + "_" + name);
 
@@ -36,7 +42,7 @@ public class ItemIlluminator extends SimpleItemBase {
         Block placementParent = placementOriginal.getBlock();
 
         if (placementParent.isReplaceable(world, placementPos)) {
-            world.setBlockState(placementPos, ModBlocks.LIGHT_CUBE.getDefaultState());
+            world.setBlockState(placementPos, BlockLightCube.LIGHT_CUBE.getDefaultState());
             return EnumActionResult.SUCCESS;
         }
 

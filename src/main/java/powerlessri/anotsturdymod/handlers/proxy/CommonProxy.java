@@ -53,29 +53,15 @@ public class CommonProxy {
     }
 
     public void preInit(FMLPreInitializationEvent event) {
-        registerBlock(BlockEnergyController.INSTANCE);
-        registerBlock(new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPortInput(0, MainConfig.accessPortReceiveLimit), ANotSturdyMod.gui.keys.get("energy_io_access")));
-        registerBlock(new BlockEnergyAccessPort("energy_network_output_port", () -> new TileENAccessPortOutput(0, MainConfig.accessPortExtractLimit), ANotSturdyMod.gui.keys.get("energy_io_access")));
-        registerBlock(new BlockEnergyAccessPort("energy_network_wireless_transmitter", () -> new TileENWirelessTransmitter(0, 320), ANotSturdyMod.gui.keys.get("energy_wireless_transmitter")));
-        registerBlock(new BlockInfiniteCobbleGenerator("infinite_cobble_generator"));
-        registerBlock(new BlockLightCube("light_cube"));
-        registerBlock(new BlockLogisticsController("logistics_controller"));
-
+        ModBlocks.preInit(event);
+        ModItems.preInit(event);
+        
         TileEntity.register("te.energy_network_controller", TileENController.class);
         TileEntity.register("te.energy_network_base", TileENAccessPort.class);
         TileEntity.register("te.energy_network_input", TileENAccessPortInput.class);
         TileEntity.register("te.energy_network_output", TileENAccessPortOutput.class);
         TileEntity.register("te.energy_network_wireless_transmitter", TileENWirelessTransmitter.class);
         TileEntity.register("te.cobble_generator", TileCobbleGenerator.class);
-
-
-        registerItem(BlockEnergyController.STORAGE_UPGRADE);
-        registerItem(BlockEnergyController.IO_UPGRADE);
-        registerItem(new ItemTransmutationStone("transmutation_orb"));
-        registerItem(new ItemExchanger("exchanger", EMachineLevel.BASIC, MainConfig.basicExchangerRadius));
-        registerItem(new ItemExchanger("exchanger", EMachineLevel.ADVANCED, MainConfig.advancedExchangerRadius));
-        registerItem(new ItemIlluminator("illuminator", EMachineLevel.BASIC));
-
 
         int packetId = 0;
         ANotSturdyMod.network.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);

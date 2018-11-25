@@ -1,39 +1,55 @@
 package powerlessri.anotsturdymod.handlers.init;
 
 import net.minecraft.block.Block;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.discovery.ASMDataTable;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import powerlessri.anotsturdymod.blocks.cobblegen.block.BlockInfiniteCobbleGenerator;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.block.BlockEnergyAccessPort;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.block.BlockEnergyController;
+import powerlessri.anotsturdymod.varia.general.Utils;
+import powerlessri.anotsturdymod.varia.reflection.AnnotationRetentionUtils;
 
+import javax.rmi.CORBA.Util;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModBlocks {
 
-    private ModBlocks() {
+    public static final List<Block> BLOCKS = new ArrayList<>();
+
+
+    public static void preInit(FMLPreInitializationEvent event) {
+        loadBlocks(event.getAsmData());
+        addItemForBlocks();
     }
 
-    public static final List<Block> BLOCKS = new ArrayList<Block>();
+    private static void loadBlocks(ASMDataTable table) {
+        List<Field> fields = AnnotationRetentionUtils.getAllAnnotatedFields(table, RegistryBlock.class);
+        for (Field field : fields) {
+            Block block;
+            try {
+                block = (Block) field.get(null);
+            } catch (ClassCastException e) {
+                Utils.report("Field specified as a RegistryBlock, but has a different type than Block. ", e);
+                continue;
+            } catch (IllegalAccessException e) {
+                // This should not happen since getAllAnnotatedFields sets the accessibility to true.
+                Utils.getLogger().error("Cannot access the field " + field.getName() + " during block registry initialization.");
+                continue;
+            }
 
-    @ObjectHolder("ansm:light_cube")
-    public static final BlockLightCube LIGHT_CUBE = null;
-
-    @ObjectHolder("ansm:infinite_cobble_generator")
-    public static final BlockInfiniteCobbleGenerator INFINTE_COBBLE_GENERATOR = null;
-
-
-    @ObjectHolder("ansm:energy_network_controller")
-    public static final BlockEnergyController EN_CONTROLLER = null;
-
-    @ObjectHolder("ansm:energy_network_input_port")
-    public static final BlockEnergyAccessPort EN_INPUT_PORT = null;
-
-    @ObjectHolder("ansm:energy_network_output_port")
-    public static final BlockEnergyAccessPort EN_OUTPUT_PORT = null;
-
-    @ObjectHolder("ansm:energy_network_wireless_transmitter")
-    public static final BlockEnergyAccessPort EN_WIRELESS_TRANSMITTER = null;
+            BLOCKS.add(block);
+        }
+    }
+    
+    private static void addItemForBlocks() {
+        for (Block block : BLOCKS) {
+            ModItems.addItemForBlock(block);
+        }
+    }
 
 }

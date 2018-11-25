@@ -12,6 +12,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import powerlessri.anotsturdymod.handlers.init.RegistryBlock;
+import powerlessri.anotsturdymod.handlers.init.RegistryItem;
 import powerlessri.anotsturdymod.library.block.base.TileBlockBase;
 import powerlessri.anotsturdymod.items.ItemUpgrade;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENController;
@@ -19,8 +21,13 @@ import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENController;
 // TODO add model & texture
 public class BlockEnergyController extends TileBlockBase {
 
-    public static final BlockEnergyController INSTANCE = new BlockEnergyController("energy_network_controller");
+    @RegistryBlock
+    public static final BlockEnergyController EN_CONTROLLER = new BlockEnergyController("energy_network_controller");
+    
+    @RegistryItem
     public static final ItemUpgrade STORAGE_UPGRADE = new ItemUpgrade("energy_network_storage_upgrade");
+    
+    @RegistryItem
     public static final ItemUpgrade IO_UPGRADE = new ItemUpgrade("energy_network_io_upgrade");
 
 
