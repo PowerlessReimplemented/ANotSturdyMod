@@ -44,7 +44,9 @@ public class Color {
                 (blue & 255);
     }
     
-
+    // TODO add HSV and HUE support
+    private int hex;
+    
     private int red;
     private int green;
     private int blue;
@@ -53,13 +55,28 @@ public class Color {
         this.red = red;
         this.green = green;
         this.blue = blue;
+        this.updateHexFromRGB();
     }
     
 
     public void applyToVertex(BufferBuilder buffer) {
         buffer.color(getRed(), getGreen(), getBlue(), 255);
     }
-
+    
+    protected void updateRGBFromHex() {
+        red = hex >> 16 & 255;
+        green = hex >> 8 & 255;
+        blue = hex & 255;
+    }
+    
+    protected void updateHexFromRGB() {
+        hex = getHex(red, green, blue);
+    }
+    
+    
+    public int getHex() {
+        return hex;
+    }
 
     public int getRed() {
         return red;
