@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
@@ -34,25 +35,13 @@ import powerlessri.anotsturdymod.varia.machines.EMachineLevel;
 
 public class CommonProxy {
 
-
-    // ClientSide-only stuffs
-    public void registerItemRenderer(Item item, int meta, String id) {
-    }
-
-    public void registerBlockRenderer(Block block, int meta, String id) {
-    }
-
-
-    /**
-     * Initializing mod stuffs that are side-dependent.
-     */
-    public void modInit() {
-    }
-
     public void construct(FMLConstructionEvent event) {
     }
 
     public void preInit(FMLPreInitializationEvent event) {
+        NetworkRegistry.INSTANCE.registerGuiHandler(ANotSturdyMod.instance, ANotSturdyMod.gui);
+        ANotSturdyMod.gui.init(event.getAsmData());
+        
         ModBlocks.preInit(event);
         ModTileEntities.preInit(event);
         ModItems.preInit(event);
@@ -61,7 +50,7 @@ public class CommonProxy {
         int packetId = 0;
         ANotSturdyMod.network.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);
         ANotSturdyMod.network.registerMessage(PacketLocationalGuiAction.Handler.class, PacketLocationalGuiAction.class, packetId++, Side.SERVER);
-
+        
         TileENComponentBase.initNetwork();
         TileENWirelessTransmitter.initNetwork();
     }
@@ -75,38 +64,6 @@ public class CommonProxy {
 
     public void serverStarting(FMLServerStartingEvent event) {
         ModCommands.registerCommands(event);
-    }
-
-
-    protected void registerBlock(Block block) {
-        ModBlocks.BLOCKS.add(block);
-    }
-
-    protected void registerBlock(BlockBase block) {
-        this.registerBlock((Block) block);
-    }
-
-    protected void registerBlock(SimpleBlockBase block) {
-        this.registerBlock((BlockBase) block);
-        // This will not register its model, as it's only an ItemBlock
-        this.registerItem(block.getItemBlock());
-    }
-
-    protected void registerBlock(TileBlockBase block) {
-        this.registerBlock((SimpleBlockBase) block);
-    }
-
-
-    protected void registerItem(Item item) {
-        ModItems.ITEMS.add(item);
-    }
-
-    protected void registerItem(ItemBase item) {
-        this.registerItem((Item) item);
-    }
-
-    protected void registerItem(SimpleItemBase item) {
-        this.registerItem((ItemBase) item);
     }
     
 }

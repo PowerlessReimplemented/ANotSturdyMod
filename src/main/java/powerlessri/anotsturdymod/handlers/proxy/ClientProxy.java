@@ -8,30 +8,10 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import powerlessri.anotsturdymod.ANotSturdyMod;
 
 public class ClientProxy extends CommonProxy {
-
-    /**
-     * Register an item model using an item object and a meta number.
-     */
-    @Override
-    public void registerItemRenderer(Item item, int meta, String id) {
-        super.registerItemRenderer(item, meta, id);
-
-        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), id));
-
-    }
-
-    // This method is here just for oCd reasons, it doesn't do anything
-    @Override
-    public void registerBlockRenderer(Block block, int meta, String id) {
-        super.registerBlockRenderer(block, meta, id);
-    }
-
-
-    @Override
-    public void modInit() {
-    }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {

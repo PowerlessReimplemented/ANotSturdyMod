@@ -113,9 +113,7 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
 
         contentHeight = components.size() * (commonHeight + verticalGap);
         contentKFactor = (float) getHeight() / getContentHeight();
-
-        Utils.getLogger().info("ch: " + componentHeight + ", uh" + usableHeight);
-
+        
         // TODO add size check
 //        int hiddenComponents = components.size() - visibleComponents;
 //        if (hiddenComponents > height) {
@@ -131,7 +129,6 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
 
     private void checkComponentHeight() {
         int commonHeight = components.get(0).getHeight();
-        Utils.getLogger().info(commonHeight);
         for (IScrollableComponent component : components) {
             if (component.getHeight() != commonHeight) {
                 throw new IllegalArgumentException("All components passed to ScrollablePanel must have equal amount of height!");
