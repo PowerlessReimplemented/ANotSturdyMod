@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import powerlessri.anotsturdymod.varia.general.Utils;
-import powerlessri.anotsturdymod.varia.reflection.AnnotationRetentionUtils;
+import powerlessri.anotsturdymod.varia.reflection.AnnotationSearcher;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class ModCommands {
     }
 
     private static void loadCommands(ASMDataTable table) {
-        List<Field> fields = AnnotationRetentionUtils.getAllAnnotatedFields(table, RegistryCommandBase.class);
+        List<Field> fields = AnnotationSearcher.getAllAnnotatedFields(table, RegistryCommandBase.class);
         for (Field field : fields) {
             CommandBase command;
             try {

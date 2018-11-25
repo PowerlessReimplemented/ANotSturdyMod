@@ -9,11 +9,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import powerlessri.anotsturdymod.blocks.BlockLightCube;
 import powerlessri.anotsturdymod.handlers.init.RegistryItem;
 import powerlessri.anotsturdymod.library.item.base.SimpleItemBase;
-import powerlessri.anotsturdymod.varia.machines.EMachineLevel;
+import powerlessri.anotsturdymod.varia.general.EMachineLevel;
 
 public class ItemIlluminator extends SimpleItemBase {
 

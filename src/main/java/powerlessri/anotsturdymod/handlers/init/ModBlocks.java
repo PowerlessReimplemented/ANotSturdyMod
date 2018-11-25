@@ -1,20 +1,12 @@
 package powerlessri.anotsturdymod.handlers.init;
 
 import net.minecraft.block.Block;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
-import powerlessri.anotsturdymod.blocks.cobblegen.block.BlockInfiniteCobbleGenerator;
-import powerlessri.anotsturdymod.blocks.BlockLightCube;
-import powerlessri.anotsturdymod.blocks.remoteenetwork.block.BlockEnergyAccessPort;
-import powerlessri.anotsturdymod.blocks.remoteenetwork.block.BlockEnergyController;
 import powerlessri.anotsturdymod.varia.general.Utils;
-import powerlessri.anotsturdymod.varia.reflection.AnnotationRetentionUtils;
+import powerlessri.anotsturdymod.varia.reflection.AnnotationSearcher;
 
-import javax.rmi.CORBA.Util;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +22,7 @@ public class ModBlocks {
     }
 
     private static void loadBlocks(ASMDataTable table) {
-        List<Field> fields = AnnotationRetentionUtils.getAllAnnotatedFields(table, RegistryBlock.class);
+        List<Field> fields = AnnotationSearcher.getAllAnnotatedFields(table, RegistryBlock.class);
         for (Field field : fields) {
             Block block;
             try {

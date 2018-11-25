@@ -7,8 +7,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.commons.lang3.tuple.Pair;
 import powerlessri.anotsturdymod.varia.Reference;
-import powerlessri.anotsturdymod.varia.general.Utils;
-import powerlessri.anotsturdymod.varia.reflection.AnnotationRetentionUtils;
+import powerlessri.anotsturdymod.varia.reflection.AnnotationSearcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class ModTileEntities {
     }
 
     private static void loadTileEntities(ASMDataTable table) {
-        List<Class<?>> tileCandidates = AnnotationRetentionUtils.getClassesFromASMData(table, RegistryTileEntity.class);
+        List<Class<?>> tileCandidates = AnnotationSearcher.getAllAnnotatedClasses(table, RegistryTileEntity.class);
         for (Class<?> candidate : tileCandidates) {
             if (TileEntity.class.isAssignableFrom(candidate)) {
                 Class<? extends TileEntity> clazz = (Class<? extends TileEntity>) candidate;

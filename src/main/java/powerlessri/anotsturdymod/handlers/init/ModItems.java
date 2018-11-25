@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import powerlessri.anotsturdymod.library.block.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.varia.general.Utils;
-import powerlessri.anotsturdymod.varia.reflection.AnnotationRetentionUtils;
+import powerlessri.anotsturdymod.varia.reflection.AnnotationSearcher;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
@@ -36,7 +36,7 @@ public class ModItems {
     }
 
     private static void loadItems(ASMDataTable table) {
-        List<Field> fields = AnnotationRetentionUtils.getAllAnnotatedFields(table, RegistryItem.class);
+        List<Field> fields = AnnotationSearcher.getAllAnnotatedFields(table, RegistryItem.class);
         for (Field field : fields) {
             Item item;
             try {

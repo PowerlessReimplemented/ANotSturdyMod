@@ -13,7 +13,7 @@ import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.varia.general.Utils;
-import powerlessri.anotsturdymod.varia.reflection.AnnotationRetentionUtils;
+import powerlessri.anotsturdymod.varia.reflection.AnnotationSearcher;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
@@ -40,7 +40,7 @@ public class ComponentizedGuiHandler implements IGuiHandler {
         ImmutableMap.Builder<String, Integer> keysBuilder = ImmutableMap.builder();
         int lastID = -1;
 
-        for (Method method : AnnotationRetentionUtils.getAllAnnotatedMethods(table, TemplateProvider.class)) {
+        for (Method method : AnnotationSearcher.getAllAnnotatedMethods(table, TemplateProvider.class)) {
             TemplateProvider annotation = method.getAnnotation(TemplateProvider.class);
             String id = annotation.id();
 

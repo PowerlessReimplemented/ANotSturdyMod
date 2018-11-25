@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class AnnotationRetentionUtils {
+public class AnnotationSearcher {
 
     public static List<Class<?>> getAllAnnotatedClasses(ASMDataTable table, Class<? extends Annotation> annotation) {
         List<Class<?>> classes = new ArrayList<>();
-        for (Class<?> clazz : getClassesFromASMData(table, annotation)) {
+        for (Class<?> clazz : getRawClassesFromASMData(table, annotation)) {
             if (clazz.isAnnotationPresent(annotation)) {
                 classes.add(clazz);
             }
@@ -25,7 +25,7 @@ public class AnnotationRetentionUtils {
     
     public static List<Field> getAllAnnotatedFields(ASMDataTable table, Class<? extends Annotation> annotation) {
         List<Field> fields = new ArrayList<>();
-        for (Class<?> clazz : getClassesFromASMData(table, annotation)) {
+        for (Class<?> clazz : getRawClassesFromASMData(table, annotation)) {
             for (Field field : clazz.getDeclaredFields()) {
                 field.setAccessible(true);
                 if (field.isAnnotationPresent(annotation)) {
@@ -38,7 +38,7 @@ public class AnnotationRetentionUtils {
 
     public static List<Method> getAllAnnotatedMethods(ASMDataTable table, Class<? extends Annotation> annotation) {
         List<Method> methods = new ArrayList<>();
-        for (Class<?> clazz : getClassesFromASMData(table, annotation)) {
+        for (Class<?> clazz : getRawClassesFromASMData(table, annotation)) {
             for (Method method : clazz.getDeclaredMethods()) {
                 method.setAccessible(true);
                 if (method.isAnnotationPresent(annotation)) {
@@ -50,11 +50,11 @@ public class AnnotationRetentionUtils {
     }
     
 
-    public static List<Class<?>> getClassesFromASMData(ASMDataTable table, Class<? extends Annotation> annotation) {
-        return getClassesFromASMData(table.getAll(annotation.getName()));
+    public static List<Class<?>> getRawClassesFromASMData(ASMDataTable table, Class<? extends Annotation> annotation) {
+        return getRawClassesFromASMData(table.getAll(annotation.getName()));
     }
 
-    private static List<Class<?>> getClassesFromASMData(Set<ASMData> dataSet) {
+    private static List<Class<?>> getRawClassesFromASMData(Set<ASMData> dataSet) {
         List<Class<?>> classes = new ArrayList<>();
         for (ASMData data : dataSet) {
             String className = data.getClassName();
