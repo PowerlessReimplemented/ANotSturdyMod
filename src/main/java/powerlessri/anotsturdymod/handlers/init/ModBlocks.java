@@ -15,11 +15,13 @@ import powerlessri.anotsturdymod.varia.reflection.AnnotationRetentionUtils;
 import javax.rmi.CORBA.Util;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ModBlocks {
 
-    public static final List<Block> BLOCKS = new ArrayList<>();
+    public static final Set<Block> BLOCKS = new HashSet<>();
 
 
     public static void preInit(FMLPreInitializationEvent event) {

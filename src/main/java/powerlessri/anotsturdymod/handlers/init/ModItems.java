@@ -5,23 +5,19 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
-import powerlessri.anotsturdymod.items.exchangers.ItemExchanger;
-import powerlessri.anotsturdymod.items.ItemIlluminator;
-import powerlessri.anotsturdymod.items.transmutations.ItemTransmutationStone;
-import powerlessri.anotsturdymod.items.ItemUpgrade;
 import powerlessri.anotsturdymod.library.block.base.SimpleBlockBase;
 import powerlessri.anotsturdymod.varia.general.Utils;
 import powerlessri.anotsturdymod.varia.reflection.AnnotationRetentionUtils;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class ModItems {
 
-    public static final List<Item> ITEMS = new ArrayList<Item>();
+    public static final Set<Item> ITEMS = new HashSet<>();
 
 
     public static void addItemForBlock(Block block) {
