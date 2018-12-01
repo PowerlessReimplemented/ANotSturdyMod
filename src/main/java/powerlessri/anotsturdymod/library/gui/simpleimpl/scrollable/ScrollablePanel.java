@@ -22,9 +22,8 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
         // Top gap only. Bottom gap is included in last component's height
         int panelHeight = (amountVisibleComponents * componentHeight) + DEFAULT_GAP;
 
-        ComponentScrollBar scrollBar = new ComponentScrollBar(x + width + scrollBarDistance, y, panelHeight);
-        ScrollablePanel panel = new ScrollablePanel(x, y, width, panelHeight, components, scrollBar);
-        return panel;
+        ComponentScrollBar scrollBar = new ComponentScrollBar(x , y, panelHeight);
+        return new ScrollablePanel(x, y, width, panelHeight, components, scrollBar);
     }
     
 

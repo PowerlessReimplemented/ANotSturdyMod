@@ -1,6 +1,7 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.section;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.ResourceLocation;
@@ -91,4 +92,5 @@ public class TextureElement extends AbstractComponent implements IInteractionHan
         Minecraft.getMinecraft().renderEngine.bindTexture(texture);
         gui.drawTexturedModalRect(getActualX(), getActualY(), textureX, textureY, width, height);
     }
+    
 }
