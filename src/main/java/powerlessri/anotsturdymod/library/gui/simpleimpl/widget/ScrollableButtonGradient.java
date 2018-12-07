@@ -16,12 +16,16 @@ public class ScrollableButtonGradient extends ButtonGradient implements IScrolla
         draw(event);
     }
 
-    
+
+    /**
+     * Cache to the input {@link #draw(GuiDrawBackgroundEvent, int)}.
+     */
     private int y;
 
     @Override
     public int getActualY() {
-        return parent.getY() + y;
+        // Force other stuff to use the y given in method draw(GuiDrawBackgroundEvent, int)
+        return y;
     }
     
 }

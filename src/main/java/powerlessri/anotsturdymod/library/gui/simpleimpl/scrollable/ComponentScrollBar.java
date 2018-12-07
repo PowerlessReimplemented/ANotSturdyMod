@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
+import powerlessri.anotsturdymod.varia.general.Utils;
 import powerlessri.anotsturdymod.varia.render.LineUtils;
 import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
@@ -55,6 +56,7 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
 
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
+//        Utils.getLogger().info(getActualY());
         // TODO draw lines in the center
         BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
         GLGrayScale.addConvexBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR());
