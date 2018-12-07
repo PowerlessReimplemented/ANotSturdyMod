@@ -12,8 +12,8 @@ public abstract class AbstractComponent implements IComponent {
     protected IComponent root;
     protected IComponent parent;
 
-    protected final int x;
-    protected final int y;
+    protected final int relativeX;
+    protected final int relativeY;
     protected int z;
     
     private boolean useZ;
@@ -26,8 +26,8 @@ public abstract class AbstractComponent implements IComponent {
     }
 
     public AbstractComponent(int relativeX, int relativeY, boolean useZ) {
-        this.x = relativeX;
-        this.y = relativeY;
+        this.relativeX = relativeX;
+        this.relativeY = relativeY;
         this.useZ = useZ;
     }
     
@@ -72,12 +72,12 @@ public abstract class AbstractComponent implements IComponent {
 
     @Override
     public int getX() {
-        return x;
+        return relativeX;
     }
 
     @Override
     public int getY() {
-        return y;
+        return relativeY;
     }
 
     @Override
@@ -122,8 +122,8 @@ public abstract class AbstractComponent implements IComponent {
     }
     
     private void recalculatePosition() {
-        absX = parent.getActualX() + x;
-        absY = parent.getActualY() + y;
+        absX = parent.getActualX() + relativeX;
+        absY = parent.getActualY() + relativeY;
     }
 
 

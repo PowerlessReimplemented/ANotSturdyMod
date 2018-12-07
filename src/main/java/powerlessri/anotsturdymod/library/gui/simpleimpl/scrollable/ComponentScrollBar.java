@@ -128,7 +128,7 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
         super.initialize(gui, parent);
         this.parent = parent;
 
-        actualHeight = (int) (getMaximumHeight() * parent.getContentKFactor());
+        actualHeight = (int) (getMaximumHeight() * parent.getContentScaleFactor());
     }
 
     @Nullable
@@ -150,4 +150,9 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
     public void enable() {
     }
 
+
+    @Override
+    public int getVerticalMargin() {
+        return 0;
+    }
 }

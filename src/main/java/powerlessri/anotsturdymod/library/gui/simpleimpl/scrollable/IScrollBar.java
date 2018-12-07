@@ -42,4 +42,11 @@ public interface IScrollBar extends IInteractionHandler {
     @Override
     int getActualY();
 
+
+    /**
+     * Whitespace gap on top and bottom of the scroll bar, in pixels.
+     * @return Number of pixels of margin top and margin bottom
+     */
+    int getVerticalMargin();
+
 }

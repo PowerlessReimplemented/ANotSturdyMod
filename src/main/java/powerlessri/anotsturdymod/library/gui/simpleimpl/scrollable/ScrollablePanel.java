@@ -30,7 +30,7 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
     /**
      * Gap between every component drawn on the panel.
      */
-    private int verticalGap = DEFAULT_GAP;
+    private int marginTop = DEFAULT_GAP;
 
     private int width;
     private int height;
@@ -49,14 +49,14 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
     private int commonHeight;
     /**
      * The height of expanded components. (The total height of all components that is required to display them all if not using scroll panel)
-     * Formula: components.size() * (commonHeight + verticalGap). Does not include whitespace on the top and bottom.
+     * Formula: components.size() * (commonHeight + marginTop). Does not include whitespace on the top and bottom.
      */
     private int contentHeight;
     /**
      * Scale factor from height of expanded height to to current available height for displaying.
      * (i.e. from {@link #contentHeight} to {@link #height})
      */
-    private float contentKFactor;
+    private float contentScaleFactor;
 
     /**
      * Maximum number of components that will be drawn at a time.
@@ -105,15 +105,13 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
     }
 
     private void updateHeight() {
-        int componentHeight = commonHeight + verticalGap;
+        int componentHeight = commonHeight + marginTop;
         // We only need to count to top gap, the bottom gap is included in the height of last component that gets displayed.
-        int usableHeight = height - verticalGap;
+        int usableHeight = height - marginTop;
         visibleComponents = Math.min(components.size(), usableHeight / componentHeight);
 
-        contentHeight = components.size() * (commonHeight + verticalGap);
-        contentKFactor = (float) getHeight() / getContentHeight();
-
-        Utils.getLogger().info("ch: " + componentHeight + ", uh" + usableHeight);
+        contentHeight = components.size() * (commonHeight + marginTop);
+        contentScaleFactor = (float) getHeight() / getContentHeight();
 
         // TODO add size check
 //        int hiddenComponents = components.size() - visibleComponents;
@@ -130,7 +128,6 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
 
     private void checkComponentHeight() {
         int commonHeight = components.get(0).getHeight();
-        Utils.getLogger().info(commonHeight);
         for (IScrollableComponent component : components) {
             if (component.getHeight() != commonHeight) {
                 throw new IllegalArgumentException("All components passed to ScrollablePanel must have equal amount of height!");
@@ -143,10 +140,11 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
 
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
-        int componentHeight = commonHeight + verticalGap;
+        int componentHeight = commonHeight + marginTop;
         int endIndex = entryIndex + visibleComponents;
 
-        int nextPenDownY = getActualY() + verticalGap;
+        int nextPenDownY = getActualY() + marginTop;
+        Utils.getLogger().info(nextPenDownY);
         for (int i = entryIndex; i < endIndex; i++) {
             components.get(i).draw(event, nextPenDownY);
             nextPenDownY += componentHeight;
@@ -177,8 +175,8 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
     }
 
     @Override
-    public float getContentKFactor() {
-        return contentKFactor;
+    public float getContentScaleFactor() {
+        return contentScaleFactor;
     }
 
     @Override

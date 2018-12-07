@@ -26,6 +26,6 @@ public interface IScrollingPanel extends IContainer<IComponent> {
     /**
      * Scale factor of the height of all contents, to the display height of the panel.
      */
-    float getContentKFactor();
+    float getContentScaleFactor();
     
 }
