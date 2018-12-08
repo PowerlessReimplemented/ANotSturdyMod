@@ -37,7 +37,9 @@ public abstract class AbstractComponent implements IComponent {
         this.gui = gui;
         this.parent = parent;
         if (parent.isRootComponent()) {
-            this.root = parent;
+            root = parent;
+        } else if (parent instanceof AbstractComponent) {
+            root = ((AbstractComponent) parent).root;
         }
         recalculatePosition();
     }
