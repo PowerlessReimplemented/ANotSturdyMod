@@ -5,7 +5,9 @@ import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ButtonGradient;
 import powerlessri.anotsturdymod.varia.general.Utils;
+import powerlessri.anotsturdymod.varia.render.BoxUtils;
 import powerlessri.anotsturdymod.varia.render.LineUtils;
 import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
@@ -67,6 +69,13 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
     public void drawHovering(GuiDrawBackgroundEvent event) {
         // TODO add hovering blue-ish texture
         drawNormal(event);
+
+        BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
+
+        BoxUtils.outlinedBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR(), 1, ButtonGradient.colorEHovering, ButtonGradient.colorSHovering, ButtonGradient.colorEHovering);
+
+        drawLabel(buffer);
+        TessellatorUtils.draw();
     }
 
     @Override

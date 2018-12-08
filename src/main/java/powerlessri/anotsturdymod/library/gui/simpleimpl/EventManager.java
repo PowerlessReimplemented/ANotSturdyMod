@@ -34,14 +34,27 @@ public class EventManager {
     private Set<IInteractionHandler> visible;
     private IInteractionHandler lastClicked;
 
+    public boolean isVisible(IInteractionHandler component) {
+        return visible.contains(component);
+    }
+
+    public void markVisible(IInteractionHandler component) {
+        visible.add(component);
+    }
+
+    public void markInvisible(IInteractionHandler component) {
+        visible.remove(component);
+    }
+
+    
     public void emitMouseClicked(int mouseX, int mouseY, EMouseButton button) {
-        for (IInteractionHandler handler : visible) {
-            if (handler.isPointInside(mouseX, mouseY)) {
+        for (IInteractionHandler handler : handlers) {
+            if (handler.isPointInside(mouseX, mouseY) && visible.contains(handler)) {
                 lastClicked = handler;
                 if (!handler.doesReceiveEvents()) {
                     return;
                 }
-
+Utils.getLogger().info(handler);
                 EnumActionResult result = handler.onClicked(mouseX, mouseY, button, EEventType.ORIGINAL);
                 if (result == EnumActionResult.FAIL) {
                     return;
@@ -53,20 +66,6 @@ public class EventManager {
         }
     }
 
-
-    public boolean isVisible(IInteractionHandler component) {
-        return visible.contains(component);
-    }
-
-    public void markVisible(IInteractionHandler component) {
-        visible.add(component);
-    }
-    
-    public void markInvisible(IInteractionHandler component) {
-        visible.remove(component);
-    }
-    
-
     public void emitClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
         if (lastClicked != null) {
             lastClicked.onClickedDragging(mouseX, mouseY, button, timePressed);
@@ -74,8 +73,8 @@ public class EventManager {
     }
 
     public void emitHoveringDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
-        for (IInteractionHandler handler : visible) {
-            if (handler != lastClicked && handler.isPointInside(mouseX, mouseY)) {
+        for (IInteractionHandler handler : handlers) {
+            if (handler != lastClicked && handler.isPointInside(mouseX, mouseY) && visible.contains(handler)) {
                 handler.onHoveredDragging(mouseX, mouseY, button);
             }
         }
