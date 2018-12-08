@@ -57,12 +57,8 @@ public class Color {
         this.blue = blue;
         this.updateHexFromRGB();
     }
-    
 
-    public void applyToVertex(BufferBuilder buffer) {
-        buffer.color(getRed(), getGreen(), getBlue(), 255);
-    }
-    
+
     protected void updateRGBFromHex() {
         red = hex >> 16 & 255;
         green = hex >> 8 & 255;

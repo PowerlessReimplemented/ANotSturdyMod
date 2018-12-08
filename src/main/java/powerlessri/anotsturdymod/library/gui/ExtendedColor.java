@@ -45,11 +45,6 @@ public class ExtendedColor extends Color {
     
 
     @Override
-    public void applyToVertex(BufferBuilder buffer) {
-        buffer.color(getRed(), getGreen(), getBlue(), getAlpha());
-    }
-
-    @Override
     protected void updateRGBFromHex() {
         super.updateRGBFromHex();
         alpha = alphaHex & 255;

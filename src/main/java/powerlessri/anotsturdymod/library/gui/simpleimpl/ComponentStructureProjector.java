@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableList;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
 
-public class StructureProjectingUtils {
+public class ComponentStructureProjector {
 
-    private StructureProjectingUtils() {
+    private ComponentStructureProjector() {
     }
 
 
