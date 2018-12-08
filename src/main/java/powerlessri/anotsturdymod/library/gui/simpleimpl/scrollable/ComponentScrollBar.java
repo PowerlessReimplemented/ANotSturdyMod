@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
 
 public class ComponentScrollBar extends AbstractButton implements IScrollBar {
     
+    public static final int WIDTH = 7;
     public static final int LINE_LABEL_OFFSET = 2;
     
 
@@ -23,7 +24,7 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
     private IScrollingPanel parent;
 
     public ComponentScrollBar(int relativeX, int relativeY, int height) {
-        super(relativeX, relativeY, 7, height);
+        super(relativeX, relativeY, WIDTH, height);
     }
 
 
@@ -56,8 +57,6 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
 
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
-//        Utils.getLogger().info(getActualY());
-        // TODO draw lines in the center
         BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
         GLGrayScale.addConvexBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR());
         drawLabel(buffer);
@@ -97,7 +96,7 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
 
     @Override
     public int getWidth() {
-        return 7;
+        return WIDTH;
     }
 
     @Override
@@ -129,8 +128,7 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
     public void initialize(GuiScreen gui, IScrollingPanel parent) {
         super.initialize(gui, parent);
         this.parent = parent;
-
-        actualHeight = (int) (getMaximumHeight() * parent.getContentScaleFactor());
+        this.actualHeight = (int) (getMaximumHeight() * parent.getContentScaleFactor());
     }
 
     @Nullable
@@ -145,16 +143,17 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
     }
 
     @Override
-    public void disable() {
-    }
-
-    @Override
-    public void enable() {
-    }
-
-
-    @Override
     public int getVerticalMargin() {
         return 0;
     }
+
+    
+    @Override
+    public void disable() {
+    }
+    
+    @Override
+    public void enable() {
+    }
+    
 }

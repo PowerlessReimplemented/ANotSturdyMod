@@ -28,17 +28,30 @@ public interface IScrollBar extends IInteractionHandler {
      * <p>See {@link IComponent#initialize(GuiScreen, IComponent)} for more information. </p>
      */
     void initialize(GuiScreen gui, IScrollingPanel parent);
-    
-    
-    // TODO add javadoc
-    
+
+
+    /**
+     * The maximimum height that the scroll bar can have.
+     * Should always greater or equal to {@link #getHeight()}.
+     */
     int getMaximumHeight();
-    
+
+    /**
+     * The current height that is scale down to be able to slided.
+     * Should always be less than or equal to {@link #getMaximumHeight()} and greater than 0.
+     */
     @Override
     int getHeight();
-    
+
+    /**
+     * The y value of top left corner of the outer box, which is fixed.
+     * @see IComponent#getActualY()
+     */
     int getBaseY();
-    
+
+    /**
+     * The y value of the movable object that is being displayed to the player.
+     */
     @Override
     int getActualY();
 

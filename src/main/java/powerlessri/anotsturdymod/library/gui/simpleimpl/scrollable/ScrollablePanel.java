@@ -3,26 +3,23 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.EventManager;
-import powerlessri.anotsturdymod.varia.general.Utils;
 
 import java.util.List;
 
 public class ScrollablePanel extends AbstractComponent implements IScrollingPanel {
 
-    public static final int DEFAULT_GAP = 2;
+    public static final int DEFAULT_MARGIN = 2;
 
     public static ScrollablePanel simpleLayout(int x, int y, int width, int amountVisibleComponents, ImmutableList<IScrollableComponent> components) {
-        return simpleLayout(x, y, width, amountVisibleComponents, components, DEFAULT_GAP);
+        return simpleLayout(x, y, width, amountVisibleComponents, components, DEFAULT_MARGIN);
     }
 
     public static ScrollablePanel simpleLayout(int x, int y, int width, int amountVisibleComponents, ImmutableList<IScrollableComponent> components, int scrollBarDistance) {
-        int componentHeight = components.get(0).getHeight() + DEFAULT_GAP;
+        int componentHeight = components.get(0).getHeight() + DEFAULT_MARGIN;
         // Top gap only. Bottom gap is included in last component's height
-        int panelHeight = (amountVisibleComponents * componentHeight) + DEFAULT_GAP;
+        int panelHeight = (amountVisibleComponents * componentHeight) + DEFAULT_MARGIN;
 
         ComponentScrollBar scrollBar = new ComponentScrollBar(scrollBarDistance, 0, panelHeight);
         return new ScrollablePanel(x, y, width, panelHeight, components, scrollBar);
@@ -32,7 +29,7 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
     /**
      * Gap between every component drawn on the panel.
      */
-    private int marginTop = DEFAULT_GAP;
+    private int marginTop = DEFAULT_MARGIN;
 
     private int width;
     private int height;
@@ -117,12 +114,6 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
 
         contentHeight = components.size() * (commonHeight + marginTop);
         contentScaleFactor = (float) getHeight() / getContentHeight();
-
-        // TODO add size check
-//        int hiddenComponents = components.size() - visibleComponents;
-//        if (hiddenComponents > height) {
-//            throw new IllegalArgumentException("Unable to fit all components with the given height " + height + "!");
-//        }
     }
 
     private void checkScrollBarHeight() {
@@ -233,9 +224,12 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
      */
     private ImmutableList<IComponent> allRelated;
 
+    /**
+     * All components including the scroll bar.
+     */
     @Override
     public List<IComponent> getComponents() {
-        // This operation is pretty costly, lazy evaluation to ensure there will not be huge amount of (unnecessary) iterations going on when player open the GUI
+        // This operation is pretty costly, lazy evaluation to ensure there will not be huge amount of (possibly) unnecessary iterations going on when player open the GUI
         if (allRelated == null) {
             ImmutableList.Builder<IComponent> builder = ImmutableList.builder();
             builder.addAll(components);
@@ -245,6 +239,9 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
         return allRelated;
     }
 
+    /**
+     * All components except the scroll bar.
+     */
     public List<IScrollableComponent> getScrollableComponents() {
         return components;
     }
