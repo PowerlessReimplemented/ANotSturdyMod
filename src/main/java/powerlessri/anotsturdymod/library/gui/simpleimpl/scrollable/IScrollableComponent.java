@@ -1,23 +1,24 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
 public interface IScrollableComponent extends IComponent {
-    
-    /**
-     * Equivalent to {@code draw(GuiDrawBackgroundEvent event, this.getActualY())}.
-     * 
-     * @deprecated The position of the component is fixed, not suitable if it's constantly moving as the scroll bar moves.
-     * @see #draw(GuiDrawBackgroundEvent, int) 
-     */
-    @Override
-    @Deprecated
-    void draw(GuiDrawBackgroundEvent event);
 
     /**
-     * A specialized version of {@link IComponent#draw(GuiDrawBackgroundEvent)}.
+     * Called whenever the content offset was changed.\
+     * <p>If the parameter y is less than 0, it means the component is moved out of the range</p>
+     *
+     * @param y The expected y value to be used to display
      */
-    void draw(GuiDrawBackgroundEvent event, int y);
-    
+    void setExpectedY(int y);
+
+    /**
+     * Called when the component is moved out/in of the visible range of the parent scrollable panel.
+     * <p>
+     * When this method is called, the component should remove itself from the list of the event manager so that event
+     * passing works correctly.
+     * </p>
+     */
+    void setVisibility(boolean visibility);
+
 }

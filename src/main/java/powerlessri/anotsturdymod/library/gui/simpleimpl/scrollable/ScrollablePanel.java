@@ -7,26 +7,27 @@ import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.EventManager;
+import powerlessri.anotsturdymod.varia.general.Utils;
 
 import java.util.List;
 
 public class ScrollablePanel extends AbstractComponent implements IScrollingPanel {
-    
+
     public static final int DEFAULT_GAP = 2;
 
     public static ScrollablePanel simpleLayout(int x, int y, int width, int amountVisibleComponents, ImmutableList<IScrollableComponent> components) {
         return simpleLayout(x, y, width, amountVisibleComponents, components, DEFAULT_GAP);
     }
-    
+
     public static ScrollablePanel simpleLayout(int x, int y, int width, int amountVisibleComponents, ImmutableList<IScrollableComponent> components, int scrollBarDistance) {
         int componentHeight = components.get(0).getHeight() + DEFAULT_GAP;
         // Top gap only. Bottom gap is included in last component's height
         int panelHeight = (amountVisibleComponents * componentHeight) + DEFAULT_GAP;
 
-        ComponentScrollBar scrollBar = new ComponentScrollBar(scrollBarDistance , 0, panelHeight);
+        ComponentScrollBar scrollBar = new ComponentScrollBar(scrollBarDistance, 0, panelHeight);
         return new ScrollablePanel(x, y, width, panelHeight, components, scrollBar);
     }
-    
+
 
     /**
      * Gap between every component drawn on the panel.
@@ -104,14 +105,8 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
         }
         scrollBar.initialize(gui, this);
 
-        EventManager eventManager = getFunctionalRoot().getEventManager();
-        for (int i = 0; i < components.size(); i++) {
-            IScrollableComponent component = components.get(i);
-            // Any components other than those ones in range, which are components with index 0 ~ (visibleComponents - 1)
-            if (component instanceof IInteractionHandler && !isComponentShown(i)) {
-                eventManager.markInvisible((IInteractionHandler) component);
-            }
-        }
+        // Make all components visible
+        setCurrentStep(0);
     }
 
     private void updateHeight() {
@@ -150,15 +145,9 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
 
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
-        int componentHeight = commonHeight + marginTop;
-        int endIndex = getEndIndex();
-
-        int nextPenDownY = getActualY() + marginTop;
-        for (int i = entryIndex; i < endIndex; i++) {
-            components.get(i).draw(event, nextPenDownY);
-            nextPenDownY += componentHeight;
+        for (IScrollableComponent component : components) {
+            component.draw(event);
         }
-
         scrollBar.draw(event);
     }
 
@@ -168,17 +157,24 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
         return components.size() - visibleComponents;
     }
 
+    /**
+     * Alias: {@code getEntryIndex()}
+     */
     @Override
     public int getCurrentStep() {
         return entryIndex;
     }
-    
+
     public int getEndIndex() {
         return entryIndex + visibleComponents;
     }
 
+    public int getComponentHeight() {
+        return commonHeight + marginTop;
+    }
+
     public boolean isComponentShown(int index) {
-        return index >= entryIndex && index <= getEndIndex();
+        return index >= entryIndex && index < getEndIndex();
     }
 
     @Override
@@ -187,26 +183,26 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
         int oldEndIndex = getEndIndex();
         entryIndex = Math.max(0, step);
 
-        if (oldEntryIndex == entryIndex) {
-            return;
-        }
-        
-        // Include all components in both old and new range 
-        for (int i = Math.min(oldEntryIndex, entryIndex), to = Math.max(oldEndIndex, getEndIndex()); i < to; i++) {
-            IScrollableComponent component = components.get(i);
-            if (component instanceof IInteractionHandler) {
-                IInteractionHandler handler = (IInteractionHandler) component;
+        int endIndex = getEndIndex();
+        int componentHeight = getComponentHeight();
+        int minimumEntryIndex = Math.min(oldEntryIndex, entryIndex);
+        int maximumEndIndex = Math.max(oldEndIndex, endIndex);
 
-                if (isComponentShown(i)) {
-                    getFunctionalRoot().getEventManager().markVisible(handler);
-                } else {
-                    getFunctionalRoot().getEventManager().markInvisible(handler);
-                }
+        for (int i = minimumEntryIndex, nextPenDownY = getActualY() + marginTop; i < maximumEndIndex; i++) {
+            IScrollableComponent component = components.get(i);
+
+            if (isComponentShown(i)) {
+                component.setVisibility(true);
+                // Move the components
+                component.setExpectedY(nextPenDownY);
+                nextPenDownY += componentHeight;
+            } else {
+                component.setVisibility(false);
+                component.setExpectedY(-1);
             }
-            
         }
     }
-
+    
 
     public int getContentHeight() {
         return contentHeight;
