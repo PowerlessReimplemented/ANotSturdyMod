@@ -110,6 +110,10 @@ public abstract class AbstractComponent implements IComponent {
                 y >= getActualY() && y <= getActualYBR();
     }
 
+    public ComponentRoot getFunctionalRoot() {
+        return (ComponentRoot) root;
+    }
+
     
     /**
      * <b>WARNING: </b> This method does not do what its name says.

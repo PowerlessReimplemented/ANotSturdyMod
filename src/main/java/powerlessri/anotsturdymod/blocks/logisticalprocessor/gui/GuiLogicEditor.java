@@ -72,7 +72,7 @@ public class GuiLogicEditor extends ComponentizedGui {
         windows = ImmutableList.of(
                 new BasicPanel(windowX, windowY, ImmutableList.of(
                         new TextureElement(0, 0, BACKGROUND, BKG_START_X, BKG_START_Y, BKG_WIDTH, BKG_HEIGHT),
-                        // + 2 is left margin, top margin is handled in ScrollablePanel
+                        // + 2 is the left margin, top margin is handled in ScrollablePanel
                         ScrollablePanel.simpleLayout(8 + 2, 73, 107, 11, builder.build(),  107)
                 ))
         );

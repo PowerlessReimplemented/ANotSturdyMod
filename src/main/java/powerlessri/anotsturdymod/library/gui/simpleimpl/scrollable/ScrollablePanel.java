@@ -3,9 +3,10 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
+import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
-import powerlessri.anotsturdymod.varia.general.Utils;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.EventManager;
 
 import java.util.List;
 
@@ -102,6 +103,15 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
             component.initialize(gui, this);
         }
         scrollBar.initialize(gui, this);
+
+        EventManager eventManager = getFunctionalRoot().getEventManager();
+        for (int i = 0; i < components.size(); i++) {
+            IScrollableComponent component = components.get(i);
+            // Any components other than those ones in range, which are components with index 0 ~ (visibleComponents - 1)
+            if (component instanceof IInteractionHandler && !isComponentShown(i)) {
+                eventManager.markInvisible((IInteractionHandler) component);
+            }
+        }
     }
 
     private void updateHeight() {
@@ -141,7 +151,7 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
         int componentHeight = commonHeight + marginTop;
-        int endIndex = entryIndex + visibleComponents;
+        int endIndex = getEndIndex();
 
         int nextPenDownY = getActualY() + marginTop;
         for (int i = entryIndex; i < endIndex; i++) {
@@ -162,10 +172,39 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
     public int getCurrentStep() {
         return entryIndex;
     }
+    
+    public int getEndIndex() {
+        return entryIndex + visibleComponents;
+    }
+
+    public boolean isComponentShown(int index) {
+        return index >= entryIndex && index <= getEndIndex();
+    }
 
     @Override
     public void setCurrentStep(int step) {
+        int oldEntryIndex = entryIndex;
+        int oldEndIndex = getEndIndex();
         entryIndex = Math.max(0, step);
+
+        if (oldEntryIndex == entryIndex) {
+            return;
+        }
+        
+        // Include all components in both old and new range 
+        for (int i = Math.min(oldEntryIndex, entryIndex), to = Math.max(oldEndIndex, getEndIndex()); i < to; i++) {
+            IScrollableComponent component = components.get(i);
+            if (component instanceof IInteractionHandler) {
+                IInteractionHandler handler = (IInteractionHandler) component;
+
+                if (isComponentShown(i)) {
+                    getFunctionalRoot().getEventManager().markVisible(handler);
+                } else {
+                    getFunctionalRoot().getEventManager().markInvisible(handler);
+                }
+            }
+            
+        }
     }
 
 

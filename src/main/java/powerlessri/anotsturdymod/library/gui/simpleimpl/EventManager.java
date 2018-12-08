@@ -54,6 +54,10 @@ public class EventManager {
     }
 
 
+    public boolean isVisible(IInteractionHandler component) {
+        return visible.contains(component);
+    }
+
     public void markVisible(IInteractionHandler component) {
         visible.add(component);
     }
