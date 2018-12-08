@@ -102,4 +102,12 @@ public class ButtonGradient extends AbstractButton {
         TessellatorUtils.finish();
     }
 
+
+    @Override
+    public String toString() {
+        return "ButtonGradient{" +
+                "text='" + text + '\'' +
+                '}';
+    }
+    
 }

@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
+import powerlessri.anotsturdymod.varia.general.Utils;
 
 import java.util.List;
 
@@ -99,11 +100,15 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
 
         for (IScrollableComponent component : components) {
             component.initialize(gui, this);
+            component.setVisibility(false);
+            component.setExpectedY(-1);
         }
-        scrollBar.initialize(gui, this);
-
         // Make all components visible
         setCurrentStep(0);
+
+        scrollBar.initialize(gui, this);
+
+        
     }
 
     private void updateHeight() {
@@ -112,7 +117,7 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
         int usableHeight = height - marginTop;
         visibleComponents = Math.min(components.size(), usableHeight / componentHeight);
 
-        contentHeight = components.size() * (commonHeight + marginTop);
+        contentHeight = (components.size() + 1) * getComponentHeight();
         contentScaleFactor = (float) getHeight() / getContentHeight();
     }
 
@@ -184,7 +189,7 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
 
             if (isComponentShown(i)) {
                 component.setVisibility(true);
-                // Move the components
+
                 component.setExpectedY(nextPenDownY);
                 nextPenDownY += componentHeight;
             } else {
@@ -193,7 +198,7 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
             }
         }
     }
-    
+
 
     public int getContentHeight() {
         return contentHeight;

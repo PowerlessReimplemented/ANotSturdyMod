@@ -65,7 +65,7 @@ public class GuiLogicEditor extends ComponentizedGui {
         
         ImmutableList.Builder<IScrollableComponent> builder = ImmutableList.builder();
         for (int i = 0; i < 32; i++) {
-            IScrollableComponent button = new ScrollableButtonGradient(0, i * 20, 16, 10, String.valueOf(i));
+            IScrollableComponent button = new ScrollableButtonGradient(0, 16, 10, String.valueOf(i));
             builder.add(button);
         }
 

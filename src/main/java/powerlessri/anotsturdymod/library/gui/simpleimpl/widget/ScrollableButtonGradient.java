@@ -8,8 +8,8 @@ public class ScrollableButtonGradient extends ButtonGradient implements IScrolla
     private int y;
     private boolean visibility;
 
-    public ScrollableButtonGradient(int relativeX, int relativeY, int width, int height, String text) {
-        super(relativeX, relativeY, width, height, text);
+    public ScrollableButtonGradient(int relativeX, int width, int height, String text) {
+        super(relativeX, 0, width, height, text);
     }
 
     
@@ -41,6 +41,13 @@ public class ScrollableButtonGradient extends ButtonGradient implements IScrolla
     
     public void inverseVisibility() {
         setVisibility(!isVisible());
+    }
+
+    @Override
+    public void draw(GuiDrawBackgroundEvent event) {
+        if (isVisible()) {
+            super.draw(event);
+        }
     }
     
 }
