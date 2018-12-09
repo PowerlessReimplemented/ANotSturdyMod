@@ -9,7 +9,7 @@ import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.IScrollableComponent;
+import powerlessri.anotsturdymod.library.gui.api.IScrollableComponent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.ScrollablePanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.section.TextureElement;

@@ -10,9 +10,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.blocks.logisticalprocessor.ILogisticsController;
 import powerlessri.anotsturdymod.handlers.ComponentizedGuiHandler;
+import powerlessri.anotsturdymod.handlers.init.RegistryBlock;
 import powerlessri.anotsturdymod.library.block.base.TileBlockBase;
 
 public class BlockLogisticsController extends TileBlockBase implements ILogisticsController {
+    
+    @RegistryBlock
+    public static final BlockLogisticsController LOGISTICS_CONTROLLER = new BlockLogisticsController("logistics_controller");
+    
     
     public BlockLogisticsController(String name) {
         super(name, Material.ROCK);

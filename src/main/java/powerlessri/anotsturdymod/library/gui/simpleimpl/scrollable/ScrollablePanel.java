@@ -3,9 +3,11 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
+import powerlessri.anotsturdymod.library.gui.api.IScrollableComponent;
+import powerlessri.anotsturdymod.library.gui.api.IScrollbar;
+import powerlessri.anotsturdymod.library.gui.api.IScrollingPanel;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
-import powerlessri.anotsturdymod.varia.general.Utils;
 
 import java.util.List;
 
@@ -36,7 +38,7 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
     private int height;
 
 
-    private IScrollBar scrollBar;
+    private IScrollbar scrollBar;
 
     /**
      * List of components that will get scrolled. Does not include {@link #scrollBar}.
@@ -79,7 +81,7 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
      *
      * @param height The custom height value
      */
-    public ScrollablePanel(int relativeX, int relativeY, int width, int height, ImmutableList<IScrollableComponent> content, ComponentScrollBar bar) {
+    public ScrollablePanel(int relativeX, int relativeY, int width, int height, ImmutableList<IScrollableComponent> content, SlidingScrollbar bar) {
         super(relativeX, relativeY);
 
         this.components = content;
@@ -117,8 +119,14 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
         int usableHeight = height - marginTop;
         visibleComponents = Math.min(components.size(), usableHeight / componentHeight);
 
-        contentHeight = (components.size() + 1) * getComponentHeight();
-        contentScaleFactor = (float) getHeight() / getContentHeight();
+        contentHeight = components.size() * (commonHeight + verticalGap);
+        contentKFactor = (float) getHeight() / getContentHeight();
+        
+        // TODO add size check
+//        int hiddenComponents = components.size() - visibleComponents;
+//        if (hiddenComponents > height) {
+//            throw new IllegalArgumentException("Unable to fit all components with the given height " + height + "!");
+//        }
     }
 
     private void checkScrollBarHeight() {

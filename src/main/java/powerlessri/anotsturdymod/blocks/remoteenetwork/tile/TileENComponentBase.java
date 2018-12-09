@@ -18,7 +18,7 @@ import powerlessri.anotsturdymod.varia.general.Utils;
 import powerlessri.anotsturdymod.varia.tags.TagUtils;
 import powerlessri.anotsturdymod.world.data.AnsmSavedData;
 
-public class TileENComponentBase extends TileEntityBase {
+public abstract class TileENComponentBase extends TileEntityBase {
 
     public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_access_port");
 

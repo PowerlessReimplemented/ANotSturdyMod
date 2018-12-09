@@ -1,8 +1,12 @@
 package powerlessri.anotsturdymod.library.block.base;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.IStringSerializable;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.varia.general.IIntegerSerializable;
 
@@ -66,11 +70,10 @@ public abstract class SimpleBlockBase extends BlockBase {
         this.itemBlock.setRegistryName(this.getRegistryName());
         this.itemBlock.setUnlocalizedName(this.getRegistryName().toString());
     }
-
+    
+    @SideOnly(Side.CLIENT)
     public void registerModel() {
-        // You don't actually register block renderer yourself, did it just for oCd reasons
-        ANotSturdyMod.proxy.registerBlockRenderer(this, 0, "");
-        ANotSturdyMod.proxy.registerItemRenderer(this.getItemBlock(), 0, "inventory");
+        ModelLoader.setCustomModelResourceLocation(getItemBlock(), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
     }
 
 

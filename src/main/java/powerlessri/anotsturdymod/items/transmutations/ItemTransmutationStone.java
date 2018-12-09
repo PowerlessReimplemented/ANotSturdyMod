@@ -11,14 +11,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import powerlessri.anotsturdymod.handlers.init.RegistryItem;
 import powerlessri.anotsturdymod.library.item.base.SimpleItemBase;
+import powerlessri.anotsturdymod.varia.general.PosExtractor;
 import powerlessri.anotsturdymod.varia.tags.IEnumNBTTags;
 import powerlessri.anotsturdymod.varia.tags.ITagBasedItem;
 import powerlessri.anotsturdymod.varia.tags.TagUtils;
-import powerlessri.anotsturdymod.varia.general.PosExtractor;
 
 public class ItemTransmutationStone extends SimpleItemBase implements ITagBasedItem {
 
+    @RegistryItem
+    public static final ItemTransmutationStone TRANSMUTATION_ORB = new ItemTransmutationStone("transmutation_orb");
+
+    
     public ItemTransmutationStone(String name) {
         super(name);
 

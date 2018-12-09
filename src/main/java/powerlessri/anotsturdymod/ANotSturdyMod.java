@@ -35,11 +35,6 @@ public class ANotSturdyMod {
         network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MODID + "main");
         gui = new ComponentizedGuiHandler(this);
         
-        gui.init(event.getAsmData());
-        
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, gui);
-        
-        proxy.modInit();
         proxy.preInit(event);
     }
 

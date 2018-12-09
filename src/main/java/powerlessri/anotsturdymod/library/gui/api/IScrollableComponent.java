@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
+package powerlessri.anotsturdymod.library.gui.api;
 
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 

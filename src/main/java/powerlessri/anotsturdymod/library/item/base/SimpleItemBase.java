@@ -1,6 +1,9 @@
 package powerlessri.anotsturdymod.library.item.base;
 
-import powerlessri.anotsturdymod.ANotSturdyMod;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class SimpleItemBase extends ItemBase {
 
@@ -8,8 +11,9 @@ public abstract class SimpleItemBase extends ItemBase {
         super(name);
     }
 
+    @SideOnly(Side.CLIENT)
     public void registerModel() {
-        ANotSturdyMod.proxy.registerItemRenderer(this, 0, "inventory");
+        ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
     }
 
 }

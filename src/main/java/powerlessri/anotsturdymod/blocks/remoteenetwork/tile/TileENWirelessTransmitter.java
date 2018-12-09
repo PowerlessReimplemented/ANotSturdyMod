@@ -9,6 +9,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
+import powerlessri.anotsturdymod.handlers.init.RegistryTileEntity;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.IENetworkController;
@@ -17,6 +18,7 @@ import powerlessri.anotsturdymod.varia.tags.TagUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+@RegistryTileEntity("energy_network_wireless_transmitter")
 public class TileENWirelessTransmitter extends TileENComponentBase implements ITickable {
 
     public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_wireless_transmitter");

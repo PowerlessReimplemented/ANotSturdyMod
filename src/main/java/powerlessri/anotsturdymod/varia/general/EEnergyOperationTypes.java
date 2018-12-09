@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.varia.machines;
+package powerlessri.anotsturdymod.varia.general;
 
 public enum EEnergyOperationTypes {
 

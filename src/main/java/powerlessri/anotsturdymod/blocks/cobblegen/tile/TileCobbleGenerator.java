@@ -7,10 +7,12 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import powerlessri.anotsturdymod.handlers.init.RegistryTileEntity;
 import powerlessri.anotsturdymod.library.tile.base.TileEntityBase;
 
 import javax.annotation.Nullable;
 
+@RegistryTileEntity("cobble_generator")
 public class TileCobbleGenerator extends TileEntityBase implements IItemHandler, ICapabilityProvider {
 
     private int cobbleRemainded;

@@ -1,7 +1,7 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
 
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.IScrollableComponent;
+import powerlessri.anotsturdymod.library.gui.api.IScrollableComponent;
 
 public class ScrollableButtonGradient extends ButtonGradient implements IScrollableComponent {
 

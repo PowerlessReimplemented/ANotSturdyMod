@@ -20,8 +20,8 @@ public class ComponentRoot implements IContainer {
     public ComponentRoot(GuiScreen gui, ImmutableList<IContainer<IComponent>> windows) {
         this.gui = gui;
         this.windows = windows;
-        this.flattened = StructureProjectingUtils.flatten(windows);
-        this.leaves = StructureProjectingUtils.leaves(flattened);
+        this.flattened = ComponentStructureProjector.flatten(windows);
+        this.leaves = ComponentStructureProjector.leaves(flattened);
         
         this.eventManager = EventManager.forLeaves(leaves);
 

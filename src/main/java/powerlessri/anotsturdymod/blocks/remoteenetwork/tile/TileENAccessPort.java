@@ -7,6 +7,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.IENetworkController;
+import powerlessri.anotsturdymod.handlers.init.RegistryTileEntity;
 
 import javax.annotation.Nullable;
 
