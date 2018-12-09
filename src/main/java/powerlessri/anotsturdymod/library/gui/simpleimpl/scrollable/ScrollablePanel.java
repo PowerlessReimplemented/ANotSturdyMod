@@ -19,13 +19,13 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
         return simpleLayout(x, y, width, amountVisibleComponents, components, DEFAULT_MARGIN);
     }
 
-    public static ScrollablePanel simpleLayout(int x, int y, int width, int amountVisibleComponents, ImmutableList<IScrollableComponent> components, int scrollBarDistance) {
+    public static ScrollablePanel simpleLayout(int x, int y, int width, int amountVisibleComponents, ImmutableList<IScrollableComponent> components, int scrollbarDistance) {
         int componentHeight = components.get(0).getHeight() + DEFAULT_MARGIN;
         // Top gap only. Bottom gap is included in last component's height
         int panelHeight = (amountVisibleComponents * componentHeight) + DEFAULT_MARGIN;
 
-        ComponentScrollBar scrollBar = new ComponentScrollBar(scrollBarDistance, 0, panelHeight);
-        return new ScrollablePanel(x, y, width, panelHeight, components, scrollBar);
+        SlidingScrollbar scrollbar = new SlidingScrollbar(scrollbarDistance, 0, panelHeight);
+        return new ScrollablePanel(x, y, width, panelHeight, components, scrollbar);
     }
 
 
@@ -109,8 +109,6 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
         setCurrentStep(0);
 
         scrollBar.initialize(gui, this);
-
-        
     }
 
     private void updateHeight() {
@@ -119,8 +117,8 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
         int usableHeight = height - marginTop;
         visibleComponents = Math.min(components.size(), usableHeight / componentHeight);
 
-        contentHeight = components.size() * (commonHeight + verticalGap);
-        contentKFactor = (float) getHeight() / getContentHeight();
+        contentHeight = (components.size() + 1) * (commonHeight + marginTop);
+        contentScaleFactor = (float) getHeight() / getContentHeight();
         
         // TODO add size check
 //        int hiddenComponents = components.size() - visibleComponents;
@@ -197,7 +195,6 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
 
             if (isComponentShown(i)) {
                 component.setVisibility(true);
-
                 component.setExpectedY(nextPenDownY);
                 nextPenDownY += componentHeight;
             } else {
