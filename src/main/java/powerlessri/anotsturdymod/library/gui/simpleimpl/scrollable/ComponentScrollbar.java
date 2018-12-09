@@ -11,7 +11,7 @@ import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
 import javax.annotation.Nullable;
 
-public class ComponentScrollBar extends AbstractButton implements IScrollBar {
+public class ComponentScrollbar extends AbstractButton implements IScrollbar {
     
     public static final int LINE_LABEL_OFFSET = 2;
     
@@ -21,7 +21,7 @@ public class ComponentScrollBar extends AbstractButton implements IScrollBar {
 
     private IScrollingPanel parent;
 
-    public ComponentScrollBar(int relativeX, int relativeY, int height) {
+    public ComponentScrollbar(int relativeX, int relativeY, int height) {
         super(relativeX, relativeY, 7, height);
     }
 

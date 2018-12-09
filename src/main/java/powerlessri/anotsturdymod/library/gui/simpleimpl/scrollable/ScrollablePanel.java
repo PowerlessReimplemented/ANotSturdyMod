@@ -5,7 +5,6 @@ import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
-import powerlessri.anotsturdymod.varia.general.Utils;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
         // Top gap only. Bottom gap is included in last component's height
         int panelHeight = (amountVisibleComponents * componentHeight) + DEFAULT_GAP;
 
-        ComponentScrollBar scrollBar = new ComponentScrollBar(x + width + scrollBarDistance, y, panelHeight);
+        ComponentScrollbar scrollBar = new ComponentScrollbar(x + width + scrollBarDistance, y, panelHeight);
         ScrollablePanel panel = new ScrollablePanel(x, y, width, panelHeight, components, scrollBar);
         return panel;
     }
@@ -37,7 +36,7 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
     private int height;
 
 
-    private IScrollBar scrollBar;
+    private IScrollbar scrollBar;
 
     /**
      * List of components that will get scrolled. Does not include {@link #scrollBar}.
@@ -80,7 +79,7 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
      *
      * @param height The custom height value
      */
-    public ScrollablePanel(int relativeX, int relativeY, int width, int height, ImmutableList<IScrollableComponent> content, ComponentScrollBar bar) {
+    public ScrollablePanel(int relativeX, int relativeY, int width, int height, ImmutableList<IScrollableComponent> content, ComponentScrollbar bar) {
         super(relativeX, relativeY);
 
         this.components = content;
