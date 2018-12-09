@@ -1,16 +1,20 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 
 import net.minecraft.client.gui.GuiScreen;
-import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
-import powerlessri.anotsturdymod.library.gui.api.IComponent;
+import net.minecraft.util.EnumActionResult;
+import powerlessri.anotsturdymod.library.gui.api.*;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
 
 import javax.annotation.Nullable;
 
 public class SteppingScrollbar extends AbstractButton implements IScrollbar {
-
+    
     private int offset;
+    private int step;
+    private int actualHeight;
+    
+    private int lastMouseY;
     
     private IScrollingPanel parent;
 
@@ -20,9 +24,42 @@ public class SteppingScrollbar extends AbstractButton implements IScrollbar {
 
 
     @Override
+    public void initialize(GuiScreen gui, IScrollingPanel parent) {
+        super.initialize(gui, parent);
+        this.parent = parent;
+        this.actualHeight = (int) (getMaximumHeight() * parent.getContentKFactor());
+    }
+
+    @Override
+    public EnumActionResult onClicked(int mouseX, int mouseY, EMouseButton button, EEventType type) {
+        lastMouseY = mouseY;
+        return EnumActionResult.FAIL;
+    }
+
+    @Override
     public void onClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
-        // TODO
-        super.onClickedDragging(mouseX, mouseY, button, timePressed);
+        if (lastMouseY != mouseY) {
+            // When positive, mouse moved down. When negative, mouse moved up.
+            int change = mouseY - lastMouseY;
+            offset += change;
+        }
+        lastMouseY = mouseY;
+    }
+
+    @Override
+    public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
+        if (offset != parent.getCurrentStep()) {
+            parent.setCurrentStep(offset);
+        }
+        
+        lastMouseY = -1;
+        return EnumActionResult.FAIL;
+    }
+
+    
+    @Override
+    public int getHeight() {
+        return actualHeight;
     }
 
     @Override
@@ -32,8 +69,7 @@ public class SteppingScrollbar extends AbstractButton implements IScrollbar {
 
     @Override
     public int getActualY() {
-        // TODO
-        return 0;
+        return getBaseY() + offset;
     }
 
     @Override
@@ -46,8 +82,14 @@ public class SteppingScrollbar extends AbstractButton implements IScrollbar {
         return 7;
     }
 
+    @Nullable
+    @Override
+    public IComponent getParentComponent() {
+        return parent;
+    }
+
     // TODO
-    
+
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
         
@@ -68,17 +110,5 @@ public class SteppingScrollbar extends AbstractButton implements IScrollbar {
 
     }
 
-    
-    @Override
-    public void initialize(GuiScreen gui, IScrollingPanel parent) {
-        super.initialize(gui, parent);
-        this.parent = parent;
-    }
-
-    @Nullable
-    @Override
-    public IComponent getParentComponent() {
-        return parent;
-    }
     
 }

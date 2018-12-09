@@ -3,6 +3,9 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
+import powerlessri.anotsturdymod.library.gui.api.IScrollableComponent;
+import powerlessri.anotsturdymod.library.gui.api.IScrollbar;
+import powerlessri.anotsturdymod.library.gui.api.IScrollingPanel;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 

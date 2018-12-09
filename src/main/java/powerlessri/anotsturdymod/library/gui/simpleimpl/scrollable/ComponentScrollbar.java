@@ -3,6 +3,8 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
+import powerlessri.anotsturdymod.library.gui.api.IScrollbar;
+import powerlessri.anotsturdymod.library.gui.api.IScrollingPanel;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
 import powerlessri.anotsturdymod.varia.render.LineUtils;
@@ -28,7 +30,6 @@ public class ComponentScrollbar extends AbstractButton implements IScrollbar {
 
     @Override
     public void onClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
-        super.onClickedDragging(mouseX, mouseY, button, timePressed);
         offset = limitToRange(mouseY - getBaseY());
 
         int step = (int) (offset / getStepHeight());
