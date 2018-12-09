@@ -2,7 +2,6 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
-import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IScrollbar;
 import powerlessri.anotsturdymod.library.gui.api.IScrollingPanel;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
@@ -13,44 +12,18 @@ import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
 import javax.annotation.Nullable;
 
-public class ComponentScrollbar extends AbstractButton implements IScrollbar {
+public abstract class ScrollbarThinStyled extends AbstractButton implements IScrollbar {
     
+    public static final int WIDTH = 7;
     public static final int LINE_LABEL_OFFSET = 2;
     
 
-    private int offset;
-    private int actualHeight;
+    protected int actualHeight;
 
     private IScrollingPanel parent;
 
-    public ComponentScrollbar(int relativeX, int relativeY, int height) {
-        super(relativeX, relativeY, 7, height);
-    }
-
-
-    @Override
-    public void onClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
-        offset = limitToRange(mouseY - getBaseY());
-
-        int step = (int) (offset / getStepHeight());
-        if (step != parent.getCurrentStep()) {
-            parent.setCurrentStep(step);
-        }
-    }
-    
-    private float getStepHeight() {
-        return (float) getEmptyLength() / parent.getTotalSteps();
-    }
-    
-    private int limitToRange(int n) {
-        if (n < 0) {
-            return 0;
-        }
-        int bottom = getMaximumHeight() - getHeight();
-        if (n >= bottom) {
-            return bottom;
-        }
-        return n;
+    public ScrollbarThinStyled(int relativeX, int relativeY, int height) {
+        super(relativeX, relativeY, WIDTH, height);
     }
 
 
@@ -84,43 +57,13 @@ public class ComponentScrollbar extends AbstractButton implements IScrollbar {
 
     private void drawLabel(BufferBuilder buffer) {
         int centerY = getActualY() + (getHeight() / 2);
-        
+
         int lineX = getActualX() + LINE_LABEL_OFFSET;
         int lineY = centerY - LINE_LABEL_OFFSET;
         for (int i = 0; i < 3; i++) {
             LineUtils.horizontalLine(buffer, lineX, 3, lineY, GLGrayScale.BORDER_COLOR_DARK);
             lineY += LINE_LABEL_OFFSET;
         }
-    } 
-
-
-    @Override
-    public int getWidth() {
-        return 7;
-    }
-
-    @Override
-    public int getHeight() {
-        return actualHeight;
-    }
-
-    @Override
-    public int getMaximumHeight() {
-        return super.getHeight();
-    }
-
-    @Override
-    public int getActualY() {
-        return super.getActualY() + offset;
-    }
-
-    @Override
-    public int getBaseY() {
-        return super.getActualY();
-    }
-    
-    public int getEmptyLength() {
-        return getMaximumHeight() - getHeight();
     }
 
 
@@ -139,6 +82,33 @@ public class ComponentScrollbar extends AbstractButton implements IScrollbar {
     }
 
     @Override
+    public int getHeight() {
+        return actualHeight;
+    }
+
+    public float getStepHeight() {
+        return (float) getEmptyLength() / parent.getTotalSteps();
+    }
+
+    @Override
+    public int getMaximumHeight() {
+        return super.getHeight();
+    }
+    
+    @Override
+    public abstract int getActualY();
+
+    @Override
+    public int getBaseY() {
+        return super.getActualY();
+    }
+
+    public int getEmptyLength() {
+        return getMaximumHeight() - getHeight();
+    }
+
+
+    @Override
     public boolean isLeafComponent() {
         return true;
     }
@@ -150,5 +120,5 @@ public class ComponentScrollbar extends AbstractButton implements IScrollbar {
     @Override
     public void enable() {
     }
-
+    
 }
