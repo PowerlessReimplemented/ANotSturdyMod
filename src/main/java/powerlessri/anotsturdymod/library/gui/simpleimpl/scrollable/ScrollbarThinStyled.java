@@ -10,6 +10,7 @@ import powerlessri.anotsturdymod.varia.render.LineUtils;
 import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class ScrollbarThinStyled extends AbstractButton implements IScrollbar {
@@ -70,12 +71,16 @@ public abstract class ScrollbarThinStyled extends AbstractButton implements IScr
     @Override
     public void initialize(GuiScreen gui, IScrollingPanel parent) {
         super.initialize(gui, parent);
-        this.parent = parent;
+        if (parent != null) {
+            this.parent = parent;
+        } else {
+            throw new IllegalArgumentException("Scrollbar must have a parent!");
+        }
 
         actualHeight = (int) (getMaximumHeight() * parent.getContentKFactor());
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public IScrollingPanel getParentComponent() {
         return parent;
