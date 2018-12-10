@@ -54,7 +54,7 @@ public class EventManager {
                 if (!handler.doesReceiveEvents()) {
                     return;
                 }
-Utils.getLogger().info(handler);
+
                 EnumActionResult result = handler.onClicked(mouseX, mouseY, button, EEventType.ORIGINAL);
                 if (result == EnumActionResult.FAIL) {
                     return;
