@@ -2,7 +2,7 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import powerlessri.anotsturdymod.config.ClientConfig;
+import powerlessri.anotsturdymod.config.client.GuiStyleConfig;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
 import powerlessri.anotsturdymod.library.gui.Color;
@@ -25,14 +25,14 @@ public class ButtonGradient extends AbstractButton {
     public static Color colorEPressed;
 
     private static void reloadColors() {
-        colorSNormal = Color.hex(ClientConfig.gradientBtnSNormal);
-        colorENormal = Color.hex(ClientConfig.gradientBtnENormal);
+        colorSNormal = Color.hex(GuiStyleConfig.gradientBtnSNormal);
+        colorENormal = Color.hex(GuiStyleConfig.gradientBtnENormal);
 
-        colorSHovering = Color.hex(ClientConfig.gradientBtnSHover);
-        colorEHovering = Color.hex(ClientConfig.gradientBtnEHover);
+        colorSHovering = Color.hex(GuiStyleConfig.gradientBtnSHover);
+        colorEHovering = Color.hex(GuiStyleConfig.gradientBtnEHover);
 
-        colorSPressed = Color.hex(ClientConfig.gradientBtnSPressed);
-        colorEPressed = Color.hex(ClientConfig.gradientBtnEPressed);
+        colorSPressed = Color.hex(GuiStyleConfig.gradientBtnSPressed);
+        colorEPressed = Color.hex(GuiStyleConfig.gradientBtnEPressed);
     }
     
 
@@ -69,25 +69,25 @@ public class ButtonGradient extends AbstractButton {
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
         drawGradientRectangleBox(1, colorSNormal, colorENormal, false);
-        drawText(ClientConfig.gradientBtnTextNormal);
+        drawText(GuiStyleConfig.gradientBtnTextNormal);
     }
 
     @Override
     public void drawHovering(GuiDrawBackgroundEvent event) {
         drawGradientRectangleBox(1, colorSHovering, colorEHovering, false);
-        drawText(ClientConfig.gradientBtnTextNormal);
+        drawText(GuiStyleConfig.gradientBtnTextNormal);
     }
 
     @Override
     public void drawPressed(GuiDrawBackgroundEvent event) {
         drawGradientRectangleBox(1, colorSPressed, colorEPressed, true);
-        drawText(ClientConfig.gradientBtnTextNormal);
+        drawText(GuiStyleConfig.gradientBtnTextNormal);
     }
 
     @Override
     public void drawDisabled(GuiDrawBackgroundEvent event) {
         drawNormal(event);
-        drawText(ClientConfig.gradientBtnTextDisabled);
+        drawText(GuiStyleConfig.gradientBtnTextDisabled);
     }
 
     public void drawText(int color) {

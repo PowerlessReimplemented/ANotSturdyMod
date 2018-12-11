@@ -19,28 +19,29 @@ public class Reference {
     public static final int INT_BIT_LENGTH = INT_BYTE_LENGTH * 8;
 
     /**
-     * ANotSturdyMod => "ANotSturdyMod" (NAME)
+     * ANotSturdyMod => "ANotSturdyMod" (MAIN_CONFIG_FILE)
      * ^^  ^     ^ => "ansm" (MODID)
      */
     public static final String MODID = "ansm";
     public static final String NAME = "ANotSturdyMod";
     public static final String VERSION = "1.0.8b";
     public static final String ACCEPTED_VERSIONS = "[1.12.2]";
+    public static final String DEPENDENCIES = "[]";
     public static final String MOD_PACKAGE_NAME = "powerlessri.anotsturdymod";
-    
+
     public static final String COMMON_PROXY_CLASS = "powerlessri.anotsturdymod.handlers.proxy.ClientProxy";
     public static final String SERVER_PROXY_CLASS = "powerlessri.anotsturdymod.handlers.proxy.ServerProxy";
     public static final String CLIENT_PROXY_CLASS = "powerlessri.anotsturdymod.handlers.proxy.ClientProxy";
-    
-    
-    public static final String ERR_NON_SUBTYPED_ITEM = "Trying register sub-typed item model with non-sub-typed item.";
-    public static final String ERR_SUBTYPED_ITEM = "Trying register non-sub-typed item model with sub-typed item.";
+
+    public static final String MAIN_CONFIG_FILE = MODID + "_main";
+    public static final String CLIENT_CONFIG_FILE = MODID + "_client";
 
     public static final String DOMAIN_MINECRAFT = "minecraft";
     public static final String DOMAIN_MOD = MODID;
 
     public static final String COMMAND_RESOURCE_PATH_PREFIX = "command.ansm:";
 
+    
     public static final Style STYLE_EMPTY = new Style();
     public static final Style STYLE_RED = new Style().setColor(TextFormatting.RED);
     public static final Style STYLE_BLUE = new Style().setColor(TextFormatting.BLUE);
