@@ -14,7 +14,7 @@ import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENAccessPortInput;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENAccessPortOutput;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENWirelessTransmitter;
-import powerlessri.anotsturdymod.config.MainConfig;
+import powerlessri.anotsturdymod.config.ENetworkConfig;
 import powerlessri.anotsturdymod.handlers.init.RegistryBlock;
 import powerlessri.anotsturdymod.library.block.base.TileBlockBase;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENComponentBase;
@@ -24,9 +24,9 @@ import java.util.function.Supplier;
 public class BlockEnergyAccessPort extends TileBlockBase {
 
     @RegistryBlock
-    public static final BlockEnergyAccessPort EN_INPUT_PORT = new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPortInput(0, MainConfig.accessPortReceiveLimit), ANotSturdyMod.gui.keys.get("energy_io_access"));
+    public static final BlockEnergyAccessPort EN_INPUT_PORT = new BlockEnergyAccessPort("energy_network_input_port", () -> new TileENAccessPortInput(0, ENetworkConfig.accessPortReceiveLimit), ANotSturdyMod.gui.keys.get("energy_io_access"));
     @RegistryBlock
-    public static final BlockEnergyAccessPort EN_OUTPUT_PORT = new BlockEnergyAccessPort("energy_network_output_port", () -> new TileENAccessPortOutput(0, MainConfig.accessPortExtractLimit), ANotSturdyMod.gui.keys.get("energy_io_access"));
+    public static final BlockEnergyAccessPort EN_OUTPUT_PORT = new BlockEnergyAccessPort("energy_network_output_port", () -> new TileENAccessPortOutput(0, ENetworkConfig.accessPortExtractLimit), ANotSturdyMod.gui.keys.get("energy_io_access"));
     @RegistryBlock
     public static final BlockEnergyAccessPort EN_WIRELESS_TRANSMITTER = new BlockEnergyAccessPort("energy_network_wireless_transmitter", () -> new TileENWirelessTransmitter(0, 320), ANotSturdyMod.gui.keys.get("energy_wireless_transmitter"));
     

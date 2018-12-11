@@ -17,7 +17,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import powerlessri.anotsturdymod.config.MainConfig;
+import powerlessri.anotsturdymod.config.ExchangerConfig;
 import powerlessri.anotsturdymod.handlers.init.RegistryItem;
 import powerlessri.anotsturdymod.library.item.base.SimpleItemBase;
 import powerlessri.anotsturdymod.varia.Reference;
@@ -35,10 +35,10 @@ import java.util.Random;
 public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
     @RegistryItem
-    public static final ItemExchanger BASIC_EXCHANGER = new ItemExchanger("exchanger", EMachineLevel.BASIC, MainConfig.basicExchangerRadius);
+    public static final ItemExchanger BASIC_EXCHANGER = new ItemExchanger("exchanger", EMachineLevel.BASIC, ExchangerConfig.basicExchangerRadius);
     
     @RegistryItem
-    public static final ItemExchanger ADVANCED_EXCHAGNER = new ItemExchanger("exchanger", EMachineLevel.ADVANCED, MainConfig.advancedExchangerRadius);
+    public static final ItemExchanger ADVANCED_EXCHAGNER = new ItemExchanger("exchanger", EMachineLevel.ADVANCED, ExchangerConfig.advancedExchangerRadius);
     
     
     // Maximum radius for this type of exchanger

@@ -5,7 +5,7 @@ import net.minecraftforge.common.config.Config.Comment;
 import net.minecraftforge.common.config.Config.Type;
 import powerlessri.anotsturdymod.varia.Reference;
 
-@Config(modid = Reference.MODID, name = Reference.NAME + "Config.client", type = Type.INSTANCE)
+@Config(modid = Reference.MODID, name = Reference.NAME + "Config.client")
 public class ClientConfig {
     
     @Comment("Color that will be used on start of a gradient button")
