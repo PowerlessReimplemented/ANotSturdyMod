@@ -7,14 +7,12 @@ import powerlessri.anotsturdymod.library.gui.api.IScrollingPanel;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ButtonGradient;
-import powerlessri.anotsturdymod.varia.general.Utils;
 import powerlessri.anotsturdymod.varia.render.BoxUtils;
 import powerlessri.anotsturdymod.varia.render.LineUtils;
 import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public abstract class ScrollbarThinStyled extends AbstractButton implements IScrollbar {
     
@@ -34,7 +32,7 @@ public abstract class ScrollbarThinStyled extends AbstractButton implements IScr
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
         BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
-        GLGrayScale.addConvexBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR());
+        GLGrayScale.addConvexBox(buffer, getActualX(), getActualY(), getActualXRight(), getActualYBottom());
         drawLabel(buffer);
         TessellatorUtils.draw();
     }
@@ -46,7 +44,7 @@ public abstract class ScrollbarThinStyled extends AbstractButton implements IScr
 
         BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
 
-        BoxUtils.outlinedBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR(), 1, ButtonGradient.colorEHovering, ButtonGradient.colorSHovering, ButtonGradient.colorEHovering);
+        BoxUtils.outlinedBox(buffer, getActualX(), getActualY(), getActualXRight(), getActualYBottom(), 1, ButtonGradient.colorEHovering, ButtonGradient.colorSHovering, ButtonGradient.colorEHovering);
 
         drawLabel(buffer);
         TessellatorUtils.draw();
@@ -55,7 +53,7 @@ public abstract class ScrollbarThinStyled extends AbstractButton implements IScr
     @Override
     public void drawPressed(GuiDrawBackgroundEvent event) {
         BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
-        GLGrayScale.addConcaveBox(buffer, getActualX(), getActualY(), getActualXBR(), getActualYBR());
+        GLGrayScale.addConcaveBox(buffer, getActualX(), getActualY(), getActualXRight(), getActualYBottom());
         drawLabel(buffer);
         TessellatorUtils.draw();
     }
