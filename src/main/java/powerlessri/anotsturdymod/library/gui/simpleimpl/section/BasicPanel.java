@@ -7,13 +7,27 @@ import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
-public class BasicPanel extends AbstractComponent implements IContainer<IComponent> {
+import java.util.Comparator;
+
+public class BasicPanel extends AbstractComponent implements IContainer<AbstractComponent> {
     
-    protected ImmutableList<IComponent> components;
+    protected ImmutableList<AbstractComponent> components;
     
-    public BasicPanel(int x, int y, ImmutableList<IComponent> components) {
+    private int width;
+    private int height;
+    
+    public BasicPanel(int x, int y, ImmutableList<AbstractComponent> components) {
         super(x, y);
         this.components = components;
+        this.width = components.stream()
+                .max(Comparator.comparingInt(AbstractComponent::getActualXRight))
+                .orElse(components.get(0))
+                .getActualXRight();
+        this.height = components.stream()
+                .max(Comparator.comparingInt(AbstractComponent::getActualYBottom))
+                .orElse(components.get(0))
+                .getActualYBottom();
+                
     }
 
 
@@ -21,7 +35,7 @@ public class BasicPanel extends AbstractComponent implements IContainer<ICompone
      * <b>WARNING!</b> This implementation returns an instance of {@link ImmutableList}
      */
     @Override
-    public ImmutableList<IComponent> getComponents() {
+    public ImmutableList<AbstractComponent> getComponents() {
         return components;
     }
 
@@ -49,17 +63,17 @@ public class BasicPanel extends AbstractComponent implements IContainer<ICompone
 
     @Override
     public boolean isLeafComponent() {
-        return true;
+        return false;
     }
 
     @Override
     public int getWidth() {
-        return 0;
+        return width;
     }
 
     @Override
     public int getHeight() {
-        return 0;
+        return height;
     }
 
 }
