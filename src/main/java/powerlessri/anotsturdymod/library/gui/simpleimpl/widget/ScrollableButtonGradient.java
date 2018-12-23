@@ -32,11 +32,6 @@ public class ScrollableButtonGradient extends ButtonGradient implements IScrolla
     @Override
     public void setVisibility(boolean visibility) {
         this.visibility = visibility;
-        if (visibility) {
-            getFunctionalRoot().getEventManager().markVisible(this);
-        } else {
-            getFunctionalRoot().getEventManager().markInvisible(this);
-        }
     }
     
     public void inverseVisibility() {

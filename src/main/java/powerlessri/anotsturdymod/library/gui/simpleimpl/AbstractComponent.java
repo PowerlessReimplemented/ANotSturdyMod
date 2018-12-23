@@ -1,6 +1,7 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl;
 
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import powerlessri.anotsturdymod.library.gui.api.EDisplayMode;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 
@@ -145,8 +146,8 @@ public abstract class AbstractComponent implements IComponent {
     
     
     @Override
-    public EDisplayMode getDisplay() {
-        return EDisplayMode.ALL;
+    public boolean isVisible() {
+        return true;
     }
 
 }

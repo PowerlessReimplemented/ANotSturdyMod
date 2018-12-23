@@ -65,17 +65,13 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
 
     @Override
     public boolean doesReceiveEvents() {
-        return !isDisabled;
+        return isVisible();
     }
 
     @Override
-    public EDisplayMode getDisplay() {
-        if (isDisabled) {
-            return EDisplayMode.DISABLED;
-        }
-        return super.getDisplay();
+    public boolean isVisible() {
+        return !isDisabled;
     }
-    
 
     @Override
     public void draw(GuiDrawBackgroundEvent event) {

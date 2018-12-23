@@ -25,31 +25,18 @@ public class EventManager {
         }
         
         eventManager.handlers = handlerBuilder.build();
-        eventManager.visible = new HashSet<>(eventManager.handlers);
         return eventManager;
     }
     
 
     private List<IInteractionHandler> handlers;
-    private Set<IInteractionHandler> visible;
+    
     private IInteractionHandler lastClicked;
-
-    public boolean isVisible(IInteractionHandler component) {
-        return visible.contains(component);
-    }
-
-    public void markVisible(IInteractionHandler component) {
-        visible.add(component);
-    }
-
-    public void markInvisible(IInteractionHandler component) {
-        visible.remove(component);
-    }
 
     
     public void emitMouseClicked(int mouseX, int mouseY, EMouseButton button) {
         for (IInteractionHandler handler : handlers) {
-            if (handler.isPointInside(mouseX, mouseY) && visible.contains(handler)) {
+            if (handler.isPointInside(mouseX, mouseY) && handler.doesReceiveEvents()) {
                 lastClicked = handler;
                 if (!handler.doesReceiveEvents()) {
                     return;
@@ -74,7 +61,7 @@ public class EventManager {
 
     public void emitHoveringDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
         for (IInteractionHandler handler : handlers) {
-            if (handler != lastClicked && handler.isPointInside(mouseX, mouseY) && visible.contains(handler)) {
+            if (handler != lastClicked && handler.isPointInside(mouseX, mouseY) && handler.isVisible()) {
                 handler.onHoveredDragging(mouseX, mouseY, button);
             }
         }

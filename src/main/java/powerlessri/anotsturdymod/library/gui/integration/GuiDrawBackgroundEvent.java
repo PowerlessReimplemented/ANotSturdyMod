@@ -8,6 +8,17 @@ public class GuiDrawBackgroundEvent {
     int mouseY;
     float particleTicks;
 
+    public GuiDrawBackgroundEvent(GuiDrawBackgroundEvent previousEvent, int mouseX, int mouseY, float particleTicks) {
+        this(previousEvent.getTime(), mouseX, mouseY, particleTicks);
+    }
+
+    public GuiDrawBackgroundEvent(long guiTime, int mouseX, int mouseY, float particleTicks) {
+        this.guiTime = guiTime;
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+        this.particleTicks = particleTicks;
+    }
+    
 
     public long getTime() {
         return guiTime;

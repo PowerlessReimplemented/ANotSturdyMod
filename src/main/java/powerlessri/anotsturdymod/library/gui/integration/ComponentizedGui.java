@@ -1,9 +1,7 @@
 package powerlessri.anotsturdymod.library.gui.integration;
 
 import com.google.common.collect.ImmutableList;
-import javafx.scene.input.MouseButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
@@ -35,8 +33,6 @@ public class ComponentizedGui extends GuiContainer {
     protected ComponentRoot root;
     protected ImmutableList<IContainer<IComponent>> windows;
     
-    private GuiDrawBackgroundEvent redrawEvent;
-
     public ComponentizedGui(Container container) {
         this(container, null);
     }
@@ -45,30 +41,29 @@ public class ComponentizedGui extends GuiContainer {
         super(container);
         
         this.windows = windows;
-        this.redrawEvent = new GuiDrawBackgroundEvent();
     }
 
     @Override
     public void initGui() {
         super.initGui();
         
-        timeCreated = System.currentTimeMillis();
-        root = new ComponentRoot(this, windows);
+        this.timeCreated = System.currentTimeMillis();
+        this.root = new ComponentRoot(this, windows);
+        this.root.initialize(this, null);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         drawDefaultBackground();
-
-        redrawEvent.guiTime = System.currentTimeMillis() - timeCreated;
-        redrawEvent.particleTicks = partialTicks;
-        redrawEvent.mouseX = mouseX;
-        redrawEvent.mouseY = mouseY;
-        
-        root.draw(redrawEvent);
-        GuiUtils.useTextureGLStates(); // In case somebody forget to call GlStateManager.enableTexture2D()
-
+        drawComponentTree(new GuiDrawBackgroundEvent(System.currentTimeMillis() - timeCreated, mouseX, mouseY, partialTicks));
         renderHoveredToolTip(mouseX, mouseY);
+    }
+
+    private void drawComponentTree(GuiDrawBackgroundEvent event) {
+        root.draw(event);
+        // In case somebody forget to call GlStateManager.enableTexture2D()
+        // If they did enable  do that and this line does not exist, features from vanilla (e.g. text painting) will break
+        GuiUtils.useTextureGLStates();
     }
 
     @Override

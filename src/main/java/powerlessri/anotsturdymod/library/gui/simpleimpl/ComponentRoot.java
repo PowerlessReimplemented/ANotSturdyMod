@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.*;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.varia.general.Utils;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -20,12 +21,6 @@ public class ComponentRoot implements IContainer {
     public ComponentRoot(GuiScreen gui, ImmutableList<IContainer<IComponent>> windows) {
         this.gui = gui;
         this.windows = windows;
-        this.flattened = ComponentStructureProjector.flatten(windows);
-        this.leaves = ComponentStructureProjector.leaves(flattened);
-        
-        this.eventManager = EventManager.forLeaves(leaves);
-
-        this.initializeAllComponents();
     }
     
     private void initializeAllComponents() {
@@ -38,16 +33,11 @@ public class ComponentRoot implements IContainer {
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
         for (IContainer<IComponent> window : windows) {
-            window.tryDraw(event);
+            window.draw(event);
         }
     }
 
     
-    @Override
-    public EDisplayMode getDisplay() {
-        return EDisplayMode.ALL;
-    }
-
     public EventManager getEventManager() {
         return eventManager;
     }
@@ -55,37 +45,6 @@ public class ComponentRoot implements IContainer {
     @Override
     public List<IContainer<IComponent>> getComponents() {
         return windows;
-    }
-
-
-    public void markVisible(IContainer<? extends IComponent> container) {
-        for (IComponent component : container.getComponents()) {
-            if (component instanceof IInteractionHandler) {
-                markVisible((IInteractionHandler) component);
-            }
-        }
-    }
-
-    public void markVisible(IInteractionHandler component) {
-        if (component.isLeafComponent()) {
-            eventManager.markVisible(component);
-        } else {
-            markVisible(component);
-        }
-    }
-    
-    public void markInvisible(IContainer<? extends IComponent> container) {
-        for (IComponent component : container.getComponents()) {
-            if (component instanceof IInteractionHandler) {
-                markInvisible((IInteractionHandler) component);
-            }
-        }
-    }
-    
-    public void markInvisible(IInteractionHandler component) {
-        if (component.isLeafComponent()) {
-            eventManager.markInvisible(component);
-        }
     }
     
     
@@ -97,6 +56,16 @@ public class ComponentRoot implements IContainer {
     @Override
     public void initialize(GuiScreen gui, IComponent parent) {
         this.gui = gui;
+        if (parent != null) {
+            Utils.getLogger().warn("Possibly effective parent component was passed to ComponentRoot.");
+        }
+
+        this.flattened = ComponentStructureProjector.flatten(windows);
+        this.leaves = ComponentStructureProjector.leaves(flattened);
+
+        this.eventManager = EventManager.forLeaves(leaves);
+
+        this.initializeAllComponents();
     }
 
     @Override
@@ -178,4 +147,8 @@ public class ComponentRoot implements IContainer {
     public void setZIndex(int zIndex) {
     }
 
+    @Override
+    public boolean isVisible() {
+        return true;
+    }
 }

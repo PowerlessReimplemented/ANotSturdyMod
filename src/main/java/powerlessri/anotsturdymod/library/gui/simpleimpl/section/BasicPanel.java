@@ -42,7 +42,7 @@ public class BasicPanel extends AbstractComponent implements IContainer<ICompone
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
         for (IComponent component : components) {
-            component.tryDraw(event);
+            component.draw(event);
         }
     }
 

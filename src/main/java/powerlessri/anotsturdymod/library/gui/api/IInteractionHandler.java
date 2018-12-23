@@ -54,8 +54,6 @@ public interface IInteractionHandler extends IComponent {
      * If returns {@code false}, events will be ignored.
      * Otherwise all events will be emitted.
      */
-    default boolean doesReceiveEvents() {
-        return getDisplay() != EDisplayMode.DISABLED;
-    }
+    boolean doesReceiveEvents();
 
 }

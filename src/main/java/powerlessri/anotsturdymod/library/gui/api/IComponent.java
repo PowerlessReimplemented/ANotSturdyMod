@@ -75,14 +75,9 @@ public interface IComponent {
     void setZIndex(int zIndex);
 
     
-    EDisplayMode getDisplay();
+    boolean isVisible();
+    
 
     void draw(GuiDrawBackgroundEvent event);
 
-    default void tryDraw(GuiDrawBackgroundEvent event) {
-        if (getDisplay() != EDisplayMode.NONE) {
-            draw(event);
-        }
-    }
-    
 }
