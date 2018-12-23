@@ -3,22 +3,17 @@ package powerlessri.anotsturdymod.blocks.logisticalprocessor.gui;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.ResourceLocation;
-import powerlessri.anotsturdymod.library.gui.api.EEventType;
-import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.api.IScrollableComponent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.ScrollablePanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.section.TextureElement;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ButtonGradient;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.LabelImage;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventory;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ScrollableButtonGradient;
 import powerlessri.anotsturdymod.library.gui.template.AbstractTemplate;
-import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 public class GuiLogicEditor extends ComponentizedGui {
 
@@ -71,7 +66,7 @@ public class GuiLogicEditor extends ComponentizedGui {
 
         windows = ImmutableList.of(
                 new BasicPanel(windowX, windowY, ImmutableList.of(
-                        new TextureElement(0, 0, BACKGROUND, BKG_START_X, BKG_START_Y, BKG_WIDTH, BKG_HEIGHT),
+                        new LabelImage(0, 0, BACKGROUND, BKG_START_X, BKG_START_Y, BKG_WIDTH, BKG_HEIGHT),
                         // + 2 is the left margin, top margin is handled in ScrollablePanel
                         ScrollablePanel.simpleLayout(8 + 2, 73, 107, 11, builder.build(),  107)
                 ))

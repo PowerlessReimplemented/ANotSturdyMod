@@ -96,21 +96,21 @@ public abstract class AbstractComponent implements IComponent {
     /**
      * X position of the bottom right corner.
      */
-    public int getActualXBR() {
+    public int getActualXRight() {
         return getActualX() + getWidth();
     }
 
     /**
      * Y position of the bottom right corner.
      */
-    public int getActualYBR() {
+    public int getActualYBottom() {
         return getActualY() + getHeight();
     }
 
     @Override
     public boolean isPointInside(int x, int y) {
-        return x >= getActualX() && x <= getActualXBR() &&
-                y >= getActualY() && y <= getActualYBR();
+        return x >= getActualX() && x <= getActualXRight() &&
+                y >= getActualY() && y <= getActualYBottom();
     }
 
     public ComponentRoot getFunctionalRoot() {
