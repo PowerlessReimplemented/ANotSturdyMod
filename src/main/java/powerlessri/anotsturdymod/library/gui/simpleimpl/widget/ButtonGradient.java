@@ -3,15 +3,15 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.config.ClientConfig;
+import powerlessri.anotsturdymod.library.gui.Color;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
-import powerlessri.anotsturdymod.library.gui.Color;
 import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
 import powerlessri.anotsturdymod.varia.render.VertexSequencer;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
 public class ButtonGradient extends AbstractButton {
-    
+
     public static final int VANILLA_CHAR_HEIGHT = 8;
 
 
@@ -20,7 +20,7 @@ public class ButtonGradient extends AbstractButton {
 
     public static Color colorSHovering;
     public static Color colorEHovering;
-    
+
     public static Color colorSPressed;
     public static Color colorEPressed;
 
@@ -34,7 +34,7 @@ public class ButtonGradient extends AbstractButton {
         colorSPressed = Color.hex(ClientConfig.gradientBtnSPressed);
         colorEPressed = Color.hex(ClientConfig.gradientBtnEPressed);
     }
-    
+
 
     private String text;
     private int textXOffset;
@@ -42,16 +42,16 @@ public class ButtonGradient extends AbstractButton {
 
     public ButtonGradient(int relativeX, int relativeY, int width, int height, String text) {
         super(relativeX, relativeY, width, height);
-        
+
         this.setText(text);
         reloadColors();
     }
-    
-    
+
+
     private int getTextX() {
         return getActualX() + textXOffset;
     }
-    
+
     private int getTextY() {
         return getActualY() + textYOffset;
     }
@@ -59,12 +59,12 @@ public class ButtonGradient extends AbstractButton {
 
     public void setText(String text) {
         this.text = text;
-        
+
         int textWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(text);
         textXOffset = (getWidth() / 2) - (textWidth / 2);
-        textYOffset = (getHeight() / 2) - (VANILLA_CHAR_HEIGHT / 2); 
+        textYOffset = (getHeight() / 2) - (VANILLA_CHAR_HEIGHT / 2);
     }
-    
+
 
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
@@ -109,5 +109,5 @@ public class ButtonGradient extends AbstractButton {
                 "text='" + text + '\'' +
                 '}';
     }
-    
+
 }

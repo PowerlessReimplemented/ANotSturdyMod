@@ -1,33 +1,26 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl;
 
 import net.minecraft.util.EnumActionResult;
-import powerlessri.anotsturdymod.library.gui.api.EDisplayMode;
 import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
 public abstract class AbstractButton extends AbstractComponent implements IInteractionHandler {
-    
-    private boolean isDisabled;
-    private boolean isPressed;
 
-    /**
-     * Number of frames passes since play pressed down.
-     * <b>DO NOT modify this field</b> on your own.
-     */
-    protected int timePressed;
+    private boolean disabled = false;
+    private boolean pressed = false;
+
+    private long timePressed;
 
     private int width;
     private int height;
 
     public AbstractButton(int relativeX, int relativeY, int width, int height) {
         super(relativeX, relativeY);
-        
+
         this.width = width;
         this.height = height;
-        this.isPressed = false;
-        this.isDisabled = false;
     }
 
 
@@ -35,21 +28,21 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
     public boolean isLeafComponent() {
         return true;
     }
-    
-    public boolean isPressed() {
-        return isPressed;
-    }
-    
-    public boolean isDisabled() {
-        return isDisabled;
-    }
-    
+
     public void disable() {
-        isDisabled = true;
+        disabled = true;
     }
-    
+
     public void enable() {
-        isDisabled = false;
+        disabled = false;
+    }
+
+    public boolean isPressed() {
+        return pressed;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
     }
 
     @Override
@@ -62,54 +55,57 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
         return height;
     }
 
+    /**
+     * Number of ticks (supposedly) passes since player pressed the button. Resets when pressed again.
+     */
+    protected long getTimePressed() {
+        return timePressed;
+    }
+
 
     @Override
     public boolean doesReceiveEvents() {
-        return isVisible();
+        return !isDisabled();
     }
 
-    @Override
-    public boolean isVisible() {
-        return !isDisabled;
-    }
 
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
-        if (isDisabled) {
+        if (isDisabled()) {
             drawDisabled(event);
             return;
         }
 
-        if (isPressed) {
+        if (isPressed()) {
             drawPressed(event);
-            timePressed++;
         } else {
-            timePressed = 0;
             if (isHovering(event)) {
                 drawHovering(event);
             } else {
                 drawNormal(event);
-            } 
+            }
         }
     }
-    
+
     public abstract void drawNormal(GuiDrawBackgroundEvent event);
-    
+
     public abstract void drawHovering(GuiDrawBackgroundEvent event);
-    
+
     public abstract void drawPressed(GuiDrawBackgroundEvent event);
-    
+
     public abstract void drawDisabled(GuiDrawBackgroundEvent event);
 
 
     @Override
     public EnumActionResult onClicked(int mouseX, int mouseY, EMouseButton button, EEventType type) {
-        isPressed = true;
+        this.pressed = true;
+        this.timePressed = 0;
         return EnumActionResult.FAIL;
     }
 
     @Override
     public void onClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
+        this.timePressed = timePressed;
     }
 
     @Override
@@ -118,13 +114,13 @@ public abstract class AbstractButton extends AbstractComponent implements IInter
 
     @Override
     public EnumActionResult onReleased(int mouseX, int mouseY, EMouseButton button, EEventType type) {
-        isPressed = false;
+        this.pressed = false;
         return EnumActionResult.FAIL;
     }
 
-    
+
     private boolean isHovering(GuiDrawBackgroundEvent event) {
         return isPointInside(event.getMouseX(), event.getMouseY());
     }
-    
+
 }

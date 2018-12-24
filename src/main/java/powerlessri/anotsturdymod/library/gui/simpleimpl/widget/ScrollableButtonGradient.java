@@ -1,7 +1,7 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
 
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.api.IScrollableComponent;
+import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
 public class ScrollableButtonGradient extends ButtonGradient implements IScrollableComponent {
 
@@ -12,7 +12,15 @@ public class ScrollableButtonGradient extends ButtonGradient implements IScrolla
         super(relativeX, 0, width, height, text);
     }
 
-    
+
+    @Override
+    public void draw(GuiDrawBackgroundEvent event) {
+        if (isVisible()) {
+            super.draw(event);
+        }
+    }
+
+
     @Override
     public void setExpectedY(int y) {
         this.y = y;
@@ -23,26 +31,23 @@ public class ScrollableButtonGradient extends ButtonGradient implements IScrolla
         return y;
     }
 
-    
-    
+
     public boolean isVisible() {
         return visibility;
     }
-    
+
     @Override
     public void setVisibility(boolean visibility) {
         this.visibility = visibility;
     }
-    
+
     public void inverseVisibility() {
         setVisibility(!isVisible());
     }
 
     @Override
-    public void draw(GuiDrawBackgroundEvent event) {
-        if (isVisible()) {
-            super.draw(event);
-        }
+    public boolean doesReceiveEvents() {
+        return super.doesReceiveEvents() && isVisible();
     }
-    
+
 }
