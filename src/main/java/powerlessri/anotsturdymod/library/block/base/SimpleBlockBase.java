@@ -67,8 +67,8 @@ public abstract class SimpleBlockBase extends BlockBase {
         super(name, material);
 
         this.itemBlock = new ItemBlock(this);
-        this.itemBlock.setRegistryName(this.getRegistryName());
-        this.itemBlock.setUnlocalizedName(this.getRegistryName().toString());
+        this.itemBlock.setRegistryName(getRegistryName());
+        this.itemBlock.setTranslationKey(getRegistryName().toString());
     }
     
     @SideOnly(Side.CLIENT)

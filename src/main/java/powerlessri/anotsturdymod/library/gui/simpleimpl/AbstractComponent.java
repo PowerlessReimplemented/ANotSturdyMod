@@ -93,20 +93,6 @@ public abstract class AbstractComponent implements IComponent {
         return absY;
     }
 
-    /**
-     * X position of the bottom right corner.
-     */
-    public int getActualXRight() {
-        return getActualX() + getWidth();
-    }
-
-    /**
-     * Y position of the bottom right corner.
-     */
-    public int getActualYBottom() {
-        return getActualY() + getHeight();
-    }
-
     @Override
     public boolean isPointInside(int x, int y) {
         return x >= getActualX() && x <= getActualXRight() &&
@@ -116,17 +102,7 @@ public abstract class AbstractComponent implements IComponent {
     public ComponentRoot getFunctionalRoot() {
         return (ComponentRoot) root;
     }
-
     
-    /**
-     * <b>WARNING: </b> This method does not do what its name says.
-     * Recalculate absolute position of the component.
-     */
-    @Override
-    @Deprecated
-    public void forceActualPosition(int x, int y) {
-        recalculatePosition();
-    }
     
     private void recalculatePosition() {
         absX = parent.getActualX() + relativeX;

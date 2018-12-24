@@ -2,7 +2,8 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
-import powerlessri.anotsturdymod.library.gui.api.*;
+import powerlessri.anotsturdymod.library.gui.api.IComponent;
+import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
@@ -22,13 +23,13 @@ public class ComponentRoot implements IContainer {
         this.gui = gui;
         this.windows = windows;
     }
-    
+
     private void initializeAllComponents() {
         for (IComponent component : windows) {
             component.initialize(gui, this);
         }
     }
-    
+
 
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
@@ -37,17 +38,17 @@ public class ComponentRoot implements IContainer {
         }
     }
 
-    
+
     public EventManager getEventManager() {
         return eventManager;
     }
-    
+
     @Override
     public List<IContainer<IComponent>> getComponents() {
         return windows;
     }
-    
-    
+
+
     @Override
     public boolean acceptsZIndex() {
         return false;
@@ -135,10 +136,6 @@ public class ComponentRoot implements IContainer {
     }
 
     @Override
-    public void forceActualPosition(int x, int y) {
-    }
-
-    @Override
     public int getZIndex() {
         return 0;
     }
@@ -151,4 +148,5 @@ public class ComponentRoot implements IContainer {
     public boolean isVisible() {
         return true;
     }
+
 }

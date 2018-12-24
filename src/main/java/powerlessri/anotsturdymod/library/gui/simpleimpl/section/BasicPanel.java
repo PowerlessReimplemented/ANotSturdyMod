@@ -9,22 +9,22 @@ import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
 import java.util.Comparator;
 
-public class BasicPanel extends AbstractComponent implements IContainer<AbstractComponent> {
+public class BasicPanel extends AbstractComponent implements IContainer<IComponent> {
     
-    protected ImmutableList<AbstractComponent> components;
+    protected ImmutableList<IComponent> components;
     
     private int width;
     private int height;
     
-    public BasicPanel(int x, int y, ImmutableList<AbstractComponent> components) {
+    public BasicPanel(int x, int y, ImmutableList<IComponent> components) {
         super(x, y);
         this.components = components;
         this.width = components.stream()
-                .max(Comparator.comparingInt(AbstractComponent::getActualXRight))
+                .max(Comparator.comparingInt(IComponent::getActualXRight))
                 .orElse(components.get(0))
                 .getActualXRight();
         this.height = components.stream()
-                .max(Comparator.comparingInt(AbstractComponent::getActualYBottom))
+                .max(Comparator.comparingInt(IComponent::getActualYBottom))
                 .orElse(components.get(0))
                 .getActualYBottom();
                 
@@ -35,7 +35,7 @@ public class BasicPanel extends AbstractComponent implements IContainer<Abstract
      * <b>WARNING!</b> This implementation returns an instance of {@link ImmutableList}
      */
     @Override
-    public ImmutableList<AbstractComponent> getComponents() {
+    public ImmutableList<IComponent> getComponents() {
         return components;
     }
 

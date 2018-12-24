@@ -6,7 +6,7 @@ import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import javax.annotation.Nullable;
 
 public interface IComponent {
-    
+
     /* Implementation Note:
      *     The purpose of this method is that so any can component can be moved around to different places.
      */
@@ -16,7 +16,7 @@ public interface IComponent {
      * @return The GUI which this component belongs to
      */
     GuiScreen getGui();
-    
+
     /**
      * @return Parent component of itself, or {@code null} when it's a root component already
      */
@@ -33,12 +33,12 @@ public interface IComponent {
      * If the component has a parent, then {@code false}, otherwise {@code true}.
      */
     boolean isRootComponent();
-    
-    
+
+
     int getId();
 
     int setId(int id);
-    
+
 
     /**
      * Get X position relative to top-left corner of parent component.
@@ -51,32 +51,41 @@ public interface IComponent {
      * If it has no parent component, then return the absolute X position.
      */
     int getY();
-    
+
     int getWidth();
-    
+
     int getHeight();
-    
-    
+
+
     int getActualX();
-    
+
     int getActualY();
 
-    boolean isPointInside(int x, int y);
+    /**
+     * X position of the bottom right corner.
+     */
+    default int getActualXRight() {
+        return getActualX() + getWidth();
+    }
 
     /**
-     * Used to force-set position. 
-     * @deprecated Reason: <br /> Component implementations should automatically calculate absolute position based on it's parent's position.
+     * Y position of the bottom right corner.
      */
-    void forceActualPosition(int x, int y);
+    default int getActualYBottom() {
+        return getActualY() + getHeight();
+    }
+
     
-    
+    boolean isPointInside(int x, int y);
+
+
     int getZIndex();
 
     void setZIndex(int zIndex);
 
-    
+
     boolean isVisible();
-    
+
 
     void draw(GuiDrawBackgroundEvent event);
 

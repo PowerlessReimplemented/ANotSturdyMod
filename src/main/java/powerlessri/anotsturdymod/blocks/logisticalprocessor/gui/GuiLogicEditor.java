@@ -4,14 +4,14 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
+import powerlessri.anotsturdymod.library.gui.api.IScrollableComponent;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
-import powerlessri.anotsturdymod.library.gui.api.IScrollableComponent;
+import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
+import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventory;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.ScrollablePanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.LabelImage;
-import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
-import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventory;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ScrollableButtonGradient;
 import powerlessri.anotsturdymod.library.gui.template.AbstractTemplate;
 
@@ -57,7 +57,7 @@ public class GuiLogicEditor extends ComponentizedGui {
     public void initGui() {
         windowX = (width / 2) - (BKG_WIDTH / 2);
         windowY = (height / 2) - (BKG_HEIGHT / 2);
-        
+
         ImmutableList.Builder<IScrollableComponent> builder = ImmutableList.builder();
         for (int i = 0; i < 32; i++) {
             IScrollableComponent button = new ScrollableButtonGradient(0, 16, 10, String.valueOf(i));
@@ -68,17 +68,11 @@ public class GuiLogicEditor extends ComponentizedGui {
                 new BasicPanel(windowX, windowY, ImmutableList.of(
                         new LabelImage(0, 0, BACKGROUND, BKG_START_X, BKG_START_Y, BKG_WIDTH, BKG_HEIGHT),
                         // + 2 is the left margin, top margin is handled in ScrollablePanel
-                        ScrollablePanel.simpleLayout(8 + 2, 73, 107, 11, builder.build(),  107)
+                        ScrollablePanel.simpleLayout(8 + 2, 73, 107, 11, builder.build(), 107)
                 ))
         );
 
         super.initGui();
-
     }
 
-    @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
-    }
-    
 }

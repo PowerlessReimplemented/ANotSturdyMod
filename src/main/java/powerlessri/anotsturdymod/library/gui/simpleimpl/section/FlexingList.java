@@ -48,7 +48,7 @@ public class FlexingList extends AbstractComponent implements IContainer<IScroll
     @Override
     public void draw(GuiDrawBackgroundEvent event) {
         for (IScrollableComponent component : components) {
-            component.tryDraw(event);
+            component.draw(event);
         }
     }
 
