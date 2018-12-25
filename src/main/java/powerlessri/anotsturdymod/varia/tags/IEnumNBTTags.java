@@ -56,8 +56,7 @@ public interface IEnumNBTTags<T> {
     default EDataType getType() {
         return EDataType.UNKOWN;
     }
-
-    ;
+    
 
     String getKey();
 

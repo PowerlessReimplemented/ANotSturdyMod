@@ -37,11 +37,10 @@ public class LabelledSlots extends Slots implements IInteractionHandler, IScroll
     @Override
     public EnumActionResult onClicked(int mouseX, int mouseY, EMouseButton button, EEventType type) {
         int slotClicked = getSlotClicked(mouseX - getActualX(), mouseY - getActualY());
-        ItemStack cursorItem = Minecraft.getMinecraft().player.inventory.getItemStack();
-        itemStacks[slotClicked] = Utils.selectNonnull(cursorItem, ItemStack.EMPTY);
-
-        Utils.getLogger().info(getActualY());
+        ItemStack cursorItem = Minecraft.getMinecraft().player.inventory.getItemStack().copy();
+        cursorItem.setCount(1);
         
+        itemStacks[slotClicked] = cursorItem;
         return EnumActionResult.FAIL;
     }
 
@@ -56,7 +55,7 @@ public class LabelledSlots extends Slots implements IInteractionHandler, IScroll
     @Override
     public void drawHoveringIcon(DrawHoveringIconEvent event, int x, int y) {
         ItemStack stack = itemStacks[event.getSlotIndex()];
-        // A slot is 18*18, but a item is 16*16
+        // Size of a slot is 18*18, but the size of an item is 16*16
         Displays.drawItemStackWithoutSize(stack, x + 1, y + 1);
     }
 
