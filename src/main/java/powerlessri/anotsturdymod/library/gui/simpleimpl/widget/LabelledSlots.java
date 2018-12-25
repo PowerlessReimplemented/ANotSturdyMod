@@ -11,11 +11,11 @@ import powerlessri.anotsturdymod.varia.render.Displays;
 
 import java.util.Arrays;
 
-public class LabelableSlots extends Slots implements IInteractionHandler, IScrollableComponent {
+public class LabelledSlots extends Slots implements IInteractionHandler, IScrollableComponent {
 
     private ItemStack[] itemStacks;
 
-    public LabelableSlots(int relativeX, int relativeY, int slotsHorizontal, int slotsVertical) {
+    public LabelledSlots(int relativeX, int relativeY, int slotsHorizontal, int slotsVertical) {
         super(relativeX, relativeY, slotsHorizontal, slotsVertical);
         this.itemStacks = new ItemStack[getTotalSlots()];
     }
@@ -24,6 +24,9 @@ public class LabelableSlots extends Slots implements IInteractionHandler, IScrol
     @Override
     public void initialize(GuiScreen gui, IComponent parent) {
         super.initialize(gui, parent);
+        this.visible = true;
+        this.renderingY = super.getActualY();
+        
         //TODO sync item stacks data from server
         Arrays.fill(itemStacks, ItemStack.EMPTY);
     }
@@ -37,6 +40,8 @@ public class LabelableSlots extends Slots implements IInteractionHandler, IScrol
         ItemStack cursorItem = Minecraft.getMinecraft().player.inventory.getItemStack();
         itemStacks[slotClicked] = Utils.selectNonnull(cursorItem, ItemStack.EMPTY);
 
+        Utils.getLogger().info(getActualY());
+        
         return EnumActionResult.FAIL;
     }
 
@@ -51,7 +56,8 @@ public class LabelableSlots extends Slots implements IInteractionHandler, IScrol
     @Override
     public void drawHoveringIcon(DrawHoveringIconEvent event, int x, int y) {
         ItemStack stack = itemStacks[event.getSlotIndex()];
-        Displays.drawItemStackWithoutSize(stack, x, y);
+        // A slot is 18*18, but a item is 16*16
+        Displays.drawItemStackWithoutSize(stack, x + 1, y + 1);
     }
 
 

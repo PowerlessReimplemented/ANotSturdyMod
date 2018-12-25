@@ -5,6 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.varia.Reference;
+import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 public abstract class Slots extends AbstractComponent {
 
@@ -77,10 +78,16 @@ public abstract class Slots extends AbstractComponent {
             for (int j = 0; j < getSlotsHorizontal(); j++) {
                 int currentX = getActualX() + j * SLOT_IMAGE_WIDTH;
                 iconEvent.slotX = j;
-                iconEvent.slotIndex++;
 
+                // Minecraft vanilla used a hack way get around with rendering item stacks
+                // It will rebind texture to TextureMap.LOCATION_BLOCKS_TEXTURE, which aborts the already bond widget texture
+                // Therefore we ends up with using a hack fix too :(
+                Minecraft.getMinecraft().getTextureManager().bindTexture(WIDGETS_1);
+                
                 gui.drawTexturedModalRect(currentX, currentY, SLOT_POS_X, SLOT_POS_Y, SLOT_IMAGE_WIDTH, SLOT_IMAGE_HEIGHT);
                 this.drawHoveringIcon(iconEvent, currentX, currentY);
+
+                iconEvent.slotIndex++;
             }
         }
     }

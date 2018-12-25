@@ -3,9 +3,11 @@ package powerlessri.anotsturdymod.varia.render;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.item.ItemStack;
 import powerlessri.anotsturdymod.library.gui.Color;
+import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 import javax.annotation.Nullable;
 
@@ -50,9 +52,11 @@ public class Displays {
     public static void drawItemStack(ItemStack stack, int x, int y, @Nullable String alt) {
         Minecraft minecraft = Minecraft.getMinecraft();
         RenderItem renderer = minecraft.getRenderItem();
-        
+
         renderer.renderItemAndEffectIntoGUI(stack, x, y);
         renderer.renderItemOverlayIntoGUI(minecraft.fontRenderer, stack, x, y, alt);
+
+        GuiUtils.useTextureGLStates();
     }
 
     public static void drawFullItemStack(ItemStack stack, int x, int y) {

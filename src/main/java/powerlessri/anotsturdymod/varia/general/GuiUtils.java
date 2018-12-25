@@ -30,6 +30,7 @@ public class GuiUtils {
         GlStateManager.enableTexture2D();
         GlStateManager.disableAlpha();
         GlStateManager.disableBlend();
+        GlStateManager.disableLighting();
         GlStateManager.color(1, 1, 1);
     }
     
