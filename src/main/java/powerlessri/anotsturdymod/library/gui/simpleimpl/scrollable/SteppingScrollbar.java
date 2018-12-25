@@ -28,12 +28,12 @@ public class SteppingScrollbar extends ScrollbarThinStyled {
         if (lastMouseY != mouseY) {
             lastMouseY = mouseY;
             
-            // When positive, mouse moved down. When negative, mouse moved up.
+            // When positive, cursor moved down. When negative, cursor moved up.
             int change = mouseY - lastMouseY;
             float stepHeight = getStepHeight();
             
             if (Math.abs(change) > stepHeight) {
-                // Note that this operation will keep the sign of variable 'change'
+                // This operation will keep the sign of 'change' the same
                 int stepChange = (int) (change / stepHeight);
                 step += stepChange;
                 getParentComponent().setCurrentStep(step);

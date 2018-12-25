@@ -7,8 +7,8 @@ import powerlessri.anotsturdymod.library.gui.api.IScrollingPanel;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ButtonGradient;
-import powerlessri.anotsturdymod.varia.render.BoxUtils;
-import powerlessri.anotsturdymod.varia.render.LineUtils;
+import powerlessri.anotsturdymod.varia.render.utils.BoxUtils;
+import powerlessri.anotsturdymod.varia.render.utils.LineUtils;
 import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 

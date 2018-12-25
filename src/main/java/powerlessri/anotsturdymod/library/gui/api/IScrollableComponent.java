@@ -1,7 +1,5 @@
 package powerlessri.anotsturdymod.library.gui.api;
 
-import powerlessri.anotsturdymod.library.gui.api.IComponent;
-
 public interface IScrollableComponent extends IComponent {
 
     /**
@@ -20,5 +18,9 @@ public interface IScrollableComponent extends IComponent {
      * </p>
      */
     void setVisibility(boolean visibility);
+
+    default void inverseVisibility() {
+        setVisibility(!isVisible());
+    }
 
 }

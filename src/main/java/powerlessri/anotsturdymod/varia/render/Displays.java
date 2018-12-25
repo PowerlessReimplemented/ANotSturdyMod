@@ -1,13 +1,19 @@
 package powerlessri.anotsturdymod.varia.render;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.item.ItemStack;
 import powerlessri.anotsturdymod.library.gui.Color;
 
+import javax.annotation.Nullable;
+
 /**
- * Draw things directly with {@link net.minecraft.client.renderer.Tessellator Tessellator}.
+ * <p>Draw things directly with {@link net.minecraft.client.renderer.Tessellator Tessellator}.</p>
  * <p>
- * Equivalent to create/get a {@link BufferBuilder} and than call corresponding functions in this package.
+ * Equivalent to create/get a {@link BufferBuilder} and than call corresponding functions in {@link
+ * powerlessri.anotsturdymod.varia.render.utils}.
  * </p>
  */
 public class Displays {
@@ -40,4 +46,21 @@ public class Displays {
         TessellatorUtils.finish();
     }
 
+    
+    public static void drawItemStack(ItemStack stack, int x, int y, @Nullable String alt) {
+        Minecraft minecraft = Minecraft.getMinecraft();
+        RenderItem renderer = minecraft.getRenderItem();
+        
+        renderer.renderItemAndEffectIntoGUI(stack, x, y);
+        renderer.renderItemOverlayIntoGUI(minecraft.fontRenderer, stack, x, y, alt);
+    }
+
+    public static void drawFullItemStack(ItemStack stack, int x, int y) {
+        drawItemStack(stack, x, y, null);
+    }
+    
+    public static void drawItemStackWithoutSize(ItemStack stack, int x, int y) {
+        drawItemStack(stack, x, y, "");
+    }
+    
 }

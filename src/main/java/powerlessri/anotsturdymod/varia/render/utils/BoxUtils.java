@@ -1,9 +1,10 @@
-package powerlessri.anotsturdymod.varia.render;
+package powerlessri.anotsturdymod.varia.render.utils;
 
 import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.library.gui.Color;
+import powerlessri.anotsturdymod.varia.render.VertexSequencer;
 
-public class BoxUtils {
+public class  BoxUtils {
 
     public static void gradientOutlinedBox(BufferBuilder buffer, int x1, int y1, int x2, int y2, int borderWidth, Color top, Color bottom, Color colorFirst, Color colorSecond) {
         addBorderVertexes(buffer, x1, y1, x2, y2, borderWidth, colorFirst, colorSecond); 

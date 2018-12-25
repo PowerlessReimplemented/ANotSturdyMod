@@ -1,5 +1,6 @@
 package powerlessri.anotsturdymod.varia.general;
 
+import com.google.common.base.Preconditions;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
@@ -9,6 +10,9 @@ import net.minecraft.util.text.translation.I18n;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import powerlessri.anotsturdymod.varia.Reference;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 
 /**
@@ -32,7 +36,7 @@ public class Utils {
     public static void report(Throwable cause) {
         report(cause.getMessage(), cause);
     }
-    
+
     public static void report(String message, Throwable cause) {
         CrashReport crashReport = CrashReport.makeCrashReport(cause, message);
         throw new ReportedException(crashReport);
@@ -84,6 +88,21 @@ public class Utils {
 
     public static TextComponentString createToolDescription(String description) {
         return textStringWithStyle(description, Reference.STYLE_TOOLTIP_DESCRIPTION);
+    }
+
+
+    /**
+     * <p>Selects the first nonnull value out of two candidates such that at least one of them is nonnull.</p>
+     *
+     * @param reference The value to be compared.
+     * @param backup    Alternative if the parameter {@code reference} is null.
+     */
+    @Nonnull
+    public static <T> T selectNonnull(@Nullable T reference, @Nonnull T backup) {
+        if (reference != null) {
+            return reference;
+        }
+        return Preconditions.checkNotNull(backup);
     }
 
 }

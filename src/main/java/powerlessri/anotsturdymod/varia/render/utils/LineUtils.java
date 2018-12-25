@@ -1,7 +1,8 @@
-package powerlessri.anotsturdymod.varia.render;
+package powerlessri.anotsturdymod.varia.render.utils;
 
 import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.library.gui.Color;
+import powerlessri.anotsturdymod.varia.render.VertexSequencer;
 
 public class LineUtils {
 

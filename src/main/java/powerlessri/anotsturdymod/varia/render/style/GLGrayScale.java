@@ -2,7 +2,7 @@ package powerlessri.anotsturdymod.varia.render.style;
 
 import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.library.gui.Color;
-import powerlessri.anotsturdymod.varia.render.BoxUtils;
+import powerlessri.anotsturdymod.varia.render.utils.BoxUtils;
 
 public class GLGrayScale {
 
