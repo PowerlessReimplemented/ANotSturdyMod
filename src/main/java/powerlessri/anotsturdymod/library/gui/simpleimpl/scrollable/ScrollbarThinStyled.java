@@ -9,7 +9,7 @@ import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ButtonGradient;
 import powerlessri.anotsturdymod.varia.render.utils.BoxUtils;
 import powerlessri.anotsturdymod.varia.render.utils.LineUtils;
-import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
+import powerlessri.anotsturdymod.varia.render.TESRStateManager;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
 import javax.annotation.Nonnull;
@@ -31,10 +31,10 @@ public abstract class ScrollbarThinStyled extends AbstractButton implements IScr
 
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
-        BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
+        BufferBuilder buffer = TESRStateManager.getColorVBuffer();
         GLGrayScale.addConvexBox(buffer, getActualX(), getActualY(), getActualXRight(), getActualYBottom());
         drawLabel(buffer);
-        TessellatorUtils.draw();
+        TESRStateManager.draw();
     }
 
     @Override
@@ -42,20 +42,20 @@ public abstract class ScrollbarThinStyled extends AbstractButton implements IScr
         // TODO add hovering blue-ish texture
         drawNormal(event);
 
-        BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
+        BufferBuilder buffer = TESRStateManager.getColorVBuffer();
 
         BoxUtils.outlinedBox(buffer, getActualX(), getActualY(), getActualXRight(), getActualYBottom(), 1, ButtonGradient.colorEHovering, ButtonGradient.colorSHovering, ButtonGradient.colorEHovering);
 
         drawLabel(buffer);
-        TessellatorUtils.draw();
+        TESRStateManager.draw();
     }
 
     @Override
     public void drawPressed(GuiDrawBackgroundEvent event) {
-        BufferBuilder buffer = TessellatorUtils.getColorVBuffer();
+        BufferBuilder buffer = TESRStateManager.getColorVBuffer();
         GLGrayScale.addConcaveBox(buffer, getActualX(), getActualY(), getActualXRight(), getActualYBottom());
         drawLabel(buffer);
-        TessellatorUtils.draw();
+        TESRStateManager.draw();
     }
 
     @Override

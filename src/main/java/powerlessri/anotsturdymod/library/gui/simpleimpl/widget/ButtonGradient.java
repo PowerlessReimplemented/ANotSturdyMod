@@ -6,7 +6,7 @@ import powerlessri.anotsturdymod.config.ClientConfig;
 import powerlessri.anotsturdymod.library.gui.Color;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
-import powerlessri.anotsturdymod.varia.render.TessellatorUtils;
+import powerlessri.anotsturdymod.varia.render.TESRStateManager;
 import powerlessri.anotsturdymod.varia.render.VertexSequencer;
 import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
 
@@ -96,10 +96,10 @@ public class ButtonGradient extends AbstractButton {
 
 
     public void drawGradientRectangleBox(int shrink, Color top, Color bottom, boolean invert) {
-        BufferBuilder buffer = TessellatorUtils.getGradientVBuffer();
+        BufferBuilder buffer = TESRStateManager.getGradientVBuffer();
         VertexSequencer.verticalGradientBox(buffer, getActualX() + shrink, getActualY() + shrink, getActualXRight() - shrink, getActualYBottom() - shrink, 0, top, bottom);
         GLGrayScale.vanillaBorder(buffer, getActualX(), getActualY(), getActualXRight(), getActualYBottom(), invert);
-        TessellatorUtils.finish();
+        TESRStateManager.finish();
     }
 
 

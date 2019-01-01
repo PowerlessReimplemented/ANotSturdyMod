@@ -6,8 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.*;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
-import powerlessri.anotsturdymod.varia.general.Utils;
-import powerlessri.anotsturdymod.varia.render.Displays;
+import powerlessri.anotsturdymod.varia.render.RenderingUtils;
 
 import java.util.Arrays;
 
@@ -56,7 +55,7 @@ public class LabelledSlots extends Slots implements IInteractionHandler, IScroll
     public void drawHoveringIcon(DrawHoveringIconEvent event, int x, int y) {
         ItemStack stack = itemStacks[event.getSlotIndex()];
         // Size of a slot is 18*18, but the size of an item is 16*16
-        Displays.drawItemStackWithoutSize(stack, x + 1, y + 1);
+        RenderingUtils.drawItemStackWithoutSize(stack, x + 1, y + 1);
     }
 
 

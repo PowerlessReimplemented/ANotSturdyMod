@@ -7,19 +7,18 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.library.gui.Color;
-import powerlessri.anotsturdymod.varia.general.GuiUtils;
+import powerlessri.anotsturdymod.library.gui.Texture;
 
 import javax.annotation.Nullable;
 
 /**
- * <p>Draw things directly with {@link net.minecraft.client.renderer.Tessellator Tessellator}.</p>
  * <p>
- * Equivalent to create/get a {@link BufferBuilder} and than call corresponding functions in {@link
- * powerlessri.anotsturdymod.varia.render.utils}.
+ * Draw things directly with {@link net.minecraft.client.renderer.Tessellator Tessellator}.
  * </p>
  */
-public class Displays {
+public class RenderingUtils {
 
     public static void drawHorizontalLine(int x1, int y1, int x2, int color) {
         Gui.drawRect(x1, y1, x2, y1 + 1, color);
@@ -29,14 +28,29 @@ public class Displays {
         Gui.drawRect(x1, y1, x1 + 1, y2, color);
     }
 
+    public static void drawTexturedRect(int bx, int by, ResourceLocation texture, int tx, int ty, int width, int height) {
+        BufferBuilder buffer = TESRStateManager.getTextureVBuffer();
+        {
+            int x2 = bx + width;
+            int y2 = by + height;
+
+            float u1 = bx * Texture.UV_MULTIPLIER;
+            float v1 = by * Texture.UV_MULTIPLIER;
+            float u2 = x2 * Texture.UV_MULTIPLIER;
+            float v2 = y2 * Texture.UV_MULTIPLIER;
+            VertexSequencer.texturedBox(buffer, bx, by, x2, y2, Texture.DEFAULT_Z, u1, v1, u2, v2);
+        }
+        TESRStateManager.finish();
+    }
+
     /**
      * Draws a rectangle with a vertical gradient between the specified colors.
      * <p>x2 and y2 are not included. </p>
      */
     public static void drawVerticalGradientRect(int x1, int y1, int x2, int y2, Color top, Color bottom) {
-        BufferBuilder buffer = TessellatorUtils.getGradientVBuffer();
+        BufferBuilder buffer = TESRStateManager.getGradientVBuffer();
         VertexSequencer.verticalGradientBox(buffer, x1, y1, x2, y2, 0, top, bottom);
-        TessellatorUtils.finish();
+        TESRStateManager.finish();
     }
 
     /**
@@ -44,9 +58,9 @@ public class Displays {
      * <p>x2 and y2 are not included. </p>
      */
     public static void drawHorizontalGradientRect(int x1, int y1, int x2, int y2, Color left, Color right) {
-        BufferBuilder buffer = TessellatorUtils.getGradientVBuffer();
+        BufferBuilder buffer = TESRStateManager.getGradientVBuffer();
         VertexSequencer.horizontalGradientBox(buffer, x1, y1, x2, y2, 0, left, right);
-        TessellatorUtils.finish();
+        TESRStateManager.finish();
     }
 
 
@@ -62,7 +76,7 @@ public class Displays {
         GlStateManager.disableLighting();
     }
 
-    public static void drawFullItemStack(ItemStack stack, int x, int y) {
+    public static void drawCompleteItemStack(ItemStack stack, int x, int y) {
         drawItemStack(stack, x, y, null);
     }
 
