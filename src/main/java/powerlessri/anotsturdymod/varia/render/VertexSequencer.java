@@ -24,6 +24,15 @@ public class VertexSequencer {
         buffer.endVertex();
     }
 
+    public static void texturedBox(BufferBuilder buffer, int x1, int y1, int x2, int y2, int z, float u1, float v1, float u2, float v2) {
+        // Bottom Left -> Top Left -> Top Right -> Bottom Right
+        buffer.pos(x1, y2, z).tex(u1, v2).endVertex();
+        buffer.pos(x2, y2, z).tex(u2, v2).endVertex();
+        buffer.pos(x2, y1, z).tex(u2, v1).endVertex();
+        buffer.pos(x1, y1, z).tex(u1, v1).endVertex();
+    }
+
+    
     public static void verticalGradientBox(BufferBuilder buffer, int x1, int y1, int x2, int y2, int z, Color top, Color bottom) {
         // Top Right -> Top Left -> Bottom Left -> Bottom Right
         buffer.pos(x2, y1, z);

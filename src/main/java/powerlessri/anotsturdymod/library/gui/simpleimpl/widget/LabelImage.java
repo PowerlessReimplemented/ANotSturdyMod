@@ -2,12 +2,12 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import powerlessri.anotsturdymod.library.gui.TextureWrapper;
+import powerlessri.anotsturdymod.library.gui.Texture;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 /**
- * A extended version of {@link TextureWrapper} that works as an {@link powerlessri.anotsturdymod.library.gui.api.IComponent IComponent}.
+ * A extended version of {@link Texture} that works as an {@link powerlessri.anotsturdymod.library.gui.api.IComponent IComponent}.
  */
 public class LabelImage extends Label {
 
@@ -18,7 +18,7 @@ public class LabelImage extends Label {
     private int height;
 
 
-    public LabelImage(int relativeX, int relativeY, TextureWrapper wrapper) {
+    public LabelImage(int relativeX, int relativeY, Texture wrapper) {
         this(relativeX, relativeY, wrapper.texture, wrapper.x1, wrapper.y1, wrapper.width, wrapper.height);
     }
 
