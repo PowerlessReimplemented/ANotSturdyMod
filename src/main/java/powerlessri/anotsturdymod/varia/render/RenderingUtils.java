@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.library.gui.Color;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.LableTexture;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.LabelTexture;
 
 import javax.annotation.Nullable;
 
@@ -34,11 +34,11 @@ public class RenderingUtils {
             int x2 = bx + width;
             int y2 = by + height;
 
-            float u1 = bx * LableTexture.UV_MULTIPLIER;
-            float v1 = by * LableTexture.UV_MULTIPLIER;
-            float u2 = x2 * LableTexture.UV_MULTIPLIER;
-            float v2 = y2 * LableTexture.UV_MULTIPLIER;
-            VertexSequencer.texturedBox(buffer, bx, by, x2, y2, LableTexture.DEFAULT_Z, u1, v1, u2, v2);
+            float u1 = bx * LabelTexture.UV_MULTIPLIER;
+            float v1 = by * LabelTexture.UV_MULTIPLIER;
+            float u2 = x2 * LabelTexture.UV_MULTIPLIER;
+            float v2 = y2 * LabelTexture.UV_MULTIPLIER;
+            VertexSequencer.texturedBox(buffer, bx, by, x2, y2, LabelTexture.DEFAULT_Z, u1, v1, u2, v2);
         }
         TESRStateManager.finish();
     }
