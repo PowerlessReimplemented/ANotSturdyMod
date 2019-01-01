@@ -2,6 +2,11 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
 
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 
+/**
+ * <p>
+ * A component with a fixed dimension.
+ * </p>
+ */
 public abstract class Label extends AbstractComponent {
 
     private int width;
@@ -12,13 +17,13 @@ public abstract class Label extends AbstractComponent {
         this.width = width;
         this.height = height;
     }
-    
+
 
     @Override
     public boolean isLeafComponent() {
         return false;
     }
-    
+
     @Override
     public int getWidth() {
         return width;
@@ -28,5 +33,5 @@ public abstract class Label extends AbstractComponent {
     public int getHeight() {
         return height;
     }
-    
+
 }
