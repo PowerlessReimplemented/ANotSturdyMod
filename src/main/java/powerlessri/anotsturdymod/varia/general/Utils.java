@@ -32,7 +32,7 @@ public class Utils {
     public static void report(Throwable cause) {
         report(cause.getMessage(), cause);
     }
-    
+
     public static void report(String message, Throwable cause) {
         CrashReport crashReport = CrashReport.makeCrashReport(cause, message);
         throw new ReportedException(crashReport);
@@ -84,6 +84,25 @@ public class Utils {
 
     public static TextComponentString createToolDescription(String description) {
         return textStringWithStyle(description, Reference.STYLE_TOOLTIP_DESCRIPTION);
+    }
+
+
+    /**
+     * Loop the number around until it is inside the given range 0 ~ (arrayLength - 1).
+     *
+     * @param index       The index to be adjusted
+     * @param arrayLength Upper limit for the index
+     * @return The adjusted index
+     */
+    public static int loopIndexAround(int index, int arrayLength) {
+        if (index >= arrayLength) {
+            return loopIndexAround(index - arrayLength, arrayLength);
+        }
+        if (index < 0) {
+            // + because index would have a negative sign
+            return loopIndexAround(arrayLength + index, arrayLength);
+        }
+        return index;
     }
 
 }

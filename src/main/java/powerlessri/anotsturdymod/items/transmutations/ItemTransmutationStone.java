@@ -66,7 +66,7 @@ public class ItemTransmutationStone extends SimpleItemBase {
         }
 
         IBlockState selectedBlock = world.getBlockState(pos);
-        IBlockState replacementBlock = WorldTransmutation.getTransmutationNext(world, pos, selectedBlock, player.isSneaking() ? -1 : 1);
+        IBlockState replacementBlock = WorldTransmutation.findTransmutationContains(selectedBlock).findNextBlockState(selectedBlock, player.isSneaking() ? -1 : 1);
 
         // Didn't find any matched transmutation
         if (replacementBlock == null) {

@@ -68,8 +68,7 @@ public class ItemExchanger extends SimpleItemBase {
         if (player.isSneaking()) {
             NBTTagCompound tag = TagUtils.getOrCreateTag(stack);
 
-            byte radius = tag.getByte(RADIUS);
-            radius = (byte) ((radius == maxRadius) ? 0 : radius + 1);
+            byte radius = (byte) Utils.loopIndexAround(tag.getByte(RADIUS) + 1, maxRadius);
             tag.setByte(RADIUS, radius);
 
             player.sendStatusMessage(
