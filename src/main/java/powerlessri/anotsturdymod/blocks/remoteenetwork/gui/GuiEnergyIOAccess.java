@@ -8,10 +8,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENComponentBase;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.LabelTexture;
 import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 import powerlessri.anotsturdymod.varia.Reference;
 
@@ -76,6 +79,8 @@ public class GuiEnergyIOAccess extends ComponentizedGui {
     protected final TileENComponentBase tile; // TileEntity at client side
     protected final BlockPos tilePos;
 
+    protected BasicPanel mainWindow;
+
     public GuiEnergyIOAccess(ContainerEnergyIOAccess container) {
         super(container, ImmutableList.of());
 
@@ -87,10 +92,16 @@ public class GuiEnergyIOAccess extends ComponentizedGui {
 
     @Override
     public void initGui() {
-        super.initGui();
+        this.centerX = (width / 2) - guiWidth / 2;
+        this.centerY = (height / 2) - guiHeight / 2;
 
-        centerX = (width / 2) - guiWidth / 2;
-        centerY = (height / 2) - guiHeight / 2;
+        this.mainWindow = new BasicPanel(centerX, centerY, ImmutableList.of(
+                new LabelTexture(0, 0, guiWidth, guiHeight, BACKGROUND_LOC, 0, 0)
+        ));
+        this.windows = ImmutableList.of(
+                mainWindow
+        );
+
 
         channelButtonsY = centerY + 10;
 
@@ -98,19 +109,20 @@ public class GuiEnergyIOAccess extends ComponentizedGui {
         addButton(new GuiButton(BUTTON_MINUS_1, centerX + 53, channelButtonsY, CHANNEL_BTN_WIDTH, CHANNEL_BTN_HEIGHT, "-1"));
         addButton(new GuiButton(BUTTON_ADD_1, centerX + 104, channelButtonsY, CHANNEL_BTN_WIDTH, CHANNEL_BTN_HEIGHT, "+1"));
         addButton(new GuiButton(BUTTON_ADD_10, centerX + 128, channelButtonsY, CHANNEL_BTN_WIDTH, CHANNEL_BTN_HEIGHT, "+10"));
+
+        super.initGui();
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        drawDefaultBackground();
-
-        GlStateManager.color(1, 1, 1);
-        Minecraft.getMinecraft().renderEngine.bindTexture(BACKGROUND_LOC);
-        drawTexturedModalRect(centerX, centerY, 0, 0, guiWidth, guiHeight);
-
+        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
         fontRenderer.drawString(String.valueOf(getContainer().channel), centerX + (guiWidth / 2) - 7, channelButtonsY + 3, 0x000000);
-        
         renderHoveredToolTip(mouseX, mouseY);
+    }
+
+    @Override
+    public IContainer<?> getMainWindow() {
+        return this.mainWindow;
     }
 
 

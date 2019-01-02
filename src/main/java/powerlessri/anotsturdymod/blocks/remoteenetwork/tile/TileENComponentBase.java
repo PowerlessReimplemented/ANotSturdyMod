@@ -1,18 +1,18 @@
 package powerlessri.anotsturdymod.blocks.remoteenetwork.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import powerlessri.anotsturdymod.ANotSturdyMod;
-import powerlessri.anotsturdymod.library.tile.base.TileEntityBase;
-import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
-import powerlessri.anotsturdymod.network.PacketServerCommand;
-import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.IENetworkController;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.data.ControllerNetworkData;
+import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
+import powerlessri.anotsturdymod.library.tile.base.TileEntityBase;
+import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
 import powerlessri.anotsturdymod.varia.general.Utils;
 import powerlessri.anotsturdymod.varia.tags.TagUtils;
@@ -45,8 +45,8 @@ public abstract class TileENComponentBase extends TileEntityBase {
 
     @Override
     public void onLoadServer() {
-        if (data == null) {
-            data = AnsmSavedData.fromWorld(world).controllerEN;
+        if (this.data == null) {
+            this.data = AnsmSavedData.fromWorld(world).controllerEN;
         }
     }
 
@@ -64,18 +64,18 @@ public abstract class TileENComponentBase extends TileEntityBase {
             this.channel = newChannel;
 
             if (isControllerValid()) {
-                sendUpdates();
+                this.sendUpdates();
                 return true;
+            } else {
+                this.channel = oldChannel;
             }
-
-            this.channel = oldChannel;
         }
         return false;
     }
 
 
     public boolean isControllerValid() {
-        return data.isChannelAllocated(channel);
+        return this.data.isChannelAllocated(channel);
     }
 
     public IENetworkController getController() {
@@ -86,7 +86,7 @@ public abstract class TileENComponentBase extends TileEntityBase {
                 return controller;
             }
         }
-        return data.FAKE_EN_CONTROLLER_TILE;
+        return this.data.FAKE_EN_CONTROLLER_TILE;
     }
 
 
@@ -97,43 +97,29 @@ public abstract class TileENComponentBase extends TileEntityBase {
      * @param target The IEnergyStorage that will be receiving energy
      */
     protected void sendEnergy(IEnergyStorage target) {
-        IENetworkController controller = getController();
+        IENetworkController controller = this.getController();
         int accepted = target.receiveEnergy(Math.min(ioLimit, (int) controller.getEnergyStored()), false);
         controller.extractEnergy(accepted, false);
     }
 
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-
-        this.channel = tag.getInteger(TileENController.CHANNEL);
+    public void restoreFromNBT(NBTTagCompound tag) {
+        this.channel = tag.getInteger("channel");
         this.ioLimit = tag.getInteger(IO_LIMIT);
         this.ioUpgrades = tag.getInteger(IO_UPGRADES);
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag.setInteger(TileENController.CHANNEL, channel);
+    public void writeRestorableNBT(NBTTagCompound tag) {
+        tag.setInteger("channel", channel);
         tag.setInteger(IO_LIMIT, ioLimit);
         tag.setInteger(IO_UPGRADES, ioUpgrades);
-
-        return super.writeToNBT(tag);
-    }
-
-    @Override
-    public NBTTagCompound getUpdateTag() {
-        NBTTagCompound tag = super.getUpdateTag();
-        return tag;
-    }
-
-    @Override
-    public void handleUpdateTag(NBTTagCompound tag) {
-        super.handleUpdateTag(tag);
     }
 
 
     // ======== Networking ======== //
+
 
     public static final String SET_CHANNEL = TILE_REGISTRY_NAME + ":setChannel";
 
@@ -145,7 +131,7 @@ public abstract class TileENComponentBase extends TileEntityBase {
 
 
     public static void onPacketSetChannel(PacketServerCommand pckt, MessageContext ctx) {
-        int channelTo = pckt.args.getInteger(TileENController.CHANNEL);
+        int channelTo = pckt.args.getInteger("storageChannel");
 
         World world = ByteIOHelper.getWorldFromDimension(pckt.args);
         BlockPos tilePos = TagUtils.readBlockPos(pckt.args);
@@ -162,7 +148,7 @@ public abstract class TileENComponentBase extends TileEntityBase {
     public static NBTTagCompound makeSetChannelArgs(int dimension, int x, int y, int z, int channelTo) {
         NBTTagCompound tag = PacketServerCommand.makeWorldPosArgs(dimension, x, y, z);
 
-        tag.setInteger(TileENController.CHANNEL, channelTo);
+        tag.setInteger("storageChannel", channelTo);
 
         return tag;
     }

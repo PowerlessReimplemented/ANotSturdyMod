@@ -64,15 +64,15 @@ public abstract class ComponentizedGui extends GuiContainer {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        drawDefaultBackground();
+        GuiUtils.useTextureGLStates();
         drawComponentTree(new GuiDrawBackgroundEvent(System.currentTimeMillis() - timeCreated, mouseX, mouseY, partialTicks));
+        // In case somebody forget to call GlStateManager.enableTexture2D()
+        // If they did enable  do that and this line does not exist, features from vanilla (e.g. text painting) will break
+        GuiUtils.useTextureGLStates();
     }
 
     private void drawComponentTree(GuiDrawBackgroundEvent event) {
         root.draw(event);
-        // In case somebody forget to call GlStateManager.enableTexture2D()
-        // If they did enable  do that and this line does not exist, features from vanilla (e.g. text painting) will break
-        GuiUtils.useTextureGLStates();
     }
 
 

@@ -10,6 +10,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -17,31 +18,31 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import powerlessri.anotsturdymod.config.MainConfig;
+import powerlessri.anotsturdymod.config.ExchangerConfig;
 import powerlessri.anotsturdymod.handlers.init.RegistryItem;
 import powerlessri.anotsturdymod.library.item.base.SimpleItemBase;
 import powerlessri.anotsturdymod.varia.Reference;
-import powerlessri.anotsturdymod.varia.general.Utils;
-import powerlessri.anotsturdymod.varia.general.InventoryUtils;
-import powerlessri.anotsturdymod.varia.general.EMachineLevel;
+import powerlessri.anotsturdymod.varia.general.*;
 import powerlessri.anotsturdymod.varia.tags.EnchantmentUtils;
-import powerlessri.anotsturdymod.varia.tags.IEnumNBTTags;
-import powerlessri.anotsturdymod.varia.tags.ITagBasedItem;
 import powerlessri.anotsturdymod.varia.tags.TagUtils;
-import powerlessri.anotsturdymod.varia.general.PosExtractor;
 
 import java.util.Random;
 
-public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
+public class ItemExchanger extends SimpleItemBase {
 
     @RegistryItem
-    public static final ItemExchanger BASIC_EXCHANGER = new ItemExchanger("exchanger", EMachineLevel.BASIC, MainConfig.basicExchangerRadius);
+    public static final ItemExchanger BASIC_EXCHANGER = new ItemExchanger("exchanger", EMachineLevel.BASIC, ExchangerConfig.basicExchangerRadius);
     
     @RegistryItem
-    public static final ItemExchanger ADVANCED_EXCHAGNER = new ItemExchanger("exchanger", EMachineLevel.ADVANCED, MainConfig.advancedExchangerRadius);
-    
-    
-    // Maximum radius for this type of exchanger
+    public static final ItemExchanger ADVANCED_EXCHAGNER = new ItemExchanger("exchanger", EMachineLevel.ADVANCED, ExchangerConfig.advancedExchangerRadius);
+
+
+    private static final String RADIUS = "radius";
+    private static final String USE_TRANSMUTATIONS = "useTransm";
+
+    /**
+     * Maximum radius for this type of exchanger.
+     */
     private final int maxRadius;
 
     public ItemExchanger(String name, EMachineLevel level, int radius) {
@@ -49,41 +50,36 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
         this.setCreativeTab(CreativeTabs.TOOLS);
         this.setMaxStackSize(1);
-
         this.maxRadius = radius;
     }
 
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-        ItemStack item = player.getHeldItem(hand);
+        ItemStack stack = player.getHeldItem(hand);
 
         if (world.isRemote) {
-            return new ActionResult<>(EnumActionResult.SUCCESS, item);
+            return new ActionResult<>(EnumActionResult.SUCCESS, stack);
         }
-
-
+        
         if (player.isSneaking()) {
-            updateItemTag(item);
-            NBTTagCompound tag = item.getTagCompound();
+            NBTTagCompound tag = TagUtils.getOrCreateTag(stack);
 
-            byte radius = tag.getByte(EnumTags.RADIUS.key);
-            radius = (byte) ((radius == maxRadius) ? 0 : radius + 1);
-            tag.setByte(EnumTags.RADIUS.key, radius);
+            byte radius = (byte) MathUtils.loopIndexAround(tag.getByte(RADIUS) + 1, maxRadius);
+            tag.setByte(RADIUS, radius);
 
             player.sendStatusMessage(
                     new TextComponentString(Utils.readFromLang("item.ansm.exchangers.inform.radius") + " " + radius),
                     true);
 
-            return new ActionResult<>(EnumActionResult.SUCCESS, item);
+            return new ActionResult<>(EnumActionResult.SUCCESS, stack);
         }
 
-        return new ActionResult<>(EnumActionResult.FAIL, item);
+        return new ActionResult<>(EnumActionResult.FAIL, stack);
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing,
-                                      float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (world.isRemote) {
             if (!player.isSneaking()) {
                 player.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0f, 1.0f);
@@ -94,7 +90,6 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
 
 
         ItemStack exchanger = player.getHeldItem(hand);
-        this.updateItemTag(exchanger);
 
         if (!player.isSneaking()) {
             return attemptExchange(player, exchanger, world, pos, facing);
@@ -104,27 +99,28 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
     }
 
 
-    private EnumActionResult selectTargetBlock(EntityPlayer player, ItemStack exchanger, IBlockState pointerBlock) {
-        if (!isBlockValid(pointerBlock)) {
+    private EnumActionResult selectTargetBlock(EntityPlayer player, ItemStack exchanger, IBlockState selectedBlock) {
+        if (!isBlockValid(selectedBlock)) {
             sendTileEntityError(player);
             return EnumActionResult.FAIL;
         }
         
-        NBTTagCompound tag = exchanger.getTagCompound();
-        TagUtils.writeBlockData(tag, pointerBlock);
+        NBTTagCompound tag = TagUtils.getOrCreateTag(exchanger);
+        NBTUtil.writeBlockState(tag, selectedBlock);
+        
         return EnumActionResult.SUCCESS;
     }
 
     private EnumActionResult attemptExchange(EntityPlayer player, ItemStack exchanger, World world, BlockPos posHit,
                                              EnumFacing faceHit) {
-        NBTTagCompound tag = exchanger.getTagCompound();
+        NBTTagCompound tag = TagUtils.getOrCreateTag(exchanger);
 
-        int radius = tag.getByte(EnumTags.RADIUS.key);
+        int radius = tag.getByte(RADIUS);
         boolean isSilkTouch = EnchantmentUtils.hasEnchantment(exchanger, Enchantments.SILK_TOUCH, -1);
         // Forget about fortune if it's already silk touch
         int fortuneLevel = isSilkTouch ? 0 : EnchantmentUtils.getEnchantLevel(exchanger, Enchantments.FORTUNE);
 
-        IBlockState replacementBlock = TagUtils.readBlockData(tag);
+        IBlockState replacementBlock = NBTUtil.readBlockState(tag);
         IBlockState exchangeSource = world.getBlockState(posHit);
         if (!this.isBlockValid(exchangeSource)) {
             this.sendTileEntityError(player);
@@ -154,7 +150,7 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
                 }
             }
 
-            boolean useTransmutation = tag.getBoolean(EnumTags.USE_TRANSMUTATION_ORB.key);
+            boolean useTransmutation = tag.getBoolean(USE_TRANSMUTATIONS);
             int quantityAvailable = getQuantityAvailable(player.inventory, replacementStack, useTransmutation);
 
             if (quantityAvailable <= blockAffected) {
@@ -242,7 +238,6 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
     }
 
 
-    // ================================ //
 
     @Override
     public boolean isEnchantable(ItemStack stack) {
@@ -255,59 +250,6 @@ public class ItemExchanger extends SimpleItemBase implements ITagBasedItem {
             return true;
         }
         return super.canApplyAtEnchantingTable(stack, enchantment);
-    }
-
-    // ================================ //
-
-
-    public static enum EnumTags implements IEnumNBTTags<Object> {
-
-        RADIUS("radius", (byte) 0, EDataType.BYTE),
-
-        USE_TRANSMUTATION_ORB("use_transmutations", false, EDataType.BOOLEAN);
-
-        final EDataType type;
-        final String key;
-        final Object defaultValue;
-
-        private EnumTags(String key, Object defaultVal, EDataType type) {
-            this.key = key;
-            this.defaultValue = defaultVal;
-            this.type = type;
-        }
-
-        @Override
-        public EDataType getType() {
-            return this.type;
-        }
-
-        @Override
-        public String getKey() {
-            return this.key;
-        }
-
-        @Override
-        public Object getDefaultValue() {
-            return this.defaultValue;
-        }
-
-    }
-
-    @Override
-    public NBTTagCompound getDefaultTag() {
-        NBTTagCompound tag = new NBTTagCompound();
-        TagUtils.buildTagWithDefault(tag, EnumTags.values());
-        return tag;
-    }
-
-    @Override
-    public void updateItemTag(ItemStack stack) {
-        if (!stack.hasTagCompound()) {
-            buildDefaultTag(stack);
-            NBTTagCompound tag = stack.getTagCompound();
-
-            tag.setByte(EnumTags.RADIUS.key, (byte) 1);
-        }
     }
 
 }

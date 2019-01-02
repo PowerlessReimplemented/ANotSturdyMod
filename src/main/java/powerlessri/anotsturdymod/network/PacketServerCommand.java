@@ -14,7 +14,8 @@ import java.util.HashMap;
 import java.util.function.BiConsumer;
 
 /**
- * Sender: CLIENT  Receiver: SERVER
+ * <p>Sender: <b>CLIENT</b></p>
+ * <p>Receiver: <b>SERVER</b></p>
  */
 public class PacketServerCommand implements IMessage {
 

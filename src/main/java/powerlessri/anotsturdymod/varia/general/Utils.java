@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
@@ -43,6 +44,14 @@ public class Utils {
     }
 
 
+    public static TextComponentString prefixComponentFromLang(String key) {
+        return new TextComponentString(readFromLang(key) + " ");
+    }
+
+    public static TextComponentString stringComponentFromLang(String key) {
+        return new TextComponentString(readFromLang(key));
+    }
+
     public static String readFromLang(String key) {
         String result = I18n.translateToLocal(key);
         return result == null ? "" : result;
@@ -64,29 +73,27 @@ public class Utils {
     }
 
 
-    private static TextComponentString textStringWithStyle(String text, Style style) {
-        TextComponentString result = new TextComponentString(text);
-        result.setStyle(style);
-        return result;
+    private static ITextComponent textStringWithStyle(String text, Style style) {
+        return new TextComponentString(text).setStyle(style);
     }
 
-    public static TextComponentString createStringRed(String description) {
+    public static ITextComponent createStringRed(String description) {
         return textStringWithStyle(description, Reference.STYLE_RED);
     }
 
-    public static TextComponentString createStringBlue(String description) {
+    public static ITextComponent createStringBlue(String description) {
         return textStringWithStyle(description, Reference.STYLE_BLUE);
     }
 
-    public static TextComponentString createStringGray(String description) {
+    public static ITextComponent createStringGray(String description) {
         return textStringWithStyle(description, Reference.STYLE_LIGHT_GRAY);
     }
 
-    public static TextComponentString createStringDarkGray(String description) {
+    public static ITextComponent createStringDarkGray(String description) {
         return textStringWithStyle(description, Reference.STYLE_DARK_GRAY);
     }
 
-    public static TextComponentString createToolDescription(String description) {
+    public static ITextComponent createToolDescription(String description) {
         return textStringWithStyle(description, Reference.STYLE_TOOLTIP_DESCRIPTION);
     }
 
@@ -104,5 +111,6 @@ public class Utils {
         }
         return Preconditions.checkNotNull(backup);
     }
+
 
 }
