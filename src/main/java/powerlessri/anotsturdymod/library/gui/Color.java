@@ -1,7 +1,12 @@
 package powerlessri.anotsturdymod.library.gui;
 
-import net.minecraft.client.renderer.BufferBuilder;
-
+/**
+ * A specific, ranged color.
+ * <p>
+ * Any child class must make sure that all of the fields {@link #red}, {@link #green}, and {@link #blue} are between
+ * 0~255, inclusive.
+ * </p>
+ */
 public class Color {
 
     /**
@@ -9,67 +14,56 @@ public class Color {
      */
     private static Color[] colors = new Color[0xffffff + 1];
 
-    private static Color createAndCache(int index, int red, int green, int blue) {
-        Color color = new Color(red, green, blue);
-        colors[index] = color;
-        return color;
-    }
-
 
     public static Color hex(int hex) {
         if (colors[hex] != null) {
             return colors[hex];
         }
-        
-        int red = hex >> 16 & 255;
-        int green = hex >> 8 & 255;
-        int blue = hex & 255;
 
-        return createAndCache(hex, red, green, blue);
+        Color color = new Color(hex);
+        colors[hex] = color;
+        return color;
     }
 
     public static Color rgb(int red, int green, int blue) {
-        int hex = getHex(red, green, blue);
-        if (colors[hex] != null) {
-            return colors[hex];
-        }
-
-        return createAndCache(hex, red, green, blue);
-    }
-
-
-    public static int getHex(int red, int green, int blue) {
-        return (red & 255) << 16 |
+        int hexValue = (red & 255) << 16 |
                 (green & 255) << 8 |
                 (blue & 255);
+        return hex(hexValue);
     }
-    
+
+
     // TODO add HSV and HUE support
     private int hex;
-    
+
     private int red;
     private int green;
     private int blue;
 
+    public Color(int hex) {
+        this.hex = hex & 0xffffff;
+        this.updateRGBFromHex();
+    }
+
     public Color(int red, int green, int blue) {
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
+        this.red = red & 0xff;
+        this.green = green & 0xff;
+        this.blue = blue & 0xff;
         this.updateHexFromRGB();
     }
 
 
     protected void updateRGBFromHex() {
-        red = hex >> 16 & 255;
-        green = hex >> 8 & 255;
-        blue = hex & 255;
+        this.red = hex >> 16 & 0xff;
+        this.green = hex >> 8 & 0xff;
+        this.blue = hex & 0xff;
     }
-    
+
     protected void updateHexFromRGB() {
-        hex = getHex(red, green, blue);
+        this.hex = red << 16 | green << 8 | blue;
     }
-    
-    
+
+
     public int getHex() {
         return hex;
     }
@@ -84,6 +78,16 @@ public class Color {
 
     public int getBlue() {
         return blue;
+    }
+    
+    @Override
+    public String toString() {
+        return "Color{" + toStringContents() + "}";
+    }
+    
+    protected String toStringContents() {
+        return "hex=" + Integer.toHexString(getHex()) + ", " +
+                "rgb=(" + getRed() + ", " + getGreen() + ", " + getBlue() + "), ";
     }
     
 }
