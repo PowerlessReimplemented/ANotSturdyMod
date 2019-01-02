@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * An bridge between the component-tree based GUI system and vanilla's GUI system.
  */
-public class ComponentizedGui extends GuiContainer {
+public abstract class ComponentizedGui extends GuiContainer {
 
     /**
      * Number of updates since this GUI was created. Increases every time {@link #updateScreen()} is called.
@@ -47,12 +47,14 @@ public class ComponentizedGui extends GuiContainer {
     public void initGui() {
         super.initGui();
 
+        super.xSize = getMainWindow().getWidth();
+        super.ySize = getMainWindow().getHeight();
         this.timeCreated = System.currentTimeMillis();
         this.root = new ComponentRoot(this, windows);
         this.root.initialize(this, null);
     }
 
-    
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawDefaultBackground();
@@ -73,14 +75,14 @@ public class ComponentizedGui extends GuiContainer {
         GuiUtils.useTextureGLStates();
     }
 
-    
+
     @Override
     public void updateScreen() {
         super.updateScreen();
         updates++;
     }
 
-    
+
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
@@ -120,5 +122,8 @@ public class ComponentizedGui extends GuiContainer {
                 return EMouseButton.NONE;
         }
     }
+
+
+    public abstract IContainer<?> getMainWindow();
 
 }

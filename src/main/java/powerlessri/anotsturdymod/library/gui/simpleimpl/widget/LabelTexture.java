@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.library.gui.api.ITextureElement;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.varia.render.RenderingUtils;
 import powerlessri.anotsturdymod.varia.render.VertexSequencer;
 
 /**
@@ -12,11 +13,6 @@ import powerlessri.anotsturdymod.varia.render.VertexSequencer;
  */
 public class LabelTexture extends Label implements ITextureElement {
 
-    /**
-     * Copied from vanilla code {@link net.minecraft.client.gui.Gui#drawTexturedModalRect(int, int, int, int, int, int)
-     * Gui#drawTexturedModalRect}
-     */
-    public static final float UV_MULTIPLIER = 0.00390625f;
     /**
      * Default z value which will be used.
      */
@@ -51,10 +47,10 @@ public class LabelTexture extends Label implements ITextureElement {
         this.texture = texture;
         this.tx = tx;
         this.ty = ty;
-        this.u1 = tx * UV_MULTIPLIER;
-        this.v1 = ty * UV_MULTIPLIER;
-        this.u2 = (tx + width) * UV_MULTIPLIER;
-        this.v2 = (ty + height) * UV_MULTIPLIER;
+        this.u1 = tx * RenderingUtils.UV_MULTIPLIER;
+        this.v1 = ty * RenderingUtils.UV_MULTIPLIER;
+        this.u2 = (tx + width) * RenderingUtils.UV_MULTIPLIER;
+        this.v2 = (ty + height) * RenderingUtils.UV_MULTIPLIER;
     }
 
 

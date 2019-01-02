@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
+import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.api.IScrollableComponent;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
@@ -78,6 +79,12 @@ public class GuiLogicEditor extends ComponentizedGui {
         );
 
         super.initGui();
+    }
+
+    
+    @Override
+    public IContainer<?> getMainWindow() {
+        return windows.get(0);
     }
 
 }

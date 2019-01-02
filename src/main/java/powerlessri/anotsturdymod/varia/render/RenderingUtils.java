@@ -20,6 +20,15 @@ import javax.annotation.Nullable;
  */
 public class RenderingUtils {
 
+    /**
+     * 1/256, which is what vanilla assumes the texture size is.
+     * <p>
+     * Copied from vanilla code {@link Gui#drawTexturedModalRect(int, int, int, int, int, int)
+     * Gui#drawTexturedModalRect}
+     * </p>
+     */
+    public static final float UV_MULTIPLIER = 0.00390625f;
+
     public static void drawHorizontalLine(int x1, int y1, int x2, int color) {
         Gui.drawRect(x1, y1, x2, y1 + 1, color);
     }
@@ -34,10 +43,10 @@ public class RenderingUtils {
             int x2 = bx + width;
             int y2 = by + height;
 
-            float u1 = bx * LabelTexture.UV_MULTIPLIER;
-            float v1 = by * LabelTexture.UV_MULTIPLIER;
-            float u2 = x2 * LabelTexture.UV_MULTIPLIER;
-            float v2 = y2 * LabelTexture.UV_MULTIPLIER;
+            float u1 = bx * UV_MULTIPLIER;
+            float v1 = by * UV_MULTIPLIER;
+            float u2 = x2 * UV_MULTIPLIER;
+            float v2 = y2 * UV_MULTIPLIER;
             VertexSequencer.texturedBox(buffer, bx, by, x2, y2, LabelTexture.DEFAULT_Z, u1, v1, u2, v2);
         }
         TESRStateManager.finish();

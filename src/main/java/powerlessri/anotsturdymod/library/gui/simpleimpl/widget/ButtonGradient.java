@@ -8,7 +8,8 @@ import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
 import powerlessri.anotsturdymod.varia.render.TESRStateManager;
 import powerlessri.anotsturdymod.varia.render.VertexSequencer;
-import powerlessri.anotsturdymod.varia.render.style.GLGrayScale;
+import powerlessri.anotsturdymod.varia.render.style.VanillaPresets;
+import powerlessri.anotsturdymod.varia.render.utils.BoxUtils;
 
 public class ButtonGradient extends AbstractButton {
 
@@ -24,6 +25,9 @@ public class ButtonGradient extends AbstractButton {
     public static Color colorSPressed;
     public static Color colorEPressed;
 
+    public static Color colorNormalText;
+    public static Color colorDisabledText;
+
     private static void reloadColors() {
         colorSNormal = Color.hex(ClientConfig.gradientBtnSNormal);
         colorENormal = Color.hex(ClientConfig.gradientBtnENormal);
@@ -33,6 +37,9 @@ public class ButtonGradient extends AbstractButton {
 
         colorSPressed = Color.hex(ClientConfig.gradientBtnSPressed);
         colorEPressed = Color.hex(ClientConfig.gradientBtnEPressed);
+
+        colorNormalText = Color.hex(ClientConfig.gradientBtnTextNormal);
+        colorDisabledText = Color.hex(ClientConfig.gradientBtnTextDisabled);
     }
 
 
@@ -42,9 +49,7 @@ public class ButtonGradient extends AbstractButton {
 
     public ButtonGradient(int relativeX, int relativeY, int width, int height, String text) {
         super(relativeX, relativeY, width, height);
-
         this.setText(text);
-        reloadColors();
     }
 
 
@@ -59,46 +64,54 @@ public class ButtonGradient extends AbstractButton {
 
     public void setText(String text) {
         this.text = text;
-
-        int textWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(text);
-        textXOffset = (getWidth() / 2) - (textWidth / 2);
-        textYOffset = (getHeight() / 2) - (VANILLA_CHAR_HEIGHT / 2);
+        this.textXOffset = (getWidth() / 2) - (Minecraft.getMinecraft().fontRenderer.getStringWidth(text) / 2);
+        this.textYOffset = (getHeight() / 2) - (VANILLA_CHAR_HEIGHT / 2);
     }
 
 
     @Override
     public void drawNormal(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(1, colorSNormal, colorENormal, false);
-        drawText(ClientConfig.gradientBtnTextNormal);
+        this.drawGradientRectangleBox(1, colorSNormal, colorENormal, false);
+        this.drawText(colorNormalText.getHex());
     }
 
     @Override
     public void drawHovering(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(1, colorSHovering, colorEHovering, false);
-        drawText(ClientConfig.gradientBtnTextNormal);
+        this.drawGradientRectangleBox(1, colorSHovering, colorEHovering, false);
+        this.drawText(colorNormalText.getHex());
     }
 
     @Override
     public void drawPressed(GuiDrawBackgroundEvent event) {
-        drawGradientRectangleBox(1, colorSPressed, colorEPressed, true);
-        drawText(ClientConfig.gradientBtnTextNormal);
+        this.drawGradientRectangleBox(1, colorSPressed, colorEPressed, true);
+        this.drawText(colorNormalText.getHex());
     }
 
     @Override
     public void drawDisabled(GuiDrawBackgroundEvent event) {
-        drawNormal(event);
-        drawText(ClientConfig.gradientBtnTextDisabled);
+        this.drawNormal(event);
+        this.drawText(colorDisabledText.getHex());
     }
 
-    public void drawText(int color) {
+    
+    private void drawText(int color) {
         Minecraft.getMinecraft().fontRenderer.drawString(text, getTextX(), getTextY(), color);
     }
 
-
-    public void drawGradientRectangleBox(int shrink, Color top, Color bottom, boolean invert) {
+    private void drawGradientRectangleBox(int shrink, Color top, Color bottom, boolean invert) {
         BufferBuilder buffer = TESRStateManager.getGradientVBuffer();
-        VertexSequencer.verticalGradientBox(buffer, getActualX() + shrink, getActualY() + shrink, getActualXRight() - shrink, getActualYBottom() - shrink, 0, top, bottom);
-        GLGrayScale.vanillaBorder(buffer, getActualX(), getActualY(), getActualXRight(), getActualYBottom(), invert);
+        {
+            VertexSequencer.verticalGradientBox(buffer, getActualX() + shrink, getActualY() + shrink, getActualXRight() - shrink, getActualYBottom() - shrink, 0, top, bottom);
+            int x1 = getActualX();
+            int y1 = getActualY();
+            int x2 = getActualXRight();
+            int y2 = getActualYBottom();
+            if (invert) {
+                BoxUtils.putBorderVertexes(buffer, x1, y1, x2, y2, 1, VanillaPresets.BORDER_COLOR_DARK, VanillaPresets.BORDER_COLOR_LIGHT);
+            } else {
+                BoxUtils.putBorderVertexes(buffer, x1, y1, x2, y2, 1, VanillaPresets.BORDER_COLOR_LIGHT, VanillaPresets.BORDER_COLOR_DARK);
+            }
+        }
         TESRStateManager.finish();
     }
 
