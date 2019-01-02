@@ -30,3 +30,12 @@ gui.ansm:wireless_transmitter.button.scanNearbyTiles=扫描RF机器
 # Gui texts
 gui.ansm:wireless_transmitter.text.startedScanning=已开始扫描...
 gui.ansm:wireless_transmitter.text.amountPowerReceivers=RF使用者:
+
+
+# Config
+config.ansm:ansm_main.category.general=基本设置
+config.ansm:ansm_main.category.exchangers=方块交换器 - 配置
+config.ansm:ansm_main.category.energyNetwork=远程RF网络 - 配置
+
+# Client Config
+config.ansm:client.category.guiStyle=客户端 - GUI样式

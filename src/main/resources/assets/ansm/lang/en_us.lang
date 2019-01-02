@@ -35,7 +35,7 @@ gui.ansm:wireless_transmitter.text.amountPowerReceivers=Power Receivers:
 # Config
 config.ansm:ansm_main.category.general=General Settings
 config.ansm:ansm_main.category.exchangers=Exchanger Config
-config.ansm:ansm_main.category.energy_network=ENetwork Config
+config.ansm:ansm_main.category.energyNetwork=ENetwork Config
 
 # Client Config
-config.ansm:client.category.gui_style=Client - GUI Style
+config.ansm:client.category.guiStyle=Client - GUI Style
