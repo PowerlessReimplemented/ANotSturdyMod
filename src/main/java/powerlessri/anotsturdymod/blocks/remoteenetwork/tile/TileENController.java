@@ -94,13 +94,6 @@ public class TileENController extends TileEntityBase implements IENetworkControl
     }
 
 
-    public static final String TILE_REGISTRY_NAME = RegistryHandler.makeTileEntityID("energy_network_controller");
-
-    // NBT tags
-    public static final String CHANNEL = "storageChannel";
-    public static final String STORAGE_UPGRADES = "storageUpgrades";
-    public static final String STORAGE_ENERGY_REMAIN = "energyStored";
-
     public static final long DEFAULT_CAPACITY = 1000000000L;
     public static final long STORAGE_UPGRADE_INCREMENT = 10000000L;
     public static final int MAX_STORAGE_UPGRADES = 64;
@@ -219,28 +212,24 @@ public class TileENController extends TileEntityBase implements IENetworkControl
 
     @Override
     public void onRemoved() {
-        onChunkUnloadServer();
+        this.onChunkUnloadServer();
     }
 
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
+    public void restoreFromNBT(NBTTagCompound tag) {
+        this.channel = tag.getInteger("channel");
+        this.energyStored = tag.getLong("energy");
 
-        this.channel = tag.getInteger(CHANNEL);
-
-        this.amountStorageUpgrades = tag.getInteger(STORAGE_UPGRADES);
-        this.energyStored = tag.getLong(STORAGE_ENERGY_REMAIN);
+        this.amountStorageUpgrades = tag.getInteger("storageUpgrades");
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag.setInteger(CHANNEL, channel);
+    public void writeRestorableNBT(NBTTagCompound tag) {
+        tag.setInteger("channel", channel);
+        tag.setLong("energy", energyStored);
 
-        tag.setInteger(STORAGE_UPGRADES, amountStorageUpgrades);
-        tag.setLong(STORAGE_ENERGY_REMAIN, energyStored);
-
-        return super.writeToNBT(tag);
+        tag.setInteger("storageUpgrades", amountStorageUpgrades);
     }
 
 }

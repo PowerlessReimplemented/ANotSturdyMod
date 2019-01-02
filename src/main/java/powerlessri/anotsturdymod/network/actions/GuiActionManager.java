@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.network;
+package powerlessri.anotsturdymod.network.actions;
 
 import io.netty.buffer.ByteBuf;
 import powerlessri.anotsturdymod.library.gui.api.IActionHandler;
