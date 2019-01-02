@@ -1,14 +1,19 @@
 package powerlessri.anotsturdymod.varia.general;
 
+import com.google.common.base.Preconditions;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import powerlessri.anotsturdymod.varia.Reference;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 
 /**
@@ -39,6 +44,14 @@ public class Utils {
     }
 
 
+    public static TextComponentString prefixComponentFromLang(String key) {
+        return new TextComponentString(readFromLang(key) + " ");
+    }
+
+    public static TextComponentString stringComponentFromLang(String key) {
+        return new TextComponentString(readFromLang(key));
+    }
+
     public static String readFromLang(String key) {
         String result = I18n.translateToLocal(key);
         return result == null ? "" : result;
@@ -60,49 +73,44 @@ public class Utils {
     }
 
 
-    private static TextComponentString textStringWithStyle(String text, Style style) {
-        TextComponentString result = new TextComponentString(text);
-        result.setStyle(style);
-        return result;
+    private static ITextComponent textStringWithStyle(String text, Style style) {
+        return new TextComponentString(text).setStyle(style);
     }
 
-    public static TextComponentString createStringRed(String description) {
+    public static ITextComponent createStringRed(String description) {
         return textStringWithStyle(description, Reference.STYLE_RED);
     }
 
-    public static TextComponentString createStringBlue(String description) {
+    public static ITextComponent createStringBlue(String description) {
         return textStringWithStyle(description, Reference.STYLE_BLUE);
     }
 
-    public static TextComponentString createStringGray(String description) {
+    public static ITextComponent createStringGray(String description) {
         return textStringWithStyle(description, Reference.STYLE_LIGHT_GRAY);
     }
 
-    public static TextComponentString createStringDarkGray(String description) {
+    public static ITextComponent createStringDarkGray(String description) {
         return textStringWithStyle(description, Reference.STYLE_DARK_GRAY);
     }
 
-    public static TextComponentString createToolDescription(String description) {
+    public static ITextComponent createToolDescription(String description) {
         return textStringWithStyle(description, Reference.STYLE_TOOLTIP_DESCRIPTION);
     }
 
 
     /**
-     * Loop the number around until it is inside the given range 0 ~ (arrayLength - 1).
+     * <p>Selects the first nonnull value out of two candidates such that at least one of them is nonnull.</p>
      *
-     * @param index       The index to be adjusted
-     * @param arrayLength Upper limit for the index
-     * @return The adjusted index
+     * @param reference The value to be compared.
+     * @param backup    Alternative if the parameter {@code reference} is null.
      */
-    public static int loopIndexAround(int index, int arrayLength) {
-        if (index >= arrayLength) {
-            return loopIndexAround(index - arrayLength, arrayLength);
+    @Nonnull
+    public static <T> T selectNonnull(@Nullable T reference, @Nonnull T backup) {
+        if (reference != null) {
+            return reference;
         }
-        if (index < 0) {
-            // + because index would have a negative sign
-            return loopIndexAround(arrayLength + index, arrayLength);
-        }
-        return index;
+        return Preconditions.checkNotNull(backup);
     }
+
 
 }

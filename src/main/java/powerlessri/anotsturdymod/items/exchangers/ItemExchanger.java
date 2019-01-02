@@ -22,12 +22,9 @@ import powerlessri.anotsturdymod.config.ExchangerConfig;
 import powerlessri.anotsturdymod.handlers.init.RegistryItem;
 import powerlessri.anotsturdymod.library.item.base.SimpleItemBase;
 import powerlessri.anotsturdymod.varia.Reference;
-import powerlessri.anotsturdymod.varia.general.Utils;
-import powerlessri.anotsturdymod.varia.general.InventoryUtils;
-import powerlessri.anotsturdymod.varia.general.EMachineLevel;
+import powerlessri.anotsturdymod.varia.general.*;
 import powerlessri.anotsturdymod.varia.tags.EnchantmentUtils;
 import powerlessri.anotsturdymod.varia.tags.TagUtils;
-import powerlessri.anotsturdymod.varia.general.PosExtractor;
 
 import java.util.Random;
 
@@ -68,7 +65,7 @@ public class ItemExchanger extends SimpleItemBase {
         if (player.isSneaking()) {
             NBTTagCompound tag = TagUtils.getOrCreateTag(stack);
 
-            byte radius = (byte) Utils.loopIndexAround(tag.getByte(RADIUS) + 1, maxRadius);
+            byte radius = (byte) MathUtils.loopIndexAround(tag.getByte(RADIUS) + 1, maxRadius);
             tag.setByte(RADIUS, radius);
 
             player.sendStatusMessage(

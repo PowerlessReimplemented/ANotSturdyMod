@@ -14,9 +14,13 @@ item.ansm:transmutation_orb.name=Orb of Transmutations
 item.ansm:basic_exchanger.name=Basic Exchanger
 item.ansm:advanced_exchanger.name=Advanced Exchanger
 item.ansm:basic_illuminator.name=Illuminator (Basic)
+item.ansm:debug_tool.name=Debug Tool
 
 item.ansm.exchangers.inform.radius=Current radius:
 item.ansm.exchangers.error.tileEntity=Cannot exchange a tile entity!
+item.ansm.debugTool.msg.identifier=Block code name:
+item.ansm.debugTool.msg.properties=BlockState properties:
+item.ansm.debugTool.msg.tileInformation=TileEntity NBT:
 
 # Command usage
 command.ansm:utils.usage=Usage: /ansm_debug <option> [appends...]

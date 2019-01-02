@@ -1,15 +1,12 @@
 package powerlessri.anotsturdymod.items.transmutations;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import powerlessri.anotsturdymod.varia.general.Utils;
-import scala.actors.threadpool.Arrays;
+import powerlessri.anotsturdymod.varia.general.MathUtils;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +59,7 @@ public class WorldTransmutation {
     public IBlockState findNextBlockState(IBlockState current, int offset) {
         ImmutableList<IBlockState> state = getBlockStates();
         int currentIndex = state.indexOf(current);
-        int next = Utils.loopIndexAround(currentIndex + offset, state.size());
+        int next = MathUtils.loopIndexAround(currentIndex + offset, state.size());
         return state.get(next);
     }
 
