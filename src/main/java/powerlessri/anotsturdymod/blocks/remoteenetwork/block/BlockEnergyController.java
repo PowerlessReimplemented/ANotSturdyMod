@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
@@ -17,8 +18,10 @@ import powerlessri.anotsturdymod.handlers.init.RegistryItem;
 import powerlessri.anotsturdymod.library.block.base.TileBlockBase;
 import powerlessri.anotsturdymod.items.ItemUpgrade;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENController;
+import powerlessri.anotsturdymod.varia.math.ExtendedAABB;
 
-// TODO add model & texture
+import javax.annotation.Nullable;
+
 public class BlockEnergyController extends TileBlockBase {
 
     @RegistryBlock
@@ -29,6 +32,9 @@ public class BlockEnergyController extends TileBlockBase {
     
     @RegistryItem
     public static final ItemUpgrade IO_UPGRADE = new ItemUpgrade("energy_network_io_upgrade");
+
+
+    public static final ExtendedAABB BLOCK_AABB = new ExtendedAABB(0.0d, 0.0d, 0.0d, 1.0d, 1.5d, 1.0d);
 
 
     private BlockEnergyController(String name) {
@@ -72,6 +78,12 @@ public class BlockEnergyController extends TileBlockBase {
         return true;
     }
 
+    @Override
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+        IBlockState stateAbove = worldIn.getBlockState(pos.up());
+        return super.canPlaceBlockAt(worldIn, pos) && super.canPlaceBlockAt(worldIn, pos.up());
+    }
+
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
@@ -79,8 +91,25 @@ public class BlockEnergyController extends TileBlockBase {
     }
 
 
+    @Nullable
     @Override
-    public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+        return BLOCK_AABB;
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return BLOCK_AABB;
+    }
+
+
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 

@@ -1,6 +1,21 @@
 {
-  "forge-marker": 1,
+  "forge_marker": 1,
   "defaults": {
+    "model": "ansm:en_controller_body",
+    "textures": {
+      "basement": "minecraft:blocks/concrete_gray",
+      "bar_side": "minecraft:blocks/concrete_gray",
+
+      "coil_end": "minecraft:blocks/hardened_clay_stained_orange",
+      "coil_side": "minecraft:blocks/hardened_clay_stained_orange",
+
+      "controller_face": "ansm:blocks/enetwork/access_port_input",
+      "controller_end": "minecraft:blocks/hardened_clay_stained_cyan",
+      "cutout_side": "minecraft:blocks/hardened_clay_stained_cyan",
+
+      "particle": "#controller_face"
+    },
+    "transform": "forge:default-block"
   },
   "variants": {
     "normal": [{}],

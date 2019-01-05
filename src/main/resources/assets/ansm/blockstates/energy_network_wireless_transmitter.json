@@ -6,7 +6,9 @@
       "top": "ansm:blocks/enetwork/wireless_transmitter_top",
       "bottom": "ansm:blocks/enetwork/wireless_transmitter_bottom",
       "side": "ansm:blocks/enetwork/wireless_transmitter_side",
-      "hook_color": "minecraft:blocks/concrete_black"
+
+      "hook_color": "minecraft:blocks/concrete_black",
+      "particle": "#top"
     },
     "transform": "forge:default-block"
   },

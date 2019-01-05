@@ -1,8 +1,7 @@
 {
-  "forge-marker": 1,
   "variants": {
-    "normal": {
+    "normal": [{
       "model": "ansm:empty_model"
-    }
+    }]
   }
 }
