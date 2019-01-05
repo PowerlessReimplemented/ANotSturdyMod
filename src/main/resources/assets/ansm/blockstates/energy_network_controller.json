@@ -1,0 +1,9 @@
+{
+  "forge-marker": 1,
+  "defaults": {
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}]
+  }
+}

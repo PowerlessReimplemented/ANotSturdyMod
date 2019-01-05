@@ -2,7 +2,7 @@
   "forge-marker": 1,
   "variants": {
     "normal": {
-      "model": "ansm:invisible_light_cube"
+      "model": "ansm:empty_model"
     }
   }
 }

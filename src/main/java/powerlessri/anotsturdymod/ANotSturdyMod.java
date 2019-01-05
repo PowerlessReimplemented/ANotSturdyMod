@@ -1,15 +1,18 @@
 package powerlessri.anotsturdymod;
 
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import powerlessri.anotsturdymod.blocks.remoteenetwork.block.BlockEnergyWirelessTransmitter;
 import powerlessri.anotsturdymod.handlers.ComponentizedGuiHandler;
 import powerlessri.anotsturdymod.handlers.VanillaGuiHandler;
 import powerlessri.anotsturdymod.handlers.proxy.CommonProxy;
 import powerlessri.anotsturdymod.varia.Reference;
+import powerlessri.anotsturdymod.varia.general.Utils;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class ANotSturdyMod {
