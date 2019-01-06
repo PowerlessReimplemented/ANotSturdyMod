@@ -22,12 +22,14 @@ public class ModItems {
 
     public static void addItemForBlock(Block block) {
         if (block instanceof SimpleBlockBase) {
-            ITEMS.add(((SimpleBlockBase) block).getItemBlock());
-        } else {
-            ItemBlock item = new ItemBlock(block);
-            item.setRegistryName(block.getRegistryName());
-            ITEMS.add(item);
-        } 
+            addItemForBlock((SimpleBlockBase) block);
+        }
+    }
+
+    public static void addItemForBlock(SimpleBlockBase block) {
+        if (block.hasItemForm()) {
+            ITEMS.add(block.getItemBlock());
+        }
     }
     
     

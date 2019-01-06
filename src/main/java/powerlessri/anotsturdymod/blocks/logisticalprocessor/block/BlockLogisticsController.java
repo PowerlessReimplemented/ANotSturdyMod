@@ -35,4 +35,11 @@ public class BlockLogisticsController extends TileBlockBase implements ILogistic
         
         return false;
     }
+
+
+    @Override
+    public boolean hasItemForm() {
+        return true;
+    }
+
 }

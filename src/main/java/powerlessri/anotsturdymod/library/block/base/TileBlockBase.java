@@ -2,7 +2,6 @@ package powerlessri.anotsturdymod.library.block.base;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -34,12 +33,6 @@ public abstract class TileBlockBase extends SimpleBlockBase {
         if (tile != null && tile instanceof TileEntityBase) {
             ((TileEntityBase) tile).onRemoved();
         }
-    }
-
-
-    @Override
-    public boolean canEntitySpawn(IBlockState state, Entity entity) {
-        return false;
     }
 
 }

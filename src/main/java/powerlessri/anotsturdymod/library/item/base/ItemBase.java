@@ -7,10 +7,6 @@ import powerlessri.anotsturdymod.varia.Reference;
 public abstract class ItemBase extends Item {
 
     public ItemBase(String registryName) {
-        this(registryName, registryName);
-    }
-
-    public ItemBase(String registryName, String unlocalizedName) {
         this.setRegistryName(new ResourceLocation(Reference.MODID, registryName));
         this.setTranslationKey(this.getRegistryName().toString());
     }

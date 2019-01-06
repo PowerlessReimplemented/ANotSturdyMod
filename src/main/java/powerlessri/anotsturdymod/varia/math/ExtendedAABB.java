@@ -1,18 +1,60 @@
 package powerlessri.anotsturdymod.varia.math;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 
 import javax.vecmath.Matrix4d;
 import javax.vecmath.Vector3d;
+import java.io.Serializable;
 
-public class ExtendedAABB extends AxisAlignedBB {
+public class ExtendedAABB extends AxisAlignedBB implements Serializable {
+
+    public static ExtendedAABB of(Vec3i vec) {
+        return new ExtendedAABB(vec, vec);
+    }
+
+    public static ExtendedAABB of(Vec3d vec) {
+        return new ExtendedAABB(vec, vec);
+    }
+
+    public static ExtendedAABB of(Vector3d vec) {
+        return new ExtendedAABB(vec, vec);
+    }
+
 
     public static ExtendedAABB from(AxisAlignedBB source) {
         return new ExtendedAABB(source.minX, source.minY, source.minZ, source.maxX, source.maxY, source.maxZ);
+    }
+
+    public static NBTTagCompound toNBT(ExtendedAABB source) {
+        NBTTagCompound tag = new NBTTagCompound();
+        toNBT(source, tag);
+        return tag;
+    }
+
+    public static void toNBT(ExtendedAABB source, NBTTagCompound tag) {
+        tag.setDouble("minX", source.minX);
+        tag.setDouble("minY", source.minY);
+        tag.setDouble("minZ", source.minZ);
+        tag.setDouble("maxX", source.maxX);
+        tag.setDouble("maxY", source.maxY);
+        tag.setDouble("maxZ", source.maxZ);
+    }
+
+    public static ExtendedAABB fromNBT(NBTTagCompound tag) {
+        return new ExtendedAABB(
+                tag.getDouble("minX"),
+                tag.getDouble("minY"),
+                tag.getDouble("minZ"),
+                tag.getDouble("maxX"),
+                tag.getDouble("maxY"),
+                tag.getDouble("maxZ")
+        );
     }
 
 
@@ -20,12 +62,8 @@ public class ExtendedAABB extends AxisAlignedBB {
         super(x1, y1, z1, x2, y2, z2);
     }
 
-    public ExtendedAABB(BlockPos pos) {
-        super(pos);
-    }
-
-    public ExtendedAABB(BlockPos pos1, BlockPos pos2) {
-        super(pos1, pos2);
+    public ExtendedAABB(Vec3i min, Vec3i max) {
+        this(min.getX(), min.getY(), min.getZ(), max.getX(), max.getY(), max.getZ());
     }
 
     public ExtendedAABB(Vec3d min, Vec3d max) {
@@ -119,9 +157,9 @@ public class ExtendedAABB extends AxisAlignedBB {
         return new ExtendedAABB(min, max);
     }
 
-
     // =========================================================================//
     // Override the return types of parent methods to make chain calling easier //
+
     // =========================================================================//
 
 

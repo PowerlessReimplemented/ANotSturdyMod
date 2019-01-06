@@ -1,46 +1,52 @@
 package powerlessri.anotsturdymod.blocks;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import powerlessri.anotsturdymod.handlers.init.RegistryBlock;
-import powerlessri.anotsturdymod.library.block.base.BlockBase;
+import powerlessri.anotsturdymod.library.block.base.SimpleBlockBase;
+import powerlessri.anotsturdymod.varia.math.ExtendedAABB;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
 // TODO light cubes with color
-public class BlockLightCube extends BlockBase {
+public class BlockLightCube extends SimpleBlockBase {
 
     @RegistryBlock
     public static final BlockLightCube LIGHT_CUBE = new BlockLightCube("light_cube");
-    
-    public static final AxisAlignedBB LIGHT_CUBE_AABB = new AxisAlignedBB(0.3, 0.3, 0.3, 0.7, 0.7, 0.7);
 
-    
+    public static final ExtendedAABB LIGHT_CUBE_AABB = new ExtendedAABB(0.3d, 0.3d, 0.3d, 0.7d, 0.7d, 0.7d);
+
+
     public BlockLightCube(String name) {
         super(name, Material.CLOTH);
     }
 
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public ExtendedAABB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
         return LIGHT_CUBE_AABB;
     }
 
     @Nullable
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return NULL_AABB;
+    public ExtendedAABB getCollisionBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return EMPTY_AABB;
+    }
+
+    @Override
+    public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState state, BlockPos pos, EnumFacing face) {
+        return BlockFaceShape.UNDEFINED;
     }
 
     @Override
@@ -49,7 +55,7 @@ public class BlockLightCube extends BlockBase {
     }
 
     @Override
-    public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public boolean isNormalCube(IBlockState state) {
         return false;
     }
 
@@ -58,10 +64,6 @@ public class BlockLightCube extends BlockBase {
         return false;
     }
 
-    @Override
-    public boolean isFullCube(IBlockState state) {
-        return false;
-    }
 
     @Override
     public boolean causesSuffocation(IBlockState state) {
@@ -82,7 +84,7 @@ public class BlockLightCube extends BlockBase {
     @Override
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT;
+        return BlockRenderLayer.TRANSLUCENT;
     }
 
     @Override
@@ -98,6 +100,12 @@ public class BlockLightCube extends BlockBase {
         }
 
         return true;
+    }
+
+
+    @Override
+    public boolean hasItemForm() {
+        return false;
     }
 
 }
