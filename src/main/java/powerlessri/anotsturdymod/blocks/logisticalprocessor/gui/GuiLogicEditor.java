@@ -5,16 +5,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
-import powerlessri.anotsturdymod.library.gui.api.IScrollableComponent;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.IScrollableComponent;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventory;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.ScrollablePanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.LabelledSlots;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.LabelTexture;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ScrollableButtonGradient;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.slot.LabelledSlots;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.label.LabelTexture;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.button.ScrollableButtonGradient;
 import powerlessri.anotsturdymod.library.gui.template.AbstractTemplate;
 
 public class GuiLogicEditor extends ComponentizedGui {

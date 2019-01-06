@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.button;
 
 import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.EEventType;

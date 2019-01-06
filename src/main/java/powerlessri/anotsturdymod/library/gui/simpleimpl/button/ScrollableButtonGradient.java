@@ -1,8 +1,8 @@
-package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.button;
 
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.api.IScrollableComponent;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.IScrollableComponent;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 
 public class ScrollableButtonGradient extends ButtonGradient implements IScrollableComponent {

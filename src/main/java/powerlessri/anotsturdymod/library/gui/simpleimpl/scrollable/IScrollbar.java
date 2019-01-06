@@ -1,6 +1,8 @@
-package powerlessri.anotsturdymod.library.gui.api;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 
 import net.minecraft.client.gui.GuiScreen;
+import powerlessri.anotsturdymod.library.gui.api.IComponent;
+import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
 
 /**
  * <p>

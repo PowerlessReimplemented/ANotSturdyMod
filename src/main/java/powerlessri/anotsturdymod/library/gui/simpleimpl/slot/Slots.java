@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.slot;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;

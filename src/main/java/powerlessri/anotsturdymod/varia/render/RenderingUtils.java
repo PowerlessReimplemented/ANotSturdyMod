@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.library.gui.Color;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.LabelTexture;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.label.LabelTexture;
 
 import javax.annotation.Nullable;
 

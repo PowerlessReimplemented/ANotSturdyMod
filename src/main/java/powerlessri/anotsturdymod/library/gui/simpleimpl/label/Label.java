@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.label;
 
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 

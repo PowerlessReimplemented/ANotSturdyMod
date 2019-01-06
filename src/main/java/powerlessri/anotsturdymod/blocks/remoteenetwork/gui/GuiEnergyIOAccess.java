@@ -3,7 +3,6 @@ package powerlessri.anotsturdymod.blocks.remoteenetwork.gui;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -14,7 +13,7 @@ import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENComponentBase;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.LabelTexture;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.label.LabelTexture;
 import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 import powerlessri.anotsturdymod.varia.Reference;
 

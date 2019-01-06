@@ -1,7 +1,6 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
-import powerlessri.anotsturdymod.library.gui.api.IScrollingPanel;
 
 public class SlidingScrollbar extends ScrollbarThinStyled {
     

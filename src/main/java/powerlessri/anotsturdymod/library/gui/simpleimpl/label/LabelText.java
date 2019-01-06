@@ -1,8 +1,9 @@
-package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.label;
 
 import net.minecraft.client.Minecraft;
 import powerlessri.anotsturdymod.library.gui.Color;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.button.ButtonGradient;
 
 public class LabelText extends Label {
 
