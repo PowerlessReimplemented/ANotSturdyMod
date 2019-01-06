@@ -5,13 +5,12 @@ import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.config.client.GuiStyleConfig;
 import powerlessri.anotsturdymod.library.gui.Color;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
 import powerlessri.anotsturdymod.varia.render.TESRStateManager;
 import powerlessri.anotsturdymod.varia.render.VertexSequencer;
 import powerlessri.anotsturdymod.varia.render.style.VanillaPresets;
 import powerlessri.anotsturdymod.varia.render.utils.BoxUtils;
 
-public class ButtonGradient extends AbstractButton {
+public class ButtonGradient extends Button {
 
     public static final int VANILLA_CHAR_HEIGHT = 8;
 

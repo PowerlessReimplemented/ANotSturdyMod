@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.library.gui.api.IScrollbar;
 import powerlessri.anotsturdymod.library.gui.api.IScrollingPanel;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.Button;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.ButtonGradient;
 import powerlessri.anotsturdymod.varia.render.utils.BoxUtils;
 import powerlessri.anotsturdymod.varia.render.utils.LineUtils;
@@ -14,7 +14,7 @@ import powerlessri.anotsturdymod.varia.render.style.VanillaPresets;
 
 import javax.annotation.Nonnull;
 
-public abstract class ScrollbarThinStyled extends AbstractButton implements IScrollbar {
+public abstract class ScrollbarThinStyled extends Button implements IScrollbar {
     
     public static final int WIDTH = 7;
     public static final int LINE_LABEL_OFFSET = 2;

@@ -1,17 +1,17 @@
-package powerlessri.anotsturdymod.library.gui.simpleimpl;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IScrollbar;
 import powerlessri.anotsturdymod.library.gui.api.IScrollingPanel;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractButton;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.Button;
 
 import javax.annotation.Nullable;
 
-public abstract class AbstractScrollbar extends AbstractButton implements IScrollbar {
+public abstract class Scrollbar extends Button implements IScrollbar {
     
     private IScrollingPanel parent;
 
-    public AbstractScrollbar(int relativeX, int relativeY, int width, int height) {
+    public Scrollbar(int relativeX, int relativeY, int width, int height) {
         super(relativeX, relativeY, width, height);
     }
 
