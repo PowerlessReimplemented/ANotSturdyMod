@@ -3,7 +3,6 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.label;
 import net.minecraft.client.Minecraft;
 import powerlessri.anotsturdymod.library.gui.Color;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.button.ButtonGradient;
 
 public class LabelText extends Label {
 
@@ -12,7 +11,7 @@ public class LabelText extends Label {
     }
 
     private static int calculateHeight(int verticalMargin) {
-        return verticalMargin * 2 + ButtonGradient.VANILLA_CHAR_HEIGHT;
+        return verticalMargin * 2 + 8;
     }
 
 

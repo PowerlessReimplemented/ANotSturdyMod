@@ -4,10 +4,11 @@ import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
+import powerlessri.anotsturdymod.library.gui.api.IOnOffState;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 
-public abstract class Button extends AbstractComponent implements IInteractionHandler {
+public abstract class Button extends AbstractComponent implements IInteractionHandler, IOnOffState {
 
     private boolean disabled = false;
     private boolean pressed = false;
@@ -30,10 +31,12 @@ public abstract class Button extends AbstractComponent implements IInteractionHa
         return true;
     }
 
+    @Override
     public void disable() {
         disabled = true;
     }
 
+    @Override
     public void enable() {
         disabled = false;
     }
@@ -42,6 +45,7 @@ public abstract class Button extends AbstractComponent implements IInteractionHa
         return pressed;
     }
 
+    @Override
     public boolean isDisabled() {
         return disabled;
     }
