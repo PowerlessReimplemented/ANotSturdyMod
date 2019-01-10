@@ -1,7 +1,8 @@
-package powerlessri.anotsturdymod.library.keyboard;
+package powerlessri.anotsturdymod.library.keyboard.keys;
 
 import com.google.common.base.MoreObjects;
 import net.minecraft.util.IStringSerializable;
+import powerlessri.anotsturdymod.library.keyboard.ModifierKey;
 
 public enum LRModifierKey implements ModifierKey, IStringSerializable {
 

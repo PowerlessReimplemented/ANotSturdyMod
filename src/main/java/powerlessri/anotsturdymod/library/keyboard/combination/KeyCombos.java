@@ -1,4 +1,7 @@
-package powerlessri.anotsturdymod.library.keyboard;
+package powerlessri.anotsturdymod.library.keyboard.combination;
+
+import powerlessri.anotsturdymod.library.keyboard.keys.LRModifierKey;
+import powerlessri.anotsturdymod.library.keyboard.keys.LetterKey;
 
 public class KeyCombos {
 

@@ -1,6 +1,9 @@
-package powerlessri.anotsturdymod.library.keyboard;
+package powerlessri.anotsturdymod.library.keyboard.combination;
 
 import com.google.common.collect.ImmutableList;
+import powerlessri.anotsturdymod.library.keyboard.Key;
+import powerlessri.anotsturdymod.library.keyboard.ModifierKey;
+import powerlessri.anotsturdymod.library.keyboard.UtilKeyCombination;
 
 import javax.annotation.Nonnull;
 

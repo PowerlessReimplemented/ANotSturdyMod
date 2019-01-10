@@ -1,8 +1,9 @@
-package powerlessri.anotsturdymod.library.keyboard;
+package powerlessri.anotsturdymod.library.keyboard.keys;
 
 import com.google.common.base.MoreObjects;
 import net.minecraft.util.IStringSerializable;
 import org.lwjgl.input.Keyboard;
+import powerlessri.anotsturdymod.library.keyboard.Key;
 
 public enum LetterKey implements Key, IStringSerializable {
 
