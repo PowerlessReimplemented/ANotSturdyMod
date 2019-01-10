@@ -1,8 +1,10 @@
 package powerlessri.anotsturdymod.library.keyboard;
 
+import com.google.common.base.MoreObjects;
+import net.minecraft.util.IStringSerializable;
 import org.lwjgl.input.Keyboard;
 
-public enum NormalModifierKey implements ModifierKey {
+public enum NormalModifierKey implements ModifierKey, IStringSerializable {
 
     LCTRL("Left Control", "LCTRL", Keyboard.KEY_LCONTROL),
     RCTRL("Right Control", "RCTRL", Keyboard.KEY_RCONTROL),
@@ -60,6 +62,20 @@ public enum NormalModifierKey implements ModifierKey {
     @Override
     public boolean hasSubKeys() {
         return false;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", name)
+                .add("code", code)
+                .add("keyCode", keyCode)
+                .toString();
     }
 
 }

@@ -1,6 +1,9 @@
 package powerlessri.anotsturdymod.library.keyboard;
 
-public enum LRModifierKey implements ModifierKey {
+import com.google.common.base.MoreObjects;
+import net.minecraft.util.IStringSerializable;
+
+public enum LRModifierKey implements ModifierKey, IStringSerializable {
 
     CTRL("Control", "CTRL", NormalModifierKey.LCTRL, NormalModifierKey.RCTRL),
     SHIFT("Shift", "SHIFT", NormalModifierKey.LSHIFT, NormalModifierKey.RSHIFT),
@@ -50,4 +53,18 @@ public enum LRModifierKey implements ModifierKey {
         return true;
     }
 
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", name)
+                .add("code", code)
+                .add("leftKey", leftKey)
+                .add("rightKey", rightKey)
+                .toString();
+    }
 }
