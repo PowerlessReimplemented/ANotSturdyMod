@@ -18,41 +18,13 @@ public class ComponentRoot implements IContainer {
     private GuiScreen gui;
 
     private EventManager eventManager;
+    private CursorPositionHandler cursorManager;
 
     public ComponentRoot(GuiScreen gui, ImmutableList<IContainer<IComponent>> windows) {
         this.gui = gui;
         this.windows = windows;
     }
 
-    private void initializeAllComponents() {
-        for (IComponent component : windows) {
-            component.initialize(gui, this);
-        }
-    }
-
-
-    @Override
-    public void draw(GuiDrawBackgroundEvent event) {
-        for (IContainer<IComponent> window : windows) {
-            window.draw(event);
-        }
-    }
-
-
-    public EventManager getEventManager() {
-        return eventManager;
-    }
-
-    @Override
-    public List<IContainer<IComponent>> getComponents() {
-        return windows;
-    }
-
-
-    @Override
-    public boolean acceptsZIndex() {
-        return false;
-    }
 
     @Override
     public void initialize(GuiScreen gui, IComponent parent) {
@@ -65,8 +37,50 @@ public class ComponentRoot implements IContainer {
         this.leaves = ComponentStructureProjector.leaves(flattened);
 
         this.eventManager = EventManager.forLeaves(leaves);
+        this.cursorManager = new CursorPositionHandler(this);
 
         this.initializeAllComponents();
+    }
+
+    private void initializeAllComponents() {
+        for (IComponent component : windows) {
+            component.initialize(gui, this);
+        }
+    }
+
+    @Override
+    public void draw(GuiDrawBackgroundEvent event) {
+        for (IContainer<IComponent> window : windows) {
+            window.draw(event);
+        }
+    }
+
+
+    public EventManager getEventManager() {
+        return this.eventManager;
+    }
+
+    public CursorPositionHandler getCursorManager() {
+        return this.cursorManager;
+    }
+
+    @Override
+    public List<IContainer<IComponent>> getComponents() {
+        return this.windows;
+    }
+
+    public ImmutableList<IComponent> getFlattened() {
+        return this.flattened;
+    }
+
+    public ImmutableList<IComponent> getLeaves() {
+        return this.leaves;
+    }
+
+
+    @Override
+    public boolean acceptsZIndex() {
+        return false;
     }
 
     @Override

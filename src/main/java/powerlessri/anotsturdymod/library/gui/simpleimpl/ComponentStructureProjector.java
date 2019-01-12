@@ -23,7 +23,7 @@ public class ComponentStructureProjector {
         for (IComponent component : parent.getComponents()) {
             flattened.add(component);
 
-            if (component instanceof IContainer) { 
+            if (component instanceof IContainer) {
                 flattenRecursive((IContainer<? extends IComponent>) component, flattened);
             }
         }
@@ -39,6 +39,5 @@ public class ComponentStructureProjector {
         }
         return leaves.build();
     }
-
 
 }
