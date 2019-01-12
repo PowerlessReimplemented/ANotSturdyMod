@@ -1,9 +1,11 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.eventbus.EventBus;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiUpdate;
 import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
@@ -36,8 +38,8 @@ public class ComponentRoot implements IContainer {
         this.flattened = ComponentStructureProjector.flatten(windows);
         this.leaves = ComponentStructureProjector.leaves(flattened);
 
-        this.eventManager = MouseEventManager.forLeaves(leaves);
-        this.cursorManager = new CursorPositionHandler(this);
+        this.cursorManager = new CursorPositionHandler(this, leaves);
+        this.eventManager = MouseEventManager.forLeaves(leaves, cursorManager);
 
         this.initializeAllComponents();
     }
@@ -53,6 +55,10 @@ public class ComponentRoot implements IContainer {
         for (IContainer<IComponent> window : windows) {
             window.draw(event);
         }
+    }
+
+    public void update(ContextGuiUpdate ctx) {
+        this.getCursorManager().update(ctx);
     }
 
 

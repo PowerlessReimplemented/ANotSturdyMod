@@ -1,5 +1,7 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 
+import powerlessri.anotsturdymod.library.gui.api.IComponent;
+
 public interface IScrollableComponent extends IComponent {
 
     /**

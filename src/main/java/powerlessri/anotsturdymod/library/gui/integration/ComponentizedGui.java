@@ -2,7 +2,10 @@ package powerlessri.anotsturdymod.library.gui.integration;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
+import org.lwjgl.input.Mouse;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
@@ -79,6 +82,12 @@ public abstract class ComponentizedGui extends GuiContainer {
     @Override
     public void updateScreen() {
         super.updateScreen();
+
+        // Copied from GuiScreen#handleMouseInput()
+        int x = Mouse.getEventX() * this.width / this.mc.displayWidth;
+        int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
+        root.update(new ContextGuiUpdate(updates, x, y));
+
         updates++;
     }
 
@@ -88,6 +97,7 @@ public abstract class ComponentizedGui extends GuiContainer {
         super.mouseClicked(mouseX, mouseY, mouseButton);
 
         root.getMouseEventManager().emitMouseClicked(mouseX, mouseY, getMouseButton(mouseButton));
+        // TODO use other hovering dragging trigger mechanic
     }
 
     @Override
@@ -98,7 +108,6 @@ public abstract class ComponentizedGui extends GuiContainer {
         EMouseButton button = getMouseButton(mouseButton);
 
         eventManager.emitClickedDragging(mouseX, mouseY, button, timePressed);
-        eventManager.emitHoveringDragging(mouseX, mouseY, button, timePressed);
     }
 
     @Override

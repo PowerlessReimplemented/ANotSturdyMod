@@ -13,20 +13,23 @@ import java.util.function.Consumer;
 
 public class MouseEventManager {
 
-    public static MouseEventManager forLeaves(ImmutableList<IComponent> leaves) {
-        return forHandlers(ComponentStructureProjector.handlers(leaves));
+    public static MouseEventManager forLeaves(ImmutableList<IComponent> leaves, CursorPositionHandler cursorPositionHandler) {
+        return forHandlers(ComponentStructureProjector.handlers(leaves), cursorPositionHandler);
     }
 
-    public static MouseEventManager forHandlers(ImmutableList<IInteractionHandler> handlers) {
-        return new MouseEventManager(handlers);
+    public static MouseEventManager forHandlers(ImmutableList<IInteractionHandler> handlers, CursorPositionHandler cursorPositionHandler) {
+        return new MouseEventManager(handlers, cursorPositionHandler);
     }
 
 
     private List<IInteractionHandler> handlers;
     private IInteractionHandler lastClicked;
 
-    MouseEventManager(List<IInteractionHandler> handlers) {
+    private CursorPositionHandler cursorPositionHandler;
+
+    MouseEventManager(List<IInteractionHandler> handlers, CursorPositionHandler handler) {
         this.handlers = handlers;
+        this.cursorPositionHandler = handler;
     }
 
 
@@ -37,6 +40,7 @@ public class MouseEventManager {
                 if (!handler.doesReceiveEvents()) {
                     return;
                 }
+                this.cursorPositionHandler.onClickEvent(handler);
 
                 EnumActionResult result = handler.onClicked(mouseX, mouseY, button, EEventType.ORIGINAL);
                 if (result == EnumActionResult.FAIL) {
