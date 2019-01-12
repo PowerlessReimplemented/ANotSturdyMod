@@ -2,38 +2,34 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.Util;
-import powerlessri.anotsturdymod.library.gui.api.*;
-import powerlessri.anotsturdymod.varia.general.Utils;
+import powerlessri.anotsturdymod.library.gui.api.EEventType;
+import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
+import powerlessri.anotsturdymod.library.gui.api.IComponent;
+import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
 
 import javax.annotation.Nullable;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Consumer;
 
-public class EventManager {
-    
-    public static EventManager forLeaves(ImmutableList<IComponent> leaves) {
-        EventManager eventManager = new EventManager();
-        
-        ImmutableList.Builder<IInteractionHandler> handlerBuilder = ImmutableList.builder();
-        for (IComponent leaf : leaves) {
-            if (leaf instanceof IInteractionHandler) {
-                handlerBuilder.add((IInteractionHandler) leaf);
-            }
-        }
-        
-        eventManager.handlers = handlerBuilder.build();
-        return eventManager;
+public class MouseEventManager {
+
+    public static MouseEventManager forLeaves(ImmutableList<IComponent> leaves) {
+        return forHandlers(ComponentStructureProjector.handlers(leaves));
     }
-    
+
+    public static MouseEventManager forHandlers(ImmutableList<IInteractionHandler> handlers) {
+        return new MouseEventManager(handlers);
+    }
+
 
     private List<IInteractionHandler> handlers;
-    
     private IInteractionHandler lastClicked;
 
-    
+    MouseEventManager(List<IInteractionHandler> handlers) {
+        this.handlers = handlers;
+    }
+
+
     public void emitMouseClicked(int mouseX, int mouseY, EMouseButton button) {
         for (IInteractionHandler handler : handlers) {
             if (handler.isPointInside(mouseX, mouseY) && handler.doesReceiveEvents()) {
@@ -88,5 +84,5 @@ public class EventManager {
             target = target.getParentComponent();
         }
     }
-    
+
 }

@@ -7,7 +7,7 @@ import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.ComponentRoot;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.EventManager;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.MouseEventManager;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 import java.io.IOException;
@@ -87,14 +87,14 @@ public abstract class ComponentizedGui extends GuiContainer {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
 
-        root.getEventManager().emitMouseClicked(mouseX, mouseY, getMouseButton(mouseButton));
+        root.getMouseEventManager().emitMouseClicked(mouseX, mouseY, getMouseButton(mouseButton));
     }
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timePressed) {
         super.mouseClickMove(mouseX, mouseY, mouseButton, timePressed);
 
-        EventManager eventManager = root.getEventManager();
+        MouseEventManager eventManager = root.getMouseEventManager();
         EMouseButton button = getMouseButton(mouseButton);
 
         eventManager.emitClickedDragging(mouseX, mouseY, button, timePressed);
@@ -105,7 +105,7 @@ public abstract class ComponentizedGui extends GuiContainer {
     protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
         super.mouseReleased(mouseX, mouseY, mouseButton);
 
-        root.getEventManager().emitMouseReleased(mouseX, mouseY, getMouseButton(mouseButton));
+        root.getMouseEventManager().emitMouseReleased(mouseX, mouseY, getMouseButton(mouseButton));
     }
 
 
