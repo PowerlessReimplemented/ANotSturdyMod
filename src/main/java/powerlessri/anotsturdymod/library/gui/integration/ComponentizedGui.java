@@ -5,11 +5,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import org.lwjgl.input.Mouse;
-import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.ComponentRoot;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.MouseEventManager;
 import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 import java.io.IOException;
@@ -102,6 +100,7 @@ public abstract class ComponentizedGui extends GuiContainer {
      * <li>{@link #mouseReleased(int, int, int)} when LWJGL says user did not press his mouse and one of the previous call triggered {@link
      * #mouseClicked(int, int, int)}</li>
      * <li>{@link #mouseClickMove(int, int, int, long)} every tick when LWJGL says user is pressing his mouse</li>
+     * <li>{@link #mouseMove(int, int)} every tick</li>
      * </ul>
      * </p>
      *
@@ -110,6 +109,7 @@ public abstract class ComponentizedGui extends GuiContainer {
     @Override
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
+        this.mouseMove(getMouseX(), getMouseY());
     }
 
     /**
@@ -125,65 +125,48 @@ public abstract class ComponentizedGui extends GuiContainer {
 
     /**
      * Called from the main game loop {@link Minecraft#runTick()} to update the screen.
+     * <p>Handles mouse movement events.</p>
      */
     @Override
     public void updateScreen() {
         super.updateScreen();
-
-        // Copied from GuiScreen#handleMouseInput()
-        int x = Mouse.getEventX() * this.width / this.mc.displayWidth;
-        int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
-        EMouseButton button = getMouseButton(Mouse.getEventButton());
-
-        // Handles hovering drags
-        root.getMouseEventManager().emitHoveringDragging(x, y, button);
-
-        root.update(new ContextGuiUpdate(updates, x, y));
+        root.update(new ContextGuiUpdate(updates, getMouseX(), getMouseY()));
         updates++;
     }
 
+    protected void mouseMove(int mouseX, int mouseY) {
+        root.getMouseEventManager().emitHovering(mouseX, mouseY);
+    }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-
-        root.getMouseEventManager().emitMouseClicked(mouseX, mouseY, getMouseButton(mouseButton));
-        // TODO use other hovering dragging trigger mechanic
+        root.getMouseEventManager().emitMouseClicked(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton));
     }
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timePressed) {
         super.mouseClickMove(mouseX, mouseY, mouseButton, timePressed);
-
-        MouseEventManager eventManager = root.getMouseEventManager();
-        EMouseButton button = getMouseButton(mouseButton);
-
-        eventManager.emitClickedDragging(mouseX, mouseY, button, timePressed);
+        root.getMouseEventManager().emitClickedDragging(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton), timePressed);
     }
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
         super.mouseReleased(mouseX, mouseY, mouseButton);
-
-        root.getMouseEventManager().emitMouseReleased(mouseX, mouseY, getMouseButton(mouseButton));
-    }
-
-
-    private EMouseButton getMouseButton(int mouseButton) {
-        switch (mouseButton) {
-            case 0:
-                return EMouseButton.PRIMARY;
-            case 1:
-                return EMouseButton.MIDDLE;
-            case 2:
-                return EMouseButton.SECONDARY;
-
-            default:
-                return EMouseButton.NONE;
-        }
+        root.getMouseEventManager().emitMouseReleased(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton));
     }
 
 
     public abstract IContainer<?> getMainWindow();
+
+    public int getMouseX() {
+        // Copied from GuiScreen#handleMouseInput()
+        return Mouse.getEventX() * this.width / this.mc.displayWidth;
+    }
+
+    public int getMouseY() {
+        // Copied from GuiScreen#handleMouseInput()
+        return this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
+    }
 
 }

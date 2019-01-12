@@ -59,10 +59,11 @@ public class MouseEventManager {
         }
     }
 
-    public void emitHoveringDragging(int mouseX, int mouseY, EMouseButton button) {
+    public void emitHovering(int mouseX, int mouseY) {
         for (InteractionHandler handler : handlers) {
             if (handler != lastClicked && handler.isPointInside(mouseX, mouseY) && handler.isVisible()) {
-                handler.onHoveredDragging(mouseX, mouseY, button);
+                handler.onHovering(mouseX, mouseY);
+                bubbleUpEvent(handler, target -> target.onHovering(mouseX, mouseY));
             }
         }
     }

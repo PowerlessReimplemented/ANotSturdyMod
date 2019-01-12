@@ -5,10 +5,11 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 
 @SideOnly(Side.CLIENT)
 public class GuiUtils {
-    
+
     private GuiUtils() {
     }
 
@@ -25,7 +26,7 @@ public class GuiUtils {
         GlStateManager.disableTexture2D();
         GlStateManager.disableBlend();
     }
-    
+
     public static void useTextureGLStates() {
         GlStateManager.enableTexture2D();
         GlStateManager.disableAlpha();
@@ -33,5 +34,20 @@ public class GuiUtils {
         GlStateManager.disableLighting();
         GlStateManager.color(1, 1, 1);
     }
-    
+
+
+    public static EMouseButton getMouseButton(int mouseButton) {
+        switch (mouseButton) {
+            case 0:
+                return EMouseButton.PRIMARY;
+            case 1:
+                return EMouseButton.MIDDLE;
+            case 2:
+                return EMouseButton.SECONDARY;
+
+            default:
+                return EMouseButton.NONE;
+        }
+    }
+
 }

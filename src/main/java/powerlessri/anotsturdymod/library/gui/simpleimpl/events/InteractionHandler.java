@@ -27,7 +27,7 @@ public interface InteractionHandler extends IComponent {
     /**
      * When player clicked the component, triggers every time the GUI updates as long as player hold his mouse button.
      * 
-     * <p>Note that if this event was triggered, {@link #onHoveredDragging(int, int, EMouseButton)} will not trigger.</p>
+     * <p>Note that if this event was triggered, {@link #onHovering(int, int)} will not trigger.</p>
      * <p>This event will not bubble up.</p>
      */
     void onClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed);
@@ -38,7 +38,7 @@ public interface InteractionHandler extends IComponent {
      * <p>Only triggers when {@link #onClickedDragging(int, int, EMouseButton, long)} didn't.</p>
      * <p>This event will not bubble up.</p>
      */
-    void onHoveredDragging(int mouseX, int mouseY, EMouseButton button);
+    void onHovering(int mouseX, int mouseY);
     
     /**
      * Triggers when player released the mouse button. Called on last clicked component.
