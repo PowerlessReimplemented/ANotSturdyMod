@@ -3,7 +3,7 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 
 import java.util.List;
@@ -122,7 +122,7 @@ public class ScrollablePanel extends AbstractComponent implements IScrollingPane
 
 
     @Override
-    public void draw(GuiDrawBackgroundEvent event) {
+    public void draw(ContextGuiDrawing event) {
         for (IScrollableComponent component : components) {
             component.draw(event);
         }

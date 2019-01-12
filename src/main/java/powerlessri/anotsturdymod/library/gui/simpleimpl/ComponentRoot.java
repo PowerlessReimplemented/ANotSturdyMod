@@ -1,12 +1,11 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.eventbus.EventBus;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiUpdate;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
 import javax.annotation.Nullable;
@@ -51,7 +50,7 @@ public class ComponentRoot implements IContainer {
     }
 
     @Override
-    public void draw(GuiDrawBackgroundEvent event) {
+    public void draw(ContextGuiDrawing event) {
         for (IContainer<IComponent> window : windows) {
             window.draw(event);
         }

@@ -1,10 +1,9 @@
 package powerlessri.anotsturdymod.library.gui.integration;
 
 import com.google.common.collect.ImmutableList;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
 import org.lwjgl.input.Mouse;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
@@ -68,17 +67,65 @@ public abstract class ComponentizedGui extends GuiContainer {
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         GuiUtils.useTextureGLStates();
-        drawComponentTree(new GuiDrawBackgroundEvent(System.currentTimeMillis() - timeCreated, mouseX, mouseY, partialTicks));
+        drawComponentTree(new ContextGuiDrawing(System.currentTimeMillis() - timeCreated, mouseX, mouseY, partialTicks));
         // In case somebody forget to call GlStateManager.enableTexture2D()
         // If they did enable  do that and this line does not exist, features from vanilla (e.g. text painting) will break
         GuiUtils.useTextureGLStates();
     }
 
-    private void drawComponentTree(GuiDrawBackgroundEvent event) {
+    private void drawComponentTree(ContextGuiDrawing event) {
         root.draw(event);
     }
 
 
+    /**
+     * Delegates mouse and keyboard input.
+     * <p>
+     * Called in {@link Minecraft#runTick()}, before {@link #updateScreen()} is called. This method processes mouse and keyboard events.
+     * They are separately processed in {@link #handleMouseInput()} and {@link #handleKeyboardInput()}.
+     * </p>
+     *
+     * @see Mouse
+     * @see org.lwjgl.input.Keyboard
+     */
+    @Override
+    public void handleInput() throws IOException {
+        super.handleInput();
+    }
+
+    /**
+     * Handles mouse input.
+     * <p>
+     * Calls:
+     * <ul>
+     * <li>{@link #mouseClicked(int, int, int)} when LWJGL says user pressed his mouse</li>
+     * <li>{@link #mouseReleased(int, int, int)} when LWJGL says user did not press his mouse and one of the previous call triggered {@link
+     * #mouseClicked(int, int, int)}</li>
+     * <li>{@link #mouseClickMove(int, int, int, long)} every tick when LWJGL says user is pressing his mouse</li>
+     * </ul>
+     * </p>
+     *
+     * @see #handleInput()
+     */
+    @Override
+    public void handleMouseInput() throws IOException {
+        super.handleMouseInput();
+    }
+
+    /**
+     * Handles keyboard input.
+     * <p>Calls {@link #keyTyped(char, int)} will be called for any initial key presses.</p>
+     *
+     * @see #handleInput()
+     */
+    @Override
+    public void handleKeyboardInput() throws IOException {
+        super.handleKeyboardInput();
+    }
+
+    /**
+     * Called from the main game loop {@link Minecraft#runTick()} to update the screen.
+     */
     @Override
     public void updateScreen() {
         super.updateScreen();
@@ -86,8 +133,12 @@ public abstract class ComponentizedGui extends GuiContainer {
         // Copied from GuiScreen#handleMouseInput()
         int x = Mouse.getEventX() * this.width / this.mc.displayWidth;
         int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
-        root.update(new ContextGuiUpdate(updates, x, y));
+        EMouseButton button = getMouseButton(Mouse.getEventButton());
 
+        // Handles hovering drags
+        root.getMouseEventManager().emitHoveringDragging(x, y, button);
+
+        root.update(new ContextGuiUpdate(updates, x, y));
         updates++;
     }
 

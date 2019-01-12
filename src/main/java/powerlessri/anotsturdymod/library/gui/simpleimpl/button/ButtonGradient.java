@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.config.client.GuiStyleConfig;
 import powerlessri.anotsturdymod.library.gui.Color;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.varia.render.TESRStateManager;
 import powerlessri.anotsturdymod.varia.render.VertexSequencer;
 import powerlessri.anotsturdymod.varia.render.style.VanillaPresets;
@@ -69,25 +69,25 @@ public class ButtonGradient extends Button {
 
 
     @Override
-    public void drawNormal(GuiDrawBackgroundEvent event) {
+    public void drawNormal(ContextGuiDrawing event) {
         this.drawGradientRectangleBox(1, colorSNormal, colorENormal, false);
         this.drawText(colorNormalText.getHex());
     }
 
     @Override
-    public void drawHovering(GuiDrawBackgroundEvent event) {
+    public void drawHovering(ContextGuiDrawing event) {
         this.drawGradientRectangleBox(1, colorSHovering, colorEHovering, false);
         this.drawText(colorNormalText.getHex());
     }
 
     @Override
-    public void drawPressed(GuiDrawBackgroundEvent event) {
+    public void drawPressed(ContextGuiDrawing event) {
         this.drawGradientRectangleBox(1, colorSPressed, colorEPressed, true);
         this.drawText(colorNormalText.getHex());
     }
 
     @Override
-    public void drawDisabled(GuiDrawBackgroundEvent event) {
+    public void drawDisabled(ContextGuiDrawing event) {
         this.drawNormal(event);
         this.drawText(colorDisabledText.getHex());
     }

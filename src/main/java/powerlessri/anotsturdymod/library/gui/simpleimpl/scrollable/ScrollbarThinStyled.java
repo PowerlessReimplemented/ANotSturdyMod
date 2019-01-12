@@ -2,7 +2,7 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.button.Button;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.button.ButtonGradient;
 import powerlessri.anotsturdymod.varia.render.utils.BoxUtils;
@@ -28,7 +28,7 @@ public abstract class ScrollbarThinStyled extends Button implements IScrollbar {
 
 
     @Override
-    public void drawNormal(GuiDrawBackgroundEvent event) {
+    public void drawNormal(ContextGuiDrawing event) {
         BufferBuilder buffer = TESRStateManager.getColorVBuffer();
         VanillaPresets.putConvexBox(buffer, getActualX(), getActualY(), getActualXRight(), getActualYBottom());
         drawLabel(buffer);
@@ -36,7 +36,7 @@ public abstract class ScrollbarThinStyled extends Button implements IScrollbar {
     }
 
     @Override
-    public void drawHovering(GuiDrawBackgroundEvent event) {
+    public void drawHovering(ContextGuiDrawing event) {
         // TODO add hovering blue-ish texture
         drawNormal(event);
 
@@ -49,7 +49,7 @@ public abstract class ScrollbarThinStyled extends Button implements IScrollbar {
     }
 
     @Override
-    public void drawPressed(GuiDrawBackgroundEvent event) {
+    public void drawPressed(ContextGuiDrawing event) {
         BufferBuilder buffer = TESRStateManager.getColorVBuffer();
         VanillaPresets.putConcaveBox(buffer, getActualX(), getActualY(), getActualXRight(), getActualYBottom());
         drawLabel(buffer);
@@ -57,7 +57,7 @@ public abstract class ScrollbarThinStyled extends Button implements IScrollbar {
     }
 
     @Override
-    public void drawDisabled(GuiDrawBackgroundEvent event) {
+    public void drawDisabled(ContextGuiDrawing event) {
         drawNormal(event);
     }
 

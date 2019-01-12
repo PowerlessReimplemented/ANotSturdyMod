@@ -1,6 +1,6 @@
 package powerlessri.anotsturdymod.library.gui.integration;
 
-public class GuiDrawBackgroundEvent {
+public class ContextGuiDrawing {
     
     long guiTime;
     
@@ -8,11 +8,11 @@ public class GuiDrawBackgroundEvent {
     int mouseY;
     float particleTicks;
 
-    public GuiDrawBackgroundEvent(GuiDrawBackgroundEvent previousEvent, int mouseX, int mouseY, float particleTicks) {
+    public ContextGuiDrawing(ContextGuiDrawing previousEvent, int mouseX, int mouseY, float particleTicks) {
         this(previousEvent.getTime(), mouseX, mouseY, particleTicks);
     }
 
-    public GuiDrawBackgroundEvent(long guiTime, int mouseX, int mouseY, float particleTicks) {
+    public ContextGuiDrawing(long guiTime, int mouseX, int mouseY, float particleTicks) {
         this.guiTime = guiTime;
         this.mouseX = mouseX;
         this.mouseY = mouseY;

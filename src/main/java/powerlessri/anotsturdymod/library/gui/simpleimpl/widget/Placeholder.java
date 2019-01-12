@@ -1,7 +1,7 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
 
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.IScrollableComponent;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class Placeholder extends AbstractComponent implements IScrollableCompone
 
 
     @Override
-    public void draw(GuiDrawBackgroundEvent event) {
+    public void draw(ContextGuiDrawing event) {
     }
 
     @Override

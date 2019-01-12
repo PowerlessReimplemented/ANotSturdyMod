@@ -2,7 +2,7 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.label;
 
 import net.minecraft.client.Minecraft;
 import powerlessri.anotsturdymod.library.gui.Color;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.button.ButtonGradient;
 
 public class LabelText extends Label {
@@ -31,7 +31,7 @@ public class LabelText extends Label {
     
 
     @Override
-    public void draw(GuiDrawBackgroundEvent event) {
+    public void draw(ContextGuiDrawing event) {
         int textX = getActualX() + getHorizontalMargin();
         int textY = getActualY() + getVerticalMargin();
         Minecraft.getMinecraft().fontRenderer.drawString(text, textX, textY, color.getHex());

@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 
 import java.util.Comparator;
 
@@ -54,7 +54,7 @@ public class BasicPanel extends AbstractComponent implements IContainer<ICompone
     
     
     @Override
-    public void draw(GuiDrawBackgroundEvent event) {
+    public void draw(ContextGuiDrawing event) {
         for (IComponent component : components) {
             component.draw(event);
         }

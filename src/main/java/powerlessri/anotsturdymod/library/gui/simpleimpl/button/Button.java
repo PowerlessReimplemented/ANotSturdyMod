@@ -3,11 +3,11 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.button;
 import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
-import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.InteractionHandler;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 
-public abstract class Button extends AbstractComponent implements IInteractionHandler {
+public abstract class Button extends AbstractComponent implements InteractionHandler {
 
     private boolean disabled = false;
     private boolean pressed = false;
@@ -71,7 +71,7 @@ public abstract class Button extends AbstractComponent implements IInteractionHa
 
 
     @Override
-    public void draw(GuiDrawBackgroundEvent event) {
+    public void draw(ContextGuiDrawing event) {
         if (isDisabled()) {
             drawDisabled(event);
             return;
@@ -88,13 +88,13 @@ public abstract class Button extends AbstractComponent implements IInteractionHa
         }
     }
 
-    public abstract void drawNormal(GuiDrawBackgroundEvent event);
+    public abstract void drawNormal(ContextGuiDrawing event);
 
-    public abstract void drawHovering(GuiDrawBackgroundEvent event);
+    public abstract void drawHovering(ContextGuiDrawing event);
 
-    public abstract void drawPressed(GuiDrawBackgroundEvent event);
+    public abstract void drawPressed(ContextGuiDrawing event);
 
-    public abstract void drawDisabled(GuiDrawBackgroundEvent event);
+    public abstract void drawDisabled(ContextGuiDrawing event);
 
 
     @Override
@@ -120,7 +120,7 @@ public abstract class Button extends AbstractComponent implements IInteractionHa
     }
 
 
-    private boolean isHovering(GuiDrawBackgroundEvent event) {
+    private boolean isHovering(ContextGuiDrawing event) {
         return isPointInside(event.getMouseX(), event.getMouseY());
     }
 

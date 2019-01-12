@@ -5,7 +5,7 @@ import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.InteractionHandler;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -17,24 +17,24 @@ public class MouseEventManager {
         return forHandlers(ComponentStructureProjector.handlers(leaves), cursorPositionHandler);
     }
 
-    public static MouseEventManager forHandlers(ImmutableList<IInteractionHandler> handlers, CursorPositionHandler cursorPositionHandler) {
+    public static MouseEventManager forHandlers(ImmutableList<InteractionHandler> handlers, CursorPositionHandler cursorPositionHandler) {
         return new MouseEventManager(handlers, cursorPositionHandler);
     }
 
 
-    private List<IInteractionHandler> handlers;
-    private IInteractionHandler lastClicked;
+    private List<InteractionHandler> handlers;
+    private InteractionHandler lastClicked;
 
     private CursorPositionHandler cursorPositionHandler;
 
-    MouseEventManager(List<IInteractionHandler> handlers, CursorPositionHandler handler) {
+    MouseEventManager(List<InteractionHandler> handlers, CursorPositionHandler handler) {
         this.handlers = handlers;
         this.cursorPositionHandler = handler;
     }
 
 
     public void emitMouseClicked(int mouseX, int mouseY, EMouseButton button) {
-        for (IInteractionHandler handler : handlers) {
+        for (InteractionHandler handler : handlers) {
             if (handler.isPointInside(mouseX, mouseY) && handler.doesReceiveEvents()) {
                 lastClicked = handler;
                 if (!handler.doesReceiveEvents()) {
@@ -59,8 +59,8 @@ public class MouseEventManager {
         }
     }
 
-    public void emitHoveringDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
-        for (IInteractionHandler handler : handlers) {
+    public void emitHoveringDragging(int mouseX, int mouseY, EMouseButton button) {
+        for (InteractionHandler handler : handlers) {
             if (handler != lastClicked && handler.isPointInside(mouseX, mouseY) && handler.isVisible()) {
                 handler.onHoveredDragging(mouseX, mouseY, button);
             }
@@ -79,10 +79,10 @@ public class MouseEventManager {
     }
 
 
-    private void bubbleUpEvent(@Nullable IComponent target, Consumer<IInteractionHandler> event) {
+    private void bubbleUpEvent(@Nullable IComponent target, Consumer<InteractionHandler> event) {
         while (target != null && !target.isRootComponent()) {
-            if (target instanceof IInteractionHandler) {
-                event.accept((IInteractionHandler) target);
+            if (target instanceof InteractionHandler) {
+                event.accept((InteractionHandler) target);
             }
 
             target = target.getParentComponent();

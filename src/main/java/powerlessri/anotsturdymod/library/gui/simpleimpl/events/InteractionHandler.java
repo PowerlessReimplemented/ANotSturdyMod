@@ -1,11 +1,14 @@
-package powerlessri.anotsturdymod.library.gui.api;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.events;
 
 import net.minecraft.util.EnumActionResult;
+import powerlessri.anotsturdymod.library.gui.api.EEventType;
+import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
+import powerlessri.anotsturdymod.library.gui.api.IComponent;
 
 /**
  * Defines an event receiver component.
  */
-public interface IInteractionHandler extends IComponent {
+public interface InteractionHandler extends IComponent {
 
     /**
      * Triggers when player clicked on the component.

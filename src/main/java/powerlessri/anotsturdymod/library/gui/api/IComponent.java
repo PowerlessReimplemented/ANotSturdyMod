@@ -1,7 +1,7 @@
 package powerlessri.anotsturdymod.library.gui.api;
 
 import net.minecraft.client.gui.GuiScreen;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 
 import javax.annotation.Nullable;
 
@@ -87,6 +87,6 @@ public interface IComponent {
     boolean isVisible();
 
 
-    void draw(GuiDrawBackgroundEvent event);
+    void draw(ContextGuiDrawing event);
 
 }

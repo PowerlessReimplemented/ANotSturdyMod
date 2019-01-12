@@ -3,7 +3,7 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.api.IInteractionHandler;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.InteractionHandler;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiUpdate;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.events.FocusEvent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.events.FocusListener;
@@ -19,10 +19,10 @@ public class CursorPositionHandler {
 
     private ImmutableList<IComponent> leaves;
 
-    private IInteractionHandler focusedComponent;
+    private InteractionHandler focusedComponent;
     private IComponent hoveringComponent;
 
-    private Map<IInteractionHandler, FocusListener> focusListeners;
+    private Map<InteractionHandler, FocusListener> focusListeners;
     private Map<IComponent, HoveringListener> hoveringListeners;
 
     private HoveringEvent.Update updateHover = new HoveringEvent.Update();
@@ -67,7 +67,7 @@ public class CursorPositionHandler {
         hoveringComponent = DEFAULT;
     }
 
-    public void onClickEvent(@Nonnull IInteractionHandler target) {
+    public void onClickEvent(@Nonnull InteractionHandler target) {
         if (target != focusedComponent) {
             notifyOff();
             focusedComponent = Preconditions.checkNotNull(target);
@@ -88,11 +88,11 @@ public class CursorPositionHandler {
     }
 
 
-    public void register(IInteractionHandler component, FocusListener subscriber) {
+    public void register(InteractionHandler component, FocusListener subscriber) {
         focusListeners.put(component, subscriber);
     }
 
-    public void unregister(IInteractionHandler component) {
+    public void unregister(InteractionHandler component) {
         focusListeners.remove(component);
     }
 

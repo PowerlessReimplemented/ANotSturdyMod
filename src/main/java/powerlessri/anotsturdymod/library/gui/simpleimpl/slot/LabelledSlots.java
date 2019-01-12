@@ -5,13 +5,14 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.*;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.InteractionHandler;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.IScrollableComponent;
 import powerlessri.anotsturdymod.varia.render.RenderingUtils;
 
 import java.util.Arrays;
 
-public class LabelledSlots extends Slots implements IInteractionHandler, IScrollableComponent {
+public class LabelledSlots extends Slots implements InteractionHandler, IScrollableComponent {
 
     private ItemStack[] itemStacks;
 
@@ -53,7 +54,7 @@ public class LabelledSlots extends Slots implements IInteractionHandler, IScroll
 
 
     @Override
-    public void drawHoveringIcon(DrawHoveringIconEvent event, int x, int y) {
+    public void drawHoveringIcon(ContextDrawSlotIcon event, int x, int y) {
         ItemStack stack = itemStacks[event.getSlotIndex()];
         // Size of a slot is 18*18, but the size of an item is 16*16
         RenderingUtils.drawItemStackWithoutSize(stack, x + 1, y + 1);
@@ -74,7 +75,7 @@ public class LabelledSlots extends Slots implements IInteractionHandler, IScroll
     }
 
     @Override
-    public void draw(GuiDrawBackgroundEvent event) {
+    public void draw(ContextGuiDrawing event) {
         if (isVisible()) {
             super.draw(event);
         }

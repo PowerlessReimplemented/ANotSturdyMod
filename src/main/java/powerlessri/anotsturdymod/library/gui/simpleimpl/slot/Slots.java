@@ -2,10 +2,9 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.slot;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.varia.Reference;
-import powerlessri.anotsturdymod.varia.general.GuiUtils;
 
 public abstract class Slots extends AbstractComponent {
 
@@ -13,12 +12,12 @@ public abstract class Slots extends AbstractComponent {
      * Stores a set of coordinate that can be corresponded to an {@link net.minecraft.inventory.IInventory IInventory}
      * object.
      */
-    public static class DrawHoveringIconEvent extends GuiDrawBackgroundEvent {
+    public static class ContextDrawSlotIcon extends ContextGuiDrawing {
 
         int slotX, slotY;
         int slotIndex;
 
-        public DrawHoveringIconEvent(GuiDrawBackgroundEvent event, int slotX, int slotY) {
+        public ContextDrawSlotIcon(ContextGuiDrawing event, int slotX, int slotY) {
             super(event.getTime(), event.getMouseX(), event.getMouseY(), event.getParticleTicks());
             this.slotX = slotX;
             this.slotY = slotY;
@@ -67,8 +66,8 @@ public abstract class Slots extends AbstractComponent {
     }
 
     @Override
-    public void draw(GuiDrawBackgroundEvent event) {
-        DrawHoveringIconEvent iconEvent = new DrawHoveringIconEvent(event, 0, 0);
+    public void draw(ContextGuiDrawing event) {
+        ContextDrawSlotIcon iconEvent = new ContextDrawSlotIcon(event, 0, 0);
 
         Minecraft.getMinecraft().getTextureManager().bindTexture(WIDGETS_1);
         for (int i = 0; i < getSlotsVertical(); i++) {
@@ -102,7 +101,7 @@ public abstract class Slots extends AbstractComponent {
      * @param x The top left drawingX coordinate of the slot.
      * @param y The top left drawingY coordinate of the slot.
      */
-    public abstract void drawHoveringIcon(DrawHoveringIconEvent event, int x, int y);
+    public abstract void drawHoveringIcon(ContextDrawSlotIcon event, int x, int y);
 
 
     @Override

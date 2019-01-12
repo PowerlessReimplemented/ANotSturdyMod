@@ -3,7 +3,7 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.button;
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.IScrollableComponent;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 
 public class ScrollableButtonGradient extends ButtonGradient implements IScrollableComponent {
 
@@ -20,7 +20,7 @@ public class ScrollableButtonGradient extends ButtonGradient implements IScrolla
     }
 
     @Override
-    public void draw(GuiDrawBackgroundEvent event) {
+    public void draw(ContextGuiDrawing event) {
         if (isVisible()) {
             super.draw(event);
         }

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.IScrollableComponent;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 
 import java.util.Comparator;
@@ -46,7 +46,7 @@ public class FlexingList extends AbstractComponent implements IContainer<IScroll
 
 
     @Override
-    public void draw(GuiDrawBackgroundEvent event) {
+    public void draw(ContextGuiDrawing event) {
         for (IScrollableComponent component : components) {
             component.draw(event);
         }

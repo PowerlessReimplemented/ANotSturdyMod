@@ -11,7 +11,7 @@ public class SlotsDisplay extends Slots {
 
     
     @Override
-    public void drawHoveringIcon(DrawHoveringIconEvent event, int x, int y) {
+    public void drawHoveringIcon(ContextDrawSlotIcon event, int x, int y) {
     }
 
 }

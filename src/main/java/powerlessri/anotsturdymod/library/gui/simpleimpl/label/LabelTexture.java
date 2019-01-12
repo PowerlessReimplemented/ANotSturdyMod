@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.library.gui.api.ITextureElement;
-import powerlessri.anotsturdymod.library.gui.integration.GuiDrawBackgroundEvent;
+import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.varia.render.RenderingUtils;
 import powerlessri.anotsturdymod.varia.render.VertexSequencer;
 
@@ -55,7 +55,7 @@ public class LabelTexture extends Label implements ITextureElement {
 
 
     @Override
-    public void draw(GuiDrawBackgroundEvent event) {
+    public void draw(ContextGuiDrawing event) {
         this.draw(getActualX(), getActualY());
     }
 
