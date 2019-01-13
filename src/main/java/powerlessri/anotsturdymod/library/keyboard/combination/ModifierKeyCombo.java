@@ -13,12 +13,14 @@ public class ModifierKeyCombo implements UtilKeyCombination {
     private Key secondaryKey;
 
     private ImmutableList<Key> keys;
+    private ImmutableList<Key> nonBaseKeys;
     private ImmutableList<Key> rejectedKeys;
 
     public ModifierKeyCombo(@Nonnull ModifierKey baseKey, @Nonnull Key secondaryKey, Key... rejectedKeys) {
         this.baseKey = baseKey;
         this.secondaryKey = secondaryKey;
         this.keys = ImmutableList.of(baseKey, secondaryKey);
+        this.nonBaseKeys = ImmutableList.of(secondaryKey);
         this.rejectedKeys = ImmutableList.copyOf(rejectedKeys);
     }
 
@@ -31,6 +33,11 @@ public class ModifierKeyCombo implements UtilKeyCombination {
     @Override
     public ModifierKey getBaseKey() {
         return this.baseKey;
+    }
+
+    @Override
+    public ImmutableList<Key> getNonBaseKeys() {
+        return this.nonBaseKeys;
     }
 
     @Override
