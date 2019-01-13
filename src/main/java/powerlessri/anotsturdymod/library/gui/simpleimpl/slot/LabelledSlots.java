@@ -66,7 +66,7 @@ public class LabelledSlots extends Slots implements InteractionHandler, IScrolla
     }
 
     @Override
-    public void onHoveredDragging(int mouseX, int mouseY, EMouseButton button) {
+    public void onHovering(int mouseX, int mouseY) {
     }
 
     @Override

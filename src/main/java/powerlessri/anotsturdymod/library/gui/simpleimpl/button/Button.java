@@ -110,7 +110,7 @@ public abstract class Button extends AbstractComponent implements InteractionHan
     }
 
     @Override
-    public void onHoveredDragging(int mouseX, int mouseY, EMouseButton button) {
+    public void onHovering(int mouseX, int mouseY) {
     }
 
     @Override

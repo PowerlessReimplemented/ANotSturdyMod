@@ -3,14 +3,11 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.InteractionHandler;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiUpdate;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.FocusEvent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.FocusListener;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.HoveringEvent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.HoveringListener;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.*;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CursorPositionHandler {
@@ -19,19 +16,49 @@ public class CursorPositionHandler {
 
     private ImmutableList<IComponent> leaves;
 
-    private InteractionHandler focusedComponent;
+    private IComponent focusedComponent;
     private IComponent hoveringComponent;
 
-    private Map<InteractionHandler, FocusListener> focusListeners;
-    private Map<IComponent, HoveringListener> hoveringListeners;
+    private Map<IComponent, FocusListener> focusListeners = new HashMap<>();
+    private Map<IComponent, HoveringListener> hoveringListeners = new HashMap<>();
 
     private HoveringEvent.Update updateHover = new HoveringEvent.Update();
     private FocusEvent.Update updateFocus = new FocusEvent.Update();
 
+    private final FocusListener defaultFocusListener = new FocusListener() {
+        @Override
+        public void onFocus(FocusEvent.On event) {
+        }
+
+        @Override
+        public void onUnfocus(FocusEvent.Off event) {
+        }
+
+        @Override
+        public void update(FocusEvent.Update event) {
+        }
+    };
+    private final HoveringListener defaultHoveringListener = new HoveringListener() {
+        @Override
+        public void onCursorEnter(HoveringEvent.Enter event) {
+        }
+
+        @Override
+        public void onCursorLeave(HoveringEvent.Leave event) {
+        }
+
+        @Override
+        public void update(HoveringEvent.Update event) {
+        }
+    };
+
     public CursorPositionHandler(IComponent defaultTarget, ImmutableList<IComponent> leaves) {
         this.DEFAULT = defaultTarget;
         this.leaves = leaves;
+        this.focusedComponent = defaultTarget;
+        this.registerFocus(defaultTarget, defaultFocusListener);
         this.hoveringComponent = defaultTarget;
+        this.registerHovering(defaultTarget, defaultHoveringListener);
     }
 
     public void update(ContextGuiUpdate ctx) {
@@ -39,12 +66,15 @@ public class CursorPositionHandler {
         int y = ctx.getMouseY();
         if (!hoveringComponent.isPointInside(x, y)) {
             notifyLeaved();
-            searchForHovering(x, y);
-            notifyEntered();
+            notifyEntered(x, y);
         }
 
         updateHover.nextTick();
-        hoveringListeners.get(hoveringComponent).update(updateHover);
+        IComponent target = hoveringComponent;
+        while (target != null && !target.isRootComponent()) {
+            hoveringListeners.get(target).update(updateHover);
+            target = target.getParentComponent();
+        }
     }
 
     private void notifyLeaved() {
@@ -52,7 +82,8 @@ public class CursorPositionHandler {
         updateHover.reset();
     }
 
-    private void notifyEntered() {
+    private void notifyEntered(int targetX, int targetY) {
+        searchForHovering(targetX, targetY);
         hoveringListeners.get(hoveringComponent).onCursorEnter(new HoveringEvent.Enter());
     }
 
@@ -67,6 +98,7 @@ public class CursorPositionHandler {
         hoveringComponent = DEFAULT;
     }
 
+
     public void onClickEvent(@Nonnull InteractionHandler target) {
         if (target != focusedComponent) {
             notifyOff();
@@ -75,32 +107,32 @@ public class CursorPositionHandler {
         }
 
         updateFocus.nextTick();
-        focusListeners.get(focusedComponent).update(updateFocus);
+        focusListeners.getOrDefault(focusedComponent, defaultFocusListener).update(updateFocus);
     }
 
     private void notifyOff() {
-        focusListeners.get(focusedComponent).onUnfocus(new FocusEvent.Off());
+        focusListeners.getOrDefault(focusedComponent, defaultFocusListener).onUnfocus(new FocusEvent.Off());
         updateFocus.reset();
     }
 
     private void notifyOn() {
-        focusListeners.get(focusedComponent).onFocus(new FocusEvent.On());
+        focusListeners.getOrDefault(focusedComponent, defaultFocusListener).onFocus(new FocusEvent.On());
     }
 
 
-    public void register(InteractionHandler component, FocusListener subscriber) {
+    public void registerFocus(IComponent component, FocusListener subscriber) {
         focusListeners.put(component, subscriber);
     }
 
-    public void unregister(InteractionHandler component) {
+    public void unregisterFocus(IComponent component) {
         focusListeners.remove(component);
     }
 
-    public void register(IComponent component, HoveringListener subscriber) {
+    public void registerHovering(IComponent component, HoveringListener subscriber) {
         hoveringListeners.put(component, subscriber);
     }
 
-    public void unregister(IComponent component) {
+    public void unregisterHovering(IComponent component) {
         hoveringListeners.remove(component);
     }
 

@@ -5,10 +5,13 @@ import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.config.client.GuiStyleConfig;
 import powerlessri.anotsturdymod.library.gui.Color;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
+import powerlessri.anotsturdymod.varia.general.Utils;
 import powerlessri.anotsturdymod.varia.render.TESRStateManager;
 import powerlessri.anotsturdymod.varia.render.VertexSequencer;
 import powerlessri.anotsturdymod.varia.render.style.VanillaPresets;
 import powerlessri.anotsturdymod.varia.render.utils.BoxUtils;
+
+import javax.rmi.CORBA.Util;
 
 public class ButtonGradient extends Button {
 
@@ -49,6 +52,9 @@ public class ButtonGradient extends Button {
     public ButtonGradient(int relativeX, int relativeY, int width, int height, String text) {
         super(relativeX, relativeY, width, height);
         this.setText(text);
+
+        //TODO update on config changes
+        reloadColors();
     }
 
 
