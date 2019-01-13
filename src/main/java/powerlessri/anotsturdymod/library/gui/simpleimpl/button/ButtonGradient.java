@@ -1,5 +1,6 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.button;
 
+import com.google.common.base.MoreObjects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.config.client.GuiStyleConfig;
@@ -15,7 +16,17 @@ import javax.rmi.CORBA.Util;
 
 public class ButtonGradient extends Button {
 
-    public static final int VANILLA_CHAR_HEIGHT = 8;
+    public static int calculateTextXOffset(String text, int componentWidth) {
+        return (componentWidth / 2) - (Minecraft.getMinecraft().fontRenderer.getStringWidth(text) / 2);
+    }
+
+    public static int calculateTextYOffset(int componentHeight) {
+        return calculateTextYOffset(Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT, componentHeight);
+    }
+
+    public static int calculateTextYOffset(int textHeight, int componentHeight) {
+        return (componentHeight / 2) - (textHeight / 2);
+    }
 
 
     public static Color colorSNormal;
@@ -69,8 +80,8 @@ public class ButtonGradient extends Button {
 
     public void setText(String text) {
         this.text = text;
-        this.textXOffset = (getWidth() / 2) - (Minecraft.getMinecraft().fontRenderer.getStringWidth(text) / 2);
-        this.textYOffset = (getHeight() / 2) - (VANILLA_CHAR_HEIGHT / 2);
+        this.textXOffset = calculateTextXOffset(text, getWidth());
+        this.textYOffset = calculateTextYOffset(getHeight());
     }
 
 
@@ -123,9 +134,11 @@ public class ButtonGradient extends Button {
 
     @Override
     public String toString() {
-        return "ButtonGradient{" +
-                "text='" + text + '\'' +
-                '}';
+        return MoreObjects.toStringHelper(this)
+                .add("text", text)
+                .add("textXOffset", textXOffset)
+                .add("textYOffset", textYOffset)
+                .toString();
     }
 
 }

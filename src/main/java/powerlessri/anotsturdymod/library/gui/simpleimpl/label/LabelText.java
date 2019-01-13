@@ -12,7 +12,7 @@ public class LabelText extends Label {
     }
 
     private static int calculateHeight(int verticalMargin) {
-        return verticalMargin * 2 + ButtonGradient.VANILLA_CHAR_HEIGHT;
+        return verticalMargin * 2 + Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT;
     }
 
 
