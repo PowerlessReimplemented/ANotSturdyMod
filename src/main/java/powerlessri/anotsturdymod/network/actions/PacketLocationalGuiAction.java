@@ -13,6 +13,7 @@ import powerlessri.anotsturdymod.library.gui.api.IActionHandler;
  * <p>Sender: <b>CLIENT</b></p>
  * <p>Receiver: <b>SERVER</b></p>
  */
+// TODO determine usage of this class
 public class PacketLocationalGuiAction implements IMessage {
     
     // Present on both sides

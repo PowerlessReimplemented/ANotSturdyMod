@@ -35,7 +35,13 @@ public class GuiActionManager {
     public static final IActionHandler DEFAULT_HANDLER = new DefaultActionHandler();
 
     private static int lastActionId = -1;
+    /**
+     * The mapping from human readable string to integer ID's for convenience use.
+     */
     private static Map<String, Integer> actionIds = new HashMap<>();
+    /**
+     * The internal mapping from integer ID's to action data handlers.
+     */
     private static List<IActionHandler> actions = new ArrayList<>();
 
 
