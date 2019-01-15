@@ -3,49 +3,13 @@ package powerlessri.anotsturdymod.network.utils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
 import powerlessri.anotsturdymod.varia.general.Utils;
-import powerlessri.anotsturdymod.varia.tags.TagUtils;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
+import java.util.UUID;
 
-public class ByteIOHelper {
-
-    private ByteIOHelper() {
-    }
-
-
-    // ======== ByteBuf IO ======== //
-
-    @Nullable
-    public static String readString(ByteBuf buf) {
-        int strLen = buf.readInt();
-        if (strLen == -1) {
-            return null;
-        }
-        if (strLen == 0) {
-            return "";
-        }
-
-        byte[] bytes = new byte[strLen];
-        buf.readBytes(bytes);
-        return new String(bytes);
-    }
-
-    public static void writeString(ByteBuf buf, String str) {
-        if (str == null) {
-            buf.writeInt(-1);
-            return;
-        }
-
-        byte[] bytes = str.getBytes();
-        buf.writeInt(bytes.length);
-        if (bytes.length > 0) {
-            buf.writeBytes(bytes);
-        }
-    }
+public final class ByteIOHelper {
 
     @Nullable
     public static NBTTagCompound readTag(ByteBuf buf) {
@@ -59,15 +23,6 @@ public class ByteIOHelper {
 
     public static void writeTag(ByteBuf buf, NBTTagCompound tag) {
         new PacketBuffer(buf).writeCompoundTag(tag);
-    }
-
-
-    public static World getWorldFromDimension(NBTTagCompound dimTag) {
-        return getWorldFromDimension(TagUtils.readDimension(dimTag));
-    }
-
-    public static World getWorldFromDimension(int dim) {
-        return DimensionManager.getWorld(dim);
     }
 
 }

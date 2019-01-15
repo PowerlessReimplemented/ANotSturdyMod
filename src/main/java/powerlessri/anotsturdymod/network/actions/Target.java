@@ -1,9 +1,9 @@
 package powerlessri.anotsturdymod.network.actions;
 
-import io.netty.buffer.ByteBuf;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -13,7 +13,7 @@ import java.util.UUID;
  * encouraged. For non world objects, the usage of target object is optional.
  * </p>
  */
-public abstract class Target {
+public abstract class Target implements Serializable {
 
     // Type ID's for target implementations
     // Used as header of target object
@@ -23,20 +23,16 @@ public abstract class Target {
     static final byte DIMENSINAL_UUID_TARGET = 3;
 
 
-    public static Target create(World dimension, BlockPos pos) {
-        return create(dimension.provider.getDimension(), pos);
-    }
-
     public static Target create(int dimension, BlockPos pos) {
         return new BlockPosTarget(dimension, pos);
     }
 
-    public static Target create(World dimension, int x, int y, int z) {
-        return create(dimension.provider.getDimension(), x, y, z);
-    }
-
     public static Target create(int dimension, int x, int y, int z) {
         return new BlockPosTarget(dimension, x, y, z);
+    }
+
+    public static Target create(int dimension, UUID uuid) {
+        return new DimensionalUUIDTarget(dimension, uuid);
     }
 
     public static Target create(UUID uuid) {
@@ -45,14 +41,13 @@ public abstract class Target {
 
 
     /**
-     * Write all target data into the parameter ByteBuf. This also includes type data, which should be at front of everything else.
+     * Write all target data into the parameter ByteBuf.
      */
-    public abstract void write(ByteBuf buf);
+    public abstract void write(PacketBuffer buf);
 
     /**
-     * Restore from the data stored in the parameter ByteBuf, assuming the read index is in the right place. This does not include type
-     * data.
+     * Restore from the data stored in the parameter ByteBuf, assuming the read index is in the right place. data.
      */
-    public abstract void read(ByteBuf buf);
+    public abstract void read(PacketBuffer buf);
 
 }

@@ -1,8 +1,10 @@
 package powerlessri.anotsturdymod.network;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -36,13 +38,13 @@ public class PacketServerCommand implements IMessage {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        cmd = ByteIOHelper.readString(buf);
+        cmd = ByteBufUtils.readUTF8String(buf);
         args = ByteIOHelper.readTag(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        ByteIOHelper.writeString(buf, cmd);
+        ByteBufUtil.writeUtf8(buf, cmd);
         ByteIOHelper.writeTag(buf, args);
     }
 

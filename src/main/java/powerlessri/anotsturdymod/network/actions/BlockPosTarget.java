@@ -1,6 +1,7 @@
 package powerlessri.anotsturdymod.network.actions;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 
 class BlockPosTarget extends Target {
@@ -10,7 +11,7 @@ class BlockPosTarget extends Target {
     private int y;
     private int z;
 
-    private BlockPos pos;
+    private transient BlockPos pos;
 
     public BlockPosTarget(int dimension, BlockPos pos) {
         this(dimension, pos.getX(), pos.getY(), pos.getZ());
@@ -26,8 +27,7 @@ class BlockPosTarget extends Target {
 
 
     @Override
-    public void write(ByteBuf buf) {
-        buf.writeByte(Target.BLOCK_POS_TARGET);
+    public void write(PacketBuffer buf) {
         buf.writeInt(dimension);
         buf.writeInt(x);
         buf.writeInt(y);
@@ -35,7 +35,7 @@ class BlockPosTarget extends Target {
     }
 
     @Override
-    public void read(ByteBuf buf) {
+    public void read(PacketBuffer buf) {
         this.dimension = buf.readInt();
         this.x = buf.readInt();
         this.y = buf.readInt();

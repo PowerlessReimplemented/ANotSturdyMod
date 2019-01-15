@@ -7,14 +7,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import powerlessri.anotsturdymod.ANotSturdyMod;
+import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENComponentBase;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
-import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENComponentBase;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.label.LabelTexture;
-import powerlessri.anotsturdymod.network.utils.NetworkHelper;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
+import powerlessri.anotsturdymod.network.PacketServerCommand;
 import powerlessri.anotsturdymod.varia.Reference;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class GuiEnergyIOAccess extends ComponentizedGui {
             return container;
         }
     }
-    
+
     @TemplateProvider(id = "energy_io_access")
     public static ITemplate getGuiTemplate() {
         return new Template() {
@@ -51,7 +52,7 @@ public class GuiEnergyIOAccess extends ComponentizedGui {
             }
         };
     }
-    
+
 
     private static final ResourceLocation BACKGROUND_LOC = new ResourceLocation(Reference.MODID, "textures/gui/access_port.png");
 
@@ -130,9 +131,13 @@ public class GuiEnergyIOAccess extends ComponentizedGui {
         super.onGuiClosed();
 
         // Sync network to server
-        NetworkHelper.sendServerCommand(
-                TileENComponentBase.SET_CHANNEL,
-                TileENComponentBase.makeSetChannelArgs(Minecraft.getMinecraft().player.dimension, tilePos.getX(), tilePos.getY(), tilePos.getZ(), container.channel));
+        ANotSturdyMod.network.sendToServer(
+                new PacketServerCommand(TileENComponentBase.SET_CHANNEL, TileENComponentBase.makeSetChannelArgs(
+                        Minecraft.getMinecraft().player.dimension,
+                        tilePos.getX(),
+                        tilePos.getY(),
+                        tilePos.getZ(),
+                        container.channel)));
     }
 
     @Override

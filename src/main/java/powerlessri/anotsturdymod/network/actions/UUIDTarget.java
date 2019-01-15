@@ -1,6 +1,6 @@
 package powerlessri.anotsturdymod.network.actions;
 
-import io.netty.buffer.ByteBuf;
+import net.minecraft.network.PacketBuffer;
 
 import java.util.UUID;
 
@@ -13,16 +13,13 @@ class UUIDTarget extends Target {
     }
 
     @Override
-    public void write(ByteBuf buf) {
-        buf.writeLong(uuid.getMostSignificantBits());
-        buf.writeLong(uuid.getLeastSignificantBits());
+    public void write(PacketBuffer buf) {
+        buf.writeUniqueId(uuid);
     }
 
     @Override
-    public void read(ByteBuf buf) {
-        long mostBits = buf.readLong();
-        long leastBits = buf.readLong();
-        this.uuid = new UUID(mostBits, leastBits);
+    public void read(PacketBuffer buf) {
+        this.uuid = buf.readUniqueId();
     }
 
 }
