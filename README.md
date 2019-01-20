@@ -1,4 +1,7 @@
 # ANotSturdyMod
 ---
-a minecraft mod for 1.12.2 with all random things.  
-	
+a sloppy minecraft mod with all the random things. Available on [Curse Forge](https://minecraft.curseforge.com/projects/anotsturdymod)
+
+---
+
+Project licensed in [MIT](http://github.com/PowerlessReimplemented/ANotSturdyMod/blob/master/LICENSE)
