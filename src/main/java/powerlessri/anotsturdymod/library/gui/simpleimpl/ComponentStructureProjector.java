@@ -54,20 +54,22 @@ public class ComponentStructureProjector {
         return handlers.build();
     }
 
+    // TODO decided use stream or regular imperative min/max
 
-    public static int findMinimumHeight(List<IComponent> components) {
-//        int top = components.stream()
-//                .min(Comparator.comparingInt(IComponent::getActualY))
-//                .orElse(components.get(0))
-//                .getActualYBottom();
-//        int bottom = components.stream()
-//                .max(Comparator.comparingInt(IComponent::getActualYBottom))
-//                .orElse(components.get(0))
-//                .getActualYBottom();
-
+    public static int findMinimumHeight(List<? extends IComponent> components) {
         if (components.size() == 0) {
             return 0;
         }
+
+//        int top = components.stream()
+//                .min(Comparator.comparingInt(IComponent::getActualY))
+//                .orElseThrow(IllegalArgumentException::new)
+//                .getActualY();
+//        int bottom = components.stream()
+//                .max(Comparator.comparingInt(IComponent::getActualYBottom))
+//                .orElseThrow(IllegalArgumentException::new)
+//                .getActualYBottom();
+//        return bottom - top;
 
         int top = Integer.MAX_VALUE;
         int bottom = 0;
@@ -84,22 +86,22 @@ public class ComponentStructureProjector {
             }
         }
         return bottom - top;
-
     }
 
-    public static int findMinimumWidth(List<IComponent> components) {
-//        int left = components.stream()
-//                .min(Comparator.comparingInt(IComponent::getActualX))
-//                .orElse(components.get(0))
-//                .getActualXRight();
-//        int right = components.stream()
-//                .max(Comparator.comparingInt(IComponent::getActualXRight))
-//                .orElse(components.get(0))
-//                .getActualXRight();
-
+    public static int findMinimumWidth(List<? extends IComponent> components) {
         if (components.size() == 0) {
             return 0;
         }
+
+//        int left = components.stream()
+//                .min(Comparator.comparingInt(IComponent::getActualX))
+//                .orElseThrow(IllegalArgumentException::new)
+//                .getActualX();
+//        int right = components.stream()
+//                .max(Comparator.comparingInt(IComponent::getActualXRight))
+//                .orElseThrow(IllegalArgumentException::new)
+//                .getActualXRight();
+//        return right - left;
 
         int left = Integer.MAX_VALUE;
         int right = 0;
@@ -116,7 +118,6 @@ public class ComponentStructureProjector {
             }
         }
         return right - left;
-
     }
 
 }

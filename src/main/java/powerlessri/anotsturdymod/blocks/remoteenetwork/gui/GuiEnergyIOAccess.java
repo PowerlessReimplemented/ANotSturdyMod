@@ -12,7 +12,7 @@ import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENComponentBase;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.section.SimplePanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.label.LabelTexture;
 import powerlessri.anotsturdymod.network.utils.NetworkHelper;
 import powerlessri.anotsturdymod.varia.Reference;
@@ -78,7 +78,7 @@ public class GuiEnergyIOAccess extends ComponentizedGui {
     protected final TileENComponentBase tile; // TileEntity at client side
     protected final BlockPos tilePos;
 
-    protected BasicPanel mainWindow;
+    protected SimplePanel mainWindow;
 
     public GuiEnergyIOAccess(ContainerEnergyIOAccess container) {
         super(container, ImmutableList.of());
@@ -94,7 +94,7 @@ public class GuiEnergyIOAccess extends ComponentizedGui {
         this.centerX = (width / 2) - guiWidth / 2;
         this.centerY = (height / 2) - guiHeight / 2;
 
-        this.mainWindow = new BasicPanel(centerX, centerY, ImmutableList.of(
+        this.mainWindow = new SimplePanel(centerX, centerY, ImmutableList.of(
                 new LabelTexture(0, 0, guiWidth, guiHeight, BACKGROUND_LOC, 0, 0)
         ));
         this.windows = ImmutableList.of(

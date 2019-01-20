@@ -8,14 +8,14 @@ import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.ComponentStructureProjector;
 
-public class BasicPanel extends AbstractComponent implements IContainer<IComponent> {
+public class SimplePanel extends AbstractComponent implements IContainer<IComponent> {
     
     protected ImmutableList<IComponent> components;
     
     private int width;
     private int height;
     
-    public BasicPanel(int x, int y, ImmutableList<IComponent> components) {
+    public SimplePanel(int x, int y, ImmutableList<IComponent> components) {
         super(x, y);
         this.components = components;
         this.width = ComponentStructureProjector.findMinimumWidth(components);

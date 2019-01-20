@@ -3,6 +3,7 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.section;
 import com.google.common.collect.ImmutableList;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.ComponentStructureProjector;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.IScrollableComponent;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
@@ -37,10 +38,7 @@ public class FlexingList extends AbstractComponent implements IContainer<IScroll
             nextPenDownY += component.getHeight() + commonMarginBottom;
         }
 
-        this.width = components.stream()
-                .max(Comparator.comparingInt(IComponent::getWidth))
-                .orElse(components.get(0))
-                .getWidth();
+        this.width = ComponentStructureProjector.findMinimumWidth(components);
         this.height = nextPenDownY - getActualY() - commonMarginBottom;
     }
 

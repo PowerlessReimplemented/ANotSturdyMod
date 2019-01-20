@@ -1,21 +1,28 @@
-package powerlessri.anotsturdymod.library.gui.simpleimpl.widget;
+package powerlessri.anotsturdymod.library.gui.simpleimpl.section;
 
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
+import powerlessri.anotsturdymod.library.gui.api.IOnOffState;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.ComponentStructureProjector;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.widget.SimpleViewport;
 
 import java.util.List;
 
-public class Viewport extends AbstractComponent {
+/**
+ * @deprecated Use {@link SimpleViewport} instead
+ */
+@Deprecated
+public class MutablePanelReference extends AbstractComponent implements IContainer<IComponent>, IOnOffState {
 
     private int width;
     private int height;
+    private boolean disabled;
 
     private List<IComponent> content;
 
-    public Viewport(int relativeX, int relativeY, int width, int height) {
+    public MutablePanelReference(int relativeX, int relativeY, int width, int height) {
         super(relativeX, relativeY);
         this.width = width;
         this.height = height;
@@ -57,7 +64,11 @@ public class Viewport extends AbstractComponent {
         return content;
     }
 
-    // This is not an container since it is meant to be a reference to the actual container
+    @Override
+    public List<IComponent> getComponents() {
+        return this.getCurrentContent();
+    }
+
     @Override
     public boolean isLeafComponent() {
         return false;
@@ -71,6 +82,31 @@ public class Viewport extends AbstractComponent {
     @Override
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public boolean acceptsZIndex() {
+        return false;
+    }
+
+    @Override
+    public boolean isVisible() {
+        return !this.isDisabled();
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return this.disabled;
+    }
+
+    @Override
+    public void enable() {
+        this.disabled = false;
+    }
+
+    @Override
+    public void disable() {
+        this.disabled = true;
     }
 
 }

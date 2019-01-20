@@ -11,7 +11,7 @@ import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventory;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.ScrollablePanel;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.section.BasicPanel;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.section.SimplePanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.slot.LabelledSlots;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.label.LabelTexture;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.button.ScrollableButtonGradient;
@@ -70,7 +70,7 @@ public class GuiLogicEditor extends ComponentizedGui {
         }
 
         windows = ImmutableList.of(
-                new BasicPanel(windowX, windowY, ImmutableList.of(
+                new SimplePanel(windowX, windowY, ImmutableList.of(
                         new LabelTexture(0, 0, BKG_WIDTH, BKG_HEIGHT, BACKGROUND, BKG_START_X, BKG_START_Y),
                         new LabelledSlots(131 + 4, 73 + 4, 9, 2),
                         // + 2 is the left margin, top margin is handled in ScrollablePanel
