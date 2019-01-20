@@ -68,7 +68,7 @@ public abstract class AbstractComponent implements IComponent {
 
     @Override
     public int setId(int id) {
-        int oldID = id; 
+        int oldID = this.id;
         this.id = id;
         return oldID;
     }

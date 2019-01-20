@@ -28,9 +28,9 @@ public class Viewport extends AbstractComponent {
 
     /**
      * <p>
-     *     The method assumes the positioning logic of the components are the same. This means
+     * The method assumes the positioning logic of the components are the same. This means the trait of parent does not affect the distance
+     * from leftmost/topmost and rightmost/bottommost component.
      * </p>
-     * @param newContent
      */
     public void bind(List<IComponent> newContent) {
         int width = ComponentStructureProjector.findMinimumWidth(newContent);
@@ -57,6 +57,7 @@ public class Viewport extends AbstractComponent {
         return content;
     }
 
+    // This is not an container since it is meant to be a reference to the actual container
     @Override
     public boolean isLeafComponent() {
         return false;
