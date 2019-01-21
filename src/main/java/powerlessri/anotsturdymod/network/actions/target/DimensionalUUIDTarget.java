@@ -55,9 +55,4 @@ public class DimensionalUUIDTarget implements Target {
         };
     }
 
-    @Override
-    public byte getTypeID() {
-        return 3;
-    }
-
 }

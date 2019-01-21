@@ -37,11 +37,6 @@ public class GenericTarget implements Target {
         return null;
     }
 
-    @Override
-    public byte getTypeID() {
-        return 0;
-    }
-
 
     public IActionHandler getActionHandler() {
         return GeneralExecutorPool.findAction(id);

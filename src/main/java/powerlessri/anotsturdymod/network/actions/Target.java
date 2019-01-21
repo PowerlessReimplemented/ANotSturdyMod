@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.network.actions;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
+import powerlessri.anotsturdymod.network.actions.registry.TargetMapping;
 import powerlessri.anotsturdymod.network.actions.target.BlockPosTarget;
 import powerlessri.anotsturdymod.network.actions.target.DimensionalUUIDTarget;
 import powerlessri.anotsturdymod.network.actions.target.GenericTarget;
@@ -32,6 +33,8 @@ public interface Target extends Serializable {
 
     TaskExecutor getExecutor();
 
-    byte getTypeID();
+    default int getTypeID() {
+        return TargetMapping.getInstance().getID(this);
+    }
 
 }

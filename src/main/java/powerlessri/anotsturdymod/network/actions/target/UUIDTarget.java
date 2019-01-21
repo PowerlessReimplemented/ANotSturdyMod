@@ -29,13 +29,7 @@ public abstract class UUIDTarget implements Target {
 
     @Override
     public TaskExecutor getExecutor() {
-        return (target, attachment) -> {
-        };
-    }
-
-    @Override
-    public byte getTypeID() {
-        return 2;
+        return (target, attachment) -> true;
     }
 
 }

@@ -1,33 +1,26 @@
 package powerlessri.anotsturdymod.network.actions;
 
 import net.minecraft.util.math.BlockPos;
+import powerlessri.anotsturdymod.network.actions.registry.TargetMapping;
 import powerlessri.anotsturdymod.network.actions.target.BlockPosTarget;
 import powerlessri.anotsturdymod.network.actions.target.DimensionalUUIDTarget;
 import powerlessri.anotsturdymod.network.actions.target.GenericTarget;
+import powerlessri.anotsturdymod.network.actions.target.UUIDTarget;
 
 import java.util.UUID;
 
 public final class DefaultTargets {
 
-    // Type ID's for target implementations
-    // Used as header of target object
-    static final byte GENERIC_TARGET = 0;
-    static final byte BLOCK_POS_TARGET = 1;
-    static final byte UUID_TARGET = 2;
-    static final byte DIMENSINAL_UUID_TARGET = 3;
-
-    static Target createRawFromType(int type) {
-        switch (type) {
-            case 0:
-                return new GenericTarget();
-            case 1:
-                return new BlockPosTarget();
-            case 3:
-                return new DimensionalUUIDTarget();
-            default:
-                throw new IllegalArgumentException("Unknown target type");
-        }
+    public static void init() {
+        TargetMapping mapping = TargetMapping.getInstance();
+        mapping.register(GenericTarget.class, GenericTarget::new);
+        mapping.register(BlockPosTarget.class, BlockPosTarget::new);
+        mapping.register(UUIDTarget.class, () -> {
+            throw new IllegalStateException("Trying to initialize an abstract target class.");
+        });
+        mapping.register(DimensionalUUIDTarget.class, DimensionalUUIDTarget::new);
     }
+
 
     public static Target create(int dimension, BlockPos pos) {
         return new BlockPosTarget(dimension, pos);

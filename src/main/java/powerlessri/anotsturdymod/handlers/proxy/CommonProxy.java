@@ -11,7 +11,8 @@ import powerlessri.anotsturdymod.handlers.init.ModItems;
 import powerlessri.anotsturdymod.handlers.init.ModTileEntities;
 import powerlessri.anotsturdymod.items.transmutations.WorldTransmutation;
 import powerlessri.anotsturdymod.library.network.notification.PacketNotification;
-import powerlessri.anotsturdymod.network.actions.PacketLocationalGuiAction;
+import powerlessri.anotsturdymod.network.actions.DefaultTargets;
+import powerlessri.anotsturdymod.network.actions.PacketAction;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 
 public class CommonProxy {
@@ -29,10 +30,12 @@ public class CommonProxy {
         ModCommands.preInit(event);
 
         int packetId = 0;
-        ANotSturdyMod.network.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);
+        ANotSturdyMod.network.registerMessage(PacketAction.Handler.class, PacketAction.class, packetId++, Side.SERVER);
         ANotSturdyMod.network.registerMessage(PacketNotification.Handler.class, PacketNotification.class, packetId++, Side.SERVER);
-        ANotSturdyMod.network.registerMessage(PacketLocationalGuiAction.Handler.class, PacketLocationalGuiAction.class, packetId++, Side.SERVER);
-        
+        ANotSturdyMod.network.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);
+
+        DefaultTargets.init();
+
         TileENComponentBase.initNetwork();
         TileENWirelessTransmitter.initNetwork();
     }

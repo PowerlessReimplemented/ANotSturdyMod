@@ -66,11 +66,6 @@ public class BlockPosTarget implements Target {
         };
     }
 
-    @Override
-    public byte getTypeID() {
-        return 1;
-    }
-
 
     public BlockPos getBlockPos() {
         if (this.pos == null) {
