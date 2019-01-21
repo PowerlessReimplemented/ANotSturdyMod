@@ -95,8 +95,8 @@ public abstract class AbstractComponent implements IComponent {
 
     @Override
     public boolean isPointInside(int x, int y) {
-        return x >= getActualX() && x <= getActualXRight() &&
-                y >= getActualY() && y <= getActualYBottom();
+        return x >= getActualX() && x < getActualXRight() &&
+                y >= getActualY() && y < getActualYBottom();
     }
 
     public ComponentRoot getFunctionalRoot() {
