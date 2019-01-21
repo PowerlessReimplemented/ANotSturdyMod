@@ -37,7 +37,7 @@ public class PacketLocationalGuiAction implements IMessage {
     }
     
     public PacketLocationalGuiAction(String name, int dimension, int x, int y, int z) {
-        this(GuiActionManager.findID(name), dimension, x, y, z);
+        this(GeneralExecutorPool.findID(name), dimension, x, y, z);
     }
 
     public PacketLocationalGuiAction(int actionId, int dimension, int x, int y, int z) {
@@ -53,7 +53,7 @@ public class PacketLocationalGuiAction implements IMessage {
     public void fromBytes(ByteBuf buf) {
         actionId = buf.readInt();
         
-        int dataLength = GuiActionManager.findAction(actionId).getMessageLength();
+        int dataLength = GeneralExecutorPool.findAction(actionId).getMessageLength();
         if (dataLength > 0) {
             data = buf.readBytes(dataLength);
         } else {
@@ -73,7 +73,7 @@ public class PacketLocationalGuiAction implements IMessage {
         
         @Override
         public IMessage onMessage(PacketLocationalGuiAction msg, MessageContext ctx) {
-            IActionWorldAssociated action = (IActionWorldAssociated) GuiActionManager.findAction(msg.actionId);
+            IActionWorldAssociated action = (IActionWorldAssociated) GeneralExecutorPool.findAction(msg.actionId);
             World world = DimensionManager.getWorld(msg.dimension);
             
             action.handleWorld(world, msg.x, msg.y, msg.z, msg.data);

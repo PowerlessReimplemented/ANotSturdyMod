@@ -2,14 +2,35 @@ package powerlessri.anotsturdymod.network.actions;
 
 /**
  * The task, or callback to be schedule to server thread.
- * <p>
- * This class is used for a specialized replacement for {@link Runnable}, therefore it can provide and encapsulate more feature into the
- * actions system.
- * </p>
  */
-public abstract class QueuedActionTask implements Runnable {
+public class QueuedActionTask {
 
-    @Override
-    public abstract void run();
+    private Attachment attachment;
+
+    private Target target;
+    private TaskExecutor executor;
+
+    /**
+     * <p>
+     * This initializer can be called in the Netty IO thread.
+     * </p>
+     */
+    public QueuedActionTask(Attachment attachment, Target target) {
+        this.attachment = attachment;
+        this.target = target;
+        this.executor = target.getExecutor();
+    }
+
+    public Attachment getAttachment() {
+        return attachment;
+    }
+
+    public Target getTarget() {
+        return target;
+    }
+
+    public TaskExecutor getExecutor() {
+        return executor;
+    }
 
 }
