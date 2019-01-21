@@ -78,7 +78,7 @@ public abstract class Slots extends AbstractComponent {
                 int currentX = getActualX() + j * SLOT_IMAGE_WIDTH;
                 iconEvent.slotX = j;
 
-                // Minecraft vanilla used a hack way get around with rendering item stacks
+                // Vanilla used a hack way get around with rendering item stacks
                 // It will rebind texture to TextureMap.LOCATION_BLOCKS_TEXTURE, which aborts the already bond widget texture
                 // Therefore we ends up with using a hack fix too :(
                 Minecraft.getMinecraft().getTextureManager().bindTexture(WIDGETS_1);

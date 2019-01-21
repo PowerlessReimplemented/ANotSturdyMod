@@ -135,25 +135,25 @@ public abstract class ComponentizedGui extends GuiContainer {
     }
 
     protected void mouseMove(int mouseX, int mouseY) {
-        root.getMouseEventManager().emitHovering(mouseX, mouseY);
+        root.getEventManager().emitHovering(mouseX, mouseY);
     }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        root.getMouseEventManager().emitMouseClicked(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton));
+        root.getEventManager().emitMouseClicked(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton));
     }
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timePressed) {
         super.mouseClickMove(mouseX, mouseY, mouseButton, timePressed);
-        root.getMouseEventManager().emitClickedDragging(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton), timePressed);
+        root.getEventManager().emitClickedDragging(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton), timePressed);
     }
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
         super.mouseReleased(mouseX, mouseY, mouseButton);
-        root.getMouseEventManager().emitMouseReleased(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton));
+        root.getEventManager().emitMouseReleased(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton));
     }
 
 

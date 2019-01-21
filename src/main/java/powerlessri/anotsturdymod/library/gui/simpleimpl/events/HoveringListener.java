@@ -6,6 +6,4 @@ public interface HoveringListener {
 
     void onCursorLeave(HoveringEvent.Leave event);
 
-    void update(HoveringEvent.Update event);
-
 }

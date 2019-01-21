@@ -19,7 +19,6 @@ public class ComponentRoot implements IContainer {
     private GuiScreen gui;
 
     private MouseEventManager eventManager;
-    private CursorPositionHandler cursorManager;
 
     public ComponentRoot(GuiScreen gui, ImmutableList<IContainer<IComponent>> windows) {
         this.gui = gui;
@@ -37,8 +36,7 @@ public class ComponentRoot implements IContainer {
         this.flattened = ComponentStructureProjector.flatten(windows);
         this.leaves = ComponentStructureProjector.leaves(flattened);
 
-        this.cursorManager = new CursorPositionHandler(this, leaves);
-        this.eventManager = MouseEventManager.forLeaves(leaves, cursorManager);
+        this.eventManager = MouseEventManager.forLeaves(this, leaves);
 
         this.initializeAllComponents();
     }
@@ -57,16 +55,12 @@ public class ComponentRoot implements IContainer {
     }
 
     public void update(ContextGuiUpdate ctx) {
-        this.getCursorManager().update(ctx);
+        this.getEventManager().update(ctx);
     }
 
 
-    public MouseEventManager getMouseEventManager() {
+    public MouseEventManager getEventManager() {
         return this.eventManager;
-    }
-
-    public CursorPositionHandler getCursorManager() {
-        return this.cursorManager;
     }
 
     @Override
