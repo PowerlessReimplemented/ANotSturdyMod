@@ -7,7 +7,6 @@ import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiUpdate;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.events.*;
-import powerlessri.anotsturdymod.varia.general.Utils;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class MouseEventManager {
+public class CursorEventManager implements CursorEventBus {
 
     static final HoveringListener DEFAULT_HOVER_LISTENER = new HoveringListener() {
         @Override
@@ -42,8 +41,8 @@ public class MouseEventManager {
     };
 
 
-    public static MouseEventManager forLeaves(IComponent root, ImmutableList<IComponent> leaves) {
-        return new MouseEventManager(root, leaves, ComponentStructureProjector.handlers(leaves));
+    public static CursorEventManager forLeaves(IComponent root, ImmutableList<IComponent> leaves) {
+        return new CursorEventManager(root, leaves, ComponentStructureProjector.handlers(leaves));
     }
 
     private IComponent root;
@@ -58,7 +57,7 @@ public class MouseEventManager {
     private Map<IComponent, FocusListener> focusListeners = new HashMap<>();
     private Map<IComponent, HoveringListener> hoveringListeners = new HashMap<>();
 
-    private MouseEventManager(IComponent root, List<IComponent> leaves, List<InteractionHandler> handlers) {
+    private CursorEventManager(IComponent root, List<IComponent> leaves, List<InteractionHandler> handlers) {
         this.root = root;
         this.leaves = leaves;
         this.handlers = handlers;
@@ -69,14 +68,14 @@ public class MouseEventManager {
     }
 
 
-    public void emitMouseClicked(int mouseX, int mouseY, EMouseButton button) {
+    public void fireClickedEvent(int mx, int my, EMouseButton button) {
         for (IComponent leaf : handlers) {
-            if (leaf.isPointInside(mouseX, mouseY)) {
+            if (leaf.isPointInside(mx, my)) {
                 this.onFocus(focus, leaf);
                 focus = leaf;
 
                 if (leaf instanceof InteractionHandler) {
-                    this.onHandlerClicked(mouseX, mouseY, button, (InteractionHandler) leaf);
+                    this.onHandlerClicked(mx, my, button, (InteractionHandler) leaf);
                 }
             }
         }
@@ -106,29 +105,29 @@ public class MouseEventManager {
         }
     }
 
-    public void emitClickedDragging(int mouseX, int mouseY, EMouseButton button, long timePressed) {
+    public void fireDraggingEvent(int mx, int my, EMouseButton button, long timePressed) {
         if (clickedHandler != null) {
-            clickedHandler.onClickedDragging(mouseX, mouseY, button, timePressed);
+            clickedHandler.onClickedDragging(mx, my, button, timePressed);
         }
     }
 
-    public void emitHovering(int mouseX, int mouseY) {
+    public void fireHoveringEvent(int mx, int my) {
         for (InteractionHandler handler : handlers) {
-            if (handler != clickedHandler && handler.isPointInside(mouseX, mouseY) && handler.isVisible()) {
-                handler.onHovering(mouseX, mouseY);
-                bubbleUpEvent(handler, target -> target.onHovering(mouseX, mouseY));
+            if (handler != clickedHandler && handler.isPointInside(mx, my) && handler.isVisible()) {
+                handler.onHovering(mx, my);
+                bubbleUpEvent(handler, target -> target.onHovering(mx, my));
             }
         }
     }
 
-    public void emitMouseReleased(int mouseX, int mouseY, EMouseButton button) {
+    public void fireReleasedEvent(int mx, int my, EMouseButton button) {
         if (clickedHandler != null && clickedHandler.doesReceiveEvents()) {
-            EnumActionResult result = clickedHandler.onReleased(mouseX, mouseY, button, EEventType.ORIGINAL);
+            EnumActionResult result = clickedHandler.onReleased(mx, my, button, EEventType.ORIGINAL);
             if (result == EnumActionResult.FAIL) {
                 return;
             }
 
-            bubbleUpEvent(clickedHandler.getParentComponent(), target -> target.onReleased(mouseX, mouseY, button, EEventType.BUBBLE));
+            bubbleUpEvent(clickedHandler.getParentComponent(), target -> target.onReleased(mx, my, button, EEventType.BUBBLE));
         }
     }
 
@@ -152,6 +151,16 @@ public class MouseEventManager {
             hover = searchForHovering(x, y);
             notifyEntered();
         }
+    }
+
+    @Override
+    public void handleMouseClick(int x, int y, EMouseButton button) {
+
+    }
+
+    @Override
+    public void handleMouseRelease(int x, int y, EMouseButton button) {
+
     }
 
     private void notifyLeaved() {
@@ -195,8 +204,54 @@ public class MouseEventManager {
         return focus;
     }
 
+    @Override
+    public FocusListener getCurrentFocusListener() {
+        return focusListeners.get(getFocusedComponent());
+    }
+
     public IComponent getHoveringComponent() {
         return hover;
+    }
+
+    @Override
+    public HoveringListener getCurrentHoveringListener() {
+        return hoveringListeners.get(getHoveringComponent());
+    }
+
+    @Override
+    public InteractionHandler getLastClickedHandler() {
+        return clickedHandler;
+    }
+
+
+    @Override
+    public boolean supportsBubbling() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsCapture() {
+        return false;
+    }
+
+    @Override
+    public void enableBubbling() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void disableBubbling() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void enableCapture() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void disableCapture() {
+        throw new UnsupportedOperationException();
     }
 
 }

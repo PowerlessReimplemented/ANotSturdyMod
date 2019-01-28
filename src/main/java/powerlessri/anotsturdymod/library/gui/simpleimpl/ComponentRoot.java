@@ -11,14 +11,15 @@ import powerlessri.anotsturdymod.varia.general.Utils;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ComponentRoot implements IContainer {
+public class ComponentRoot implements FunctionalRootComponent, IContainer {
 
     private ImmutableList<IContainer<IComponent>> windows;
     private ImmutableList<IComponent> flattened;
     private ImmutableList<IComponent> leaves;
     private GuiScreen gui;
 
-    private MouseEventManager eventManager;
+    private EventDispatcher dispatcher;
+    private CursorEventManager cursorManager;
 
     public ComponentRoot(GuiScreen gui, ImmutableList<IContainer<IComponent>> windows) {
         this.gui = gui;
@@ -36,7 +37,8 @@ public class ComponentRoot implements IContainer {
         this.flattened = ComponentStructureProjector.flatten(windows);
         this.leaves = ComponentStructureProjector.leaves(flattened);
 
-        this.eventManager = MouseEventManager.forLeaves(this, leaves);
+        this.cursorManager = CursorEventManager.forLeaves(this, leaves);
+        this.dispatcher = new EventDispatcher(cursorManager);
 
         this.initializeAllComponents();
     }
@@ -55,12 +57,22 @@ public class ComponentRoot implements IContainer {
     }
 
     public void update(ContextGuiUpdate ctx) {
-        this.getEventManager().update(ctx);
+        this.getCursorBus().update(ctx);
     }
 
+    @Override
+    public List<IContainer<IComponent>> getComponentTree() {
+        return this.windows;
+    }
 
-    public MouseEventManager getEventManager() {
-        return this.eventManager;
+    @Override
+    public CursorEventManager getCursorBus() {
+        return this.cursorManager;
+    }
+
+    @Override
+    public GuiEventTrigerer getEventTrigger() {
+        return null;
     }
 
     @Override

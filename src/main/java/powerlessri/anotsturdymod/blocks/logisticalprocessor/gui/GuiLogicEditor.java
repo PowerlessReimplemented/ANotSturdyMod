@@ -118,8 +118,8 @@ public class GuiLogicEditor extends ComponentizedGui {
 
         super.initGui();
 
-        root.getEventManager().registerFocus(btn, fl);
-        root.getEventManager().registerHovering(btn, hl);
+        root.getCursorBus().registerFocus(btn, fl);
+        root.getCursorBus().registerHovering(btn, hl);
     }
 
 

@@ -3,6 +3,7 @@ package powerlessri.anotsturdymod.library.gui.integration;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import org.lwjgl.input.Mouse;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
@@ -64,11 +65,15 @@ public abstract class ComponentizedGui extends GuiContainer {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        GuiUtils.useTextureGLStates();
-        drawComponentTree(new ContextGuiDrawing(System.currentTimeMillis() - timeCreated, mouseX, mouseY, partialTicks));
-        // In case somebody forget to call GlStateManager.enableTexture2D()
-        // If they did enable  do that and this line does not exist, features from vanilla (e.g. text painting) will break
-        GuiUtils.useTextureGLStates();
+        GlStateManager.pushMatrix();
+        {
+            GuiUtils.useTextureGLStates();
+            drawComponentTree(new ContextGuiDrawing(System.currentTimeMillis() - timeCreated, mouseX, mouseY, partialTicks));
+            // In case somebody forget to call GlStateManager.enableTexture2D()
+            // If they didn't do that and this line does not exist, features from vanilla (e.g. text painting) will break
+            GuiUtils.useTextureGLStates();
+        }
+        GlStateManager.popMatrix();
     }
 
     private void drawComponentTree(ContextGuiDrawing event) {
@@ -135,25 +140,25 @@ public abstract class ComponentizedGui extends GuiContainer {
     }
 
     protected void mouseMove(int mouseX, int mouseY) {
-        root.getEventManager().emitHovering(mouseX, mouseY);
+        root.getCursorBus().fireHoveringEvent(mouseX, mouseY);
     }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        root.getEventManager().emitMouseClicked(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton));
+        root.getCursorBus().fireClickedEvent(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton));
     }
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timePressed) {
         super.mouseClickMove(mouseX, mouseY, mouseButton, timePressed);
-        root.getEventManager().emitClickedDragging(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton), timePressed);
+        root.getCursorBus().fireDraggingEvent(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton), timePressed);
     }
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
         super.mouseReleased(mouseX, mouseY, mouseButton);
-        root.getEventManager().emitMouseReleased(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton));
+        root.getCursorBus().fireReleasedEvent(mouseX, mouseY, GuiUtils.getMouseButton(mouseButton));
     }
 
 
