@@ -1,6 +1,7 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.slot;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
@@ -84,7 +85,10 @@ public abstract class Slots extends AbstractComponent {
                 Minecraft.getMinecraft().getTextureManager().bindTexture(WIDGETS_1);
                 
                 gui.drawTexturedModalRect(currentX, currentY, SLOT_POS_X, SLOT_POS_Y, SLOT_IMAGE_WIDTH, SLOT_IMAGE_HEIGHT);
+
+                GlStateManager.pushMatrix();
                 this.drawHoveringIcon(iconEvent, currentX, currentY);
+                GlStateManager.popMatrix();
 
                 iconEvent.slotIndex++;
             }

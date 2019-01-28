@@ -82,7 +82,10 @@ public class RenderingUtils {
             renderer.renderItemAndEffectIntoGUI(stack, x, y);
             renderer.renderItemOverlayIntoGUI(minecraft.fontRenderer, stack, x, y, alt);
         }
+        // For drawing item blocks
         GlStateManager.disableLighting();
+        // Durability bar drawing somehow changes the tint to green
+        GlStateManager.color(1, 1, 1);
     }
 
     public static void drawCompleteItemStack(ItemStack stack, int x, int y) {
