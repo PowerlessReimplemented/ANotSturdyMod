@@ -2,7 +2,7 @@ package powerlessri.anotsturdymod.library.keyboard;
 
 import org.lwjgl.input.Keyboard;
 
-public interface Key {
+public interface IKey {
 
     /**
      * The the key code used by {@link Keyboard}.

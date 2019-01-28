@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nonnull;
 
-public interface KeyCombination {
+public interface IKeyCombination {
 
     /**
      * If the key combination can be considered triggered.
@@ -20,12 +20,12 @@ public interface KeyCombination {
      * @see #getRejectedKeys()
      */
     default boolean isTriggered() {
-        for (Key key : this.getKeys()) {
+        for (IKey key : this.getKeys()) {
             if (!key.isKeyDown()) {
                 return false;
             }
         }
-        for (Key rejectedKey : this.getRejectedKeys()) {
+        for (IKey rejectedKey : this.getRejectedKeys()) {
             if (rejectedKey.isKeyDown()) {
                 return false;
             }
@@ -36,18 +36,18 @@ public interface KeyCombination {
     /**
      * The list of keys that must be pressed in order for the combination to be triggered.
      */
-    ImmutableList<Key> getKeys();
+    ImmutableList<IKey> getKeys();
 
     /**
      * The base key for the key combination.
      * <p>Should be the first element in {@link #getKeys()}</p>
      */
     @Nonnull
-    Key getBaseKey();
+    IKey getBaseKey();
 
     /**
      * The list of keys where cannot be pressed in order for the combination to be triggered.
      */
-    ImmutableList<Key> getRejectedKeys();
+    ImmutableList<IKey> getRejectedKeys();
 
 }

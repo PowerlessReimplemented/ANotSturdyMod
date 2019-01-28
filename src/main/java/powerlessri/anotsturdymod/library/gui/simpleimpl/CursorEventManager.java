@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class CursorEventManager implements CursorEventBus {
+public class CursorEventManager implements ICursorEventBus {
 
-    static final HoveringListener DEFAULT_HOVER_LISTENER = new HoveringListener() {
+    static final IHoveringListener DEFAULT_HOVER_LISTENER = new IHoveringListener() {
         @Override
         public void onCursorEnter(HoveringEvent.Enter event) {
         }
@@ -26,7 +26,7 @@ public class CursorEventManager implements CursorEventBus {
         }
     };
 
-    static final FocusListener DEFAULT_FOCUS_LISTENER = new FocusListener() {
+    static final IFocusListener DEFAULT_FOCUS_LISTENER = new IFocusListener() {
         @Override
         public void onFocus(FocusEvent.On event) {
         }
@@ -47,17 +47,17 @@ public class CursorEventManager implements CursorEventBus {
 
     private IComponent root;
     private List<IComponent> leaves;
-    private List<InteractionHandler> handlers;
+    private List<IInteractionHandler> handlers;
 
-    private InteractionHandler clickedHandler;
+    private IInteractionHandler clickedHandler;
 
     private IComponent focus;
     private IComponent hover;
 
-    private Map<IComponent, FocusListener> focusListeners = new HashMap<>();
-    private Map<IComponent, HoveringListener> hoveringListeners = new HashMap<>();
+    private Map<IComponent, IFocusListener> focusListeners = new HashMap<>();
+    private Map<IComponent, IHoveringListener> hoveringListeners = new HashMap<>();
 
-    private CursorEventManager(IComponent root, List<IComponent> leaves, List<InteractionHandler> handlers) {
+    private CursorEventManager(IComponent root, List<IComponent> leaves, List<IInteractionHandler> handlers) {
         this.root = root;
         this.leaves = leaves;
         this.handlers = handlers;
@@ -74,8 +74,8 @@ public class CursorEventManager implements CursorEventBus {
                 this.onFocus(focus, leaf);
                 focus = leaf;
 
-                if (leaf instanceof InteractionHandler) {
-                    this.onHandlerClicked(mx, my, button, (InteractionHandler) leaf);
+                if (leaf instanceof IInteractionHandler) {
+                    this.onHandlerClicked(mx, my, button, (IInteractionHandler) leaf);
                 }
             }
         }
@@ -84,15 +84,15 @@ public class CursorEventManager implements CursorEventBus {
     public void onFocus(IComponent oldHandler, IComponent newHandler) {
         // Do it this way since we allow different components to be bond to the same listener
         if (oldHandler != newHandler) {
-            FocusListener oldListener = focusListeners.getOrDefault(oldHandler, DEFAULT_FOCUS_LISTENER);
-            FocusListener newListener = focusListeners.getOrDefault(newHandler, DEFAULT_FOCUS_LISTENER);
+            IFocusListener oldListener = focusListeners.getOrDefault(oldHandler, DEFAULT_FOCUS_LISTENER);
+            IFocusListener newListener = focusListeners.getOrDefault(newHandler, DEFAULT_FOCUS_LISTENER);
 
             oldListener.onUnfocus(new FocusEvent.Off());
             newListener.onFocus(new FocusEvent.On());
         }
     }
 
-    private void onHandlerClicked(int x, int y, EMouseButton button, InteractionHandler handler) {
+    private void onHandlerClicked(int x, int y, EMouseButton button, IInteractionHandler handler) {
         if (handler.doesReceiveEvents()) {
             clickedHandler = handler;
 
@@ -112,7 +112,7 @@ public class CursorEventManager implements CursorEventBus {
     }
 
     public void fireHoveringEvent(int mx, int my) {
-        for (InteractionHandler handler : handlers) {
+        for (IInteractionHandler handler : handlers) {
             if (handler != clickedHandler && handler.isPointInside(mx, my) && handler.isVisible()) {
                 handler.onHovering(mx, my);
                 bubbleUpEvent(handler, target -> target.onHovering(mx, my));
@@ -132,10 +132,10 @@ public class CursorEventManager implements CursorEventBus {
     }
 
 
-    private void bubbleUpEvent(@Nullable IComponent target, Consumer<InteractionHandler> event) {
+    private void bubbleUpEvent(@Nullable IComponent target, Consumer<IInteractionHandler> event) {
         while (target != null && !target.isRootComponent()) {
-            if (target instanceof InteractionHandler) {
-                event.accept((InteractionHandler) target);
+            if (target instanceof IInteractionHandler) {
+                event.accept((IInteractionHandler) target);
             }
 
             target = target.getParentComponent();
@@ -183,7 +183,7 @@ public class CursorEventManager implements CursorEventBus {
 
 
 
-    public void registerFocus(IComponent component, FocusListener subscriber) {
+    public void registerFocus(IComponent component, IFocusListener subscriber) {
         focusListeners.put(component, subscriber);
     }
 
@@ -191,7 +191,7 @@ public class CursorEventManager implements CursorEventBus {
         focusListeners.remove(component);
     }
 
-    public void registerHovering(IComponent component, HoveringListener subscriber) {
+    public void registerHovering(IComponent component, IHoveringListener subscriber) {
         hoveringListeners.put(component, subscriber);
     }
 
@@ -205,7 +205,7 @@ public class CursorEventManager implements CursorEventBus {
     }
 
     @Override
-    public FocusListener getCurrentFocusListener() {
+    public IFocusListener getCurrentFocusListener() {
         return focusListeners.get(getFocusedComponent());
     }
 
@@ -214,12 +214,12 @@ public class CursorEventManager implements CursorEventBus {
     }
 
     @Override
-    public HoveringListener getCurrentHoveringListener() {
+    public IHoveringListener getCurrentHoveringListener() {
         return hoveringListeners.get(getHoveringComponent());
     }
 
     @Override
-    public InteractionHandler getLastClickedHandler() {
+    public IInteractionHandler getLastClickedHandler() {
         return clickedHandler;
     }
 

@@ -3,24 +3,24 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiUpdate;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.FocusListener;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.HoveringListener;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.InteractionHandler;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.IFocusListener;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.IHoveringListener;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.IInteractionHandler;
 
-public interface CursorEventBus {
+public interface ICursorEventBus {
 
     IComponent getFocusedComponent();
 
-    FocusListener getCurrentFocusListener();
+    IFocusListener getCurrentFocusListener();
 
     IComponent getHoveringComponent();
 
-    HoveringListener getCurrentHoveringListener();
+    IHoveringListener getCurrentHoveringListener();
 
-    InteractionHandler getLastClickedHandler();
+    IInteractionHandler getLastClickedHandler();
 
     default boolean isFocusInteractable() {
-        return getFocusedComponent() instanceof InteractionHandler;
+        return getFocusedComponent() instanceof IInteractionHandler;
     }
 
     void update(ContextGuiUpdate context);

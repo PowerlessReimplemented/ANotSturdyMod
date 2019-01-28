@@ -3,9 +3,9 @@ package powerlessri.anotsturdymod.library.keyboard.keys;
 import com.google.common.base.MoreObjects;
 import net.minecraft.util.IStringSerializable;
 import org.lwjgl.input.Keyboard;
-import powerlessri.anotsturdymod.library.keyboard.Key;
+import powerlessri.anotsturdymod.library.keyboard.IKey;
 
-public enum LetterKey implements Key, IStringSerializable {
+public enum LetterKey implements IKey, IStringSerializable {
 
     A(Keyboard.KEY_A),
     B(Keyboard.KEY_B),
@@ -54,7 +54,7 @@ public enum LetterKey implements Key, IStringSerializable {
 
 
     public int getKeyCode() {
-        return keyCode;
+        return this.keyCode;
     }
 
     @Override

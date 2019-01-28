@@ -2,7 +2,7 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl;
 
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 
-public interface GuiEventTrigerer {
+public interface IGuiEventTrigger {
 
     void fireClickedEvent(int mx, int my, EMouseButton button);
 

@@ -2,9 +2,9 @@ package powerlessri.anotsturdymod.library.keyboard.keys;
 
 import com.google.common.base.MoreObjects;
 import net.minecraft.util.IStringSerializable;
-import powerlessri.anotsturdymod.library.keyboard.ModifierKey;
+import powerlessri.anotsturdymod.library.keyboard.IModifierKey;
 
-public enum LRModifierKey implements ModifierKey, IStringSerializable {
+public enum LRModifierKey implements IModifierKey, IStringSerializable {
 
     CTRL("Control", "CTRL", NormalModifierKey.LCTRL, NormalModifierKey.RCTRL),
     SHIFT("Shift", "SHIFT", NormalModifierKey.LSHIFT, NormalModifierKey.RSHIFT),
@@ -13,10 +13,10 @@ public enum LRModifierKey implements ModifierKey, IStringSerializable {
 
     public final String name;
     public final String code;
-    public final ModifierKey leftKey;
-    public final ModifierKey rightKey;
+    public final IModifierKey leftKey;
+    public final IModifierKey rightKey;
 
-    private LRModifierKey(String name, String code, ModifierKey leftKey, ModifierKey rightKey) {
+    private LRModifierKey(String name, String code, IModifierKey leftKey, IModifierKey rightKey) {
         this.name = name;
         this.code = code;
         this.leftKey = leftKey;
@@ -35,17 +35,17 @@ public enum LRModifierKey implements ModifierKey, IStringSerializable {
     }
 
     @Override
-    public boolean isCollectorOf(ModifierKey other) {
+    public boolean isCollectorOf(IModifierKey other) {
         return this.leftKey == other || this.rightKey == other;
     }
 
     @Override
-    public boolean isPartOf(ModifierKey parent) {
+    public boolean isPartOf(IModifierKey parent) {
         return parent.isCollectorOf(this);
     }
 
     @Override
-    public boolean isRelatedTo(ModifierKey other) {
+    public boolean isRelatedTo(IModifierKey other) {
         return this.isCollectorOf(other) || this.isPartOf(other);
     }
 

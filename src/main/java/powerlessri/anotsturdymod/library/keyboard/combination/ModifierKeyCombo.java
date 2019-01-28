@@ -1,22 +1,22 @@
 package powerlessri.anotsturdymod.library.keyboard.combination;
 
 import com.google.common.collect.ImmutableList;
-import powerlessri.anotsturdymod.library.keyboard.Key;
-import powerlessri.anotsturdymod.library.keyboard.ModifierKey;
-import powerlessri.anotsturdymod.library.keyboard.UtilKeyCombination;
+import powerlessri.anotsturdymod.library.keyboard.IKey;
+import powerlessri.anotsturdymod.library.keyboard.IModifierKey;
+import powerlessri.anotsturdymod.library.keyboard.IUtilKeyCombination;
 
 import javax.annotation.Nonnull;
 
-public class ModifierKeyCombo implements UtilKeyCombination {
+public class ModifierKeyCombo implements IUtilKeyCombination {
 
-    private ModifierKey baseKey;
-    private Key secondaryKey;
+    private IModifierKey baseKey;
+    private IKey secondaryKey;
 
-    private ImmutableList<Key> keys;
-    private ImmutableList<Key> nonBaseKeys;
-    private ImmutableList<Key> rejectedKeys;
+    private ImmutableList<IKey> keys;
+    private ImmutableList<IKey> nonBaseKeys;
+    private ImmutableList<IKey> rejectedKeys;
 
-    public ModifierKeyCombo(@Nonnull ModifierKey baseKey, @Nonnull Key secondaryKey, Key... rejectedKeys) {
+    public ModifierKeyCombo(@Nonnull IModifierKey baseKey, @Nonnull IKey secondaryKey, IKey... rejectedKeys) {
         this.baseKey = baseKey;
         this.secondaryKey = secondaryKey;
         this.keys = ImmutableList.of(baseKey, secondaryKey);
@@ -31,22 +31,22 @@ public class ModifierKeyCombo implements UtilKeyCombination {
 
     @Nonnull
     @Override
-    public ModifierKey getBaseKey() {
+    public IModifierKey getBaseKey() {
         return this.baseKey;
     }
 
     @Override
-    public ImmutableList<Key> getNonBaseKeys() {
+    public ImmutableList<IKey> getNonBaseKeys() {
         return this.nonBaseKeys;
     }
 
     @Override
-    public ImmutableList<Key> getKeys() {
+    public ImmutableList<IKey> getKeys() {
         return this.keys;
     }
 
     @Override
-    public ImmutableList<Key> getRejectedKeys() {
+    public ImmutableList<IKey> getRejectedKeys() {
         return this.rejectedKeys;
     }
 

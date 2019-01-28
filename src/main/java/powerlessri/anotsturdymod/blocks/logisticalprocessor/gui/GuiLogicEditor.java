@@ -12,9 +12,9 @@ import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventor
 import powerlessri.anotsturdymod.library.gui.simpleimpl.button.ButtonGradient;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.button.ScrollableButtonGradient;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.events.FocusEvent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.FocusListener;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.IFocusListener;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.events.HoveringEvent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.HoveringListener;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.IHoveringListener;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.label.LabelTexture;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.IScrollableComponent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.ScrollablePanel;
@@ -78,7 +78,7 @@ public class GuiLogicEditor extends ComponentizedGui {
         ButtonGradient btn = new ButtonGradient(0, 0, 64, 64, "click") {
 
         };
-        FocusListener fl = new FocusListener() {
+        IFocusListener fl = new IFocusListener() {
             @Override
             public void onFocus(FocusEvent.On event) {
                 Utils.getLogger().info("focus");
@@ -93,7 +93,7 @@ public class GuiLogicEditor extends ComponentizedGui {
             public void update(FocusEvent.Update event) {
             }
         };
-        HoveringListener hl = new HoveringListener() {
+        IHoveringListener hl = new IHoveringListener() {
             @Override
             public void onCursorEnter(HoveringEvent.Enter event) {
                 Utils.getLogger().info("enter");

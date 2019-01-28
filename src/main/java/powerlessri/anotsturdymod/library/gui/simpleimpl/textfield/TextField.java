@@ -10,9 +10,9 @@ import powerlessri.anotsturdymod.library.gui.api.IOnOffState;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.button.ButtonGradient;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.InteractionHandler;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.IInteractionHandler;
 
-public class TextField extends AbstractComponent implements InteractionHandler, IOnOffState {
+public class TextField extends AbstractComponent implements IInteractionHandler, IOnOffState {
 
     public static final int DEFAULT_TEXT_MARGIN = 8;
     public static final int MINIMUM_TEXT_FIELD_WIDTH = 2;

@@ -3,9 +3,8 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl;
 import com.google.common.collect.ImmutableList;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.InteractionHandler;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.IInteractionHandler;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class ComponentStructureProjector {
@@ -44,11 +43,11 @@ public class ComponentStructureProjector {
         return leaves.build();
     }
 
-    public static ImmutableList<InteractionHandler> handlers(ImmutableList<IComponent> leaves) {
-        ImmutableList.Builder<InteractionHandler> handlers = ImmutableList.builder();
+    public static ImmutableList<IInteractionHandler> handlers(ImmutableList<IComponent> leaves) {
+        ImmutableList.Builder<IInteractionHandler> handlers = ImmutableList.builder();
         for (IComponent leaf : leaves) {
-            if (leaf instanceof InteractionHandler) {
-                handlers.add((InteractionHandler) leaf);
+            if (leaf instanceof IInteractionHandler) {
+                handlers.add((IInteractionHandler) leaf);
             }
         }
         return handlers.build();

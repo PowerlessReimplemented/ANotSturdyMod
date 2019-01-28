@@ -1,6 +1,6 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.events;
 
-public interface HoveringListener {
+public interface IHoveringListener {
 
     void onCursorEnter(HoveringEvent.Enter event);
 

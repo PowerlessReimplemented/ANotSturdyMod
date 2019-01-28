@@ -1,24 +1,24 @@
 package powerlessri.anotsturdymod.library.keyboard.combination;
 
 import com.google.common.collect.ImmutableList;
-import powerlessri.anotsturdymod.library.keyboard.Key;
-import powerlessri.anotsturdymod.library.keyboard.ModifierKey;
-import powerlessri.anotsturdymod.library.keyboard.UtilKeyCombination;
+import powerlessri.anotsturdymod.library.keyboard.IKey;
+import powerlessri.anotsturdymod.library.keyboard.IModifierKey;
+import powerlessri.anotsturdymod.library.keyboard.IUtilKeyCombination;
 import powerlessri.anotsturdymod.library.keyboard.keys.LRModifierKey;
 
 import javax.annotation.Nonnull;
 
 /**
- * Key combination to revert an {@link UtilKeyCombination} with shift key down.
+ * IKey combination to revert an {@link IUtilKeyCombination} with shift key down.
  */
-public class RevertOperationCombo implements UtilKeyCombination {
+public class RevertOperationCombo implements IUtilKeyCombination {
 
-    private UtilKeyCombination operation;
-    private ImmutableList<Key> keys;
+    private IUtilKeyCombination operation;
+    private ImmutableList<IKey> keys;
 
-    public RevertOperationCombo(UtilKeyCombination operation) {
+    public RevertOperationCombo(IUtilKeyCombination operation) {
         this.operation = operation;
-        this.keys = ImmutableList.<Key>builder()
+        this.keys = ImmutableList.<IKey>builder()
                 .add(LRModifierKey.SHIFT)
                 .addAll(operation.getKeys())
                 .build();
@@ -31,27 +31,27 @@ public class RevertOperationCombo implements UtilKeyCombination {
     }
 
     @Override
-    public ImmutableList<Key> getKeys() {
+    public ImmutableList<IKey> getKeys() {
         return this.keys;
     }
 
     @Override
-    public ImmutableList<Key> getNonBaseKeys() {
+    public ImmutableList<IKey> getNonBaseKeys() {
         return this.operation.getKeys();
     }
 
     @Nonnull
     @Override
-    public ModifierKey getBaseKey() {
+    public IModifierKey getBaseKey() {
         return LRModifierKey.SHIFT;
     }
 
     @Override
-    public ImmutableList<Key> getRejectedKeys() {
+    public ImmutableList<IKey> getRejectedKeys() {
         return this.operation.getRejectedKeys();
     }
 
-    public UtilKeyCombination getOriginalOperation() {
+    public IUtilKeyCombination getOriginalOperation() {
         return this.operation;
     }
 

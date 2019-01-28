@@ -2,7 +2,7 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl;
 
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 
-public class EventDispatcher implements GuiEventTrigerer {
+public class EventDispatcher implements IGuiEventTrigger {
 
     private CursorEventManager cursorDelegate;
 

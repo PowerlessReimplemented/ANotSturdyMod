@@ -11,7 +11,7 @@ import powerlessri.anotsturdymod.varia.general.Utils;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ComponentRoot implements FunctionalRootComponent, IContainer {
+public class ComponentRoot implements IFunctionalRootComponent, IContainer {
 
     private ImmutableList<IContainer<IComponent>> windows;
     private ImmutableList<IComponent> flattened;
@@ -71,7 +71,7 @@ public class ComponentRoot implements FunctionalRootComponent, IContainer {
     }
 
     @Override
-    public GuiEventTrigerer getEventTrigger() {
+    public IGuiEventTrigger getEventTrigger() {
         return null;
     }
 

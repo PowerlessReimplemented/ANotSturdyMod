@@ -6,19 +6,19 @@ import javax.annotation.Nonnull;
 
 /**
  * <p>
- * All key combinations in format of {@link ModifierKey} + some other {@link Key}'s should implement this interface instead. For example key
+ * All key combinations in format of {@link IModifierKey} + some other {@link IKey}'s should implement this interface instead. For example key
  * combo of Ctrl+C, Ctrl+V.
  * </p>
  */
-public interface UtilKeyCombination extends KeyCombination {
+public interface IUtilKeyCombination extends IKeyCombination {
 
     @Nonnull
     @Override
-    ModifierKey getBaseKey();
+    IModifierKey getBaseKey();
 
     /**
      * All {@link #getKeys()} except {@link #getBaseKey()}.
      */
-    ImmutableList<Key> getNonBaseKeys();
+    ImmutableList<IKey> getNonBaseKeys();
 
 }

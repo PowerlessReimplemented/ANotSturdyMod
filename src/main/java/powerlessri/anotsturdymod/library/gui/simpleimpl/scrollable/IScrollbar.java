@@ -2,7 +2,7 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 
 import net.minecraft.client.gui.GuiScreen;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.InteractionHandler;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.IInteractionHandler;
 
 /**
  * <p>
@@ -10,7 +10,7 @@ import powerlessri.anotsturdymod.library.gui.simpleimpl.events.InteractionHandle
  * it must manually call {@link IScrollingPanel#setCurrentStep(int)}.
  * </p>
  */
-public interface IScrollbar extends InteractionHandler {
+public interface IScrollbar extends IInteractionHandler {
 
     /**
      * Implementations should <b>NOT</b> override this method, but instead {@link #initialize(GuiScreen, IScrollingPanel)}.

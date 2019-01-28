@@ -1,6 +1,6 @@
 package powerlessri.anotsturdymod.library.keyboard;
 
-public interface ModifierKey extends Key {
+public interface IModifierKey extends IKey {
 
     /**
      * See parent Javadoc for more information.
@@ -20,7 +20,7 @@ public interface ModifierKey extends Key {
      *
      * @param other The potential sub-modifier key
      */
-    boolean isCollectorOf(ModifierKey other);
+    boolean isCollectorOf(IModifierKey other);
 
     /**
      * If the this can be considered as the parameter.
@@ -30,15 +30,15 @@ public interface ModifierKey extends Key {
      *
      * @param parent The potential superior modifier key
      */
-    boolean isPartOf(ModifierKey parent);
+    boolean isPartOf(IModifierKey parent);
 
     /**
-     * Either {@link #isCollectorOf(ModifierKey)} or {@link #isPartOf(ModifierKey)} the parameter.
+     * Either {@link #isCollectorOf(IModifierKey)} or {@link #isPartOf(IModifierKey)} the parameter.
      */
-    boolean isRelatedTo(ModifierKey other);
+    boolean isRelatedTo(IModifierKey other);
 
     /**
-     * If {@link #isCollectorOf(ModifierKey)} would ever return {@code true}.
+     * If {@link #isCollectorOf(IModifierKey)} would ever return {@code true}.
      */
     boolean hasSubKeys();
 

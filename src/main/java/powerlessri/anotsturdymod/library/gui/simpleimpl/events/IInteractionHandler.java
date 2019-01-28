@@ -8,7 +8,7 @@ import powerlessri.anotsturdymod.library.gui.api.IComponent;
 /**
  * Defines an event receiver component.
  */
-public interface InteractionHandler extends IComponent {
+public interface IInteractionHandler extends IComponent {
 
     /**
      * Triggers when player clicked on the component.

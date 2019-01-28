@@ -6,13 +6,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.*;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.InteractionHandler;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.IInteractionHandler;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.IScrollableComponent;
 import powerlessri.anotsturdymod.varia.render.RenderingUtils;
 
 import java.util.Arrays;
 
-public class LabelledSlots extends Slots implements InteractionHandler, IScrollableComponent {
+public class LabelledSlots extends Slots implements IInteractionHandler, IScrollableComponent {
 
     private ItemStack[] itemStacks;
 

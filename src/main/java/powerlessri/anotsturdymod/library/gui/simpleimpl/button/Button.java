@@ -3,11 +3,11 @@ package powerlessri.anotsturdymod.library.gui.simpleimpl.button;
 import net.minecraft.util.EnumActionResult;
 import powerlessri.anotsturdymod.library.gui.api.EEventType;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
-import powerlessri.anotsturdymod.library.gui.simpleimpl.events.InteractionHandler;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.events.IInteractionHandler;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
 
-public abstract class Button extends AbstractComponent implements InteractionHandler {
+public abstract class Button extends AbstractComponent implements IInteractionHandler {
 
     private boolean disabled = false;
     private boolean pressed = false;

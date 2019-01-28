@@ -5,12 +5,12 @@ import powerlessri.anotsturdymod.library.gui.api.IContainer;
 
 import java.util.List;
 
-public interface FunctionalRootComponent {
+public interface IFunctionalRootComponent {
 
     List<IContainer<IComponent>> getComponentTree();
 
-    CursorEventBus getCursorBus();
+    ICursorEventBus getCursorBus();
 
-    GuiEventTrigerer getEventTrigger();
+    IGuiEventTrigger getEventTrigger();
 
 }

@@ -3,9 +3,9 @@ package powerlessri.anotsturdymod.library.keyboard.keys;
 import com.google.common.base.MoreObjects;
 import net.minecraft.util.IStringSerializable;
 import org.lwjgl.input.Keyboard;
-import powerlessri.anotsturdymod.library.keyboard.ModifierKey;
+import powerlessri.anotsturdymod.library.keyboard.IModifierKey;
 
-public enum NormalModifierKey implements ModifierKey, IStringSerializable {
+public enum NormalModifierKey implements IModifierKey, IStringSerializable {
 
     LCTRL("Left Control", "LCTRL", Keyboard.KEY_LCONTROL),
     RCTRL("Right Control", "RCTRL", Keyboard.KEY_RCONTROL),
@@ -46,17 +46,17 @@ public enum NormalModifierKey implements ModifierKey, IStringSerializable {
     }
 
     @Override
-    public boolean isCollectorOf(ModifierKey other) {
+    public boolean isCollectorOf(IModifierKey other) {
         return false;
     }
 
     @Override
-    public boolean isPartOf(ModifierKey parent) {
+    public boolean isPartOf(IModifierKey parent) {
         return parent.isCollectorOf(this);
     }
 
     @Override
-    public boolean isRelatedTo(ModifierKey other) {
+    public boolean isRelatedTo(IModifierKey other) {
         return this.isPartOf(other);
     }
 
