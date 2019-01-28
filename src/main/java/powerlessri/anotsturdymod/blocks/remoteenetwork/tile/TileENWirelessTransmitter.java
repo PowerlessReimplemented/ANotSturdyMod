@@ -5,13 +5,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import powerlessri.anotsturdymod.handlers.init.RegistryHandler;
 import powerlessri.anotsturdymod.handlers.init.RegistryTileEntity;
-import powerlessri.anotsturdymod.network.PacketServerCommand;
-import powerlessri.anotsturdymod.network.utils.ByteIOHelper;
+import powerlessri.anotsturdymod.library.network.PacketServerCommand;
 import powerlessri.anotsturdymod.blocks.remoteenetwork.IENetworkController;
 import powerlessri.anotsturdymod.varia.tags.TagUtils;
 
@@ -129,7 +129,7 @@ public class TileENWirelessTransmitter extends TileENComponentBase implements IT
 
 
     public static void onPacketScanNearbyTiles(PacketServerCommand pckt, MessageContext ctx) {
-        World world = ByteIOHelper.getWorldFromDimension(pckt.args);
+        World world = DimensionManager.getWorld(TagUtils.readDimension(pckt.args));
         BlockPos tilePos = TagUtils.readBlockPos(pckt.args);
         TileENWirelessTransmitter tile = (TileENWirelessTransmitter) world.getTileEntity(tilePos);
 

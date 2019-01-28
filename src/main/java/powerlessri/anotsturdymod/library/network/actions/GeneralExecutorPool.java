@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.network.actions;
+package powerlessri.anotsturdymod.library.network.actions;
 
 import io.netty.buffer.ByteBuf;
 import powerlessri.anotsturdymod.library.gui.api.IActionHandler;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GuiActionManager {
+public class GeneralExecutorPool {
 
     public static class DefaultActionHandler implements IActionHandler {
         
@@ -35,7 +35,13 @@ public class GuiActionManager {
     public static final IActionHandler DEFAULT_HANDLER = new DefaultActionHandler();
 
     private static int lastActionId = -1;
+    /**
+     * The mapping from human readable string to integer ID's for convenience use.
+     */
     private static Map<String, Integer> actionIds = new HashMap<>();
+    /**
+     * The internal mapping from integer ID's to action data handlers.
+     */
     private static List<IActionHandler> actions = new ArrayList<>();
 
 

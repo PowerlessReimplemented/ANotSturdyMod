@@ -19,7 +19,7 @@ public interface IScrollingPanel extends IContainer<IComponent> {
     /**
      * Set the index of first component which gets drawn.
      * <p>In other words, shift the viewport to the given index.</p>
-     * @param step Target index, starts at 0
+     * @param step ITarget index, starts at 0
      */
     void setCurrentStep(int step);
 

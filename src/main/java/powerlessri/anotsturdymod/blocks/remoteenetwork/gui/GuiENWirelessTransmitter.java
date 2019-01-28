@@ -3,12 +3,12 @@ package powerlessri.anotsturdymod.blocks.remoteenetwork.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.text.TextComponentString;
+import powerlessri.anotsturdymod.ANotSturdyMod;
+import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENWirelessTransmitter;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
-import powerlessri.anotsturdymod.blocks.remoteenetwork.tile.TileENWirelessTransmitter;
-import powerlessri.anotsturdymod.network.PacketServerCommand;
-import powerlessri.anotsturdymod.network.utils.NetworkHelper;
+import powerlessri.anotsturdymod.library.network.PacketServerCommand;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class GuiENWirelessTransmitter extends GuiEnergyIOAccess {
             }
         };
     }
-    
+
 
     protected static final int BUTTON_SCAN_TILES = buttonId++;
 
@@ -74,9 +74,12 @@ public class GuiENWirelessTransmitter extends GuiEnergyIOAccess {
         super.actionPerformed(button);
 
         if (button.id == BUTTON_SCAN_TILES) {
-            NetworkHelper.sendServerCommand(
-                    TileENWirelessTransmitter.SCAN_NEARBY_TILES,
-                    PacketServerCommand.makeWorldPosArgs(Minecraft.getMinecraft().player.dimension, tilePos.getX(), tilePos.getY(), tilePos.getZ()));
+            ANotSturdyMod.network.sendToServer(
+                    new PacketServerCommand(TileENWirelessTransmitter.SCAN_NEARBY_TILES, PacketServerCommand.makeWorldPosArgs(
+                            Minecraft.getMinecraft().player.dimension,
+                            tilePos.getX(),
+                            tilePos.getY(),
+                            tilePos.getZ())));
 
             Minecraft.getMinecraft().player.sendMessage(new TextComponentString(Utils.readFromLang("gui.ansm:wireless_transmitter.text.startedScanning")));
         }
