@@ -65,6 +65,7 @@ public abstract class TileENComponentBase extends TileEntityBase {
 
             if (isControllerValid()) {
                 this.sendUpdates();
+                this.markDirty();
                 return true;
             } else {
                 this.channel = oldChannel;

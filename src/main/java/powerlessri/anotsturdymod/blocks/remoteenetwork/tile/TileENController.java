@@ -128,6 +128,7 @@ public class TileENController extends TileEntityBase implements IENetworkControl
 
     private void allocateChannel() {
         channel = data.getNextChannel();
+        markDirty();
         // Now it has a network, put itself into the reference list.
         onLoadServer();
     }

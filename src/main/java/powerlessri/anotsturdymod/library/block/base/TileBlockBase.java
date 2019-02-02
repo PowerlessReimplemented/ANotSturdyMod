@@ -7,6 +7,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import powerlessri.anotsturdymod.library.tile.base.TileEntityBase;
 
+import javax.annotation.Nullable;
+
 public abstract class TileBlockBase extends SimpleBlockBase {
 
     public TileBlockBase(String name, Material material) {
@@ -27,12 +29,18 @@ public abstract class TileBlockBase extends SimpleBlockBase {
         return this.hasTileEntity;
     }
 
+    @Nullable
+    @Override
+    public abstract TileEntity createTileEntity(World world, IBlockState state);
+
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
         TileEntity tile = world.getTileEntity(pos);
-        if (tile != null && tile instanceof TileEntityBase) {
+        if (tile instanceof TileEntityBase) {
             ((TileEntityBase) tile).onRemoved();
         }
+
+        super.breakBlock(world, pos, state);
     }
 
 }
