@@ -30,20 +30,28 @@ public class TagUtils {
 
 
     public static BlockPos readBlockPos(NBTTagCompound tag) {
-        int x = tag.getInteger(X);
-        int y = tag.getInteger(Y);
-        int z = tag.getInteger(Z);
+        return readBlockPos(tag, "");
+    }
+
+    public static BlockPos readBlockPos(NBTTagCompound tag, String baseKey) {
+        int x = tag.getInteger(baseKey + X);
+        int y = tag.getInteger(baseKey + Y);
+        int z = tag.getInteger(baseKey + Z);
         return new BlockPos(x, y, z);
     }
 
     public static void writeBlockPos(NBTTagCompound tag, BlockPos pos) {
-        writeBlockPos(tag, pos.getX(), pos.getY(), pos.getZ());
+        writeBlockPos(tag, "", pos);
     }
 
-    public static void writeBlockPos(NBTTagCompound tag, int x, int y, int z) {
-        tag.setInteger(X, x);
-        tag.setInteger(Y, y);
-        tag.setInteger(Z, z);
+    public static void writeBlockPos(NBTTagCompound tag, String baseKey, BlockPos pos) {
+        writeBlockPos(tag, baseKey, pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static void writeBlockPos(NBTTagCompound tag, String baseKey, int x, int y, int z) {
+        tag.setInteger(baseKey + X, x);
+        tag.setInteger(baseKey + Y, y);
+        tag.setInteger(baseKey + Z, z);
     }
 
 

@@ -7,10 +7,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -79,6 +82,7 @@ public abstract class SimpleBlockBase extends Block {
         return FULL_BLOCK_AABB;
     }
 
+    @SuppressWarnings("deprecation") // Implementing/overriding is fine
     @Override
     public ExtendedAABB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
         return this.getBaseBoundingBox();
@@ -111,14 +115,27 @@ public abstract class SimpleBlockBase extends Block {
     }
 
 
+    public void breakAndDrop(World world, BlockPos pos, IBlockState state) {
+        NonNullList<ItemStack> drops = NonNullList.create();
+        this.getDrops(drops, world, pos, state, 0);
+        for (ItemStack drop : drops) {
+            spawnAsEntity(world, pos, drop);
+        }
+
+        world.setBlockToAir(pos);
+    }
+
+
     /**
      * Controls block shadow for rendering purposes.
      */
+    @SuppressWarnings("deprecation") // Implementing/overriding is fine
     @Override
     public boolean isFullCube(IBlockState state) {
         return this.isOpaqueCube(state);
     }
 
+    @SuppressWarnings("deprecation") // Implementing/overriding is fine
     @Override
     public boolean canEntitySpawn(IBlockState state, Entity entity) {
         return this.isOpaqueCube(state);
@@ -131,6 +148,7 @@ public abstract class SimpleBlockBase extends Block {
      * EnumFacing)}.
      * </p>
      */
+    @SuppressWarnings("deprecation") // Backwards compatibility
     @Override
     public boolean isSideSolid(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
         if (this.isNormalCube(state, world, pos)) {

@@ -1,0 +1,27 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "ansm:tipped_cube",
+    "textures": {
+      "body_side": "minecraft:blocks/concrete_gray",
+      "tip": "minecraft:blocks/concrete_silver",
+      "tip_top": "minecraft:blocks/concrete_silver",
+
+      "particle": "#body_side"
+    },
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "facing": {
+      "up": { "x": 180 },
+      "down": { },
+      "north": { "x": 90, "y": 180 },
+      "east": { "x": 90, "y": 270 },
+      "south": { "x": 90 },
+      "west": { "x": 90, "y": 90 }
+    },
+
+    "normal": [{}],
+    "inventory": [{}]
+  }
+}

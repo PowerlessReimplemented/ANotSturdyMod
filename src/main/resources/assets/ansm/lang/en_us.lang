@@ -4,6 +4,7 @@ tile.ansm:energy_network_controller.name=Remote ENetwork Controller
 tile.ansm:energy_network_input_port.name=Remote ENetwork Input Port
 tile.ansm:energy_network_output_port.name=Remote ENetwork Output Port
 tile.ansm:energy_network_wireless_transmitter.name=Remote ENetwork Wireless Transmitter
+tile.ansm:capability_redirector.name=Capability Redirector
 
 # Block related item names
 item.ansm:energy_network_storage_upgrade.name=Energy Storage Upgrade (Capacity)

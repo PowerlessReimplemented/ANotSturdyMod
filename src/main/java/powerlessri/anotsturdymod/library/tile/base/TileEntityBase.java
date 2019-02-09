@@ -175,7 +175,10 @@ public abstract class TileEntityBase extends TileEntity implements INotification
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         this.writeRestorableNBT(tag);
-        return super.writeToNBT(tag);
+        // Idiot behavior (try to write data with same key as vanilla stuff) protection
+        // then vanilla will override them
+        super.writeToNBT(tag);
+        return tag;
     }
 
     public abstract void writeRestorableNBT(NBTTagCompound tagCompound);
