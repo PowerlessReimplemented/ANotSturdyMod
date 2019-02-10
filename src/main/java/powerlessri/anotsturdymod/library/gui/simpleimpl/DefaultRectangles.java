@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.library.gui.simpleimpl.textfield;
+package powerlessri.anotsturdymod.library.gui.simpleimpl;
 
 import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.library.gui.Color;

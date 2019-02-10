@@ -45,9 +45,6 @@ public class TextField extends AbstractComponent implements IInteractionHandler,
     private String text;
     private String visibleText;
 
-    /**
-     *
-     */
     private int cursorPos;
 
     private int scrollOffset;
@@ -101,7 +98,6 @@ public class TextField extends AbstractComponent implements IInteractionHandler,
         this.drawCursor(event);
     }
 
-    // TODO all drawing methods
 
     private void drawBackground(ContextGuiDrawing event) {
         GlStateManager.pushMatrix();
@@ -129,7 +125,7 @@ public class TextField extends AbstractComponent implements IInteractionHandler,
             int y1 = this.getTextY() - 1;
             int x2 = x1 + 1;
             int y2 = this.getTextY() + 1 + Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT;
-            VertexSequencer.plainBox(buffer, x1, y1, x2, y2, 0, CURSOR_WHITE;
+            VertexSequencer.plainBox(buffer, x1, y1, x2, y2, 0, CURSOR_WHITE);
 
             TESRStateManager.finish();
             GlStateManager.popMatrix();
@@ -165,6 +161,7 @@ public class TextField extends AbstractComponent implements IInteractionHandler,
 
 
     // TODO network connection
+
     public void notifyServer() {
 
     }
