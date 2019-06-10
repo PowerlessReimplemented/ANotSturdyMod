@@ -1,9 +1,9 @@
 package powerlessri.anotsturdymod.varia.tags;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -15,61 +15,61 @@ import java.util.function.Supplier;
 
 public class TagUtils {
 
-    public static final String DIMENSION = "dimension";
-    public static final String X = "x";
-    public static final String Y = "y";
-    public static final String Z = "z";
+    private static final String DIMENSION = "dimension";
+    private static final String X = "x";
+    private static final String Y = "y";
+    private static final String Z = "z";
 
-    public static int readDimension(NBTTagCompound tag) {
-        return tag.getInteger(DIMENSION);
+    public static int readDimension(CompoundNBT tag) {
+        return tag.getInt(DIMENSION);
     }
 
-    public static void writeDimension(NBTTagCompound tag, int dimension) {
-        tag.setInteger(DIMENSION, dimension);
+    public static void writeDimension(CompoundNBT tag, int dimension) {
+        tag.putInt(DIMENSION, dimension);
     }
 
 
-    public static BlockPos readBlockPos(NBTTagCompound tag) {
+    public static BlockPos readBlockPos(CompoundNBT tag) {
         return readBlockPos(tag, "");
     }
 
-    public static BlockPos readBlockPos(NBTTagCompound tag, String baseKey) {
-        int x = tag.getInteger(baseKey + X);
-        int y = tag.getInteger(baseKey + Y);
-        int z = tag.getInteger(baseKey + Z);
+    public static BlockPos readBlockPos(CompoundNBT tag, String baseKey) {
+        int x = tag.getInt(baseKey + X);
+        int y = tag.getInt(baseKey + Y);
+        int z = tag.getInt(baseKey + Z);
         return new BlockPos(x, y, z);
     }
 
-    public static void writeBlockPos(NBTTagCompound tag, BlockPos pos) {
+    public static void writeBlockPos(CompoundNBT tag, BlockPos pos) {
         writeBlockPos(tag, "", pos);
     }
 
-    public static void writeBlockPos(NBTTagCompound tag, String baseKey, BlockPos pos) {
+    public static void writeBlockPos(CompoundNBT tag, String baseKey, BlockPos pos) {
         writeBlockPos(tag, baseKey, pos.getX(), pos.getY(), pos.getZ());
     }
 
-    public static void writeBlockPos(NBTTagCompound tag, String baseKey, int x, int y, int z) {
-        tag.setInteger(baseKey + X, x);
-        tag.setInteger(baseKey + Y, y);
-        tag.setInteger(baseKey + Z, z);
+    public static void writeBlockPos(CompoundNBT tag, String baseKey, int x, int y, int z) {
+        tag.putInt(baseKey + X, x);
+        tag.putInt(baseKey + Y, y);
+        tag.putInt(baseKey + Z, z);
     }
 
 
-    public static final Supplier<? extends INBTSerializable<NBTBase>> NULL_NBT_SERIALIZER_SUPPLIER = () -> null;
+    public static final Supplier<? extends INBTSerializable<INBT>> NULL_NBT_SERIALIZER_SUPPLIER = () -> null;
 
-    public static <T extends INBTSerializable<NBTBase>> NBTTagList toNBTList(List<T> list) {
-        NBTTagList tagList = new NBTTagList();
+    public static <T extends INBTSerializable<INBT>> ListNBT toNBTList(List<T> list) {
+        ListNBT tagList = new ListNBT();
         for (T item : list) {
-            NBTBase tag = item.serializeNBT();
-            tagList.appendTag(tag);
+            INBT tag = item.serializeNBT();
+            tagList.add(tag);
         }
         return tagList;
     }
 
 
-    public static <T extends INBTSerializable<NBTBase>> List<T> toRegularList(NBTTagList tagList, @Nonnull Supplier<T> rawObjectFactory) {
-        List<T> base = new ArrayList<>(tagList.tagCount());
-        for (int i = 0; i < tagList.tagCount(); i++) {
+    public static <T extends INBTSerializable<INBT>> List<T> toRegularList(ListNBT tagList, @Nonnull Supplier<T> rawObjectFactory) {
+        List<T> base = new ArrayList<>(tagList.size());
+        for (int i = 0; i < tagList.size(); i++) {
             base.add(rawObjectFactory.get());
         }
 
@@ -77,7 +77,7 @@ public class TagUtils {
         return base;
     }
 
-    public static <T extends INBTSerializable<NBTBase>> List<T> toRegularList(List<T> base, NBTTagList tagList, @Nullable Supplier<T> rawObjectFactory) {
+    public static <T extends INBTSerializable<INBT>> List<T> toRegularList(List<T> base, ListNBT tagList, @Nullable Supplier<T> rawObjectFactory) {
         for (int i = 0; i < base.size(); i++) {
             T item = base.get(i);
 
@@ -102,20 +102,12 @@ public class TagUtils {
     }
 
 
-    public static NBTTagCompound combineTags(NBTTagCompound... tags) {
-        NBTTagCompound resultTag = new NBTTagCompound();
-        for (NBTTagCompound tag : tags) {
+    public static CompoundNBT combineTags(CompoundNBT... tags) {
+        CompoundNBT resultTag = new CompoundNBT();
+        for (CompoundNBT tag : tags) {
             resultTag.merge(tag);
         }
         return resultTag;
-    }
-
-    @Nonnull
-    public static NBTTagCompound getOrCreateTag(ItemStack stack) {
-        if (!stack.hasTagCompound()) {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-        return stack.getTagCompound();
     }
 
 }

@@ -1,8 +1,7 @@
 package powerlessri.anotsturdymod.library.block.rotation;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import powerlessri.anotsturdymod.varia.math.ExtendedAABB;
 
 /**
@@ -27,7 +26,7 @@ class HandlerNoRotation extends BlockRotationHandler {
     }
 
     @Override
-    public ExtendedAABB getBoundingBoxFor(IBlockState state) {
+    public ExtendedAABB getBoundingBoxFor(BlockState state) {
         return this.base;
     }
 

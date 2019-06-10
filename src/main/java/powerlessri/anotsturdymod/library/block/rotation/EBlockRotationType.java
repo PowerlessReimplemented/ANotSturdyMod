@@ -3,8 +3,8 @@ package powerlessri.anotsturdymod.library.block.rotation;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction.Axis;
 import powerlessri.anotsturdymod.varia.math.ExtendedAABB;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ import java.util.function.Predicate;
 public enum EBlockRotationType {
 
     NONE(facing -> false, facing -> 0),
-    ALL(facing -> true, EnumFacing::getIndex),
-    HORIZONTAL(facing -> facing.getAxis().isHorizontal(), EnumFacing::getHorizontalIndex),
-    VERTICAL(facing -> facing.getAxis().isVertical(), facing -> facing == EnumFacing.UP ? 0 : 1);
+    ALL(facing -> true, Direction::getIndex),
+    HORIZONTAL(facing -> facing.getAxis().isHorizontal(), Direction::getHorizontalIndex),
+    VERTICAL(facing -> facing.getAxis().isVertical(), facing -> facing == Direction.UP ? 0 : 1);
 
 
     /**
@@ -33,7 +33,7 @@ public enum EBlockRotationType {
      * @return Rotated bounding box facing the given side
      * @see #ROTATION_PROCESSORS
      */
-    public static ExtendedAABB rotateToSide(ExtendedAABB base, EnumFacing side) {
+    public static ExtendedAABB rotateToSide(ExtendedAABB base, Direction side) {
         switch (side) {
             case DOWN:
                 return base.rotate(Axis.X, 180);
@@ -55,43 +55,43 @@ public enum EBlockRotationType {
 
     /**
      * Series of Functions for rotating a bounding box considered up to other facings.
-     * <p>Use {@link #rotateToSide(ExtendedAABB, EnumFacing)} when possible.</p>
+     * <p>Use {@link #rotateToSide(ExtendedAABB, Direction)} when possible.</p>
      *
-     * @see #rotateToSide(ExtendedAABB, EnumFacing)
+     * @see #rotateToSide(ExtendedAABB, Direction)
      */
-    public static final ImmutableMap<EnumFacing, Function<ExtendedAABB, ExtendedAABB>> ROTATION_PROCESSORS =
+    public static final ImmutableMap<Direction, Function<ExtendedAABB, ExtendedAABB>> ROTATION_PROCESSORS =
             Maps.immutableEnumMap(
-                    ImmutableMap.<EnumFacing, Function<ExtendedAABB, ExtendedAABB>>builder()
-                            .put(EnumFacing.UP, base -> base)
-                            .put(EnumFacing.DOWN, base -> base.rotate(Axis.X, 180))
-                            .put(EnumFacing.NORTH, base -> base.rotate(Axis.X, -90))
-                            .put(EnumFacing.SOUTH, base -> base.rotate(Axis.X, 90))
-                            .put(EnumFacing.EAST, base -> base.rotate(Axis.Z, -90))
-                            .put(EnumFacing.WEST, base -> base.rotate(Axis.Z, 90))
+                    ImmutableMap.<Direction, Function<ExtendedAABB, ExtendedAABB>>builder()
+                            .put(Direction.UP, base -> base)
+                            .put(Direction.DOWN, base -> base.rotate(Axis.X, 180))
+                            .put(Direction.NORTH, base -> base.rotate(Axis.X, -90))
+                            .put(Direction.SOUTH, base -> base.rotate(Axis.X, 90))
+                            .put(Direction.EAST, base -> base.rotate(Axis.Z, -90))
+                            .put(Direction.WEST, base -> base.rotate(Axis.Z, 90))
                             .build()
             );
 
 
-    public final Predicate<EnumFacing> filter;
-    public final Function<EnumFacing, Integer> indexGetter;
-    public final Comparator<EnumFacing> indexSorter;
+    public final Predicate<Direction> filter;
+    public final Function<Direction, Integer> indexGetter;
+    public final Comparator<Direction> indexSorter;
 
     /**
-     * Ordered as in {@link EnumFacing} since Stream.filter(Predicate<?>) is ordered.
+     * Ordered as in {@link Direction} since Stream.filter(Predicate<?>) is ordered.
      */
-    public final EnumFacing[] includedFaces;
-    public final EnumFacing[] sortedFaces;
+    public final Direction[] includedFaces;
+    public final Direction[] sortedFaces;
 
-    private EBlockRotationType(Predicate<EnumFacing> filter, Function<EnumFacing, Integer> indexGetter) {
+    private EBlockRotationType(Predicate<Direction> filter, Function<Direction, Integer> indexGetter) {
         this.filter = filter;
         this.indexGetter = indexGetter;
         this.indexSorter = Comparator.comparing(indexGetter);
 
-        this.includedFaces = Arrays.stream(EnumFacing.VALUES)
+        this.includedFaces = Arrays.stream(Direction.values())
                 .filter(filter)
-                .toArray(EnumFacing[]::new);
+                .toArray(Direction[]::new);
 
-        EnumFacing[] sortedFaces = Arrays.copyOf(includedFaces, includedFaces.length);
+        Direction[] sortedFaces = Arrays.copyOf(includedFaces, includedFaces.length);
         Arrays.sort(sortedFaces, indexSorter);
         this.sortedFaces = sortedFaces;
     }
@@ -109,7 +109,7 @@ public enum EBlockRotationType {
     }
 
     /**
-     * Sort the rotated bounding boxes so the index match to the index given in {@link EnumFacing}.
+     * Sort the rotated bounding boxes so the index match to the index given in {@link Direction}.
      *
      * @param base Bounding box considered facing up
      * @return Sorted version of {@link #rotate(ExtendedAABB)}
@@ -118,27 +118,27 @@ public enum EBlockRotationType {
         return ImmutableList.copyOf(this.rotateInternal(sortedFaces, base));
     }
 
-    private List<ExtendedAABB> rotateInternal(EnumFacing[] faces, ExtendedAABB base) {
+    private List<ExtendedAABB> rotateInternal(Direction[] faces, ExtendedAABB base) {
         List<ExtendedAABB> rotated = new ArrayList<>();
-        for (EnumFacing face : includedFaces) {
+        for (Direction face : includedFaces) {
             rotated.add(rotateToSide(base, face));
         }
         return rotated;
     }
 
 
-    public Predicate<EnumFacing> getFilter() {
+    public Predicate<Direction> getFilter() {
         return filter;
     }
 
     /**
-     * Predicate in form of Guava's API, used for {@link net.minecraft.block.properties.PropertyDirection} to simply code.
+     * Predicate in form of Guava's API, used for {@link net.minecraft.state.DirectionProperty} to simply code.
      *
      * @return Guava's {@link com.google.common.base.Predicate Predicate} equivalent to {@link #getFilter()}.
      * @deprecated Use {@link #getFilter()} whenever possible
      */
     @Deprecated
-    public com.google.common.base.Predicate<EnumFacing> getGuavaFilter() {
+    public com.google.common.base.Predicate<Direction> getGuavaFilter() {
         return filter::test;
     }
 

@@ -1,11 +1,7 @@
 package powerlessri.anotsturdymod.varia.general;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import org.apache.logging.log4j.util.BiConsumer;
 
 import javax.annotation.Nonnull;
@@ -105,29 +101,6 @@ public class InventoryUtils {
         }
 
         return toTake;
-    }
-
-
-    public static ItemStack stackOf(Item item, int meta, int count, NBTTagCompound tag) {
-        ItemStack resultStack = new ItemStack(item);
-
-        resultStack.setItemDamage(meta);
-        resultStack.setCount(count);
-        if (tag != null) {
-            resultStack.setTagCompound(tag);
-        }
-
-        return resultStack;
-    }
-
-    public static ItemStack stackOf(IBlockState state) {
-        return stackOf(state, 1);
-    }
-
-    public static ItemStack stackOf(IBlockState state, int count) {
-        Block block = state.getBlock();
-        int meta = block.getMetaFromState(state);
-        return new ItemStack(block, count, meta);
     }
 
 }

@@ -1,13 +1,12 @@
 package powerlessri.anotsturdymod.varia.math;
 
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.EnumFacing.AxisDirection;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction.Axis;
+import net.minecraft.util.Direction.AxisDirection;
 import net.minecraft.util.math.Vec3i;
 
 import javax.vecmath.AxisAngle4d;
 import javax.vecmath.Matrix4d;
-
 
 public class TransformationUtils {
 
@@ -25,7 +24,6 @@ public class TransformationUtils {
         return result;
     }
 
-
     public static Matrix4d getTranslationMatrix(double dx, double dy, double dz) {
         Matrix4d translation = createIdentityMatrix4d();
         // [ 1 0 0 dx ]
@@ -37,7 +35,6 @@ public class TransformationUtils {
         translation.setM23(dz);
         return translation;
     }
-
 
     public static Matrix4d getRotationMatrix(int x, int y, int z) {
         return combineTransformations(getRotationMatrix(Axis.X, x), getRotationMatrix(Axis.Y, y), getRotationMatrix(Axis.Z, z));
@@ -54,13 +51,12 @@ public class TransformationUtils {
     public static Matrix4d getRotationMatrix(Axis axis, double radians) {
         Matrix4d rotation = new Matrix4d();
 
-        Vec3i direction = EnumFacing.getFacingFromAxis(AxisDirection.POSITIVE, axis).getDirectionVec();
+        Vec3i direction = Direction.getFacingFromAxis(AxisDirection.POSITIVE, axis).getDirectionVec();
         // Rotation matrix calculation is done in Matrix4d#set(AxisAngle4d), the object is just used
         // to pass in parameters
         rotation.set(new AxisAngle4d(direction.getX(), direction.getY(), direction.getZ(), radians));
         return rotation;
     }
-
 
     public static Matrix4d getScalingMatrix(double scale) {
         return getScalingMatrix(scale, scale, scale);

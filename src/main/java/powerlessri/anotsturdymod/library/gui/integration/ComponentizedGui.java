@@ -2,7 +2,9 @@ package powerlessri.anotsturdymod.library.gui.integration;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.container.Container;
 import powerlessri.anotsturdymod.library.gui.api.EMouseButton;
 import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IContainer;
@@ -17,7 +19,7 @@ import java.io.IOException;
 /**
  * An bridge between the component-tree based GUI system and vanilla's GUI system.
  */
-public class ComponentizedGui extends GuiContainer {
+public class ComponentizedGui<T extends Container> extends ContainerScreen<T> {
 
     /**
      * Number of updates since this GUI was created.
@@ -40,7 +42,7 @@ public class ComponentizedGui extends GuiContainer {
     }
     
     public ComponentizedGui(Container container, ImmutableList<IContainer<IComponent>> windows) {
-        super(container);
+        super(container, container.);
         
         this.windows = windows;
         this.redrawEvent = new GuiDrawBackgroundEvent();

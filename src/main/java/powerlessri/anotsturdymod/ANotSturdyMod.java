@@ -1,59 +1,60 @@
 package powerlessri.anotsturdymod;
 
-import net.minecraft.block.properties.PropertyDirection;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.EventBus;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import powerlessri.anotsturdymod.blocks.remoteenetwork.block.BlockEnergyWirelessTransmitter;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.network.NetworkRegistry;
 import powerlessri.anotsturdymod.handlers.ComponentizedGuiHandler;
-import powerlessri.anotsturdymod.handlers.VanillaGuiHandler;
-import powerlessri.anotsturdymod.handlers.proxy.CommonProxy;
 import powerlessri.anotsturdymod.varia.Reference;
-import powerlessri.anotsturdymod.varia.general.Utils;
 
-@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
+@Mod(Reference.MODID)
 public class ANotSturdyMod {
 
-    @Mod.Instance(Reference.MODID)
     public static ANotSturdyMod instance;
 
-    @SidedProxy(serverSide = Reference.SERVER_PROXY_CLASS, clientSide = Reference.CLIENT_PROXY_CLASS)
-    public static CommonProxy proxy;
-
-    public static SimpleNetworkWrapper network;
+    public static  network;
 
     public static ComponentizedGuiHandler gui;
+
+    public ANotSturdyMod() {
+        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        eventBus.addListener(this::setup);
+        eventBus.addListener(this::serverStarting);
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+            eventBus.addListener(this::setupClient);
+        });
+    }
+
+    private void setup(FMLCommonSetupEvent event) {
+
+    }
+
+    private void setupClient(FMLClientSetupEvent event) {
+
+    }
     
-    
-    @EventHandler
-    public void construct(FMLConstructionEvent event) {
-        proxy.construct(event);
+//    @EventHandler
+//    public void preInit(FMLPreInitializationEvent event) {
+//        network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MODID + "main");
+//        gui = new ComponentizedGuiHandler(this);
+//
+//        proxy.preInit(event);
+//    }
+
+    private void serverStarting(FMLServerStartingEvent event) {
+
     }
 
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MODID + "main");
-        gui = new ComponentizedGuiHandler(this);
-        
-        proxy.preInit(event);
-    }
-
-    @EventHandler
-    public void init(FMLInitializationEvent event) {
-        proxy.init(event);
-    }
-
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        proxy.postInit(event);
-    }
-
-    @EventHandler
-    public void serverStarting(FMLServerStartingEvent event) {
-        proxy.serverStarting(event);
-    }
+//    @EventHandler
+//    public void serverStarting(FMLServerStartingEvent event) {
+//        proxy.serverStarting(event);
+//    }
 
 }

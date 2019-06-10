@@ -1,6 +1,5 @@
 package powerlessri.anotsturdymod.varia.render;
 
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.library.gui.Color;
 
@@ -12,13 +11,13 @@ import powerlessri.anotsturdymod.library.gui.Color;
  */
 public class Displays {
 
-    public static void drawHorizontalLine(int x1, int y1, int x2, int color) {
-        Gui.drawRect(x1, y1, x2, y1 + 1, color);
-    }
-
-    public static void drawVerticalLine(int x1, int y1, int y2, int color) {
-        Gui.drawRect(x1, y1, x1 + 1, y2, color);
-    }
+    //TODO
+//    public static void drawHorizontalLine(int x1, int y1, int x2, int color) {
+//    }
+//
+//    public static void drawVerticalLine(int x1, int y1, int y2, int color) {
+//        Gui.drawRect(x1, y1, x1 + 1, y2, color);
+//    }
 
     /**
      * Draws a rectangle with a vertical gradient between the specified colors.

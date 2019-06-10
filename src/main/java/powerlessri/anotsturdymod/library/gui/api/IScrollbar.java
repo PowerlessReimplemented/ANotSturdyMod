@@ -1,12 +1,10 @@
 package powerlessri.anotsturdymod.library.gui.api;
 
-import net.minecraft.client.gui.GuiScreen;
+import javafx.stage.Screen;
 
 /**
- * <p>
  * Whenever the scroll bar changed its step, which means content inside the scrolling panel should move,
  * it must manually call {@link IScrollingPanel#setCurrentStep(int)}.
- * </p>
  */
 public interface IScrollbar extends IInteractionHandler {
 
@@ -15,28 +13,28 @@ public interface IScrollbar extends IInteractionHandler {
      */
     @Override
     @Deprecated
-    default void initialize(GuiScreen gui, IComponent parent) {
+    default void initialize(Screen gui, IComponent parent) {
         throw new IllegalArgumentException("The parent of am IScrollbar must be an IScrollingPanel!");
     }
 
     /**
      * Specialized version so that the
-     *
-     * <p>Implementations only needs to overrides this method.</p>
-     * <p>See {@link IComponent#initialize(GuiScreen, IComponent)} for more information. </p>
+     * <p>
+     * Implementations only needs to overrides this method.
+     * <p>
+     * See {@link IComponent#initialize(Screen, IComponent)} for more information.
      */
-    void initialize(GuiScreen gui, IScrollingPanel parent);
-    
-    
+    void initialize(Screen gui, IScrollingPanel parent);
+
     // TODO add javadoc
-    
+
     int getMaximumHeight();
-    
+
     @Override
     int getHeight();
-    
+
     int getBaseY();
-    
+
     @Override
     int getActualY();
 

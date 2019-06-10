@@ -1,8 +1,5 @@
 package powerlessri.anotsturdymod.library.gui.api;
 
-import powerlessri.anotsturdymod.library.gui.api.IComponent;
-import powerlessri.anotsturdymod.library.gui.api.IContainer;
-
 public interface IScrollingPanel extends IContainer<IComponent> {
 
     /**
@@ -12,6 +9,7 @@ public interface IScrollingPanel extends IContainer<IComponent> {
 
     /**
      * Get index of the first component gets drawn.
+     *
      * @return Index which starts at 0
      */
     int getCurrentStep();
@@ -19,6 +17,7 @@ public interface IScrollingPanel extends IContainer<IComponent> {
     /**
      * Set the index of first component which gets drawn.
      * <p>In other words, shift the viewport to the given index.</p>
+     *
      * @param step Target index, starts at 0
      */
     void setCurrentStep(int step);
@@ -27,5 +26,5 @@ public interface IScrollingPanel extends IContainer<IComponent> {
      * Scale factor of the height of all contents, to the display height of the panel.
      */
     float getContentKFactor();
-    
+
 }

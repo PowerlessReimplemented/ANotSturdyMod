@@ -1,6 +1,5 @@
 package powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable;
 
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
 import powerlessri.anotsturdymod.library.gui.api.IScrollbar;
 import powerlessri.anotsturdymod.library.gui.api.IScrollingPanel;

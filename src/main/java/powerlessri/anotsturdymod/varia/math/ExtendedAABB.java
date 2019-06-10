@@ -1,8 +1,9 @@
 package powerlessri.anotsturdymod.varia.math;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction.Axis;
+import net.minecraft.util.Direction.AxisDirection;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -12,6 +13,9 @@ import javax.vecmath.Matrix4d;
 import javax.vecmath.Vector3d;
 import java.io.Serializable;
 
+/**
+ * Extends the functionality of {@link AxisAlignedBB} without adding extra properties.
+ */
 public class ExtendedAABB extends AxisAlignedBB implements Serializable {
 
     public static ExtendedAABB of(Vec3i vec) {
@@ -26,27 +30,26 @@ public class ExtendedAABB extends AxisAlignedBB implements Serializable {
         return new ExtendedAABB(vec, vec);
     }
 
-
     public static ExtendedAABB from(AxisAlignedBB source) {
         return new ExtendedAABB(source.minX, source.minY, source.minZ, source.maxX, source.maxY, source.maxZ);
     }
 
-    public static NBTTagCompound toNBT(ExtendedAABB source) {
-        NBTTagCompound tag = new NBTTagCompound();
+    public static CompoundNBT toNBT(ExtendedAABB source) {
+        CompoundNBT tag = new CompoundNBT();
         toNBT(source, tag);
         return tag;
     }
 
-    public static void toNBT(ExtendedAABB source, NBTTagCompound tag) {
-        tag.setDouble("minX", source.minX);
-        tag.setDouble("minY", source.minY);
-        tag.setDouble("minZ", source.minZ);
-        tag.setDouble("maxX", source.maxX);
-        tag.setDouble("maxY", source.maxY);
-        tag.setDouble("maxZ", source.maxZ);
+    public static void toNBT(ExtendedAABB source, CompoundNBT tag) {
+        tag.putDouble("minX", source.minX);
+        tag.putDouble("minY", source.minY);
+        tag.putDouble("minZ", source.minZ);
+        tag.putDouble("maxX", source.maxX);
+        tag.putDouble("maxY", source.maxY);
+        tag.putDouble("maxZ", source.maxZ);
     }
 
-    public static ExtendedAABB fromNBT(NBTTagCompound tag) {
+    public static ExtendedAABB fromNBT(CompoundNBT tag) {
         return new ExtendedAABB(
                 tag.getDouble("minX"),
                 tag.getDouble("minY"),
@@ -56,7 +59,6 @@ public class ExtendedAABB extends AxisAlignedBB implements Serializable {
                 tag.getDouble("maxZ")
         );
     }
-
 
     public ExtendedAABB(double x1, double y1, double z1, double x2, double y2, double z2) {
         super(x1, y1, z1, x2, y2, z2);
@@ -74,37 +76,27 @@ public class ExtendedAABB extends AxisAlignedBB implements Serializable {
         this(min.x, min.y, min.z, max.x, max.y, max.z);
     }
 
-
     /**
      * Rotate the current ExtendedAABB on three different axis and return a new one if any of the parameters are nonzero.
-     *
      * <p>
      * When called, it will rotate the current ExtendedAABB on all three axis by a given degree one at a time, as <b><a
      * href="https://en.wikipedia.org/wiki/Right-hand_rule#Electromagnetics">Right Hand Law in electromagnetism</a></b>:
-     * <p><q>
-     * The direction of a positive rotation is the direction of your fingers when the thumb is pointing towards the positive direction of
-     * the axis.
-     * </q></p>
-     * <p>Equivalent to apply the method {@link #rotate(EnumFacing.Axis, int)} three times on all X, Y, and Z axis.</p>
-     * </p>
+     * <i>The direction of a positive rotation is the direction of your fingers when your thumb is pointing towards the positive direction of the axis.</i>
+     * <p>
+     * Equivalent to apply the method {@link #rotate(Axis, int)} three times on all X, Y, and Z axis.
      *
      * <h3>Example:</h3>
-     * <p>
-     * Given the current AABB describes an half box where the empty side is pointing {@link EnumFacing#UP up}<sup>1</sup>, a rotation of
-     * x=90 will make the empty side pointing to the {@link EnumFacing#SOUTH south}<sup>2</sup>.
-     * </p>
-     *
-     *
+     * Given the current AABB describes an half box where the empty side is pointing {@link Direction#UP up}<sup>1</sup>, a rotation of
+     * x=90 will make the empty side pointing to the {@link Direction#SOUTH south}<sup>2</sup>.
      * <p>
      * <hr/>
-     * <p><sup>1. {@link net.minecraft.util.EnumFacing.AxisDirection#POSITIVE positive} direction of {@link Axis#Y y axis}</sup></p>
-     * <p><sup>2. {@link net.minecraft.util.EnumFacing.AxisDirection#POSITIVE positive} direction of {@link Axis#Z z axis}</sup></p>
-     * </p>
+     * <sup>1. {@link AxisDirection#POSITIVE positive} direction of {@link Axis#Y y axis}</sup>
+     * <sup>2. {@link AxisDirection#POSITIVE positive} direction of {@link Axis#Z z axis}</sup>
      *
      * @param x The angle to rotate on x-axis, in degrees
      * @param y The angle to rotate on y-axis, in degrees
      * @param z The angle to rotate on z-axis, in degrees
-     * @return A new ExtendedAABB
+     * @return A new, rotated ExtendedAABB
      */
     public ExtendedAABB rotate(int x, int y, int z) {
         Matrix4d rotationMat = TransformationUtils.combineTransformations(
@@ -115,12 +107,10 @@ public class ExtendedAABB extends AxisAlignedBB implements Serializable {
         return this.transformSelf(rotationMat, true);
     }
 
-
     /**
      * Rotate the ExtendedAABB on the given axis at a given angle.
      * <p>
      * See {@link #rotate(int, int, int)} for more information and examples.
-     * </p>
      *
      * @param axis  The axis to rotate around
      * @param angle The angle to rotate, in degrees.
@@ -133,7 +123,6 @@ public class ExtendedAABB extends AxisAlignedBB implements Serializable {
         }
         return this.transformSelf(TransformationUtils.getRotationMatrix(axis, angle), true);
     }
-
 
     private ExtendedAABB transformSelf(Matrix4d transformation, boolean centralize) {
         ExtendedAABB source = this;
@@ -159,14 +148,7 @@ public class ExtendedAABB extends AxisAlignedBB implements Serializable {
 
     // =========================================================================//
     // Override the return types of parent methods to make chain calling easier //
-
     // =========================================================================//
-
-
-    @Override
-    public ExtendedAABB setMaxY(double y2) {
-        return from(super.setMaxY(y2));
-    }
 
     @Override
     public ExtendedAABB contract(double x, double y, double z) {

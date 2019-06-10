@@ -1,14 +1,14 @@
 package powerlessri.anotsturdymod.library.tile.base;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import powerlessri.anotsturdymod.ANotSturdyMod;
 import powerlessri.anotsturdymod.library.network.notification.ENotificationType;
 import powerlessri.anotsturdymod.library.network.notification.INotificationProvider;
@@ -21,7 +21,7 @@ import javax.annotation.Nullable;
 public abstract class TileEntityBase extends TileEntity implements INotificationProvider, INotificationReceiver {
 
     // Implementation Note: 
-    //     This method gets invoked at TileBlockBase#breakBlock(World, BlockPos, IBlockState)
+    //     This method gets invoked at TileBlockBase#breakBlock(World, BlockPos, BlockState)
 
     /**
      * Called when tile entity is removed from world. Does <b>NOT</b> include chunk unloading.
@@ -66,7 +66,7 @@ public abstract class TileEntityBase extends TileEntity implements INotification
      * <p>Data got from {@link #getUpdateTag()} will be sent.</p>
      */
     protected void sendUpdates() {
-        world.markBlockRangeForRenderUpdate(pos, pos);
+        world.markForRerender(pos, pos);
         world.notifyBlockUpdate(pos, getWorldBlockState(), getWorldBlockState(), 3);
         this.markDirty();
     }
@@ -95,7 +95,7 @@ public abstract class TileEntityBase extends TileEntity implements INotification
     /**
      * Get an NBT compound to sync data to client side.
      *
-     * <p>Calls {@link #writeToNBT(NBTTagCompound)}, which then calls {@link #writeRestorableNBT(NBTTagCompound)} by default.</p>
+     * <p>Calls {@link #writeToNBT(CompoundNBT)}, which then calls {@link #writeRestorable(CompoundNBT)} by default.</p>
      * <p>Called when <ol>
      * <li>Chunk loaded</li>
      * <li>{@link #sendUpdates()} was called</li>
@@ -104,8 +104,8 @@ public abstract class TileEntityBase extends TileEntity implements INotification
      * <p>See parent Javadoc for more information. If the information given here conflicts with the information given in parent method, this is probably inaccurate.</p>
      */
     @Override
-    public NBTTagCompound getUpdateTag() {
-        return this.writeToNBT(new NBTTagCompound());
+    public CompoundNBT getUpdateTag() {
+        return this.writeToNBT(new CompoundNBT());
     }
 
     @Nullable
@@ -116,17 +116,17 @@ public abstract class TileEntityBase extends TileEntity implements INotification
 
     /**
      * Handles data sent from server side.
-     * <p>Calls {@link #readFromNBT(NBTTagCompound)}, which then calls {@link #restoreFromNBT(NBTTagCompound)} by default.</p>
+     * <p>Calls {@link #readFromNBT(CompoundNBT)}, which then calls {@link #readRestorable(CompoundNBT)} by default.</p>
      *
      * @param tag The received data in the form of NBT compound.
      */
     @Override
-    @SideOnly(Side.CLIENT)
-    public void handleUpdateTag(NBTTagCompound tag) {
+    @OnlyIn(Dist.CLIENT)
+    public void handleUpdateTag(CompoundNBT tag) {
         this.readFromNBT(tag);
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void handleUpdatePacket(SPacketUpdateTileEntity pkt) {
         this.handleUpdateTag(pkt.getNbtCompound());
     }
@@ -134,19 +134,19 @@ public abstract class TileEntityBase extends TileEntity implements INotification
 
     /**
      * Get an NBT compound to sync custom data to server side.
-     * <p>Calls {@link #writeRestorableNBT(NBTTagCompound)} by default.</p>
+     * <p>Calls {@link #writeRestorable(CompoundNBT)} by default.</p>
      *
      * @return The NBT compound to be synced to server side.
      */
-    @SideOnly(Side.CLIENT)
-    public NBTTagCompound getNotificationTag() {
-        NBTTagCompound tag = new NBTTagCompound();
-        this.writeRestorableNBT(tag);
+    @OnlyIn(Dist.CLIENT)
+    public CompoundNBT getNotificationTag() {
+        CompoundNBT tag = new CompoundNBT();
+        this.writeRestorable(tag);
         return tag;
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public PacketNotification getNotificationPacket() {
         return new PacketNotification(world.provider.getDimension(), ENotificationType.TILE_ENTITY, this.getNotificationTag());
     }
@@ -155,7 +155,7 @@ public abstract class TileEntityBase extends TileEntity implements INotification
      * @param tag The custom data sent from client
      * @param net The client who sends the data packet
      */
-    public void handleNotificationTag(NetworkManager net, NBTTagCompound tag) {
+    public void handleNotificationTag(NetworkManager net, CompoundNBT tag) {
     }
 
     @Override
@@ -165,31 +165,31 @@ public abstract class TileEntityBase extends TileEntity implements INotification
 
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-        this.restoreFromNBT(tag);
+    public void read(CompoundNBT tag) {
+        super.read(tag);
+        this.readRestorable(tag);
     }
 
-    public abstract void restoreFromNBT(NBTTagCompound tag);
+    public abstract void readRestorable(CompoundNBT tag);
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        this.writeRestorableNBT(tag);
+    public CompoundNBT write(CompoundNBT tag) {
+        this.writeRestorable(tag);
         // Idiot behavior (try to write data with same key as vanilla stuff) protection
         // then vanilla will override them
-        super.writeToNBT(tag);
+        super.write(tag);
         return tag;
     }
 
-    public abstract void writeRestorableNBT(NBTTagCompound tagCompound);
+    public abstract void writeRestorable(CompoundNBT tagCompound);
 
 
-    public IBlockState getWorldBlockState() {
+    public BlockState rgetWorldBlockState() {
         return world.getBlockState(pos);
     }
 
     @Override
-    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+    public boolean shouldRefresh(World world, BlockPos pos, BlockState oldState, BlockState newSate) {
         return false;
     }
 

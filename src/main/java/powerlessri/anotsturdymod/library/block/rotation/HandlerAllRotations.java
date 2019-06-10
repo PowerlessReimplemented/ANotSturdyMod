@@ -1,9 +1,8 @@
 package powerlessri.anotsturdymod.library.block.rotation;
 
-import com.google.common.collect.ImmutableList;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.BlockState;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.util.Direction;
 import powerlessri.anotsturdymod.varia.math.ExtendedAABB;
 
 /**
@@ -16,7 +15,7 @@ class HandlerAllRotations extends BlockRotationHandler {
     }
 
     HandlerAllRotations(String propertyName, ExtendedAABB base) {
-        this.facing = PropertyDirection.create(propertyName, EBlockRotationType.ALL.getGuavaFilter());
+        this.facing = DirectionProperty.create(propertyName, EBlockRotationType.ALL.getGuavaFilter());
         this.base = base;
         // According to EnumFacing#getIndex, the order is D-U-N-S-W-E
         this.rotatedBoundingBoxes = EBlockRotationType.ALL.rotateForIndex(base);
@@ -29,8 +28,8 @@ class HandlerAllRotations extends BlockRotationHandler {
     }
 
     @Override
-    public ExtendedAABB getBoundingBoxFor(IBlockState state) {
-        EnumFacing facing = state.getValue(this.facing);
+    public ExtendedAABB getBoundingBoxFor(BlockState state) {
+        Direction facing = state.get(this.facing);
         return this.rotatedBoundingBoxes.get(facing.getIndex());
     }
 

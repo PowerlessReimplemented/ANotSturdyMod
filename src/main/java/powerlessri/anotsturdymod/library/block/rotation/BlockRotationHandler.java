@@ -3,9 +3,9 @@ package powerlessri.anotsturdymod.library.block.rotation;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.BlockState;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.util.Direction;
 import powerlessri.anotsturdymod.varia.math.ExtendedAABB;
 
 public abstract class BlockRotationHandler {
@@ -22,31 +22,27 @@ public abstract class BlockRotationHandler {
         return new HandlerHorizontalRotations(base);
     }
 
-
     /**
-     * Alias to {@link EBlockRotationType#rotateToSide(ExtendedAABB, EnumFacing)}
+     * Alias to {@link EBlockRotationType#rotateToSide(ExtendedAABB, Direction)}}
      */
-    public static ExtendedAABB rotateToSide(ExtendedAABB base, EnumFacing direction) {
+    public static ExtendedAABB rotateToSide(ExtendedAABB base, Direction direction) {
         return EBlockRotationType.rotateToSide(base, direction);
     }
 
-
-    protected PropertyDirection facing;
+    protected DirectionProperty facing;
 
     protected ExtendedAABB base;
     protected ImmutableList<ExtendedAABB> rotatedBoundingBoxes;
 
-
     public abstract EBlockRotationType getRotationType();
 
     /**
-     * The auto created {@link PropertyDirection} for storing sideness.
+     * The auto created {@link DirectionProperty} for storing sideness.
      * <p>
-     * This property should be used for creating {@link net.minecraft.block.state.BlockStateContainer BlockStateContainer} in {@link
-     * Block#createBlockState()}.
-     * </p>
+     * This property should be used for creating {@link net.minecraft.state.StateContainer StateContainer} in {@link
+     * Block#getStateContainer()}.
      */
-    public PropertyDirection getPropertyFacing() {
+    public DirectionProperty getPropertyFacing() {
         return this.facing;
     }
 
@@ -57,7 +53,7 @@ public abstract class BlockRotationHandler {
         return this.base;
     }
 
-    public abstract ExtendedAABB getBoundingBoxFor(IBlockState state);
+    public abstract ExtendedAABB getBoundingBoxFor(BlockState state);
 
     /**
      * Get all possible rotated bounding boxes for the specified base bounding box.
@@ -65,7 +61,6 @@ public abstract class BlockRotationHandler {
     public ImmutableList<ExtendedAABB> getRotatedBoundingBoxes() {
         return this.rotatedBoundingBoxes;
     }
-
 
     private String toStringResult = "";
 

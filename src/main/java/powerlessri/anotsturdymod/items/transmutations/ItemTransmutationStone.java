@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 import powerlessri.anotsturdymod.handlers.init.RegistryItem;
 import powerlessri.anotsturdymod.library.item.base.SimpleItemBase;
 import powerlessri.anotsturdymod.varia.general.PosExtractor;
-import powerlessri.anotsturdymod.varia.tags.TagUtils;
 
 public class ItemTransmutationStone extends SimpleItemBase {
 
@@ -35,7 +34,7 @@ public class ItemTransmutationStone extends SimpleItemBase {
     
     @Override
     public String getItemStackDisplayName(ItemStack stack) {
-        NBTTagCompound tag = TagUtils.getOrCreateTag(stack);
+        NBTTagCompound tag = stack.getOrCreateTag();
         int sideLength = tag.getByte(TAG_CHARGE) * 2 + 1;
         return super.getItemStackDisplayName(stack) + " (" + sideLength + "*" + sideLength + ")";
     }
@@ -49,7 +48,7 @@ public class ItemTransmutationStone extends SimpleItemBase {
         }
 
         if (player.isSneaking()) {
-            NBTTagCompound tag = TagUtils.getOrCreateTag(stack);
+            NBTTagCompound tag = stack.getOrCreateTag();
             cycleByteTag(tag, (byte) 1);
 
             return new ActionResult<>(EnumActionResult.SUCCESS, stack);
@@ -74,7 +73,7 @@ public class ItemTransmutationStone extends SimpleItemBase {
         }
 
         ItemStack orb = player.getHeldItem(hand);
-        NBTTagCompound tag = TagUtils.getOrCreateTag(orb);
+        NBTTagCompound tag = orb.getOrCreateTag();
         int charge = tag.getByte(TAG_CHARGE);
 
         for (BlockPos changingPos : PosExtractor.posOnPlane(pos, facing, charge)) {

@@ -1,9 +1,9 @@
 package powerlessri.anotsturdymod.library.gui.api;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;
 import powerlessri.anotsturdymod.library.gui.integration.ContainerPlayerInventory;
 
@@ -15,17 +15,17 @@ public interface ITemplate {
      * @see #getContainer() 
      * @see #getGui() 
      */
-    void applyParameters(EntityPlayer player, World world, int x, int y, int z);
+    void applyParameters(PlayerEntity player, World world, int x, int y, int z);
 
     /**
-     * Create and return a new container object bond to last {@link #applyParameters(EntityPlayer, World, int, int, int)} operation.
+     * Create and return a new container object bond to last {@link #applyParameters(PlayerEntity, World, int, int, int)} operation.
      */
     ContainerPlayerInventory getContainer();
 
     /**
-     * Create and return a new GUI object bond to last {@link #applyParameters(EntityPlayer, World, int, int, int)} operation.
+     * Create and return a new GUI object bond to last {@link #applyParameters(PlayerEntity, World, int, int, int)} operation.
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     ComponentizedGui getGui();
     
 }

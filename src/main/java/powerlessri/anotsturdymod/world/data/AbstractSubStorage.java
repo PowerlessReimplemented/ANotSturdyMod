@@ -1,11 +1,11 @@
 package powerlessri.anotsturdymod.world.data;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public abstract class AbstractSubStorage implements IStringSerializable, INBTSerializable<NBTTagCompound> {
+public abstract class AbstractSubStorage implements IStringSerializable, INBTSerializable<CompoundNBT> {
 
     protected WorldSavedData parentData;
 
@@ -13,16 +13,14 @@ public abstract class AbstractSubStorage implements IStringSerializable, INBTSer
         this.parentData = parentData;
     }
 
-
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(CompoundNBT tag) {
     }
 
-    public void writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(CompoundNBT tag) {
     }
-
 
     @Override
-    public void deserializeNBT(NBTTagCompound tag) {
+    public void deserializeNBT(CompoundNBT tag) {
         readFromNBT(tag);
     }
 
@@ -34,13 +32,13 @@ public abstract class AbstractSubStorage implements IStringSerializable, INBTSer
      *
      * @param tag The parent of actual data tag
      */
-    public void deserializeParentNBT(NBTTagCompound tag) {
-        deserializeNBT(tag.getCompoundTag(getName()));
+    public void deserializeParentNBT(CompoundNBT tag) {
+        deserializeNBT(tag.getCompound(getName()));
     }
 
     @Override
-    public NBTTagCompound serializeNBT() {
-        NBTTagCompound tag = new NBTTagCompound();
+    public CompoundNBT serializeNBT() {
+        CompoundNBT tag = new CompoundNBT();
         writeToNBT(tag);
         return tag;
     }
@@ -52,8 +50,8 @@ public abstract class AbstractSubStorage implements IStringSerializable, INBTSer
      * @param tag Data compound will be written into this tag
      */
     // Sorry for the trash method name...
-    public void serializeParentNBT(NBTTagCompound tag) {
-        tag.setTag(getName(), serializeNBT());
+    public void serializeParentNBT(CompoundNBT tag) {
+        tag.put(getName(), serializeNBT());
     }
 
 }

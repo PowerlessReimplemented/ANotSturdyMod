@@ -24,7 +24,6 @@ import powerlessri.anotsturdymod.library.item.base.SimpleItemBase;
 import powerlessri.anotsturdymod.varia.Reference;
 import powerlessri.anotsturdymod.varia.general.*;
 import powerlessri.anotsturdymod.varia.tags.EnchantmentUtils;
-import powerlessri.anotsturdymod.varia.tags.TagUtils;
 
 import java.util.Random;
 
@@ -63,7 +62,7 @@ public class ItemExchanger extends SimpleItemBase {
         }
         
         if (player.isSneaking()) {
-            NBTTagCompound tag = TagUtils.getOrCreateTag(stack);
+            NBTTagCompound tag = stack.getOrCreateTag();
 
             byte radius = (byte) MathUtils.loopIndexAround(tag.getByte(RADIUS) + 1, maxRadius);
             tag.setByte(RADIUS, radius);
@@ -104,8 +103,8 @@ public class ItemExchanger extends SimpleItemBase {
             sendTileEntityError(player);
             return EnumActionResult.FAIL;
         }
-        
-        NBTTagCompound tag = TagUtils.getOrCreateTag(exchanger);
+
+        NBTTagCompound tag = exchanger.getOrCreateTag();
         NBTUtil.writeBlockState(tag, selectedBlock);
         
         return EnumActionResult.SUCCESS;
@@ -113,7 +112,7 @@ public class ItemExchanger extends SimpleItemBase {
 
     private EnumActionResult attemptExchange(EntityPlayer player, ItemStack exchanger, World world, BlockPos posHit,
                                              EnumFacing faceHit) {
-        NBTTagCompound tag = TagUtils.getOrCreateTag(exchanger);
+        NBTTagCompound tag = exchanger.getOrCreateTag();
 
         int radius = tag.getByte(RADIUS);
         boolean isSilkTouch = EnchantmentUtils.hasEnchantment(exchanger, Enchantments.SILK_TOUCH, -1);
