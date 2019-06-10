@@ -14,7 +14,8 @@ import java.util.HashMap;
 import java.util.function.BiConsumer;
 
 /**
- * Sender: CLIENT  Receiver: SERVER
+ * <p>Sender: <b>CLIENT</b></p>
+ * <p>Receiver: <b>SERVER</b></p>
  */
 public class PacketServerCommand implements IMessage {
 
@@ -70,7 +71,7 @@ public class PacketServerCommand implements IMessage {
 
     public static void makeWorldPosArgs(NBTTagCompound tag, int dimension, int x, int y, int z) {
         TagUtils.writeDimension(tag, dimension);
-        TagUtils.writeBlockPos(tag, x, y, z);
+        TagUtils.writeBlockPos(tag, "", x, y, z);
     }
 
 }

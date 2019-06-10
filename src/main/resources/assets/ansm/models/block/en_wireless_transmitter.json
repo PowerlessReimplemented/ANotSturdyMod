@@ -1,0 +1,69 @@
+{
+  "elements": [
+    {
+      "__comment": "Main body",
+      "from": [3, 0, 3],
+      "to": [13, 2, 13],
+      "faces": {
+        "up": { "texture": "#top" },
+        "down": { "texture": "#bottom", "cullface": "down" },
+        "north": { "texture": "#side" },
+        "east": { "texture": "#side" },
+        "south": { "texture": "#side" },
+        "west": { "texture": "#side" }
+      }
+    },
+    {
+      "__comment": "North side hook",
+      "from": [5, 0, 2],
+      "to": [11, 1, 3],
+      "faces": {
+        "up": { "texture": "#hook_color" },
+        "down": { "texture": "#hook_color", "cullface": "down" },
+        "north": { "texture": "#hook_color" },
+        "east": { "texture": "#hook_color" },
+
+        "west": { "texture": "#hook_color" }
+      }
+    },
+    {
+      "__comment": "East side hook",
+      "from": [13, 0, 5],
+      "to": [14, 1, 11],
+      "faces": {
+        "up": { "texture": "#hook_color" },
+        "down": { "texture": "#hook_color", "cullface": "down" },
+        "north": { "texture": "#hook_color" },
+        "east": { "texture": "#hook_color" },
+        "south": { "texture": "#hook_color" }
+
+      }
+    },
+    {
+      "__comment": "South side hook",
+      "from": [5, 0, 13],
+      "to": [11, 1, 14],
+      "faces": {
+        "up": { "texture": "#hook_color" },
+        "down": { "texture": "#hook_color", "cullface": "down" },
+
+        "east": { "texture": "#hook_color" },
+        "south": { "texture": "#hook_color" },
+        "west": { "texture": "#hook_color" }
+      }
+    },
+    {
+      "__comment": "West side hook",
+      "from": [2, 0, 5],
+      "to": [3, 1, 11],
+      "faces": {
+        "up": { "texture": "#hook_color" },
+        "down": { "texture": "#hook_color", "cullface": "down" },
+        "north": { "texture": "#hook_color" },
+
+        "south": { "texture": "#hook_color" },
+        "west": { "texture": "#hook_color" }
+      }
+    }
+  ]
+}

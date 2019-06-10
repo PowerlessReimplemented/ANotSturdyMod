@@ -9,6 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import powerlessri.anotsturdymod.ANotSturdyMod;
+import powerlessri.anotsturdymod.blocks.remoteenetwork.block.BlockEnergyWirelessTransmitter;
 import powerlessri.anotsturdymod.library.gui.api.ITemplate;
 import powerlessri.anotsturdymod.library.gui.api.TemplateProvider;
 import powerlessri.anotsturdymod.library.gui.integration.ComponentizedGui;

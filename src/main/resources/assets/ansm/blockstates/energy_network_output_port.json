@@ -1,8 +1,13 @@
 {
-  "forge-marker": 1,
-  "variants": {
-    "normal": {
-      "model": "ansm:en_access_port_output"
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all",
+    "textures": {
+      "all": "ansm:blocks/enetwork/access_port_output"
     }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}]
   }
 }

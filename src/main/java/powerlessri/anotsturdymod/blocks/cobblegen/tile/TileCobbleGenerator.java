@@ -2,6 +2,7 @@ package powerlessri.anotsturdymod.blocks.cobblegen.tile;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -68,6 +69,15 @@ public class TileCobbleGenerator extends TileEntityBase implements IItemHandler,
     @Override
     public int getSlotLimit(int slot) {
         return Integer.MAX_VALUE;
+    }
+
+
+    @Override
+    public void restoreFromNBT(NBTTagCompound tag) {
+    }
+
+    @Override
+    public void writeRestorableNBT(NBTTagCompound tagCompound) {
     }
 
 }

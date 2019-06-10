@@ -10,7 +10,8 @@ import powerlessri.anotsturdymod.handlers.init.ModCommands;
 import powerlessri.anotsturdymod.handlers.init.ModItems;
 import powerlessri.anotsturdymod.handlers.init.ModTileEntities;
 import powerlessri.anotsturdymod.items.transmutations.WorldTransmutation;
-import powerlessri.anotsturdymod.network.PacketLocationalGuiAction;
+import powerlessri.anotsturdymod.library.network.notification.PacketNotification;
+import powerlessri.anotsturdymod.network.actions.PacketLocationalGuiAction;
 import powerlessri.anotsturdymod.network.PacketServerCommand;
 
 public class CommonProxy {
@@ -29,6 +30,7 @@ public class CommonProxy {
 
         int packetId = 0;
         ANotSturdyMod.network.registerMessage(PacketServerCommand.Handler.class, PacketServerCommand.class, packetId++, Side.SERVER);
+        ANotSturdyMod.network.registerMessage(PacketNotification.Handler.class, PacketNotification.class, packetId++, Side.SERVER);
         ANotSturdyMod.network.registerMessage(PacketLocationalGuiAction.Handler.class, PacketLocationalGuiAction.class, packetId++, Side.SERVER);
         
         TileENComponentBase.initNetwork();

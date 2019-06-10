@@ -5,7 +5,7 @@ import net.minecraftforge.common.config.Config.LangKey;
 import net.minecraftforge.common.config.Config.RangeInt;
 import powerlessri.anotsturdymod.varia.Reference;
 
-@LangKey("config.ansm:ansm_main.category.energy_network")
+@LangKey("config.ansm:ansm_main.category.energyNetwork")
 @Config(modid = Reference.MODID, name = Reference.MAIN_CONFIG_FILE, category = "energy_network")
 public class ENetworkConfig {
 

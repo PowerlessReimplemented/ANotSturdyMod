@@ -7,8 +7,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import powerlessri.anotsturdymod.handlers.init.RegistryBlock;
+import powerlessri.anotsturdymod.library.block.base.EHarvestLevel;
+import powerlessri.anotsturdymod.library.block.base.EHarvestTool;
 import powerlessri.anotsturdymod.library.block.base.TileBlockBase;
 import powerlessri.anotsturdymod.blocks.cobblegen.tile.TileCobbleGenerator;
 
@@ -38,6 +39,12 @@ public class BlockInfiniteCobbleGenerator extends TileBlockBase {
     @Override
     public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
         return false;
+    }
+
+
+    @Override
+    public boolean hasItemForm() {
+        return true;
     }
 
 }

@@ -21,12 +21,10 @@ build
 eclipse
 run
 
-.classpath
 !.gitignore
 !.gitattributes
-.project
 CREDITS-fml.txt
-forge-1.12.2-14.23.3.2669-changelog.txt
+forge-*-changelog.txt
 LICENSE-new.txt
 MinecraftForge-Credits.txt
 Paulscode IBXM Library License.txt

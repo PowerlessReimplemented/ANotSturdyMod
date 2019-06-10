@@ -6,7 +6,7 @@ import net.minecraftforge.common.config.Config.LangKey;
 import net.minecraftforge.common.config.Config.Type;
 import powerlessri.anotsturdymod.varia.Reference;
 
-@LangKey("config.ansm:client.category.gui_style")
+@LangKey("config.ansm:client.category.guiStyle")
 @Config(modid = Reference.MODID, name = Reference.CLIENT_CONFIG_FILE, category = "gui_style")
 public class GuiStyleConfig {
     

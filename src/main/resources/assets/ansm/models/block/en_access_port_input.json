@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "ansm:blocks/en_access_port_input"
-  }
-}

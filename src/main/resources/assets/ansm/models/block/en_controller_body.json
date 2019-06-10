@@ -1,0 +1,108 @@
+{
+  "elements": [
+    {
+      "__comment": "Basement",
+      "from": [0, 0, 0],
+      "to": [16, 1, 16],
+      "faces": {
+        "up": { "texture": "#basement" },
+        "down": { "texture": "#basement", "cullface": "down" },
+        "north": { "texture": "#basement" },
+        "east": { "texture": "#basement" },
+        "south": { "texture": "#basement" },
+        "west": { "texture": "#basement" }
+      }
+    },
+    {
+      "__comment": "Metal bar at the center",
+      "from": [4, 1, 4],
+      "to": [12, 11, 12],
+      "faces": {
+
+
+        "north": { "texture": "#bar_side" },
+        "east": { "texture": "#bar_side" },
+        "south": { "texture": "#bar_side" },
+        "west": { "texture": "#bar_side" }
+      }
+    },
+    {
+      "__comment": "Coil wire #1",
+      "from": [3, 2, 3],
+      "to": [13, 4, 13],
+      "faces": {
+        "up": { "texture": "#coil_end" },
+        "down": { "texture": "#coil_end" },
+        "north": { "texture": "#coil_side" },
+        "east": { "texture": "#coil_side" },
+        "south": { "texture": "#coil_side" },
+        "west": { "texture": "#coil_side" }
+      }
+    },
+    {
+      "__comment": "Coil wire #2",
+      "from": [3, 5, 3],
+      "to": [13, 7, 13],
+      "faces": {
+        "up": { "texture": "#coil_end" },
+        "down": { "texture": "#coil_end" },
+        "north": { "texture": "#coil_side" },
+        "east": { "texture": "#coil_side" },
+        "south": { "texture": "#coil_side" },
+        "west": { "texture": "#coil_side" }
+      }
+    },
+    {
+      "__comment": "Coil wire #3",
+      "from": [3, 8, 3],
+      "to": [13, 10, 13],
+      "faces": {
+        "up": { "texture": "#coil_end" },
+        "down": { "texture": "#coil_end" },
+        "north": { "texture": "#coil_side" },
+        "east": { "texture": "#coil_side" },
+        "south": { "texture": "#coil_side" },
+        "west": { "texture": "#coil_side" }
+      }
+    },
+    {
+      "__comment": "Cutout on the bottom",
+      "from": [2, 11, 2],
+      "to": [14, 12, 14],
+      "faces": {
+
+        "down": { "texture": "#controller_end" },
+        "north": { "texture": "#cutout_side", "uv": [0, 0, 16, 1] },
+        "east": { "texture": "#cutout_side", "uv": [0, 0, 16, 1] },
+        "south": { "texture": "#cutout_side", "uv": [0, 0, 16, 1] },
+        "west": { "texture": "#cutout_side", "uv": [0, 0, 16, 1] }
+      }
+    },
+    {
+      "__comment": "Head of controller",
+      "from": [1, 12, 1],
+      "to": [15, 25, 15],
+      "faces": {
+        "up": { "texture": "#controller_end" },
+        "down": { "texture": "#controller_end" },
+        "north": { "texture": "#controller_face", "uv": [1, 2, 15, 14] },
+        "east": { "texture": "#controller_face", "uv": [1, 2, 15, 14] },
+        "south": { "texture": "#controller_face", "uv": [1, 2, 15, 14] },
+        "west": { "texture": "#controller_face", "uv": [1, 2, 15, 14] }
+      }
+    },
+    {
+      "__comment": "Cutout on the top",
+      "from": [2, 25, 2],
+      "to": [14, 26, 14],
+      "faces": {
+        "up": { "texture": "#controller_end" },
+
+        "north": { "texture": "#cutout_side", "uv": [0, 0, 16, 1] },
+        "east": { "texture": "#cutout_side", "uv": [0, 0, 16, 1] },
+        "south": { "texture": "#cutout_side", "uv": [0, 0, 16, 1] },
+        "west": { "texture": "#cutout_side", "uv": [0, 0, 16, 1] }
+      }
+    }
+  ]
+}

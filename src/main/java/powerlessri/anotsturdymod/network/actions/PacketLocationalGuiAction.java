@@ -1,4 +1,4 @@
-package powerlessri.anotsturdymod.network;
+package powerlessri.anotsturdymod.network.actions;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.world.World;
@@ -10,7 +10,8 @@ import powerlessri.anotsturdymod.library.gui.api.IActionWorldAssociated;
 import powerlessri.anotsturdymod.library.gui.api.IActionHandler;
 
 /**
- * Sender: CLIENT  Receiver: Server
+ * <p>Sender: <b>CLIENT</b></p>
+ * <p>Receiver: <b>SERVER</b></p>
  */
 public class PacketLocationalGuiAction implements IMessage {
     
