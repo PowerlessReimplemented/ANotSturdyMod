@@ -20,6 +20,8 @@ import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.IScrollableCo
 import powerlessri.anotsturdymod.library.gui.simpleimpl.scrollable.ScrollablePanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.section.SimplePanel;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.slot.LabelledSlots;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.textfield.TextField;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.textfield.VanillaTextField;
 import powerlessri.anotsturdymod.library.gui.template.AbstractTemplate;
 import powerlessri.anotsturdymod.varia.general.Utils;
 
@@ -107,12 +109,13 @@ public class GuiLogicEditor extends ComponentizedGui {
 
         windows = ImmutableList.of(
                 new SimplePanel(windowX, windowY, ImmutableList.of(
-                        new LabelTexture(0, 0, BKG_WIDTH, BKG_HEIGHT, BACKGROUND, BKG_START_X, BKG_START_Y),
+//                        new LabelTexture(0, 0, BKG_WIDTH, BKG_HEIGHT, BACKGROUND, BKG_START_X, BKG_START_Y),
 //                        btn,
-//                        new ButtonGradient(0, 70, 10, 10, "2i")
-                        new LabelledSlots(131 + 4, 73 + 4, 9, 2),
+                        new ButtonGradient(0, 70, 10, 10, "2i"),
+//                        new LabelledSlots(131 + 4, 73 + 4, 9, 2),
+                        new TextField(0, 0, 40, 18)
                         // + 2 is the left margin, top margin is handled in ScrollablePanel
-                        ScrollablePanel.simpleLayout(8 + 2, 73, 107, 11, builder.build(), 107)
+//                        ScrollablePanel.simpleLayout(8 + 2, 73, 107, 11, builder.build(), 107)
                 ))
         );
 

@@ -3,6 +3,7 @@ package powerlessri.anotsturdymod.library.network.actions;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import powerlessri.anotsturdymod.library.network.actions.target.DummyTarget;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -16,7 +17,7 @@ public class ActionTaskPool {
     /**
      * The marker
      */
-    private static final QueuedActionTask MARKER = new QueuedActionTask(null, null);
+    private static final QueuedActionTask MARKER = new QueuedActionTask(null, new DummyTarget());
 
     private static final ActionTaskPool INSTANCE = new ActionTaskPool();
 

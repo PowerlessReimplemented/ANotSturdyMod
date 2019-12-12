@@ -72,7 +72,7 @@ public class ComponentRoot implements IFunctionalRootComponent, IContainer {
 
     @Override
     public IGuiEventTrigger getEventTrigger() {
-        return null;
+        return this.dispatcher;
     }
 
     @Override

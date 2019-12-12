@@ -622,7 +622,7 @@ public class VanillaTextField extends AbstractComponent implements IInteractionH
 
     @Override
     public void draw(ContextGuiDrawing event) {
-
+        this.drawTextBox();
     }
 
     /**

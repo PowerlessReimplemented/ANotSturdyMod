@@ -13,6 +13,7 @@ import powerlessri.anotsturdymod.library.gui.api.IComponent;
 import powerlessri.anotsturdymod.library.gui.api.IOnOffState;
 import powerlessri.anotsturdymod.library.gui.integration.ContextGuiDrawing;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.AbstractComponent;
+import powerlessri.anotsturdymod.library.gui.simpleimpl.DefaultRectangles;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.IRectangleRenderer;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.button.ButtonGradient;
 import powerlessri.anotsturdymod.library.gui.simpleimpl.events.IInteractionHandler;
@@ -32,7 +33,7 @@ public class TextField extends AbstractComponent implements IInteractionHandler,
     public static final Color CURSOR_WHITE = Color.rgb(206, 206, 206);
 
 
-    private IRectangleRenderer renderer;
+    private IRectangleRenderer renderer = DefaultRectangles.VANILLA_BLACK_GRAY_BOX;
     private int width;
     private int height;
 
